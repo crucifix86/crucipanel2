@@ -1,0 +1,157 @@
+/* Custom styles for the new home page */
+
+body {
+    font-family: 'Lato', sans-serif; /* Using Lato like the original theme for consistency for now */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* A light grey background */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Navbar and Footer are from existing components, they will need specific overrides if their look is to change significantly.
+   For now, custom-home.css won't try to drastically change them, focusing on the new content areas. */
+
+.custom-home-content-wrap {
+    padding-top: 20px; /* Space below the fixed navbar */
+    padding-bottom: 20px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px; /* Max width for larger screens */
+    margin: 0 auto; /* Centering the container */
+    overflow: hidden; /* Clear floats */
+}
+
+/* Basic two-column layout */
+.main-content-area {
+    float: left;
+    width: 70%; /* Adjust as needed */
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.sidebar-area {
+    float: right;
+    width: 30%; /* Adjust as needed */
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+
+/* Clearfix for container if children are floated */
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+h2, h3 {
+    color: #2c3e50; /* A darker shade for headings */
+}
+
+h2 {
+    border-bottom: 2px solid #3498db; /* Accent color for main section titles */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.news-article-item {
+    background-color: #ffffff; /* White background for articles */
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.news-article-item h3 a {
+    color: #3498db; /* Link color for article titles */
+    text-decoration: none;
+}
+
+.news-article-item h3 a:hover {
+    text-decoration: underline;
+}
+
+.article-meta {
+    font-size: 0.9em;
+    color: #7f8c8d; /* Muted color for meta info */
+    margin-bottom: 10px;
+}
+
+.article-meta .date, .article-meta .category {
+    margin-right: 15px;
+}
+
+.article-meta .label a {
+    color: white !important; /* Ensure category link text is white on label bg */
+    text-decoration: none;
+}
+
+.article-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.article-tags {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.article-tags a {
+    color: #3498db;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.article-tags a:hover {
+    text-decoration: underline;
+}
+
+.article-description {
+    margin-bottom: 15px;
+}
+
+.read-more {
+    display: inline-block;
+    background-color: #3498db;
+    color: white !important; /* important to override bootstrap btn styles if any apply */
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.read-more:hover {
+    background-color: #2980b9;
+}
+
+.pagination-links nav {
+    display: flex;
+    justify-content: center; /* Center pagination */
+}
+
+.sidebar-area {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .main-content-area,
+    .sidebar-area {
+        float: none;
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .sidebar-area {
+        margin-top: 20px;
+    }
+}
