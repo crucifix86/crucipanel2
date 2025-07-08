@@ -90,7 +90,17 @@ class ApplyUpdate extends Command
                 
                 // Publish vendor assets
                 $this->info('Publishing vendor assets...');
-                Artisan::call('vendor:publish', ['--tag' => 'livewire:assets', '--force' => true]);
+                
+                // Ensure vendor directory exists
+                $vendorPath = public_path('vendor');
+                if (!File::exists($vendorPath)) {
+                    File::makeDirectory($vendorPath, 0755, true);
+                }
+                
+                // Publish Livewire assets
+                $this->call('livewire:publish', ['--assets' => true]);
+                
+                // Publish other vendor assets
                 Artisan::call('vendor:publish', ['--tag' => 'laravel-popper', '--force' => true]);
                 
                 // Rebuild caches
