@@ -150,7 +150,7 @@ class UpdateController extends Controller
     }
     
     /**
-     * Download and install update
+     * Download and prepare update
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -164,10 +164,11 @@ class UpdateController extends Controller
         
         try {
             // Download update
-            $tempFile = storage_path('app/temp/update_' . $version . '.zip');
+            $updateDir = storage_path('app/updates');
+            $tempFile = $updateDir . '/update_' . $version . '.zip';
             
-            if (!File::exists(storage_path('app/temp'))) {
-                File::makeDirectory(storage_path('app/temp'), 0755, true);
+            if (!File::exists($updateDir)) {
+                File::makeDirectory($updateDir, 0755, true);
             }
             
             $response = Http::timeout(120)->get($downloadUrl);
@@ -175,41 +176,22 @@ class UpdateController extends Controller
             if ($response->successful()) {
                 File::put($tempFile, $response->body());
                 
-                // Extract update
-                $zip = new ZipArchive();
-                if ($zip->open($tempFile) === TRUE) {
-                    // Extract to temp directory first
-                    $extractPath = storage_path('app/temp/extract_' . $version);
-                    $zip->extractTo($extractPath);
-                    $zip->close();
-                    
-                    // Find the actual project directory (GitHub adds a folder)
-                    $dirs = File::directories($extractPath);
-                    $sourceDir = $dirs[0] ?? $extractPath;
-                    
-                    // Copy files to project root
-                    $this->copyUpdateFiles($sourceDir, base_path());
-                    
-                    // Clean up
-                    File::deleteDirectory($extractPath);
-                    File::delete($tempFile);
-                    
-                    // Run post-update tasks
-                    $this->runPostUpdateTasks();
-                    
-                    // Update version in config
-                    $this->updateVersionConfig($version);
-                    
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Update installed successfully!'
-                    ]);
-                }
+                // Create update instructions
+                $instructions = $this->createUpdateInstructions($version, $tempFile);
+                
+                // Create a simple update command file
+                $this->createUpdateCommand($version, $tempFile);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Update prepared successfully!',
+                    'version' => $version
+                ]);
             }
             
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to download or extract update'
+                'message' => 'Failed to download update'
             ], 500);
             
         } catch (\Exception $e) {
@@ -218,6 +200,51 @@ class UpdateController extends Controller
                 'message' => 'Update failed: ' . $e->getMessage()
             ], 500);
         }
+    }
+    
+    /**
+     * Create update instructions
+     *
+     * @param string $version
+     * @param string $zipFile
+     * @return string
+     */
+    private function createUpdateInstructions($version, $zipFile)
+    {
+        $basePath = base_path();
+        
+        return "Update has been downloaded. To complete the update, run these commands via SSH:\n\n" .
+               "```bash\n" .
+               "cd {$basePath}\n" .
+               "php artisan down\n" .
+               "unzip -o {$zipFile} -d storage/app/updates/\n" .
+               "rsync -av --exclude='.env' --exclude='storage/' --exclude='vendor/' --exclude='node_modules/' storage/app/updates/crucipanel2-*/ ./\n" .
+               "php artisan migrate --force\n" .
+               "php artisan optimize:clear\n" .
+               "php artisan config:cache\n" .
+               "php artisan route:cache\n" .
+               "php artisan up\n" .
+               "rm -rf storage/app/updates/\n" .
+               "```\n\n" .
+               "After running these commands, refresh this page.";
+    }
+    
+    /**
+     * Create update command
+     *
+     * @param string $version
+     * @param string $zipFile
+     */
+    private function createUpdateCommand($version, $zipFile)
+    {
+        // Store update info in a file
+        $updateInfo = [
+            'version' => $version,
+            'zip_file' => $zipFile,
+            'created_at' => now()->toDateTimeString()
+        ];
+        
+        File::put(storage_path('app/updates/pending.json'), json_encode($updateInfo));
     }
     
     /**

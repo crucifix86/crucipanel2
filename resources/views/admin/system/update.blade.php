@@ -230,14 +230,23 @@
                     const data = await response.json();
 
                     if (data.success) {
-                        updateProgress(100, 'Update completed successfully!');
+                        updateProgress(100, 'Update downloaded successfully!');
                         showMessage(data.message, 'success');
-                        showMessage('The page will reload in 5 seconds...', 'info');
                         
-                        setTimeout(() => {
-                            // Force hard reload to clear any cached components
-                            window.location.href = window.location.href;
-                        }, 5000);
+                        // Show instructions for completing update
+                        const instructionsDiv = document.createElement('div');
+                        instructionsDiv.className = 'mt-4 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg';
+                        instructionsDiv.innerHTML = `
+                            <h3 class="font-semibold mb-2">Complete the update:</h3>
+                            <p class="mb-2">Run this command in your terminal:</p>
+                            <code class="block p-2 bg-gray-800 text-green-400 rounded">php artisan panel:update</code>
+                            <p class="mt-2 text-sm">This command will apply the update and restart your panel.</p>
+                        `;
+                        document.getElementById('messageContainer').appendChild(instructionsDiv);
+                        
+                        // Disable buttons
+                        btn.style.display = 'none';
+                        document.getElementById('backupBtn').style.display = 'none';
                     } else {
                         showMessage(data.message || 'Update failed', 'error');
                         updateProgress(0, '');
