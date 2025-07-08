@@ -59,5 +59,13 @@
         >
             {{ __('system.configuration') }}
         </a>
+
+        <a
+            href="{{ route('admin.system.update') }}"
+            role="menuitem"
+            class="block p-2 text-sm text-gray-{{ request()->routeIs('admin.system.update') ? '700' : '400' }} transition-colors duration-200 rounded-md dark:{{ request()->routeIs('admin.system.update') ? 'text-light' : 'text-gray-400' }} dark:hover:text-light hover:text-gray-700"
+        >
+            {{ __('system.update') }}
+        </a>
     </div>
 </div>

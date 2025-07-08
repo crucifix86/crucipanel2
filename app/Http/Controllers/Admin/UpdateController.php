@@ -1,0 +1,316 @@
+<?php
+
+/*
+ * @author Harris Marfel <hrace009@gmail.com>
+ * @link https://youtube.com/c/hrace009
+ * @copyright Copyright (c) 2022.
+ */
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use ZipArchive;
+
+class UpdateController extends Controller
+{
+    /**
+     * Display the update page
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function index()
+    {
+        $currentVersion = config('pw-config.version', '1.0');
+        $latestRelease = $this->checkForUpdates();
+        
+        return view('admin.system.update', [
+            'currentVersion' => $currentVersion,
+            'latestRelease' => $latestRelease,
+            'updateAvailable' => $this->isUpdateAvailable($currentVersion, $latestRelease)
+        ]);
+    }
+    
+    /**
+     * Check for updates from GitHub
+     *
+     * @return array|null
+     */
+    public function checkForUpdates()
+    {
+        try {
+            $response = Http::get('https://api.github.com/repos/crucifix86/crucipanel2/releases/latest');
+            
+            if ($response->successful()) {
+                $release = $response->json();
+                return [
+                    'version' => ltrim($release['tag_name'], 'v'),
+                    'notes' => $release['body'],
+                    'download_url' => $release['zipball_url'],
+                    'published_at' => $release['published_at'],
+                    'html_url' => $release['html_url']
+                ];
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to check for updates: ' . $e->getMessage());
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Check if update is available
+     *
+     * @param string $currentVersion
+     * @param array|null $latestRelease
+     * @return bool
+     */
+    private function isUpdateAvailable($currentVersion, $latestRelease)
+    {
+        if (!$latestRelease) {
+            return false;
+        }
+        
+        return version_compare($latestRelease['version'], $currentVersion, '>');
+    }
+    
+    /**
+     * Create backup before update
+     *
+     * @return array
+     */
+    public function createBackup()
+    {
+        $backupName = 'backup_' . date('Y-m-d_H-i-s') . '.zip';
+        $backupPath = storage_path('app/backups/' . $backupName);
+        
+        // Create backups directory if it doesn't exist
+        if (!File::exists(storage_path('app/backups'))) {
+            File::makeDirectory(storage_path('app/backups'), 0755, true);
+        }
+        
+        $zip = new ZipArchive();
+        
+        if ($zip->open($backupPath, ZipArchive::CREATE) === TRUE) {
+            // Add important directories
+            $this->addDirectoryToZip($zip, base_path('app'), 'app');
+            $this->addDirectoryToZip($zip, base_path('config'), 'config');
+            $this->addDirectoryToZip($zip, base_path('database'), 'database');
+            $this->addDirectoryToZip($zip, base_path('resources'), 'resources');
+            $this->addDirectoryToZip($zip, base_path('routes'), 'routes');
+            
+            // Add important files
+            $importantFiles = ['.env', 'composer.json', 'composer.lock'];
+            foreach ($importantFiles as $file) {
+                if (File::exists(base_path($file))) {
+                    $zip->addFile(base_path($file), $file);
+                }
+            }
+            
+            $zip->close();
+            
+            return [
+                'success' => true,
+                'backup_name' => $backupName,
+                'backup_size' => $this->formatBytes(filesize($backupPath))
+            ];
+        }
+        
+        return ['success' => false, 'message' => 'Failed to create backup'];
+    }
+    
+    /**
+     * Add directory to zip recursively
+     *
+     * @param ZipArchive $zip
+     * @param string $dir
+     * @param string $zipPath
+     */
+    private function addDirectoryToZip($zip, $dir, $zipPath)
+    {
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir),
+            \RecursiveIteratorIterator::LEAVES_ONLY
+        );
+        
+        foreach ($files as $name => $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                $relativePath = $zipPath . '/' . substr($filePath, strlen($dir) + 1);
+                $zip->addFile($filePath, $relativePath);
+            }
+        }
+    }
+    
+    /**
+     * Download and install update
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function installUpdate(Request $request)
+    {
+        set_time_limit(300); // 5 minutes
+        
+        $downloadUrl = $request->input('download_url');
+        $version = $request->input('version');
+        
+        try {
+            // Download update
+            $tempFile = storage_path('app/temp/update_' . $version . '.zip');
+            
+            if (!File::exists(storage_path('app/temp'))) {
+                File::makeDirectory(storage_path('app/temp'), 0755, true);
+            }
+            
+            $response = Http::timeout(120)->get($downloadUrl);
+            
+            if ($response->successful()) {
+                File::put($tempFile, $response->body());
+                
+                // Extract update
+                $zip = new ZipArchive();
+                if ($zip->open($tempFile) === TRUE) {
+                    // Extract to temp directory first
+                    $extractPath = storage_path('app/temp/extract_' . $version);
+                    $zip->extractTo($extractPath);
+                    $zip->close();
+                    
+                    // Find the actual project directory (GitHub adds a folder)
+                    $dirs = File::directories($extractPath);
+                    $sourceDir = $dirs[0] ?? $extractPath;
+                    
+                    // Copy files to project root
+                    $this->copyUpdateFiles($sourceDir, base_path());
+                    
+                    // Clean up
+                    File::deleteDirectory($extractPath);
+                    File::delete($tempFile);
+                    
+                    // Run post-update tasks
+                    $this->runPostUpdateTasks();
+                    
+                    // Update version in config
+                    $this->updateVersionConfig($version);
+                    
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Update installed successfully!'
+                    ]);
+                }
+            }
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to download or extract update'
+            ], 500);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Update failed: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+    
+    /**
+     * Copy update files to project
+     *
+     * @param string $source
+     * @param string $destination
+     */
+    private function copyUpdateFiles($source, $destination)
+    {
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+        
+        foreach ($iterator as $item) {
+            $destPath = $destination . '/' . $iterator->getSubPathName();
+            
+            // Skip certain files/directories
+            $skipPaths = ['.env', 'storage/app', 'storage/logs', 'public/uploads', '.git'];
+            $skip = false;
+            
+            foreach ($skipPaths as $skipPath) {
+                if (strpos($iterator->getSubPathName(), $skipPath) === 0) {
+                    $skip = true;
+                    break;
+                }
+            }
+            
+            if ($skip) continue;
+            
+            if ($item->isDir()) {
+                if (!File::exists($destPath)) {
+                    File::makeDirectory($destPath, 0755, true);
+                }
+            } else {
+                File::copy($item, $destPath);
+            }
+        }
+    }
+    
+    /**
+     * Run post-update tasks
+     */
+    private function runPostUpdateTasks()
+    {
+        // Clear caches
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('view:clear');
+        Artisan::call('route:clear');
+        
+        // Run migrations
+        Artisan::call('migrate', ['--force' => true]);
+        
+        // Rebuild caches
+        Artisan::call('config:cache');
+        Artisan::call('route:cache');
+        Artisan::call('view:cache');
+    }
+    
+    /**
+     * Update version in config file
+     *
+     * @param string $version
+     */
+    private function updateVersionConfig($version)
+    {
+        $configPath = config_path('pw-config.php');
+        $config = File::get($configPath);
+        
+        $config = preg_replace(
+            "/'version'\s*=>\s*'[^']*'/",
+            "'version' => '" . $version . "'",
+            $config
+        );
+        
+        File::put($configPath, $config);
+    }
+    
+    /**
+     * Format bytes to human readable
+     *
+     * @param int $bytes
+     * @return string
+     */
+    private function formatBytes($bytes)
+    {
+        $units = ['B', 'KB', 'MB', 'GB'];
+        $i = 0;
+        
+        while ($bytes > 1024 && $i < count($units) - 1) {
+            $bytes /= 1024;
+            $i++;
+        }
+        
+        return round($bytes, 2) . ' ' . $units[$i];
+    }
+}

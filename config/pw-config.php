@@ -12,7 +12,7 @@
 return [
     'chat_log_path' => '/home/hrace009/Core/Wanmei2015/logs/',
     'currency_name' => 'Coin',
-    'encryption_type' => 'md5',
+    'encryption_type' => 'base64',
     'level_up_cap' => '150',
     'logo' => 'img/logo/logo.png',
     'server_ip' => '127.0.0.1',

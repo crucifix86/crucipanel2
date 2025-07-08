@@ -50,7 +50,11 @@ return [
         'email' => 'Masukkan email baru',
         'changeEmail' => 'Ganti email untuk:',
         'btnChEmail' => 'Ganti Email!',
-        'successEMail' => 'Email telah diganti!'
+        'successEMail' => 'Email telah diganti!',
+        'changeRole' => 'Ganti peran untuk:',
+        'btnChRole' => 'Ganti Peran!',
+        'roleChanged' => 'Peran telah diganti!',
+        'selectRole' => 'Pilih Peran'
     ],
     'fields' => [
         'amount' => [

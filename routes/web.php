@@ -290,6 +290,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'uses' => 'App\Http\Controllers\Admin\SystemController@saveSettings'
         ]);
 
+        Route::get('update', [
+            'as' => 'admin.system.update',
+            'uses' => 'App\Http\Controllers\Admin\UpdateController@index'
+        ]);
+
+        Route::post('update/backup', [
+            'as' => 'admin.system.update.backup',
+            'uses' => 'App\Http\Controllers\Admin\UpdateController@createBackup'
+        ]);
+
+        Route::post('update/install', [
+            'as' => 'admin.system.update.install',
+            'uses' => 'App\Http\Controllers\Admin\UpdateController@installUpdate'
+        ]);
+
     });
 
     Route::group(['prefix' => 'members'], static function () {
@@ -312,6 +327,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
         Route::post('changeEmail/{user}', [
             'as' => 'admin.manage.chEmail',
             'uses' => 'App\Http\Controllers\Admin\MembersController@changeEmail'
+        ]);
+
+        Route::post('changeRole/{user}', [
+            'as' => 'admin.manage.changeRole',
+            'uses' => 'App\Http\Controllers\Admin\MembersController@changeRole'
         ]);
     });
     Route::resource('members', MembersController::class);

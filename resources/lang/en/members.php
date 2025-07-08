@@ -50,7 +50,11 @@ return [
         'email' => 'Enter new email',
         'changeEmail' => 'Change email for:',
         'btnChEmail' => 'Change Email!',
-        'successEMail' => 'Email has been change!'
+        'successEMail' => 'Email has been change!',
+        'changeRole' => 'Change role for:',
+        'btnChRole' => 'Change Role!',
+        'roleChanged' => 'Role has been changed!',
+        'selectRole' => 'Select Role'
     ],
     'fields' => [
         'amount' => [

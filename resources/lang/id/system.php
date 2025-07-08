@@ -78,5 +78,6 @@ return [
             'body' => 'Kami tidak menyarankan Anda menggunakan versi ini di server langsung karena masih dalam pengembangan. Jika Anda menerima kesalahan saat menggunakan versi ini, harap buat masalah dengan awalan <b>[:tag]</b>.'
         ]
     ],
+    'update' => 'Pembaruan Panel'
 
 ];

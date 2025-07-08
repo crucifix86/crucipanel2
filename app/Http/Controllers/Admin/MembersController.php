@@ -196,4 +196,22 @@ class MembersController extends Controller
         $user->save();
         return redirect()->back()->with('success', __('members.actions.successEMail'));
     }
+
+    /**
+     * Change user role
+     *
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function changeRole(Request $request, User $user): RedirectResponse
+    {
+        $this->validate($request, [
+            'role' => 'required|in:administrator,gamemaster,player'
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+        return redirect()->back()->with('success', __('members.actions.roleChanged'));
+    }
 }

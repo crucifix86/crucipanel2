@@ -322,6 +322,86 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!-- Change Role Modal -->
+                                            @if( ( Auth::user()->isAdministrator() === true ) )
+                                                <div x-data="{ {{ $user->name }}_Role : false }">
+                                                    <!-- Button Change Role -->
+                                                    <x-hrace009::button
+                                                        @click="{{ $user->name }}_Role = !{{ $user->name }}_Role"
+                                                        class="w-auto ml-1"
+                                                    >
+                                                        <span @popper(
+                                                              {{ __('members.actions.changeRole') . ' ' . $user->name }} )>
+                                                            <svg class="w-5 h-5"
+                                                                 xmlns="http://www.w3.org/2000/svg"
+                                                                 viewBox="0 0 24 24"
+                                                                 width="18"
+                                                                 height="18"
+                                                                 stroke="currentColor"
+                                                                 fill="none"
+                                                            >
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="1.5"
+                                                                d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm-6.8 8c0-2.21 1.79-4 4-4h5.6c2.21 0 4 1.79 4 4v1H5.2v-1z"
+                                                            />
+                                                            </svg>
+                                                        </span>
+                                                    </x-hrace009::button>
+
+                                                    <!-- Modal Change Role -->
+                                                    <div
+                                                        x-show="{{ $user->name }}_Role"
+                                                        class="fixed dark:text-light flex items-center justify-center overflow-auto z-50 bg-gray-500 bg-opacity-40 left-0 right-0 top-0 bottom-0"
+                                                        x-transition:enter="ease-out duration-300"
+                                                        x-transition:enter-start="opacity-0"
+                                                        x-transition:enter-end="opacity-100"
+                                                        x-transition:leave="ease-in duration-200"
+                                                        x-transition:leave-start="opacity-100"
+                                                        x-transition:leave-end="opacity-0"
+                                                        style="display: none;"
+                                                    >
+                                                        <!-- Modal -->
+                                                        <div
+                                                            x-show="{{ $user->name }}_Role"
+                                                            class="dark:bg-dark bg-white rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
+                                                            @click.away="{{ $user->name }}_Role = false"
+                                                            x-transition:enter="ease-out duration-300"
+                                                            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                                            x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                                                            x-transition:leave="ease-in duration-200"
+                                                            x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                                                            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                                            style="display: none;"
+                                                        >
+                                                            <div class="text-lg font-semibold">
+                                                                {{ __('members.actions.changeRole') . ' ' . $user->name }}
+                                                            </div>
+                                                            <form
+                                                                action="{{ route('admin.manage.changeRole', $user->ID ) }}"
+                                                                method="post">
+                                                                {!! csrf_field() !!}
+                                                                <div class="mt-4">
+                                                                    <label for="role" class="block text-sm font-medium mb-2">{{ __('members.actions.selectRole') }}</label>
+                                                                    <select id="role" name="role" required
+                                                                            class="w-full px-4 py-2 border rounded-lg dark:bg-darker dark:border-gray-700 dark:text-light focus:outline-none focus:ring focus:ring-primary-dark">
+                                                                        <option value="player" {{ $user->role === 'Player' ? 'selected' : '' }}>Player</option>
+                                                                        <option value="gamemaster" {{ $user->role === 'Gamemaster' ? 'selected' : '' }}>Gamemaster</option>
+                                                                        <option value="administrator" {{ $user->role === 'Administrator' ? 'selected' : '' }}>Administrator</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div
+                                                                    class="flex flex-row justify-end px-6 py-4 dark:bg-dark text-right">
+                                                                    <x-hrace009::button class="w-auto">
+                                                                        {{ __('members.actions.btnChRole') }}
+                                                                    </x-hrace009::button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
