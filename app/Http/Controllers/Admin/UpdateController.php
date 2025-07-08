@@ -54,6 +54,9 @@ class UpdateController extends Controller
                     'published_at' => $release['published_at'],
                     'html_url' => $release['html_url']
                 ];
+            } elseif ($response->status() === 404) {
+                // No releases found - this is not an error
+                return ['no_releases' => true];
             }
         } catch (\Exception $e) {
             \Log::error('Failed to check for updates: ' . $e->getMessage());

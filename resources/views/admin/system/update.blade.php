@@ -22,15 +22,24 @@
                     <div class="mb-8">
                         <h2 class="text-lg font-semibold mb-4 dark:text-gray-100">Latest Version</h2>
                         @if($latestRelease)
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-                                <p class="text-2xl font-bold text-gray-800 dark:text-gray-200">v{{ $latestRelease['version'] }}</p>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                    Released: {{ \Carbon\Carbon::parse($latestRelease['published_at'])->format('M d, Y') }}
-                                </p>
-                                <a href="{{ $latestRelease['html_url'] }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                                    View on GitHub →
-                                </a>
-                            </div>
+                            @if(isset($latestRelease['no_releases']) && $latestRelease['no_releases'])
+                                <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                                    <p class="text-gray-600 dark:text-gray-400">No releases available yet.</p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">
+                                        When new releases are published on GitHub, they will appear here.
+                                    </p>
+                                </div>
+                            @else
+                                <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                                    <p class="text-2xl font-bold text-gray-800 dark:text-gray-200">v{{ $latestRelease['version'] }}</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                        Released: {{ \Carbon\Carbon::parse($latestRelease['published_at'])->format('M d, Y') }}
+                                    </p>
+                                    <a href="{{ $latestRelease['html_url'] }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                                        View on GitHub →
+                                    </a>
+                                </div>
+                            @endif
 
                             @if($updateAvailable)
                                 <div class="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
@@ -70,7 +79,7 @@
                         @endif
                     </div>
 
-                    @if($updateAvailable && $latestRelease)
+                    @if($updateAvailable && $latestRelease && !isset($latestRelease['no_releases']))
                         <!-- Changelog -->
                         <div class="mb-8">
                             <h2 class="text-lg font-semibold mb-4 dark:text-gray-100">Changelog</h2>
