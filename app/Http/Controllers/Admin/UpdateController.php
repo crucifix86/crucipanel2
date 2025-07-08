@@ -237,7 +237,7 @@ class UpdateController extends Controller
             $destPath = $destination . '/' . $iterator->getSubPathName();
             
             // Skip certain files/directories
-            $skipPaths = ['.env', 'storage/app', 'storage/logs', 'public/uploads', '.git'];
+            $skipPaths = ['.env', 'storage/app', 'storage/logs', 'public/uploads', '.git', 'vendor/', 'node_modules/', 'bootstrap/cache/'];
             $skip = false;
             
             foreach ($skipPaths as $skipPath) {
@@ -264,19 +264,37 @@ class UpdateController extends Controller
      */
     private function runPostUpdateTasks()
     {
-        // Clear caches
+        // Clear all caches first
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
         Artisan::call('view:clear');
         Artisan::call('route:clear');
         
+        // Clear compiled classes
+        if (File::exists(base_path('bootstrap/cache/compiled.php'))) {
+            File::delete(base_path('bootstrap/cache/compiled.php'));
+        }
+        if (File::exists(base_path('bootstrap/cache/services.php'))) {
+            File::delete(base_path('bootstrap/cache/services.php'));
+        }
+        if (File::exists(base_path('bootstrap/cache/packages.php'))) {
+            File::delete(base_path('bootstrap/cache/packages.php'));
+        }
+        
         // Run migrations
         Artisan::call('migrate', ['--force' => true]);
         
-        // Rebuild caches
+        // Optimize autoloader
+        Artisan::call('optimize:clear');
+        
+        // Rebuild caches (but not view:cache as it can cause issues)
         Artisan::call('config:cache');
         Artisan::call('route:cache');
-        Artisan::call('view:cache');
+        
+        // Clear opcache if available
+        if (function_exists('opcache_reset')) {
+            opcache_reset();
+        }
     }
     
     /**

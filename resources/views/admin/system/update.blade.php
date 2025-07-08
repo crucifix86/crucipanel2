@@ -235,7 +235,8 @@
                         showMessage('The page will reload in 5 seconds...', 'info');
                         
                         setTimeout(() => {
-                            window.location.reload();
+                            // Force hard reload to clear any cached components
+                            window.location.href = window.location.href;
                         }, 5000);
                     } else {
                         showMessage(data.message || 'Update failed', 'error');
