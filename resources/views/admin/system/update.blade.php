@@ -42,30 +42,30 @@
                             @endif
 
                             @if($updateAvailable)
-                                <div class="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+                                <div class="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900/50 rounded-lg">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
-                                            <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <svg class="h-5 w-5 text-yellow-500 dark:text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                                             </svg>
                                         </div>
                                         <div class="ml-3">
-                                            <p class="text-sm text-yellow-700 dark:text-yellow-200">
+                                            <p class="text-sm text-yellow-800 dark:text-yellow-100">
                                                 A new version is available! Please review the changelog before updating.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             @else
-                                <div class="mt-4 p-4 bg-green-100 dark:bg-green-900 rounded-lg">
+                                <div class="mt-4 p-4 bg-green-100 dark:bg-green-900/50 rounded-lg">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
-                                            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <svg class="h-5 w-5 text-green-500 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                             </svg>
                                         </div>
                                         <div class="ml-3">
-                                            <p class="text-sm text-green-700 dark:text-green-200">
+                                            <p class="text-sm text-green-800 dark:text-green-100">
                                                 Your panel is up to date!
                                             </p>
                                         </div>
@@ -73,8 +73,8 @@
                                 </div>
                             @endif
                         @else
-                            <div class="bg-red-100 dark:bg-red-900 rounded-lg p-4">
-                                <p class="text-red-700 dark:text-red-200">Unable to check for updates. Please check your internet connection.</p>
+                            <div class="bg-red-100 dark:bg-red-900/50 rounded-lg p-4">
+                                <p class="text-red-800 dark:text-red-100">Unable to check for updates. Please check your internet connection.</p>
                             </div>
                         @endif
                     </div>
@@ -142,10 +142,10 @@
             function showMessage(message, type = 'info') {
                 const container = document.getElementById('messageContainer');
                 const alertClass = {
-                    'info': 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200',
-                    'success': 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200',
-                    'error': 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200',
-                    'warning': 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200'
+                    'info': 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-100',
+                    'success': 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-100',
+                    'error': 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-100',
+                    'warning': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-100'
                 };
 
                 const alert = document.createElement('div');
@@ -235,12 +235,12 @@
                         
                         // Show instructions for completing update
                         const instructionsDiv = document.createElement('div');
-                        instructionsDiv.className = 'mt-4 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg';
+                        instructionsDiv.className = 'mt-4 p-4 bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-100 rounded-lg';
                         instructionsDiv.innerHTML = `
-                            <h3 class="font-semibold mb-2">Complete the update:</h3>
+                            <h3 class="font-semibold mb-2 text-blue-900 dark:text-blue-50">Complete the update:</h3>
                             <p class="mb-2">Run this command in your terminal:</p>
-                            <code class="block p-2 bg-gray-800 text-green-400 rounded">php artisan panel:update</code>
-                            <p class="mt-2 text-sm">This command will apply the update and restart your panel.</p>
+                            <code class="block p-2 bg-gray-800 text-green-400 rounded font-mono">php artisan panel:update</code>
+                            <p class="mt-2 text-sm opacity-90">This command will apply the update and restart your panel.</p>
                         `;
                         document.getElementById('messageContainer').appendChild(instructionsDiv);
                         
