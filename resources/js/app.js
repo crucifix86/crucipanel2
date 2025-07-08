@@ -8,11 +8,14 @@
 
 require('./bootstrap');
 //import 'remixicon/fonts/remixicon.css';
-import Alpine from 'alpinejs';
 
-window.Alpine = Alpine;
+// Livewire 3 includes Alpine, so we don't need to import it
+// import Alpine from 'alpinejs';
+// window.Alpine = Alpine;
+
 window.Swal = require('sweetalert2/dist/sweetalert2.all');
 
-queueMicrotask(() => {
-    Alpine.start()
-})
+// Alpine is started by Livewire
+// queueMicrotask(() => {
+//     Alpine.start()
+// })

@@ -103,6 +103,20 @@ class ApplyUpdate extends Command
                 // Publish other vendor assets
                 Artisan::call('vendor:publish', ['--tag' => 'laravel-popper', '--force' => true]);
                 
+                // Rebuild assets if npm is available
+                $this->info('Checking for asset rebuild...');
+                if (File::exists(base_path('package.json'))) {
+                    $npmCheck = shell_exec('which npm 2>/dev/null');
+                    if ($npmCheck) {
+                        $this->info('Rebuilding assets...');
+                        $this->info('This may take a few minutes...');
+                        shell_exec('cd ' . base_path() . ' && npm run production 2>&1');
+                    } else {
+                        $this->warn('npm not found. Skipping asset rebuild.');
+                        $this->warn('Run "npm run production" manually if needed.');
+                    }
+                }
+                
                 // Rebuild caches
                 $this->info('Rebuilding caches...');
                 Artisan::call('config:cache');
