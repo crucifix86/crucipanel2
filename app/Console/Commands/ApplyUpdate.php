@@ -88,6 +88,11 @@ class ApplyUpdate extends Command
                 $this->info('Running migrations...');
                 Artisan::call('migrate', ['--force' => true]);
                 
+                // Publish vendor assets
+                $this->info('Publishing vendor assets...');
+                Artisan::call('vendor:publish', ['--tag' => 'livewire:assets', '--force' => true]);
+                Artisan::call('vendor:publish', ['--tag' => 'laravel-popper', '--force' => true]);
+                
                 // Rebuild caches
                 $this->info('Rebuilding caches...');
                 Artisan::call('config:cache');
