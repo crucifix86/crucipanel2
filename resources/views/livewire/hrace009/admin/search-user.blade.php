@@ -415,6 +415,8 @@
         </div>
     </div>
 </div>
+@if($term !== '')
 <div class="mt-2 ml-2 mr-2 items-center justify-between">
     {{ $users->render() }}
 </div>
+@endif

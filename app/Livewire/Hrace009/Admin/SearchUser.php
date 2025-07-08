@@ -22,8 +22,15 @@ class SearchUser extends Component
 
     public function render()
     {
-        sleep(1);
-        $users = User::search($this->term)->paginate();
+        if ($this->term === '') {
+            $users = collect(); // Empty collection when no search term
+        } else {
+            $users = User::where('name', 'LIKE', '%' . $this->term . '%')
+                ->orWhere('email', 'LIKE', '%' . $this->term . '%')
+                ->orWhere('truename', 'LIKE', '%' . $this->term . '%')
+                ->paginate(15);
+        }
+        
         return view('livewire.hrace009.admin.search-user', [
             'users' => $users
         ]);
