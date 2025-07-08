@@ -11,14 +11,15 @@
                                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </span>
-                    <form method="get">
+                    <form onsubmit="return false;">
                         <input
+                            type="text"
                             class="w-full py-2 pl-10 pr-4 border rounded-full dark:bg-dark dark:border-transparent dark:text-light focus:outline-none focus:ring"
-                            placeholder="{{ __('members.fields.search.placeholder') }}" wire:model.live="term">
+                            placeholder="{{ __('members.fields.search.placeholder') }}" 
+                            wire:model.live="term">
                     </form>
                 </div>
-                <div wire:loading class="dark:text-cyan-400 p-4">{{ __('members.search') }}</div>
-                <div wire:loading.remove class="dark:text-cyan-400"/>
+                <div wire:loading wire:target="term" class="dark:text-cyan-400 p-4">{{ __('members.search') }}</div>
                 <table class="w-full text-xs font-medium table-auto">
                     @if ($term === '')
                         <div class="text-gray-500 text-sm p-4">
@@ -415,8 +416,8 @@
         </div>
     </div>
 </div>
-@if($term !== '')
+@if($users->hasPages())
 <div class="mt-2 ml-2 mr-2 items-center justify-between">
-    {{ $users->render() }}
+    {{ $users->links() }}
 </div>
 @endif

@@ -22,13 +22,15 @@ class SearchUser extends Component
 
     public function render()
     {
-        if ($this->term === '') {
-            $users = collect(); // Empty collection when no search term
+        if (empty($this->term)) {
+            // Return empty paginator when no search term
+            $users = User::where('id', '<', 0)->paginate(15);
         } else {
-            $users = User::where('name', 'LIKE', '%' . $this->term . '%')
-                ->orWhere('email', 'LIKE', '%' . $this->term . '%')
-                ->orWhere('truename', 'LIKE', '%' . $this->term . '%')
-                ->paginate(15);
+            $users = User::where(function($query) {
+                $query->where('name', 'LIKE', '%' . $this->term . '%')
+                    ->orWhere('email', 'LIKE', '%' . $this->term . '%')
+                    ->orWhere('truename', 'LIKE', '%' . $this->term . '%');
+            })->paginate(15);
         }
         
         return view('livewire.hrace009.admin.search-user', [
