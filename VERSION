@@ -1,6 +1,12 @@
-v1.5.3
+v1.5.4
 
 Version History:
+- v1.5.4 (2025-01-09): Theme System Complete
+  - Applied theme system to portal layout (main website)
+  - Applied theme system to guest layout (login/register)
+  - Fixed theme selector dropdown refresh behavior
+  - Themes now work across entire site
+
 - v1.5.3 (2025-01-09): Theme Selector Dropdown
   - Changed theme selector from modal to simple dropdown
   - Fixed z-index display issues
