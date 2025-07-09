@@ -1,12 +1,9 @@
-@extends('components.hrace009.layouts.admin', ['content' => ''])
-
 @section('title', ' - ' . __('header.title'))
-
-@section('content')
+<x-hrace009.layouts.admin>
     <x-slot name="header">
-        <x-hrace009::admin.header>
-            {{ __('header.title') }}
-        </x-hrace009::admin.header>
+        <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
+            <h1 class="text-2xl font-semibold">{{ __('header.title') }}</h1>
+        </div>
     </x-slot>
 
     <x-slot name="content">
@@ -99,4 +96,4 @@
             </div>
         </div>
     </x-slot>
-@endsection
+</x-hrace009.layouts.admin>
