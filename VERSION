@@ -1,6 +1,12 @@
-v1.5.8
+v1.5.9
 
 Version History:
+- v1.5.9 (2025-01-09): Home Page Theme Styles
+  - Added comprehensive theme styles for home page
+  - Gamer Dark theme: neon effects on navbar, articles, sidebar
+  - Cyberpunk theme: glitch effects and angular designs
+  - Themes now properly transform home page appearance
+
 - v1.5.8 (2025-01-09): Simple Dropdown Theme Selector
   - Replaced complex UI with simple select dropdown
   - Just shows theme names in a standard dropdown
