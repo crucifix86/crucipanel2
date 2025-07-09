@@ -67,12 +67,13 @@
                     <div class="border bg-white dark:bg-darker shadow-xs rounded-lg p-6">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('footer.social_links') }}</h3>
-                            <button 
-                                @click="$dispatch('open-modal', 'add-social-link')"
+                            <a 
+                                href="#add-social-link"
+                                onclick="document.getElementById('add-social-modal').style.display='block'"
                                 class="inline-flex items-center px-4 py-2 bg-primary-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary-700 active:bg-primary-900 focus:outline-none focus:border-primary-900 focus:ring focus:ring-primary-300 disabled:opacity-25 transition"
                             >
                                 {{ __('footer.add_social_link') }}
-                            </button>
+                            </a>
                         </div>
                         
                         @livewire('hrace009.admin.social-links-manager')
@@ -83,72 +84,76 @@
     </div>
 
     <!-- Add Social Link Modal -->
-    <x-modal name="add-social-link" :show="false" focusable>
-        <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {{ __('footer.add_social_link') }}
-            </h2>
+    <div id="add-social-modal" style="display:none;" class="fixed inset-0 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="document.getElementById('add-social-modal').style.display='none'"></div>
+            
+            <div class="relative bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    {{ __('footer.add_social_link') }}
+                </h2>
 
-            <form method="POST" action="{{ route('admin.footer.social.store') }}" class="mt-6 space-y-4">
-                @csrf
+                <form method="POST" action="{{ route('admin.footer.social.store') }}" class="mt-6 space-y-4">
+                    @csrf
 
-                <div>
-                    <x-hrace009::simple-label for="platform" :value="__('footer.platform')" />
-                    <select
-                        id="platform"
-                        name="platform"
-                        class="w-full px-4 py-2 mt-1 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker"
-                        required
-                    >
-                        <option value="">{{ __('footer.select_platform') }}</option>
-                        <option value="facebook">Facebook</option>
-                        <option value="twitter">Twitter</option>
-                        <option value="instagram">Instagram</option>
-                        <option value="youtube">YouTube</option>
-                        <option value="linkedin">LinkedIn</option>
-                        <option value="discord">Discord</option>
-                        <option value="twitch">Twitch</option>
-                        <option value="github">GitHub</option>
-                        <option value="tiktok">TikTok</option>
-                        <option value="reddit">Reddit</option>
-                    </select>
-                </div>
+                    <div>
+                        <x-hrace009::simple-label for="platform" :value="__('footer.platform')" />
+                        <select
+                            id="platform"
+                            name="platform"
+                            class="w-full px-4 py-2 mt-1 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker"
+                            required
+                        >
+                            <option value="">{{ __('footer.select_platform') }}</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="discord">Discord</option>
+                            <option value="twitch">Twitch</option>
+                            <option value="github">GitHub</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="reddit">Reddit</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <x-hrace009::simple-label for="url" :value="__('footer.url')" />
-                    <x-hrace009::input-box
-                        id="url"
-                        name="url"
-                        type="url"
-                        placeholder="https://example.com/profile"
-                        required
-                    />
-                </div>
+                    <div>
+                        <x-hrace009::simple-label for="url" :value="__('footer.url')" />
+                        <x-hrace009::input-box
+                            id="url"
+                            name="url"
+                            type="url"
+                            placeholder="https://example.com/profile"
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <x-hrace009::simple-label for="icon" :value="__('footer.icon_class')" />
-                    <x-hrace009::input-box
-                        id="icon"
-                        name="icon"
-                        type="text"
-                        placeholder="fab fa-facebook"
-                        required
-                    />
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        {{ __('footer.icon_help') }}
-                    </p>
-                </div>
+                    <div>
+                        <x-hrace009::simple-label for="icon" :value="__('footer.icon_class')" />
+                        <x-hrace009::input-box
+                            id="icon"
+                            name="icon"
+                            type="text"
+                            placeholder="fab fa-facebook"
+                            required
+                        />
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            {{ __('footer.icon_help') }}
+                        </p>
+                    </div>
 
-                <div class="mt-6 flex justify-end space-x-3">
-                    <x-secondary-button x-on:click="$dispatch('close')">
-                        {{ __('Cancel') }}
-                    </x-secondary-button>
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button" onclick="document.getElementById('add-social-modal').style.display='none'" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            {{ __('Cancel') }}
+                        </button>
 
-                    <x-hrace009::button type="submit">
-                        {{ __('footer.add_link') }}
-                    </x-hrace009::button>
-                </div>
-            </form>
+                        <x-hrace009::button type="submit">
+                            {{ __('footer.add_link') }}
+                        </x-hrace009::button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </x-modal>
+    </div>
 </x-app-layout>

@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Laravel
+/vendor/
+.env
+.env.backup
+.phpunit.result.cache

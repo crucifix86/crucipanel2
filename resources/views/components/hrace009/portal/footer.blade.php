@@ -13,8 +13,13 @@
 
         <!-- Social Buttons -->
         @php
-            $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
-            $footerSettings = \App\Models\FooterSetting::first();
+            try {
+                $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
+                $footerSettings = \App\Models\FooterSetting::first();
+            } catch (\Exception $e) {
+                $socialLinks = collect();
+                $footerSettings = null;
+            }
         @endphp
         
         @if($socialLinks->count() > 0)

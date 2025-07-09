@@ -13,8 +13,13 @@ class FooterController extends Controller
 {
     public function index(): View
     {
-        $footerSettings = FooterSetting::first();
-        $socialLinks = SocialLink::orderBy('order')->get();
+        try {
+            $footerSettings = FooterSetting::first();
+            $socialLinks = SocialLink::orderBy('order')->get();
+        } catch (\Exception $e) {
+            $footerSettings = null;
+            $socialLinks = collect();
+        }
         
         return view('admin.footer.index', compact('footerSettings', 'socialLinks'));
     }
