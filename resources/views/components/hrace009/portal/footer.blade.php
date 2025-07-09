@@ -1,7 +1,7 @@
 <!-- Footer -->
-<footer class="portal-footer" id="site-footer">
+<footer class="portal-footer" id="site-footer" style="background-color: var(--footer-bg, #0a0e1a) !important;">
     <!-- Additional isolation wrapper -->
-    <div style="position: relative; z-index: 1; contain: layout style paint; isolation: isolate;">
+    <div style="position: relative; z-index: 1; contain: layout style paint; isolation: isolate; background: transparent !important;">
     <div class="footer-wrapper">
         @php
             try {
@@ -15,7 +15,7 @@
         
         <!-- Social Section -->
         @if($socialLinks->count() > 0)
-        <div class="footer-social-section">
+        <div class="footer-social-section" style="background-color: var(--footer-social-bg, #1a1f2e) !important;">
             <div class="container">
                 <div class="social-content">
                     @if($footerSettings && $footerSettings->content)
@@ -42,7 +42,7 @@
         @endif
 
         <!-- Copyright Section -->
-        <div class="footer-copyright-section">
+        <div class="footer-copyright-section" style="background-color: var(--footer-copyright-bg, #0a0e1a) !important;">
             <div class="container">
                 <div class="copyright-content">
                     <div class="copyright-text">
@@ -76,6 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Remove any body/html selectors
         css = css.replace(/\b(body|html)\b[^{]*/g, '#site-footer ');
+        
+        // Remove any background properties that target common selectors
+        css = css.replace(/(\*|:root|\.portal-footer|\.footer-[^{]+)\s*{[^}]*background[^}]*}/g, '');
         
         // Prefix all selectors with #site-footer
         css = css.replace(/([^{}]+){/g, function(match, selector) {
@@ -188,6 +191,21 @@ document.addEventListener('DOMContentLoaded', function() {
 html, body {
     /* Use !important to override any injected styles */
     background: var(--body-bg, #1a1f2e) !important;
+}
+
+/* Force footer sections to maintain theme backgrounds */
+.portal-footer,
+.footer-social-section,
+.footer-copyright-section {
+    background-color: var(--footer-bg, #0a0e1a) !important;
+}
+
+.footer-social-section {
+    background-color: var(--footer-social-bg, #1a1f2e) !important;
+}
+
+.footer-copyright-section {
+    background-color: var(--footer-copyright-bg, #0a0e1a) !important;
 }
 
 /* Scope all footer content styles */
