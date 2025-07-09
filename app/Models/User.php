@@ -65,6 +65,7 @@ class User extends Authenticatable
         'truename',
         'answer',
         'creatime',
+        'theme',
     ];
 
     /**

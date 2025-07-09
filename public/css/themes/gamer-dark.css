@@ -1,0 +1,211 @@
+/* Gamer Dark Theme */
+:root {
+    --gamer-neon-green: #00ff88;
+    --gamer-neon-pink: #ff0080;
+    --gamer-neon-cyan: #00ffff;
+    --gamer-dark-bg: #0a0a0a;
+    --gamer-surface: #1a1a1a;
+    --gamer-surface-light: #2a2a2a;
+    --gamer-border: #333333;
+}
+
+/* Override Tailwind Colors */
+.theme-gamer-dark {
+    --color-primary: var(--gamer-neon-green);
+    --color-secondary: var(--gamer-neon-pink);
+    --color-accent: var(--gamer-neon-cyan);
+}
+
+/* Background and Base Colors */
+.theme-gamer-dark body {
+    background-color: var(--gamer-dark-bg);
+    color: #ffffff;
+}
+
+.theme-gamer-dark .dark\:bg-darker {
+    background-color: var(--gamer-surface) !important;
+}
+
+.theme-gamer-dark .dark\:bg-dark {
+    background-color: var(--gamer-surface-light) !important;
+}
+
+.theme-gamer-dark .bg-white {
+    background-color: var(--gamer-surface) !important;
+}
+
+/* Neon Glow Effects */
+.theme-gamer-dark .text-primary-600,
+.theme-gamer-dark .text-primary-500 {
+    color: var(--gamer-neon-green) !important;
+    text-shadow: 0 0 10px var(--gamer-neon-green);
+}
+
+.theme-gamer-dark .bg-primary-600,
+.theme-gamer-dark .bg-primary-500 {
+    background-color: var(--gamer-neon-green) !important;
+    box-shadow: 0 0 20px var(--gamer-neon-green);
+}
+
+/* Buttons with Neon Effect */
+.theme-gamer-dark .bg-green-600 {
+    background-color: var(--gamer-neon-green) !important;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+    border: 1px solid var(--gamer-neon-green);
+    color: #000000 !important;
+}
+
+.theme-gamer-dark .bg-green-600:hover {
+    box-shadow: 0 6px 25px rgba(0, 255, 136, 0.6);
+    transform: translateY(-2px);
+}
+
+.theme-gamer-dark .bg-blue-600 {
+    background-color: var(--gamer-neon-cyan) !important;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+    border: 1px solid var(--gamer-neon-cyan);
+    color: #000000 !important;
+}
+
+.theme-gamer-dark .bg-blue-600:hover {
+    box-shadow: 0 6px 25px rgba(0, 255, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Cards and Surfaces */
+.theme-gamer-dark .rounded-lg {
+    border: 1px solid var(--gamer-border);
+    background-color: var(--gamer-surface);
+}
+
+.theme-gamer-dark .border {
+    border-color: var(--gamer-border) !important;
+}
+
+/* Input Fields */
+.theme-gamer-dark input,
+.theme-gamer-dark textarea,
+.theme-gamer-dark select {
+    background-color: var(--gamer-dark-bg) !important;
+    border: 1px solid var(--gamer-border) !important;
+    color: #ffffff !important;
+}
+
+.theme-gamer-dark input:focus,
+.theme-gamer-dark textarea:focus,
+.theme-gamer-dark select:focus {
+    border-color: var(--gamer-neon-green) !important;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2) !important;
+}
+
+/* Navigation and Headers */
+.theme-gamer-dark header {
+    background-color: var(--gamer-surface);
+    border-bottom: 2px solid var(--gamer-neon-green);
+    box-shadow: 0 2px 20px rgba(0, 255, 136, 0.2);
+}
+
+/* Sidebar */
+.theme-gamer-dark aside {
+    background-color: var(--gamer-surface);
+    border-right: 1px solid var(--gamer-border);
+}
+
+/* Links */
+.theme-gamer-dark a {
+    color: var(--gamer-neon-cyan);
+}
+
+.theme-gamer-dark a:hover {
+    color: var(--gamer-neon-green);
+    text-shadow: 0 0 5px currentColor;
+}
+
+/* Animations */
+@keyframes neon-pulse {
+    0% { box-shadow: 0 0 5px var(--gamer-neon-green); }
+    50% { box-shadow: 0 0 20px var(--gamer-neon-green), 0 0 30px var(--gamer-neon-green); }
+    100% { box-shadow: 0 0 5px var(--gamer-neon-green); }
+}
+
+.theme-gamer-dark .animate-neon-pulse {
+    animation: neon-pulse 2s infinite;
+}
+
+/* Table Styling */
+.theme-gamer-dark table {
+    background-color: var(--gamer-surface);
+}
+
+.theme-gamer-dark thead {
+    background-color: var(--gamer-surface-light);
+    border-bottom: 2px solid var(--gamer-neon-green);
+}
+
+.theme-gamer-dark tbody tr {
+    border-bottom: 1px solid var(--gamer-border);
+}
+
+.theme-gamer-dark tbody tr:hover {
+    background-color: rgba(0, 255, 136, 0.1);
+}
+
+/* Alerts and Notifications */
+.theme-gamer-dark .bg-green-100 {
+    background-color: rgba(0, 255, 136, 0.2) !important;
+    border: 1px solid var(--gamer-neon-green) !important;
+    color: var(--gamer-neon-green) !important;
+}
+
+.theme-gamer-dark .bg-red-100 {
+    background-color: rgba(255, 0, 128, 0.2) !important;
+    border: 1px solid var(--gamer-neon-pink) !important;
+    color: var(--gamer-neon-pink) !important;
+}
+
+/* Scrollbar */
+.theme-gamer-dark ::-webkit-scrollbar {
+    width: 12px;
+    background-color: var(--gamer-dark-bg);
+}
+
+.theme-gamer-dark ::-webkit-scrollbar-thumb {
+    background-color: var(--gamer-neon-green);
+    border-radius: 6px;
+    box-shadow: 0 0 10px var(--gamer-neon-green);
+}
+
+.theme-gamer-dark ::-webkit-scrollbar-track {
+    background-color: var(--gamer-surface);
+}
+
+/* Modal Overlays */
+.theme-gamer-dark .bg-gray-500 {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Special Effects for Headers */
+.theme-gamer-dark h1,
+.theme-gamer-dark h2,
+.theme-gamer-dark h3 {
+    background: linear-gradient(45deg, var(--gamer-neon-green), var(--gamer-neon-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Loading States */
+.theme-gamer-dark .animate-pulse {
+    background: linear-gradient(90deg, 
+        var(--gamer-surface) 0%, 
+        rgba(0, 255, 136, 0.1) 50%, 
+        var(--gamer-surface) 100%
+    );
+    background-size: 200% 100%;
+    animation: pulse-neon 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-neon {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
