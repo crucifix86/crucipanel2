@@ -301,3 +301,93 @@ body.dark-mode.theme-default .custom-navbar {
     background-color: var(--default-surface-secondary) !important;
     color: var(--default-primary) !important;
 }
+
+/* Dashboard Page Styles */
+.theme-default .dark\:bg-primary-darker,
+.theme-default .bg-primary-darker {
+    background-color: var(--default-surface) !important;
+}
+
+.theme-default .text-primary-500,
+.theme-default .text-primary-600 {
+    color: var(--default-primary) !important;
+}
+
+.theme-default .bg-primary-500,
+.theme-default .bg-primary-600 {
+    background-color: var(--default-primary) !important;
+}
+
+.theme-default .border-primary-500 {
+    border-color: var(--default-primary) !important;
+}
+
+/* Dashboard cards */
+.theme-default .shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Dashboard header */
+.theme-default .border-b {
+    border-bottom-color: var(--default-border) !important;
+}
+
+/* Dashboard sidebar */
+.theme-default aside {
+    background-color: var(--default-surface) !important;
+    border-right: 1px solid var(--default-border) !important;
+}
+
+/* Dashboard navigation links */
+.theme-default .hover\:bg-primary-100:hover {
+    background-color: rgba(91, 33, 182, 0.1) !important;
+}
+
+.theme-default .hover\:text-primary-500:hover {
+    color: var(--default-primary) !important;
+}
+
+/* Active nav link */
+.theme-default .bg-primary-50 {
+    background-color: rgba(91, 33, 182, 0.05) !important;
+}
+
+/* Dashboard dark mode */
+body.dark-mode.theme-default .dark\:bg-primary-darker {
+    background-color: var(--default-surface) !important;
+}
+
+body.dark-mode.theme-default aside {
+    background-color: var(--default-surface) !important;
+}
+
+/* Dashboard buttons */
+.theme-default .btn-primary,
+.theme-default [class*="bg-primary"] {
+    background-color: var(--default-primary) !important;
+}
+
+.theme-default .btn-primary:hover,
+.theme-default [class*="bg-primary"]:hover {
+    background-color: var(--default-primary-dark) !important;
+}
+
+/* Dashboard forms */
+.theme-default .form-input,
+.theme-default .form-textarea,
+.theme-default .form-select {
+    background-color: var(--default-surface) !important;
+    border-color: var(--default-border) !important;
+}
+
+.theme-default .form-input:focus,
+.theme-default .form-textarea:focus,
+.theme-default .form-select:focus {
+    border-color: var(--default-primary) !important;
+    box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.1) !important;
+}
+
+/* Stats cards gradient */
+.theme-default .bg-gradient-to-r {
+    background: linear-gradient(135deg, var(--default-primary-dark), var(--default-primary)) !important;
+}
