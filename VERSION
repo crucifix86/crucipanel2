@@ -1,6 +1,12 @@
-v1.5.4
+v1.5.5
 
 Version History:
+- v1.5.5 (2025-01-09): Home Page Theme Support
+  - Applied theme system to home.blade.php (actual main page)
+  - Added theme selector to logged-in user dropdown
+  - Added Livewire support for theme selector on home page
+  - Fixed hardcoded dark-mode to use dynamic themes
+
 - v1.5.4 (2025-01-09): Theme System Complete
   - Applied theme system to portal layout (main website)
   - Applied theme system to guest layout (login/register)
