@@ -1,6 +1,10 @@
-v1.5.19
+v1.5.20
 
 Version History:
+- v1.5.20 (2025-01-09): Fixed Main Background White Issue
+  - Forced dark backgrounds on body element
+  - Added background to main content flex-1 container
+  - Overrides default browser white background
 - v1.5.19 (2025-01-09): Fixed Theme Selector White Background
   - Removed bg-white class from theme selector widget
   - Widget now properly uses dark background
