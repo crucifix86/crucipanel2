@@ -1,6 +1,11 @@
-v1.5.17
+v1.5.18
 
 Version History:
+- v1.5.18 (2025-01-09): Restored Dashboard Dark Backgrounds
+  - Re-added the space-y-6 background colors that were removed
+  - All dashboard content now properly has dark backgrounds
+  - No more white backgrounds showing through
+
 - v1.5.17 (2025-01-09): Fixed Dashboard White Backgrounds
   - Fixed white backgrounds appearing on all dashboards
   - Forced dark surface colors on bg-white elements
