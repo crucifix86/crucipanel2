@@ -1,6 +1,10 @@
-v1.5.21
+v1.5.22
 
 Version History:
+- v1.5.22 (2025-01-09): REMOVED ALL WHITE BACKGROUNDS
+  - Replaced every single bg-white with dark:bg-darker
+  - Fixed ALL admin panels, front panels, and components
+  - NO MORE WHITE BACKGROUNDS ANYWHERE ON DASHBOARDS
 - v1.5.21 (2025-01-09): The Real Fix - Added dark class to body
   - Simply added 'dark' class to body element in app layout
   - This enables all dark: prefixed Tailwind classes
