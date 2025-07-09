@@ -1,4 +1,4 @@
-<div class="bg-white dark:bg-darker rounded-lg shadow-md p-6">
+<div class="dark:bg-darker rounded-lg shadow-md p-6">
     <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Choose Your Theme</h2>
     
     <div class="grid grid-cols-1 gap-4">
