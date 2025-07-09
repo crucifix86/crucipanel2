@@ -639,7 +639,7 @@
         }
         
         .header-logo {
-            max-height: 200px;
+            max-height: 120px;
             width: auto;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
             transition: transform 0.3s ease;
@@ -660,7 +660,7 @@
             }
             
             .header-logo {
-                max-height: 120px;
+                max-height: 80px;
             }
         }
 

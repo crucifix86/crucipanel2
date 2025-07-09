@@ -506,7 +506,7 @@
         }
         
         .header-logo {
-            max-height: 200px;
+            max-height: 120px;
             width: auto;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
             transition: transform 0.3s ease;
@@ -523,7 +523,7 @@
         
         @media (max-width: 768px) {
             .site-header { padding: 20px 0; }
-            .header-logo { max-height: 120px; }
+            .header-logo { max-height: 80px; }
         }
 
     </style>
