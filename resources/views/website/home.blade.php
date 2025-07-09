@@ -85,7 +85,7 @@
             border-bottom: 1px solid var(--border-color);
             box-shadow: var(--shadow-lg);
             padding: 12px 0;
-            min-height: 70px;
+            min-height: 80px;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -101,7 +101,7 @@
         }
 
         .custom-navbar .navbar-brand img {
-            height: 40px;
+            height: 60px;
             width: auto;
         }
 
@@ -613,7 +613,7 @@
 
         /* Logo styling */
         .navbar-logo {
-            height: 50px; /* Increased size for better readability */
+            height: 60px !important; /* Increased size for better readability */
             width: auto;
             margin-right: 10px; /* Adjusted gap */
         }

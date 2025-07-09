@@ -661,7 +661,7 @@
 
         /* Logo styling */
         .navbar-logo {
-            height: 50px; /* Increased size for better readability */
+            height: 60px !important; /* Increased size for better readability */
             width: auto;
             margin-right: 10px; /* Adjusted gap */
         }

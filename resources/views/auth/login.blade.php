@@ -297,7 +297,7 @@
                 margin-right: 15px;
             }
         }
-        .navbar-logo { height: 50px; width: auto; margin-right: 10px; }
+        .navbar-logo { height: 60px !important; width: auto; margin-right: 10px; }
 
     </style>
 </head>
