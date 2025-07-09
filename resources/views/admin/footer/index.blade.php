@@ -1,11 +1,12 @@
-<x-app-layout>
+@section('title', ' - ' . __('footer.management'))
+<x-hrace009.layouts.admin>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-200 leading-tight">
-            {{ __('footer.management') }}
-        </h2>
+        <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
+            <h1 class="text-2xl font-semibold">{{ __('footer.management') }}</h1>
+        </div>
     </x-slot>
 
-    <div class="container grid md:px-6 mx-auto">
+    <x-slot name="content">
         <div class="flex flex-col space-y-6">
             <!-- Footer Content Section -->
             <div class="w-full md:pb-2 md:pt-12">
@@ -155,5 +156,5 @@
                 </form>
             </div>
         </div>
-    </div>
-</x-app-layout>
+    </x-slot>
+</x-hrace009.layouts.admin>
