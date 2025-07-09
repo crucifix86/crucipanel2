@@ -28,7 +28,8 @@ class FooterController extends Controller
     {
         $validated = $request->validate([
             'content' => 'nullable|string',
-            'copyright' => 'nullable|string|max:255'
+            'copyright' => 'nullable|string|max:255',
+            'alignment' => 'required|in:left,center,right'
         ]);
         
         FooterSetting::updateOrCreate(

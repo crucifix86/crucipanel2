@@ -49,6 +49,18 @@
                                 @enderror
                             </div>
                             
+                            <div class="mb-4">
+                                <x-hrace009::label for="alignment" :value="__('footer.alignment')" />
+                                <select id="alignment" name="alignment" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="left" {{ old('alignment', $footerSettings?->alignment) == 'left' ? 'selected' : '' }}>{{ __('footer.align_left') }}</option>
+                                    <option value="center" {{ old('alignment', $footerSettings?->alignment ?? 'center') == 'center' ? 'selected' : '' }}>{{ __('footer.align_center') }}</option>
+                                    <option value="right" {{ old('alignment', $footerSettings?->alignment) == 'right' ? 'selected' : '' }}>{{ __('footer.align_right') }}</option>
+                                </select>
+                                @error('alignment')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            
                             <div class="flex justify-end">
                                 <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 border border-transparent rounded-lg font-semibold text-sm text-white hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-md">
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

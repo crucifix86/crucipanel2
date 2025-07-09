@@ -23,4 +23,9 @@ return [
     'link_deleted' => 'Social link has been deleted.',
     'social_link_added' => 'Social link has been added successfully.',
     'confirm_delete' => 'Are you sure you want to delete this social link?',
+    
+    'alignment' => 'Footer Alignment',
+    'align_left' => 'Left',
+    'align_center' => 'Center',
+    'align_right' => 'Right',
 ];

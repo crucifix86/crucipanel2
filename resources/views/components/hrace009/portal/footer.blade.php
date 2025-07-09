@@ -96,7 +96,7 @@
 }
 
 .social-content {
-    text-align: center;
+    text-align: {{ $footerSettings->alignment ?? 'center' }};
 }
 
 .social-heading {
@@ -113,9 +113,9 @@
 
 .social-icons-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: {{ $footerSettings->alignment ?? 'center' }};
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .social-icon-link {
@@ -127,14 +127,14 @@
 }
 
 .social-icon-box {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--social-icon-bg, #2a2f3e);
     border: 2px solid var(--social-icon-border, #3a3f4e);
-    border-radius: 12px;
+    border-radius: 16px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -156,11 +156,11 @@
 .social-icon-link:hover .social-icon-box::before {
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: 16px;
 }
 
 .social-icon-box i {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: var(--social-icon-color, #94a3b8);
     z-index: 1;
     transition: all 0.3s ease;
@@ -178,8 +178,9 @@
 }
 
 .social-label {
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     color: var(--footer-text, #94a3b8);
     transition: all 0.3s ease;
 }
@@ -315,16 +316,20 @@
 /* Responsive */
 @media (max-width: 768px) {
     .social-icons-wrapper {
-        gap: 1rem;
+        gap: 1.5rem;
     }
     
     .social-icon-box {
-        width: 50px;
-        height: 50px;
+        width: 65px;
+        height: 65px;
     }
     
     .social-icon-box i {
-        font-size: 1.25rem;
+        font-size: 1.75rem;
+    }
+    
+    .social-label {
+        font-size: 0.75rem;
     }
     
     .copyright-content {
