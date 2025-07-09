@@ -31,8 +31,16 @@
 
     <x-hrace009::front.top-script/>
 
+    @php
+        $userTheme = auth()->user()->theme ?? config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
 </head>
-<body class="antialiased">
+<body class="antialiased theme-{{ $userTheme }}">
 <x-hrace009::front.big-frame>
     <x-hrace009::loading>
         {{ __('general.loading') }}

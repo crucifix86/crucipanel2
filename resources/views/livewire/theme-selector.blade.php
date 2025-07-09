@@ -1,7 +1,7 @@
 <div>
     <!-- Theme Selector Button -->
     <button 
-        @click="$wire.showModal = true"
+        wire:click="$set('showModal', true)"
         class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
         title="Change Theme"
     >
@@ -27,7 +27,7 @@
                             Choose Your Theme
                         </h3>
                         <button 
-                            @click="$wire.showModal = false"
+                            wire:click="$set('showModal', false)"
                             class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
                         >
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
