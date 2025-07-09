@@ -37,10 +37,19 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+    @php
+        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
-<body class="antialiased">
+<body class="antialiased theme-{{ $userTheme }}">
 <x-hrace009::auth.general-frame>
     <!-- Loading screen -->
     <x-hrace009::loading>{{ __('general.loading') }}</x-hrace009::loading>

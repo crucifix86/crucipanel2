@@ -15,6 +15,15 @@
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
 
+    @php
+        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+
     <style>
         /* Modern Dark Theme Variables */
         :root {
@@ -768,7 +777,7 @@
     @endif
     {{-- Removed <x-hrace009::portal.top-script/> as scripts are now at the bottom or included in head --}}
 </head>
-<body>
+<body class="theme-{{ $userTheme }}">
 
 {{-- <x-hrace009::portal.preload/> --}} {{-- Preloader can be added back if desired --}}
 

@@ -30,6 +30,7 @@
             @foreach($themes as $key => $theme)
             <button
                 wire:click="selectTheme('{{ $key }}')"
+                @click="open = false"
                 class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center justify-between group"
             >
                 <div>
