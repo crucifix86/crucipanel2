@@ -347,7 +347,7 @@
     <header class="site-header">
         <div class="container-fluid">
             <div class="header-content">
-                <a href="{{ route('HOME') }}"><img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo"></a>
+                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
             </div>
         </div>
     </header>
