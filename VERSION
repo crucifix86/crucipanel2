@@ -1,6 +1,12 @@
-v1.5.9
+v1.5.10
 
 Version History:
+- v1.5.10 (2025-01-09): Default Theme Improvements
+  - Fixed theme selector text visibility (white background)
+  - Created modern default theme with gradient accents
+  - Purple gradient navbar, clean cards, subtle shadows
+  - Improved hover effects and transitions throughout
+
 - v1.5.9 (2025-01-09): Home Page Theme Styles
   - Added comprehensive theme styles for home page
   - Gamer Dark theme: neon effects on navbar, articles, sidebar
