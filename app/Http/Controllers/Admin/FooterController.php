@@ -43,16 +43,31 @@ class FooterController extends Controller
     {
         $validated = $request->validate([
             'platform' => 'required|string|max:255',
-            'url' => 'required|url|max:255',
-            'icon' => 'required|string|max:255'
+            'url' => 'required|url|max:255'
         ]);
+        
+        // Auto-set icon based on platform
+        $icons = [
+            'facebook' => 'fa-brands fa-facebook',
+            'twitter' => 'fa-brands fa-twitter',
+            'instagram' => 'fa-brands fa-instagram',
+            'youtube' => 'fa-brands fa-youtube',
+            'linkedin' => 'fa-brands fa-linkedin',
+            'discord' => 'fa-brands fa-discord',
+            'twitch' => 'fa-brands fa-twitch',
+            'github' => 'fa-brands fa-github',
+            'tiktok' => 'fa-brands fa-tiktok',
+            'reddit' => 'fa-brands fa-reddit'
+        ];
+        
+        $icon = $icons[strtolower($validated['platform'])] ?? 'fa-solid fa-link';
         
         $maxOrder = SocialLink::max('order') ?? -1;
         
         SocialLink::create([
             'platform' => $validated['platform'],
             'url' => $validated['url'],
-            'icon' => $validated['icon'],
+            'icon' => $icon,
             'order' => $maxOrder + 1,
             'active' => true
         ]);

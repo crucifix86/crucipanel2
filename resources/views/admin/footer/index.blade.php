@@ -136,20 +136,6 @@
                         />
                     </div>
 
-                    <div>
-                        <x-hrace009::label for="icon" :value="__('footer.icon_class')" />
-                        <x-hrace009::input-box
-                            id="icon"
-                            name="icon"
-                            type="text"
-                            placeholder="fa-facebook"
-                            required
-                        />
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                            {{ __('footer.icon_help') }}
-                        </p>
-                    </div>
-
                     <div class="mt-6 flex justify-end space-x-3">
                         <button type="button" onclick="document.getElementById('add-social-modal').style.display='none'" class="inline-flex items-center px-4 py-2 bg-gray-300 border border-gray-300 rounded-lg font-semibold text-sm text-gray-700 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

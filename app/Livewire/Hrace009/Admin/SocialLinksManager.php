@@ -53,16 +53,31 @@ class SocialLinksManager extends Component
     {
         $this->validate([
             'editingPlatform' => 'required|string',
-            'editingUrl' => 'required|url',
-            'editingIcon' => 'required|string'
+            'editingUrl' => 'required|url'
         ]);
+        
+        // Auto-set icon based on platform
+        $icons = [
+            'facebook' => 'fa-brands fa-facebook',
+            'twitter' => 'fa-brands fa-twitter',
+            'instagram' => 'fa-brands fa-instagram',
+            'youtube' => 'fa-brands fa-youtube',
+            'linkedin' => 'fa-brands fa-linkedin',
+            'discord' => 'fa-brands fa-discord',
+            'twitch' => 'fa-brands fa-twitch',
+            'github' => 'fa-brands fa-github',
+            'tiktok' => 'fa-brands fa-tiktok',
+            'reddit' => 'fa-brands fa-reddit'
+        ];
+        
+        $icon = $icons[strtolower($this->editingPlatform)] ?? 'fa-solid fa-link';
         
         $link = SocialLink::find($this->editingId);
         if ($link) {
             $link->update([
                 'platform' => $this->editingPlatform,
                 'url' => $this->editingUrl,
-                'icon' => $this->editingIcon
+                'icon' => $icon
             ]);
             
             $this->cancelEdit();
