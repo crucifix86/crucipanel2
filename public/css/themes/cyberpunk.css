@@ -454,6 +454,10 @@ body:not(.dark-mode).theme-cyberpunk .custom-home-content-wrap {
 
 /* Let existing styles handle dashboard */
 
+.theme-cyberpunk .max-w {
+    background-color: var(--cyber-black) !important;
+}
+
 .theme-cyberpunk .space-y-6 > * {
     background-color: var(--cyber-surface) !important;
     padding: 1.5rem;

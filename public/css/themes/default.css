@@ -412,15 +412,11 @@ body:not(.dark-mode).theme-default .login-form {
     background-color: var(--default-bg) !important;
 }
 
-.theme-default .grid > div {
-    background-color: transparent !important;
-}
-
 /* Let existing dark theme classes handle the styling */
 
 /* Dashboard content area */
 .theme-default .max-w {
-    background-color: transparent !important;
+    background-color: var(--default-bg) !important;
 }
 
 .theme-default .space-y-6 > * {
