@@ -29,6 +29,20 @@
     color: var(--default-text);
 }
 
+/* Dark mode overrides */
+.theme-default.dark body,
+body.dark-mode.theme-default {
+    --default-bg: #0f172a;
+    --default-surface: #1e293b;
+    --default-surface-secondary: #334155;
+    --default-border: #475569;
+    --default-text: #e2e8f0;
+    --default-text-secondary: #cbd5e1;
+    --default-text-muted: #94a3b8;
+    background-color: #0f172a !important;
+    color: #e2e8f0 !important;
+}
+
 /* Cards and Surfaces */
 .theme-default .bg-white,
 .theme-default .dark\:bg-darker,
@@ -114,6 +128,39 @@
     background-color: #d1fae5 !important;
     border: 1px solid #a7f3d0 !important;
     color: #065f46 !important;
+}
+
+/* Dark mode for surfaces */
+body.dark-mode.theme-default .bg-white,
+body.dark-mode.theme-default .dark\:bg-darker,
+body.dark-mode.theme-default .dark\:bg-dark,
+body.dark-mode.theme-default .news-article-item,
+body.dark-mode.theme-default .sidebar-area,
+body.dark-mode.theme-default .dropdown-menu {
+    background-color: #1e293b !important;
+}
+
+body.dark-mode.theme-default .custom-home-content-wrap {
+    background: #0f172a !important;
+}
+
+body.dark-mode.theme-default input,
+body.dark-mode.theme-default textarea,
+body.dark-mode.theme-default select {
+    background-color: #1e293b !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode.theme-default .news-article-item h3 a,
+body.dark-mode.theme-default h2,
+body.dark-mode.theme-default .sidebar-area h4 {
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode.theme-default .article-meta,
+body.dark-mode.theme-default .article-description {
+    color: #cbd5e1 !important;
 }
 
 /* Home Page Specific */
