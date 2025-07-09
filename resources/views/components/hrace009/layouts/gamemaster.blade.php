@@ -113,10 +113,15 @@
 
     <div class="flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto">
         {{-- Header Section --}}
+        @php
+            $headerSettings = \App\Models\HeaderSetting::first();
+            $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : 'img/logo/haven_perfect_world_logo.svg';
+            $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : 'img/logo/crucifix_logo.svg';
+        @endphp
         <header class="admin-header">
             <div class="header-content">
-                <img src="{{ asset(config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg')) }}" alt="{{ config('pw-config.server_name') }}" class="admin-header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
-                <img src="{{ asset(config('pw-config.badge_logo', 'img/logo/crucifix_logo.svg')) }}" alt="Badge" class="admin-badge-logo">
+                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="admin-header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+                <img src="{{ asset($badgeLogo) }}" alt="Badge" class="admin-badge-logo">
             </div>
         </header>
         

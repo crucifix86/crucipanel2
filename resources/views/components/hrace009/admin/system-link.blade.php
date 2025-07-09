@@ -75,5 +75,13 @@
         >
             {{ __('footer.management') }}
         </a>
+
+        <a
+            href="{{ route('admin.header.index') }}"
+            role="menuitem"
+            class="block p-2 text-sm text-gray-{{ request()->routeIs('admin.header.*') ? '700' : '400' }} transition-colors duration-200 rounded-md dark:{{ request()->routeIs('admin.header.*') ? 'text-light' : 'text-gray-400' }} dark:hover:text-light hover:text-gray-700"
+        >
+            {{ __('header.management') }}
+        </a>
     </div>
 </div>

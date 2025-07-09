@@ -320,6 +320,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'uses' => 'App\Http\Controllers\Admin\FooterController@storeSocialLink'
         ]);
 
+        Route::get('header', [
+            'as' => 'admin.header.index',
+            'uses' => 'App\Http\Controllers\Admin\HeaderController@index'
+        ]);
+
+        Route::post('header/update', [
+            'as' => 'admin.header.update',
+            'uses' => 'App\Http\Controllers\Admin\HeaderController@update'
+        ]);
+
     });
 
     Route::group(['prefix' => 'members'], static function () {
