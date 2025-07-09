@@ -29,7 +29,78 @@
     color: var(--default-text);
 }
 
-/* Theme is dark by default - no need for dark mode overrides */
+/* Light mode overrides - complete transformation */
+body:not(.dark-mode).theme-default {
+    --default-bg: #f8fafc !important;
+    --default-surface: #ffffff !important;
+    --default-surface-secondary: #f3f4f6 !important;
+    --default-border: #e5e7eb !important;
+    --default-text: #111827 !important;
+    --default-text-secondary: #6b7280 !important;
+    --default-text-muted: #9ca3af !important;
+}
+
+body:not(.dark-mode).theme-default {
+    background-color: #f8fafc !important;
+    color: #111827 !important;
+}
+
+/* Light mode specific overrides */
+body:not(.dark-mode).theme-default .custom-navbar {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+body:not(.dark-mode).theme-default .bg-white,
+body:not(.dark-mode).theme-default .dark\:bg-darker,
+body:not(.dark-mode).theme-default .dark\:bg-dark {
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+body:not(.dark-mode).theme-default .custom-home-content-wrap {
+    background: #f8fafc !important;
+}
+
+body:not(.dark-mode).theme-default .news-article-item {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+body:not(.dark-mode).theme-default .news-article-item h3 a {
+    color: #111827 !important;
+}
+
+body:not(.dark-mode).theme-default h2 {
+    color: #111827 !important;
+}
+
+body:not(.dark-mode).theme-default .sidebar-area {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+body:not(.dark-mode).theme-default input,
+body:not(.dark-mode).theme-default textarea,
+body:not(.dark-mode).theme-default select {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #111827 !important;
+}
+
+body:not(.dark-mode).theme-default .read-more {
+    background: linear-gradient(135deg, #7c3aed, #8b5cf6) !important;
+}
+
+body:not(.dark-mode).theme-default .dropdown-menu {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+body:not(.dark-mode).theme-default .login-form {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
 
 /* Cards and Surfaces */
 .theme-default .bg-white,

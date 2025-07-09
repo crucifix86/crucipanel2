@@ -210,6 +210,90 @@
     100% { background-position: -200% 0; }
 }
 
+/* Light Mode Overrides - Gamer Theme Light Variant */
+body:not(.dark-mode).theme-gamer-dark {
+    background-color: #f0fdf4 !important;
+    color: #064e3b !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .bg-white,
+body:not(.dark-mode).theme-gamer-dark .dark\:bg-darker,
+body:not(.dark-mode).theme-gamer-dark .dark\:bg-dark {
+    background-color: #ffffff !important;
+    border: 2px solid var(--gamer-neon-green) !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .custom-navbar {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    border-bottom: 2px solid var(--gamer-neon-green) !important;
+    box-shadow: 0 2px 10px rgba(0, 255, 136, 0.2) !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .news-article-item {
+    background: #ffffff !important;
+    border: 2px solid #10b981 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .news-article-item::before {
+    background: linear-gradient(90deg, #10b981, #059669) !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .news-article-item h3 a {
+    color: #064e3b !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .news-article-item h3 a:hover {
+    color: #059669 !important;
+    text-shadow: none !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark h2 {
+    background: linear-gradient(45deg, #059669, #10b981) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    border-bottom-color: #10b981 !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .read-more {
+    background: linear-gradient(45deg, #059669, #10b981) !important;
+    color: #ffffff !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .sidebar-area {
+    background: #ffffff !important;
+    border: 2px solid #10b981 !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark input,
+body:not(.dark-mode).theme-gamer-dark textarea,
+body:not(.dark-mode).theme-gamer-dark select {
+    background-color: #f0fdf4 !important;
+    border: 2px solid #10b981 !important;
+    color: #064e3b !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark input:focus,
+body:not(.dark-mode).theme-gamer-dark textarea:focus,
+body:not(.dark-mode).theme-gamer-dark select:focus {
+    border-color: #059669 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .bg-green-600,
+body:not(.dark-mode).theme-gamer-dark .bg-blue-600 {
+    background-color: #10b981 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+body:not(.dark-mode).theme-gamer-dark .bg-green-600:hover,
+body:not(.dark-mode).theme-gamer-dark .bg-blue-600:hover {
+    background-color: #059669 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-1px);
+}
+
 /* Home Page Specific Styles */
 .theme-gamer-dark .custom-navbar {
     background: rgba(26, 26, 26, 0.95) !important;
