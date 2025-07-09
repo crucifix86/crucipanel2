@@ -220,7 +220,7 @@ html, body {
     display: flex;
     justify-content: {{ $footerSettings->alignment ?? 'center' }};
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 3rem;
 }
 
 .social-icon-link {
@@ -232,8 +232,8 @@ html, body {
 }
 
 .social-icon-box {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -259,7 +259,7 @@ html, body {
 }
 
 .social-icon-box i {
-    font-size: 2.5rem;
+    font-size: 4rem;
     color: var(--social-icon-color, #94a3b8);
     z-index: 1;
     transition: all 0.3s ease;
@@ -294,8 +294,8 @@ html, body {
 }
 
 .social-label {
-    margin-top: 0.75rem;
-    font-size: 0.875rem;
+    margin-top: 1rem;
+    font-size: 1.125rem;
     font-weight: 500;
     color: var(--footer-text, #94a3b8);
     transition: all 0.3s ease;
@@ -436,16 +436,16 @@ html, body {
     }
     
     .social-icon-box {
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
     }
     
     .social-icon-box i {
-        font-size: 2rem;
+        font-size: 3rem;
     }
     
     .social-label {
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
     
     .copyright-content {
