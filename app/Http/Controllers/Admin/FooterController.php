@@ -34,9 +34,29 @@ class FooterController extends Controller
         
         $footerSettings = FooterSetting::firstOrNew(['id' => 1]);
         
+        // Clean content to prevent style leaks
+        $content = $validated['content'] ?? null;
+        $copyright = $validated['copyright'] ?? null;
+        
+        if ($content) {
+            // Remove any style tags that could affect the page
+            $content = preg_replace('/<style[^>]*>.*?<\/style>/is', '', $content);
+            // Remove any body/html tags
+            $content = preg_replace('/<(body|html)[^>]*>|<\/(body|html)>/i', '', $content);
+            // Remove any background style attributes
+            $content = preg_replace('/style\s*=\s*["\'][^"\']*background[^"\']*["\']/i', '', $content);
+        }
+        
+        if ($copyright) {
+            // Same cleaning for copyright
+            $copyright = preg_replace('/<style[^>]*>.*?<\/style>/is', '', $copyright);
+            $copyright = preg_replace('/<(body|html)[^>]*>|<\/(body|html)>/i', '', $copyright);
+            $copyright = preg_replace('/style\s*=\s*["\'][^"\']*background[^"\']*["\']/i', '', $copyright);
+        }
+        
         // Update fields
-        $footerSettings->content = $validated['content'] ?? null;
-        $footerSettings->copyright = $validated['copyright'] ?? null;
+        $footerSettings->content = $content;
+        $footerSettings->copyright = $copyright;
         $footerSettings->alignment = $validated['alignment'];
         
         $footerSettings->save();

@@ -17,7 +17,7 @@
             <div class="container">
                 <div class="social-content">
                     @if($footerSettings && $footerSettings->content)
-                        <h3 class="social-heading">{!! $footerSettings->content !!}</h3>
+                        <div class="social-heading footer-content-wrapper">{!! $footerSettings->content !!}</div>
                     @else
                         <h3 class="social-heading">Connect socially with <strong>{{ config('pw-config.server_name') }}</strong></h3>
                     @endif
@@ -43,7 +43,7 @@
                 <div class="copyright-content">
                     <div class="copyright-text">
                         @if($footerSettings && $footerSettings->copyright)
-                            <p>{!! $footerSettings->copyright !!}</p>
+                            <div class="footer-content-wrapper">{!! $footerSettings->copyright !!}</div>
                         @else
                             <p>{{ date('Y') }} &copy; <strong>{{ config('pw-config.server_name') }}</strong>. All rights reserved</p>
                         @endif
@@ -110,6 +110,52 @@
 .social-heading strong {
     color: var(--footer-accent, #8b5cf6);
     font-weight: 600;
+}
+
+/* Footer content isolation */
+.footer-content-wrapper {
+    /* Reset any global styles that might leak */
+    all: initial;
+    /* Reapply footer styles */
+    font-family: inherit;
+    color: var(--footer-text, #94a3b8);
+    font-size: inherit;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+.footer-content-wrapper * {
+    /* Ensure child elements don't affect page background */
+    background: transparent !important;
+    color: inherit;
+}
+
+.footer-content-wrapper h1,
+.footer-content-wrapper h2,
+.footer-content-wrapper h3,
+.footer-content-wrapper h4,
+.footer-content-wrapper h5,
+.footer-content-wrapper h6 {
+    color: var(--footer-heading, #e2e8f0);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.footer-content-wrapper p {
+    margin: 0 0 0.5rem 0;
+    color: var(--footer-text, #94a3b8);
+}
+
+.footer-content-wrapper a {
+    color: var(--footer-link, #a78bfa);
+    text-decoration: none;
+}
+
+.footer-content-wrapper a:hover {
+    color: var(--footer-link-hover, #c4b5fd);
 }
 
 .social-icons-wrapper {
