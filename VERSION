@@ -1,6 +1,11 @@
-v1.5.5
+v1.5.6
 
 Version History:
+- v1.5.6 (2025-01-09): Theme Selector Placement Fix
+  - Moved theme selector to top-right with theme toggle and language selector
+  - Removed theme selector from user dropdown (was stretching it)
+  - Clean, unobtrusive placement for logged-in users only
+
 - v1.5.5 (2025-01-09): Home Page Theme Support
   - Applied theme system to home.blade.php (actual main page)
   - Added theme selector to logged-in user dropdown
