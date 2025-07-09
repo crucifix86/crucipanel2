@@ -1,6 +1,12 @@
-v1.5.11
+v1.5.12
 
 Version History:
+- v1.5.12 (2025-01-09): Darker Purple Default Theme
+  - Changed navbar to darker purple gradient
+  - Even darker purple in dark mode for better contrast
+  - Updated primary color from blue to dark purple throughout
+  - Better visual consistency with darker theme
+
 - v1.5.11 (2025-01-09): Default Theme Dark Mode Fix
   - Fixed white background in dark mode
   - Added proper dark mode overrides for default theme
