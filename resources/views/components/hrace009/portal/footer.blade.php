@@ -16,16 +16,29 @@
         <div class="footer-image-section">
             <div class="container">
                 <div class="footer-image-wrapper" style="text-align: {{ $footerSettings->alignment ?? 'center' }};">
+                    @php
+                        $imagePath = $footerSettings->footer_image;
+                        // Handle different path formats
+                        if (str_starts_with($imagePath, 'storage/')) {
+                            $imageUrl = asset($imagePath);
+                        } elseif (str_starts_with($imagePath, '/storage/')) {
+                            $imageUrl = asset(ltrim($imagePath, '/'));
+                        } else {
+                            $imageUrl = asset('storage/' . $imagePath);
+                        }
+                    @endphp
                     @if($footerSettings->footer_image_link)
                         <a href="{{ $footerSettings->footer_image_link }}" target="_blank" class="footer-image-link">
-                            <img src="{{ asset($footerSettings->footer_image) }}" 
+                            <img src="{{ $imageUrl }}" 
                                  alt="{{ $footerSettings->footer_image_alt ?? 'Footer Image' }}" 
-                                 class="footer-image">
+                                 class="footer-image"
+                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'100\'%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\'%3EImage not found%3C/text%3E%3C/svg%3E';">
                         </a>
                     @else
-                        <img src="{{ asset($footerSettings->footer_image) }}" 
+                        <img src="{{ $imageUrl }}" 
                              alt="{{ $footerSettings->footer_image_alt ?? 'Footer Image' }}" 
-                             class="footer-image">
+                             class="footer-image"
+                             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'100\'%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\'%3EImage not found%3C/text%3E%3C/svg%3E';">
                     @endif
                 </div>
             </div>
