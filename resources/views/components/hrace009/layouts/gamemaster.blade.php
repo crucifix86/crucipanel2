@@ -39,6 +39,59 @@
     @if($themeConfig && isset($themeConfig['css']))
         <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
     @endif
+    
+    <style>
+        /* Admin Header Styles */
+        .admin-header {
+            background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 100%);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #6366f1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .admin-header .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .admin-header-logo {
+            max-height: 80px;
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+        
+        .admin-header-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .admin-badge-logo {
+            max-height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 15px 0;
+            }
+            
+            .admin-header .header-content {
+                gap: 20px;
+            }
+            
+            .admin-header-logo {
+                max-height: 60px;
+            }
+            
+            .admin-badge-logo {
+                max-height: 40px;
+            }
+        }
+    </style>
 </head>
 <body class="antialiased theme-{{ $userTheme }}">
 <x-hrace009::front.big-frame>
@@ -59,6 +112,14 @@
     </x-hrace009::side-bar>
 
     <div class="flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto">
+        {{-- Header Section --}}
+        <header class="admin-header">
+            <div class="header-content">
+                <img src="{{ asset(config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg')) }}" alt="{{ config('pw-config.server_name') }}" class="admin-header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+                <img src="{{ asset(config('pw-config.badge_logo', 'img/logo/crucifix_logo.svg')) }}" alt="Badge" class="admin-badge-logo">
+            </div>
+        </header>
+        
         <x-hrace009::nav-bar>
             <x-slot name="navmenu">
                 <x-hrace009::mobile-menu-button/>
