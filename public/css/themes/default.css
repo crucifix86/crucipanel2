@@ -416,26 +416,7 @@ body:not(.dark-mode).theme-default .login-form {
     background-color: transparent !important;
 }
 
-/* Theme selector widget */
-.theme-default .theme-selector-widget {
-    background-color: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-}
-
-/* News view in dashboard */
-.theme-default .news-view {
-    background-color: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-}
-
-/* Widget area */
-.theme-default .widget-area,
-.theme-default [class*="widget"] {
-    background-color: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-}
+/* Let existing dark theme classes handle the styling */
 
 /* Dashboard content area */
 .theme-default .max-w {
@@ -443,10 +424,8 @@ body:not(.dark-mode).theme-default .login-form {
 }
 
 .theme-default .space-y-6 > * {
-    background-color: var(--default-surface) !important;
     padding: 1.5rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--default-border) !important;
 }
 
 /* Header styling */
@@ -458,14 +437,9 @@ body:not(.dark-mode).theme-default .login-form {
     color: var(--default-text) !important;
 }
 
-/* Light mode overrides for player dashboard */
-body:not(.dark-mode).theme-default .space-y-6 > * {
-    background-color: #ffffff !important;
-    border: 1px solid #e5e7eb !important;
-}
+/* Light mode uses existing overrides */
 
-body:not(.dark-mode).theme-default .widget-area,
-body:not(.dark-mode).theme-default [class*="widget"] {
-    background-color: #ffffff !important;
-    border: 1px solid #e5e7eb !important;
+/* Force dark backgrounds on all dashboard elements */
+.theme-default .bg-white {
+    background-color: var(--default-surface) !important;
 }

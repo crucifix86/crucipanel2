@@ -299,39 +299,13 @@ body:not(.dark-mode).theme-gamer-dark .bg-blue-600:hover {
     background-color: var(--gamer-dark-bg) !important;
 }
 
-.theme-gamer-dark .space-y-6 > * {
-    background-color: var(--gamer-surface) !important;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--gamer-border) !important;
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
-}
-
-.theme-gamer-dark .widget-area,
-.theme-gamer-dark [class*="widget"] {
-    background-color: var(--gamer-surface) !important;
-    border: 1px solid var(--gamer-border) !important;
-    box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
-}
+/* Let existing styles handle dashboard */
 
 .theme-gamer-dark header h1 {
     color: var(--gamer-neon-green) !important;
     text-shadow: 0 0 10px var(--gamer-neon-green);
 }
 
-/* Light mode dashboard */
-body:not(.dark-mode).theme-gamer-dark .space-y-6 > * {
-    background-color: #ffffff !important;
-    border: 2px solid #10b981 !important;
-    box-shadow: none !important;
-}
-
-body:not(.dark-mode).theme-gamer-dark .widget-area,
-body:not(.dark-mode).theme-gamer-dark [class*="widget"] {
-    background-color: #ffffff !important;
-    border: 2px solid #10b981 !important;
-    box-shadow: none !important;
-}
 
 /* Home Page Specific Styles */
 .theme-gamer-dark .custom-navbar {
