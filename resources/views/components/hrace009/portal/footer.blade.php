@@ -77,24 +77,26 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove any body/html selectors
         css = css.replace(/\b(body|html)\b[^{]*/g, '#site-footer ');
         
-        // Remove any background properties that target common selectors
-        css = css.replace(/(\*|:root|\.portal-footer|\.footer-[^{]+)\s*{[^}]*background[^}]*}/g, '');
-        
-        // Prefix all selectors with #site-footer
+        // Only scope selectors that might affect the page structure
         css = css.replace(/([^{}]+){/g, function(match, selector) {
             // Skip keyframes and media queries
             if (selector.includes('@')) return match;
             
-            // Add footer scope to each selector
-            const selectors = selector.split(',');
-            const scopedSelectors = selectors.map(s => {
-                s = s.trim();
-                if (s && !s.startsWith('#site-footer')) {
-                    return '#site-footer ' + s;
-                }
-                return s;
-            });
-            return scopedSelectors.join(', ') + ' {';
+            // Only scope if selector targets structural elements
+            if (selector.match(/^\s*(\*|body|html|\.portal-footer|\.footer-social-section|\.footer-copyright-section)/)) {
+                const selectors = selector.split(',');
+                const scopedSelectors = selectors.map(s => {
+                    s = s.trim();
+                    if (s && !s.startsWith('#site-footer') && !s.startsWith('.footer-custom-content')) {
+                        return '.footer-custom-content ' + s;
+                    }
+                    return s;
+                });
+                return scopedSelectors.join(', ') + ' {';
+            }
+            
+            // Leave other selectors untouched
+            return match;
         });
         
         // Update the style tag
@@ -208,15 +210,10 @@ html, body {
     background-color: var(--footer-copyright-bg, #0a0e1a) !important;
 }
 
-/* Scope all footer content styles */
-.footer-custom-content * {
-    /* Reset any position fixed/absolute that might escape footer */
-    position: static !important;
-}
-
-.footer-custom-content *[style*="position: fixed"],
-.footer-custom-content *[style*="position: absolute"] {
-    position: relative !important;
+/* Allow custom content to have its own styles while protecting footer structure */
+.footer-custom-content {
+    /* Allow all content styles except those that would escape */
+    all: revert;
 }
 
 .social-icons-wrapper {
