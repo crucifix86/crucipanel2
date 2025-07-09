@@ -2,16 +2,16 @@
 
 return [
     'management' => 'Footer Management',
-    'content_settings' => 'Footer Content Settings',
+    'content_settings' => 'Footer Settings',
     'content' => 'Footer Content',
     'content_placeholder' => 'Enter footer content (HTML allowed)',
     'copyright' => 'Copyright Text',
     'copyright_placeholder' => 'e.g., © 2025 Your Company. All rights reserved.',
-    'save_content' => 'Save Content',
+    'save_content' => 'Save',
     'content_updated' => 'Footer content has been updated successfully.',
     
-    'social_links' => 'Social Media Links',
-    'add_social_link' => '+ Add New Social Link',
+    'social_links' => 'Social Links',
+    'add_social_link' => 'Add Social Link',
     'platform' => 'Platform Name',
     'select_platform' => 'Choose a Platform',
     'url' => 'Profile URL',
