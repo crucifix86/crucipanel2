@@ -23,6 +23,16 @@
     --color-accent: var(--default-accent);
 }
 
+/* Fix body background */
+body.theme-default {
+    background-color: var(--default-bg) !important;
+}
+
+/* Fix main content background */
+.theme-default .flex-1 {
+    background-color: var(--default-bg) !important;
+}
+
 /* Background */
 .theme-default body {
     background-color: var(--default-bg);

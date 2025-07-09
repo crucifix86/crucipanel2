@@ -16,6 +16,16 @@
     --color-accent: var(--gamer-neon-cyan);
 }
 
+/* Fix body background */
+body.theme-gamer-dark {
+    background-color: var(--gamer-dark-bg) !important;
+}
+
+/* Fix main content background */
+.theme-gamer-dark .flex-1 {
+    background-color: var(--gamer-dark-bg) !important;
+}
+
 /* Background and Base Colors */
 .theme-gamer-dark body {
     background-color: var(--gamer-dark-bg);

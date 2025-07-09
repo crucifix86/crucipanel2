@@ -17,6 +17,16 @@
     font-family: 'Orbitron', 'Rajdhani', monospace;
 }
 
+/* Fix body background */
+body.theme-cyberpunk {
+    background-color: var(--cyber-black) !important;
+}
+
+/* Fix main content background */
+.theme-cyberpunk .flex-1 {
+    background-color: var(--cyber-black) !important;
+}
+
 /* Background */
 .theme-cyberpunk body {
     background-color: var(--cyber-black);
