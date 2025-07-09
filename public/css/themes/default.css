@@ -1,9 +1,9 @@
 /* Default Theme - Modern & Clean */
 :root {
-    --default-primary: #3b82f6;
-    --default-primary-dark: #2563eb;
-    --default-secondary: #8b5cf6;
-    --default-accent: #06b6d4;
+    --default-primary: #5b21b6;
+    --default-primary-dark: #4c1d95;
+    --default-secondary: #7c3aed;
+    --default-accent: #6366f1;
     --default-success: #10b981;
     --default-warning: #f59e0b;
     --default-danger: #ef4444;
@@ -86,7 +86,7 @@ body.dark-mode.theme-default {
 .theme-default textarea:focus,
 .theme-default select:focus {
     border-color: var(--default-primary) !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.1) !important;
 }
 
 /* Navigation */
@@ -165,8 +165,14 @@ body.dark-mode.theme-default .article-description {
 
 /* Home Page Specific */
 .theme-default .custom-navbar {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%) !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Dark mode navbar - even darker */
+body.dark-mode.theme-default .custom-navbar {
+    background: linear-gradient(135deg, #2e1065 0%, #3730a3 100%) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
 }
 
 .theme-default .custom-navbar .nav-link {
@@ -192,7 +198,7 @@ body.dark-mode.theme-default .article-description {
 }
 
 .theme-default .news-article-item::before {
-    background: linear-gradient(90deg, var(--default-primary), var(--default-secondary)) !important;
+    background: linear-gradient(90deg, var(--default-primary-dark), var(--default-primary)) !important;
 }
 
 .theme-default .news-article-item:hover {
@@ -215,7 +221,7 @@ body.dark-mode.theme-default .article-description {
 }
 
 .theme-default .read-more {
-    background: linear-gradient(135deg, var(--default-primary), var(--default-secondary)) !important;
+    background: linear-gradient(135deg, var(--default-primary-dark), var(--default-primary)) !important;
     color: white !important;
     font-weight: 600 !important;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -262,11 +268,11 @@ body.dark-mode.theme-default .article-description {
 
 .theme-default .login-form .form-control:focus {
     border-color: var(--default-primary) !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.1) !important;
 }
 
 .theme-default .login-form .btn-login {
-    background: linear-gradient(135deg, var(--default-primary), var(--default-secondary)) !important;
+    background: linear-gradient(135deg, var(--default-primary-dark), var(--default-primary)) !important;
 }
 
 .theme-default .login-form .btn-register {
