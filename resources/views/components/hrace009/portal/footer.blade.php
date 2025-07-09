@@ -1,12 +1,6 @@
 <!-- Footer -->
-<footer class="youplay-footer">
-
-    <div class="wrapper">
-
-
-
-
-        <!-- Social Buttons -->
+<footer class="portal-footer">
+    <div class="footer-wrapper">
         @php
             try {
                 $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
@@ -17,46 +11,325 @@
             }
         @endphp
         
+        <!-- Social Section -->
         @if($socialLinks->count() > 0)
-        <div class="social">
+        <div class="footer-social-section">
             <div class="container">
-                @if($footerSettings && $footerSettings->content)
-                    <h3>{!! $footerSettings->content !!}</h3>
-                @else
-                    <h3>Connect socially with <strong>{{ config('pw-config.server_name') }}</strong></h3>
-                @endif
+                <div class="social-content">
+                    @if($footerSettings && $footerSettings->content)
+                        <h3 class="social-heading">{!! $footerSettings->content !!}</h3>
+                    @else
+                        <h3 class="social-heading">Connect socially with <strong>{{ config('pw-config.server_name') }}</strong></h3>
+                    @endif
 
-                <div class="social-icons">
-                    @foreach($socialLinks as $link)
-                    <div class="social-icon">
-                        <a href="{{ $link->url }}" target="_blank" class="flex flex-col items-center hover:opacity-80 transition-opacity">
-                            <i class="{{ $link->icon }} text-3xl mb-2"></i>
-                            <span class="text-sm">{{ $link->platform }}</span>
+                    <div class="social-icons-wrapper">
+                        @foreach($socialLinks as $link)
+                        <a href="{{ $link->url }}" target="_blank" class="social-icon-link" title="{{ $link->platform }}">
+                            <div class="social-icon-box">
+                                <i class="{{ $link->icon }}"></i>
+                            </div>
+                            <span class="social-label">{{ $link->platform }}</span>
                         </a>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>
         @endif
-        <!-- /Social Buttons -->
 
-
-
-        <!-- Copyright -->
-        <div class="copyright">
+        <!-- Copyright Section -->
+        <div class="footer-copyright-section">
             <div class="container">
-                @if($footerSettings && $footerSettings->copyright)
-                    <p>{!! $footerSettings->copyright !!}</p>
-                @else
-                    <p>{{ date('Y') }} &copy; <strong>{{ config('pw-config.server_name') }}</strong>. All rights reserved</p>
-                @endif
-                <p>{{ __('Made with') }} &#10084; {{ __('By') }} <a href="https://www.youtube.com/hrace009" target="_blank" class="text-blue-500 hover:underline"
-                    >Harris Marfel</a></p>
+                <div class="copyright-content">
+                    <div class="copyright-text">
+                        @if($footerSettings && $footerSettings->copyright)
+                            <p>{!! $footerSettings->copyright !!}</p>
+                        @else
+                            <p>{{ date('Y') }} &copy; <strong>{{ config('pw-config.server_name') }}</strong>. All rights reserved</p>
+                        @endif
+                    </div>
+                    <div class="developer-credit">
+                        <p>{{ __('Made with') }} <span class="footer-heart">♥</span> {{ __('By') }} 
+                            <a href="https://www.youtube.com/hrace009" target="_blank" class="developer-link">Harris Marfel</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- /Copyright -->
-
     </div>
 </footer>
-<!-- /Footer -->
+
+<style>
+.portal-footer {
+    background: var(--footer-bg, #0a0e1a);
+    margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--footer-accent, #8b5cf6), 
+        var(--footer-accent-secondary, #ec4899),
+        var(--footer-accent, #8b5cf6),
+        transparent
+    );
+    animation: footer-glow 3s ease-in-out infinite;
+}
+
+@keyframes footer-glow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.footer-social-section {
+    background: var(--footer-social-bg, #1a1f2e);
+    padding: 3rem 0;
+    border-bottom: 1px solid var(--footer-border, #3a3f4e);
+}
+
+.social-content {
+    text-align: center;
+}
+
+.social-heading {
+    color: var(--footer-heading, #e2e8f0);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.social-heading strong {
+    color: var(--footer-accent, #8b5cf6);
+    font-weight: 600;
+}
+
+.social-icons-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.social-icon-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon-box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--social-icon-bg, #2a2f3e);
+    border: 2px solid var(--social-icon-border, #3a3f4e);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-icon-box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: var(--social-icon-hover-bg, #8b5cf6);
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.social-icon-link:hover .social-icon-box::before {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+}
+
+.social-icon-box i {
+    font-size: 1.5rem;
+    color: var(--social-icon-color, #94a3b8);
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.social-icon-link:hover .social-icon-box i {
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.social-icon-link:hover .social-icon-box {
+    border-color: var(--social-icon-hover-border, #8b5cf6);
+    box-shadow: 0 0 20px var(--social-icon-glow, rgba(139, 92, 246, 0.5));
+    transform: translateY(-2px);
+}
+
+.social-label {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--footer-text, #94a3b8);
+    transition: all 0.3s ease;
+}
+
+.social-icon-link:hover .social-label {
+    color: var(--footer-accent, #8b5cf6);
+}
+
+.footer-copyright-section {
+    background: var(--footer-copyright-bg, #0a0e1a);
+    padding: 2rem 0;
+}
+
+.copyright-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.copyright-text p,
+.developer-credit p {
+    margin: 0;
+    color: var(--footer-text, #94a3b8);
+    font-size: 0.875rem;
+}
+
+.copyright-text strong {
+    color: var(--footer-accent, #8b5cf6);
+}
+
+.developer-link {
+    color: var(--footer-link, #a78bfa);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.developer-link:hover {
+    color: var(--footer-link-hover, #c4b5fd);
+    text-shadow: 0 0 8px var(--footer-link-glow, rgba(167, 139, 250, 0.5));
+}
+
+.footer-heart {
+    color: var(--footer-heart, #ec4899);
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+}
+
+/* Theme-specific styles */
+.theme-default .portal-footer {
+    --footer-bg: #0a0e1a;
+    --footer-social-bg: #1a1f2e;
+    --footer-copyright-bg: #0a0e1a;
+    --footer-border: #3a3f4e;
+    --footer-heading: #e2e8f0;
+    --footer-text: #94a3b8;
+    --footer-accent: #8b5cf6;
+    --footer-accent-secondary: #ec4899;
+    --footer-link: #a78bfa;
+    --footer-link-hover: #c4b5fd;
+    --footer-link-glow: rgba(139, 92, 246, 0.5);
+    --footer-heart: #ec4899;
+    --social-icon-bg: #2a2f3e;
+    --social-icon-border: #3a3f4e;
+    --social-icon-color: #94a3b8;
+    --social-icon-hover-bg: #8b5cf6;
+    --social-icon-hover-border: #8b5cf6;
+    --social-icon-glow: rgba(139, 92, 246, 0.5);
+}
+
+.theme-gamer-dark .portal-footer {
+    --footer-bg: #0a0a0a;
+    --footer-social-bg: #1a1a1a;
+    --footer-copyright-bg: #0a0a0a;
+    --footer-border: #333333;
+    --footer-heading: #ffffff;
+    --footer-text: #ffffff;
+    --footer-accent: #00ff88;
+    --footer-accent-secondary: #ff0080;
+    --footer-link: #00ffff;
+    --footer-link-hover: #00ff88;
+    --footer-link-glow: rgba(0, 255, 136, 0.5);
+    --footer-heart: #ff0080;
+    --social-icon-bg: #2a2a2a;
+    --social-icon-border: #00ff88;
+    --social-icon-color: #00ffff;
+    --social-icon-hover-bg: #00ff88;
+    --social-icon-hover-border: #00ff88;
+    --social-icon-glow: rgba(0, 255, 136, 0.5);
+}
+
+.theme-cyberpunk .portal-footer {
+    --footer-bg: #000000;
+    --footer-social-bg: #1a0f1a;
+    --footer-copyright-bg: #000000;
+    --footer-border: #333333;
+    --footer-heading: #ffffff;
+    --footer-text: #ffffff;
+    --footer-accent: #fcee09;
+    --footer-accent-secondary: #ff0080;
+    --footer-link: #fcee09;
+    --footer-link-hover: #ff0080;
+    --footer-link-glow: rgba(252, 238, 9, 0.5);
+    --footer-heart: #ff0080;
+    --social-icon-bg: #1a0f1a;
+    --social-icon-border: #fcee09;
+    --social-icon-color: #fcee09;
+    --social-icon-hover-bg: #fcee09;
+    --social-icon-hover-border: #fcee09;
+    --social-icon-glow: rgba(252, 238, 9, 0.5);
+}
+
+/* Platform-specific colors */
+.social-icon-link[title="Facebook"]:hover .social-icon-box { --social-icon-hover-bg: #1877f2; }
+.social-icon-link[title="Twitter"]:hover .social-icon-box { --social-icon-hover-bg: #1da1f2; }
+.social-icon-link[title="Instagram"]:hover .social-icon-box { --social-icon-hover-bg: #e4405f; }
+.social-icon-link[title="YouTube"]:hover .social-icon-box { --social-icon-hover-bg: #ff0000; }
+.social-icon-link[title="Discord"]:hover .social-icon-box { --social-icon-hover-bg: #5865f2; }
+.social-icon-link[title="Twitch"]:hover .social-icon-box { --social-icon-hover-bg: #9146ff; }
+.social-icon-link[title="TikTok"]:hover .social-icon-box { --social-icon-hover-bg: #000000; }
+.social-icon-link[title="LinkedIn"]:hover .social-icon-box { --social-icon-hover-bg: #0077b5; }
+.social-icon-link[title="GitHub"]:hover .social-icon-box { --social-icon-hover-bg: #333333; }
+.social-icon-link[title="Reddit"]:hover .social-icon-box { --social-icon-hover-bg: #ff4500; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .social-icons-wrapper {
+        gap: 1rem;
+    }
+    
+    .social-icon-box {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .social-icon-box i {
+        font-size: 1.25rem;
+    }
+    
+    .copyright-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+</style>
