@@ -1,6 +1,12 @@
-v1.5.13
+v1.5.14
 
 Version History:
+- v1.5.14 (2025-01-09): Dark Default Theme
+  - Made default theme dark by default (no white backgrounds)
+  - Background: #0f172a, Surfaces: #1e293b
+  - Light text colors throughout
+  - Removed unnecessary dark mode overrides
+
 - v1.5.13 (2025-01-09): Dashboard Theme Styling
   - Added comprehensive dashboard page styling
   - Dashboard now matches home page theme
