@@ -15,6 +15,18 @@
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
 
+    @php
+        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+
+    {{-- Livewire Styles --}}
+    @livewireStyles
+
     <style>
         /* Modern Dark Theme Variables */
         :root {
@@ -289,7 +301,15 @@
 
     </style>
 </head>
-<body>
+<body class="theme-{{ $userTheme }}">
+    {{-- Language Selector and Theme Toggle - Fixed Position, Top Right --}}
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1100; display: flex; align-items: center; gap: 10px;">
+        @if(Auth::check())
+            @livewire('theme-selector')
+        @endif
+        <x-home-theme-toggle />
+        <x-hrace009::language-button />
+    </div>
 
     {{-- Custom Navbar (copied from home.blade.php/register.blade.php) --}}
     <nav class="navbar navbar-expand-lg custom-navbar">
@@ -309,23 +329,65 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav me-auto">
-                    <a class="nav-link {{ Route::is('HOME') ? 'active' : '' }}" href="{{ route('HOME') }}"><i class="fas fa-home me-1"></i>{{ __('general.home') }}</a>
+                    {{-- Home Link --}}
+                    <a class="nav-link {{ Route::is('HOME') ? 'active' : '' }}" href="{{ route('HOME') }}">
+                        <i class="fas fa-home me-1"></i>{{ __('general.home') }}
+                    </a>
+
+                    {{-- Shop Link --}}
                     @if( config('pw-config.system.apps.shop') )
-                    <a class="nav-link {{ Route::is('app.shop.index') ? 'active' : '' }}" href="{{ route('app.shop.index') }}"><i class="fas fa-shopping-cart me-1"></i>{{ __('shop.title') }}</a>
+                    <a class="nav-link {{ Route::is('app.shop.index') ? 'active' : '' }}" href="{{ route('app.shop.index') }}">
+                        <i class="fas fa-shopping-cart me-1"></i>{{ __('shop.title') }}
+                    </a>
                     @endif
-                    {{-- Other nav links as in register.blade.php --}}
+
+                    {{-- Donate Link --}}
+                    @if( config('pw-config.system.apps.donate') )
+                    <a class="nav-link {{ Route::is('app.donate.history') ? 'active' : '' }}" href="{{ route('app.donate.history') }}">
+                        <i class="fas fa-credit-card me-1"></i>{{ __('donate.title') }}
+                    </a>
+                    @endif
+
+                    {{-- Voucher Link --}}
+                    @if( config('pw-config.system.apps.voucher') )
+                    <a class="nav-link {{ Route::is('app.voucher.index') ? 'active' : '' }}" href="{{ route('app.voucher.index') }}">
+                        <i class="fas fa-ticket-alt me-1"></i>{{ __('voucher.title') }}
+                    </a>
+                    @endif
+
+                    {{-- Ingame Service Link --}}
+                    @if( config('pw-config.system.apps.inGameService') )
+                    <a class="nav-link {{ Route::is('app.services.index') ? 'active' : '' }}" href="{{ route('app.services.index') }}">
+                        <i class="fas fa-tools me-1"></i>{{ __('service.title') }}
+                    </a>
+                    @endif
+
+                    {{-- Ranking Link --}}
+                    @if( config('pw-config.system.apps.ranking') )
+                    <a class="nav-link {{ Route::is('app.ranking.index') ? 'active' : '' }}" href="{{ route('app.ranking.index') }}">
+                        <i class="fas fa-trophy me-1"></i>{{ __('ranking.title') }}
+                    </a>
+                    @endif
+
+                    {{-- Vote Link --}}
+                    @if( config('pw-config.system.apps.vote') )
+                    <a class="nav-link {{ Route::is('app.vote.index') ? 'active' : '' }}" href="{{ route('app.vote.index') }}">
+                        <i class="fas fa-vote-yea me-1"></i>{{ __('vote.title') }}
+                    </a>
+                    @endif
                 </div>
                 <div class="navbar-nav">
                     @if(Auth::check())
-                        <div class="login-hover-reveal">
-                            <a class="account-link" href="#">
-                                <i class="fas fa-user-circle"></i>
+                        {{-- If user is logged in --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>
+                                {{-- Use truename if available, fallback to name --}}
                                 <span>{{ Auth::user()->truename ?? Auth::user()->name ?? 'User' }}</span>
-                                <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i>
                             </a>
-                            <div class="login-hover-content user-dropdown-content">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown" style="min-width: 280px; padding: 20px;">
                                 <div class="text-center mb-3">
-                                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
+                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
                                         <img class="img-fluid rounded-circle mb-2" width="64" height="64" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->truename ?? Auth::user()->name }}" />
                                     @else
                                         <i class="fas fa-user-circle" style="font-size: 2.5rem; color: #667eea;"></i>
@@ -334,10 +396,16 @@
                                     <small class="text-muted">{{ Auth::user()->email ?? '' }}</small>
                                 </div>
                                 <hr>
-                                <div class="d-grid gap-2">
-                                    <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}</a>
-                                    <a href="{{ route('app.dashboard') }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-tachometer-alt me-1"></i>{{ __('general.menu.dashboard') }}</a>
-                                    <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info"><i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}</a>
+                                <div class="d-grid gap-2"> {{-- Increased gap slightly --}}
+                                    <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"> {{-- Original used profile.show --}}
+                                        <i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}
+                                    </a>
+                                    <a href="{{ route('app.dashboard') }}" class="btn btn-sm btn-outline-secondary"> {{-- Original dashboard link --}}
+                                        <i class="fas fa-tachometer-alt me-1"></i>{{ __('general.menu.dashboard') }}
+                                    </a>
+                                    <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info"> {{-- Original donate history link --}}
+                                        <i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}
+                                    </a>
                                     <hr class="my-2">
                                     <form method="POST" action="{{ route('logout') }}" class="d-grid">
                                         @csrf
@@ -347,55 +415,78 @@
                                         </a>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
+                            </ul>
+                        </li>
                     @else
-                        <div class="login-hover-reveal">
-                            <a class="account-link" href="#">
-                                <i class="fas fa-user"></i>
+                        {{-- If user is not logged in --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-1"></i>
                                 <span>Account</span>
-                                <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i>
                             </a>
-                            <div class="login-hover-content">
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown" style="min-width: 320px; padding: 20px;">
                                 <div class="login-form">
-                                    <h5 class="text-center mb-3" style="color: #667eea;"><i class="fas fa-sign-in-alt me-2"></i>{{ __('auth.form.login') }}</h5>
+                                    <h5 class="text-center mb-3" style="color: #667eea;">
+                                        <i class="fas fa-sign-in-alt me-2"></i>{{ __('auth.form.login') }}
+                                    </h5>
+
+                                    {{-- Login form adapted from original navbar --}}
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="mb-3">
-                                            <input id="name-login-nav" type="text" name="name" class="form-control" placeholder="{{ __('auth.form.login_placeholder') ?? 'Username or Email' }}" required autofocus />
+                                            <label for="name-login" class="form-label visually-hidden">{{ __('auth.form.login') }}:</label>
+                                            <input id="name-login" type="text" name="name" class="form-control" placeholder="{{ __('auth.form.login_placeholder') ?? 'Username or Email' }}" required autofocus />
                                         </div>
+
                                         <div class="mb-3">
-                                            <input id="password-login-nav" type="password" name="password" class="form-control" placeholder="{{ __('auth.form.password') }}" required />
+                                            <label for="password-login" class="form-label visually-hidden">{{ __('auth.form.password') }}:</label>
+                                            <input id="password-login" type="password" name="password" class="form-control" placeholder="{{ __('auth.form.password') }}" required />
                                         </div>
+
                                         @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
                                             <div class="mb-3">
-                                                <input id="pin-login-nav" type="password" name="pin" class="form-control" placeholder="{{ __('auth.form.pin') }}" required autocomplete="current-pin" />
+                                                <label for="pin-login" class="form-label visually-hidden">{{ __('auth.form.pin') }}:</label>
+                                                <input id="pin-login" type="password" name="pin" class="form-control" placeholder="{{ __('auth.form.pin') }}" required autocomplete="current-pin" />
                                             </div>
                                         @endif
+
                                         @if( config('pw-config.system.apps.captcha') )
                                             @captcha
                                             <div class="mb-3">
-                                                <input id="captcha-login-nav" type="text" name="captcha" class="form-control" placeholder="{{ __('captcha.enter_code') }}" required />
+                                                <label for="captcha-login" class="form-label visually-hidden">{{ __('captcha.enter_code') }}:</label>
+                                                <input id="captcha-login" type="text" name="captcha" class="form-control" placeholder="{{ __('captcha.enter_code') }}" required />
                                             </div>
                                         @endif
+
                                         <div class="mb-3 form-check">
-                                            <input type="checkbox" name="remember" class="form-check-input" id="remember_me_custom_login_nav">
-                                            <label class="form-check-label" for="remember_me_custom_login_nav">{{ __('auth.form.remember') }}</label>
+                                            <input type="checkbox" name="remember" class="form-check-input" id="remember_me_custom">
+                                            <label class="form-check-label" for="remember_me_custom" style="font-size: 14px;">
+                                                {{ __('auth.form.remember') }}
+                                            </label>
                                         </div>
-                                        <button type="submit" class="btn btn-login w-100 mb-2"><i class="fas fa-sign-in-alt me-1"></i>{{ __('auth.form.login') }}</button>
+
+                                        <button type="submit" class="btn btn-login w-100 mb-2">
+                                            <i class="fas fa-sign-in-alt me-1"></i>{{ __('auth.form.login') }}
+                                        </button>
                                     </form>
+
                                     <div class="login-divider">────── {{ __('general.or') }} ──────</div>
-                                    <a href="{{ route('register') }}" class="btn btn-register w-100 mb-2"><i class="fas fa-user-plus me-1"></i>{{ __('auth.form.register') }}</a>
+
+                                    <a href="{{ route('register') }}" class="btn btn-register w-100 mb-2">
+                                        <i class="fas fa-user-plus me-1"></i>{{ __('auth.form.register') }}
+                                    </a>
+
                                     <div class="text-center">
                                         <a href="{{ route('password.request') }}">{{ __('auth.form.forgotPassword') }}</a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </ul>
+                        </li>
                     @endif
                 </div>
-            </div>
-        </div>
+            </div> {{-- End .collapse .navbar-collapse --}}
+
+        </div> {{-- End .container-fluid --}}
     </nav>
 
     <div class="custom-home-content-wrap">
@@ -476,5 +567,14 @@
     {{-- Scripts --}}
     <script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
+    <script src="{{ asset('js/portal/portal.js') }}"></script>
+
+    {{-- AlpineJS for dropdowns and other reactive components --}}
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    {{-- Livewire Scripts --}}
+    @livewireScripts
+
 </body>
 </html>

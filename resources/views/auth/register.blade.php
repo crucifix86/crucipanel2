@@ -15,9 +15,41 @@
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
 
+    @php
+        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+
+    {{-- Livewire Styles --}}
+    @livewireStyles
+
     <style>
-        /* Modern Dark Theme Variables */
+        /* Light Theme Variables (Default) */
         :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --hover-bg: rgba(99, 102, 241, 0.05);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        /* Dark Theme Variables */
+        body.dark-mode {
             --bg-primary: #0f0f23;
             --bg-secondary: #1a1a3a;
             --bg-tertiary: #2a2a4a;
@@ -119,35 +151,222 @@
             color: rgba(255,255,255,0.9);
         }
 
-        /* Login/Account Link Styling */
-        .login-hover-reveal { position: relative; }
-        .account-link {
-            display: flex; align-items: center; gap: 10px; padding: 10px 18px;
-            border-radius: 8px; transition: all 0.3s ease; color: var(--text-secondary) !important;
-            text-decoration: none; position: relative; overflow: hidden;
+        /* Account Dropdown Styling */
+        .navbar .dropdown-menu {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            margin-top: 10px;
         }
-        .account-link::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--gradient-accent); opacity: 0; transition: opacity 0.3s ease; z-index: -1;
+        
+        .navbar .dropdown-menu .dropdown-item {
+            color: var(--text-primary);
         }
-        .account-link:hover::before { opacity: 0.15; }
-        .account-link:hover { color: var(--text-primary) !important; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .navbar .dropdown-menu .dropdown-item:hover {
+            background: var(--hover-bg);
+            color: var(--accent-primary);
+        }
 
-        /* Login/User Dropdown Content */
-        .login-hover-content {
-            position: absolute; top: calc(100% + 15px); right: 0; background: var(--card-bg);
-            border: 1px solid var(--border-color); border-radius: 16px; box-shadow: var(--shadow-lg);
-            padding: 28px; min-width: 320px; opacity: 0; visibility: hidden;
-            transform: translateY(-15px) scale(0.95);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1050;
+        .login-form {
+            color: var(--text-primary);
         }
-        .login-hover-content::before { /* Arrow */
-            content: ''; position: absolute; top: -8px; right: 24px; width: 16px; height: 16px;
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            border-right: none; border-bottom: none; transform: rotate(45deg);
+
+        .login-form h5 {
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 24px;
         }
-        .login-hover-reveal:hover .login-hover-content, .login-hover-content:hover {
-            opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+
+        .login-form .form-control {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .login-form .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .login-form .form-control:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+            background: var(--bg-tertiary);
+        }
+
+        .login-form .btn-login {
+            background: var(--gradient-accent);
+            border: none;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-form .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-form .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .login-form .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .login-form .btn-register {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .login-form .btn-register:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: var(--hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .login-form .form-check-input {
+            background-color: var(--bg-secondary);
+            border-color: var(--border-color);
+        }
+
+        .login-form .form-check-input:checked {
+            background-color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .login-form .form-check-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+
+        .login-form .form-check-label {
+            color: var(--text-secondary);
+        }
+
+        .login-form a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .login-form a:hover {
+            color: var(--accent-secondary);
+        }
+
+        .login-divider {
+            text-align: center;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 12px;
+            position: relative;
+        }
+
+        .login-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border-color);
+            z-index: -1;
+        }
+
+
+        /* User dropdown for logged in users - Dark Theme */
+        .user-dropdown-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            padding: 24px;
+            min-width: 280px;
+            color: var(--text-primary);
+        }
+
+        .user-dropdown-content .btn {
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-dropdown-content .btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .user-dropdown-content .btn-outline-primary {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .user-dropdown-content .btn-outline-primary:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .user-dropdown-content .btn-outline-secondary {
+            color: var(--text-secondary);
+            border-color: var(--border-color);
+        }
+
+        .user-dropdown-content .btn-outline-secondary:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .user-dropdown-content .btn-outline-info {
+            color: #06b6d4;
+            border-color: #06b6d4;
+        }
+
+        .user-dropdown-content .btn-outline-info:hover {
+            background: #06b6d4;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .user-dropdown-content .btn-outline-danger {
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+
+        .user-dropdown-content .btn-outline-danger:hover {
+            background: #ef4444;
+            color: white;
+            transform: translateY(-1px);
         }
 
         /* Form Styling (adapted from home.blade.php login form) */
@@ -254,16 +473,16 @@
 
         /* Mobile responsiveness */
         @media (max-width: 991px) {
-            .login-hover-content {
-                position: static; opacity: 1; visibility: visible; transform: none;
-                margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            .custom-navbar .navbar-nav {
+                padding-top: 10px; /* Space above nav items when collapsed */
             }
-            .login-hover-content::before { display: none; }
-            .custom-navbar .navbar-nav { padding-top: 10px; }
-            .custom-navbar .nav-link, .custom-navbar .nav-item .dropdown-toggle {
-                margin: 2px 0; text-align: center;
+
+            .custom-navbar .nav-link, .custom-navbar .nav-item .dropdown-toggle { /* Apply to dropdown toggles too */
+                margin: 2px 0;
+                text-align: center; /* Center links in mobile view */
             }
-             .auth-form-container {
+
+            .auth-form-container {
                 margin-left: 15px;
                 margin-right: 15px;
             }
@@ -272,7 +491,15 @@
 
     </style>
 </head>
-<body>
+<body class="theme-{{ $userTheme }}">
+    {{-- Language Selector and Theme Toggle - Fixed Position, Top Right --}}
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1100; display: flex; align-items: center; gap: 10px;">
+        @if(Auth::check())
+            @livewire('theme-selector')
+        @endif
+        <x-home-theme-toggle />
+        <x-hrace009::language-button />
+    </div>
 
     {{-- Custom Navbar (copied from home.blade.php) --}}
     <nav class="navbar navbar-expand-lg custom-navbar">
@@ -311,20 +538,62 @@
                     @if( config('pw-config.system.apps.vote') )
                     <a class="nav-link {{ Route::is('app.vote.index') ? 'active' : '' }}" href="{{ route('app.vote.index') }}"><i class="fas fa-vote-yea me-1"></i>{{ __('vote.title') }}</a>
                     @endif
-                    {{-- Download/Guide links can be added here if needed, similar to home.blade.php --}}
+                    {{-- Download Links --}}
+                    @isset($download) {{-- Check if $download is passed and not null --}}
+                        @if( $download->exists() && $download->count() > 0 ) {{-- Ensure it exists and has items --}}
+                            @if( $download->count() === 1 )
+                                <a class="nav-link" href="{{ route('show.article', $download->first()->slug ) }}">
+                                    <i class="fas fa-download me-1"></i>{{ $download->first()->title }}
+                                </a>
+                            @else
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-download me-1"></i>{{ __('news.category.download') }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+                                        @foreach( $download->get() as $page )
+                                            <li><a class="dropdown-item" href="{{ route('show.article', $page->slug ) }}">{{ $page->title }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+                        @endif
+                    @endisset
+
+                    {{-- Guide Links --}}
+                    @isset($guide) {{-- Check if $guide is passed and not null --}}
+                        @if( $guide->exists() && $guide->count() > 0 ) {{-- Ensure it exists and has items --}}
+                            @if( $guide->count() === 1 )
+                                <a class="nav-link" href="{{ route('show.article', $guide->first()->slug ) }}">
+                                    <i class="fas fa-book-open me-1"></i>{{ $guide->first()->title }}
+                                </a>
+                            @else
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="guideDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-book-open me-1"></i>{{ __('news.category.guide') }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="guideDropdown">
+                                        @foreach( $guide->get() as $guidepage )
+                                            <li><a class="dropdown-item" href="{{ route('show.article', $guidepage->slug ) }}">{{ $guidepage->title }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endif
+                        @endif
+                    @endisset
                 </div>
                 <div class="navbar-nav">
                     @if(Auth::check())
-                        <div class="login-hover-reveal">
-                            <a class="account-link" href="#">
-                                <i class="fas fa-user-circle"></i>
+                        {{-- If user is logged in --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>
+                                {{-- Use truename if available, fallback to name --}}
                                 <span>{{ Auth::user()->truename ?? Auth::user()->name ?? 'User' }}</span>
-                                <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i>
                             </a>
-                            <div class="login-hover-content user-dropdown-content">
-                                {{-- User Dropdown Content (abbreviated for brevity) --}}
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown" style="min-width: 280px; padding: 20px;">
                                 <div class="text-center mb-3">
-                                     @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
+                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
                                         <img class="img-fluid rounded-circle mb-2" width="64" height="64" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->truename ?? Auth::user()->name }}" />
                                     @else
                                         <i class="fas fa-user-circle" style="font-size: 2.5rem; color: #667eea;"></i>
@@ -333,10 +602,16 @@
                                     <small class="text-muted">{{ Auth::user()->email ?? '' }}</small>
                                 </div>
                                 <hr>
-                                <div class="d-grid gap-2">
-                                    <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}</a>
-                                    <a href="{{ route('app.dashboard') }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-tachometer-alt me-1"></i>{{ __('general.menu.dashboard') }}</a>
-                                    <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info"><i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}</a>
+                                <div class="d-grid gap-2"> {{-- Increased gap slightly --}}
+                                    <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"> {{-- Original used profile.show --}}
+                                        <i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}
+                                    </a>
+                                    <a href="{{ route('app.dashboard') }}" class="btn btn-sm btn-outline-secondary"> {{-- Original dashboard link --}}
+                                        <i class="fas fa-tachometer-alt me-1"></i>{{ __('general.menu.dashboard') }}
+                                    </a>
+                                    <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info"> {{-- Original donate history link --}}
+                                        <i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}
+                                    </a>
                                     <hr class="my-2">
                                     <form method="POST" action="{{ route('logout') }}" class="d-grid">
                                         @csrf
@@ -346,52 +621,73 @@
                                         </a>
                                     </form>
                                 </div>
-                            </div>
-                        </div>
+                            </ul>
+                        </li>
                     @else
-                        <div class="login-hover-reveal">
-                            <a class="account-link" href="#">
-                                <i class="fas fa-user"></i>
+                        {{-- If user is not logged in --}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-1"></i>
                                 <span>Account</span>
-                                <i class="fas fa-chevron-down ms-1" style="font-size: 10px;"></i>
                             </a>
-                            <div class="login-hover-content">
-                                {{-- Login Form (abbreviated for brevity) --}}
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown" style="min-width: 320px; padding: 20px;">
                                 <div class="login-form">
-                                    <h5 class="text-center mb-3" style="color: #667eea;"><i class="fas fa-sign-in-alt me-2"></i>{{ __('auth.form.login') }}</h5>
+                                    <h5 class="text-center mb-3" style="color: #667eea;">
+                                        <i class="fas fa-sign-in-alt me-2"></i>{{ __('auth.form.login') }}
+                                    </h5>
+
+                                    {{-- Login form adapted from original navbar --}}
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="mb-3">
+                                            <label for="name-login" class="form-label visually-hidden">{{ __('auth.form.login') }}:</label>
                                             <input id="name-login" type="text" name="name" class="form-control" placeholder="{{ __('auth.form.login_placeholder') ?? 'Username or Email' }}" required autofocus />
                                         </div>
+
                                         <div class="mb-3">
+                                            <label for="password-login" class="form-label visually-hidden">{{ __('auth.form.password') }}:</label>
                                             <input id="password-login" type="password" name="password" class="form-control" placeholder="{{ __('auth.form.password') }}" required />
                                         </div>
+
                                         @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
                                             <div class="mb-3">
+                                                <label for="pin-login" class="form-label visually-hidden">{{ __('auth.form.pin') }}:</label>
                                                 <input id="pin-login" type="password" name="pin" class="form-control" placeholder="{{ __('auth.form.pin') }}" required autocomplete="current-pin" />
                                             </div>
                                         @endif
+
                                         @if( config('pw-config.system.apps.captcha') )
                                             @captcha
                                             <div class="mb-3">
+                                                <label for="captcha-login" class="form-label visually-hidden">{{ __('captcha.enter_code') }}:</label>
                                                 <input id="captcha-login" type="text" name="captcha" class="form-control" placeholder="{{ __('captcha.enter_code') }}" required />
                                             </div>
                                         @endif
+
                                         <div class="mb-3 form-check">
-                                            <input type="checkbox" name="remember" class="form-check-input" id="remember_me_custom_reg_nav">
-                                            <label class="form-check-label" for="remember_me_custom_reg_nav">{{ __('auth.form.remember') }}</label>
+                                            <input type="checkbox" name="remember" class="form-check-input" id="remember_me_custom">
+                                            <label class="form-check-label" for="remember_me_custom" style="font-size: 14px;">
+                                                {{ __('auth.form.remember') }}
+                                            </label>
                                         </div>
-                                        <button type="submit" class="btn btn-login w-100 mb-2"><i class="fas fa-sign-in-alt me-1"></i>{{ __('auth.form.login') }}</button>
+
+                                        <button type="submit" class="btn btn-login w-100 mb-2">
+                                            <i class="fas fa-sign-in-alt me-1"></i>{{ __('auth.form.login') }}
+                                        </button>
                                     </form>
+
                                     <div class="login-divider">────── {{ __('general.or') }} ──────</div>
-                                    <a href="{{ route('register') }}" class="btn btn-register w-100 mb-2"><i class="fas fa-user-plus me-1"></i>{{ __('auth.form.register') }}</a>
+
+                                    <a href="{{ route('register') }}" class="btn btn-register w-100 mb-2">
+                                        <i class="fas fa-user-plus me-1"></i>{{ __('auth.form.register') }}
+                                    </a>
+
                                     <div class="text-center">
                                         <a href="{{ route('password.request') }}">{{ __('auth.form.forgotPassword') }}</a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </ul>
+                        </li>
                     @endif
                 </div>
             </div>
@@ -475,9 +771,16 @@
 
     {{-- Scripts --}}
     <script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
+    {{-- Ensure Bootstrap 5 JS for data-bs-toggle --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script> --}} {{-- Not strictly needed for register page --}}
-    {{-- <script src="{{ asset('js/portal/portal.js') }}"></script> --}} {{-- Not strictly needed for register page --}}
+    <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
+    <script src="{{ asset('js/portal/portal.js') }}"></script>
+
+    {{-- AlpineJS for dropdowns and other reactive components --}}
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    {{-- Livewire Scripts --}}
+    @livewireScripts
 
 </body>
 </html>
