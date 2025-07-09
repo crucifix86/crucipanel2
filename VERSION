@@ -1,6 +1,12 @@
-v1.5.6
+v1.5.7
 
 Version History:
+- v1.5.7 (2025-01-09): Compact Theme Selector
+  - Made theme selector a simple icon button (no text)
+  - Reduced dropdown width for compact display
+  - Removed theme descriptions from dropdown
+  - Matches style of language and dark mode buttons
+
 - v1.5.6 (2025-01-09): Theme Selector Placement Fix
   - Moved theme selector to top-right with theme toggle and language selector
   - Removed theme selector from user dropdown (was stretching it)
