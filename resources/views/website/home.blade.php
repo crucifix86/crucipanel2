@@ -622,6 +622,42 @@
             cursor: default;
             pointer-events: none;
         }
+        
+        /* Header Section */
+        .site-header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .header-logo {
+            max-height: 120px;
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+        
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .site-header {
+                padding: 20px 0;
+            }
+            
+            .header-logo {
+                max-height: 80px;
+            }
+        }
 
         /* Widget Styling for Dark Theme */
         .sidebar-area .side-block {
@@ -723,6 +759,15 @@
         <x-home-theme-toggle />
         <x-hrace009::language-button />
     </div>
+
+    {{-- Header Section --}}
+    <header class="site-header">
+        <div class="container-fluid">
+            <div class="header-content">
+                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo">
+            </div>
+        </div>
+    </header>
 
     {{-- Custom Navbar with Working Hover Login --}}
     <nav class="navbar navbar-expand-lg custom-navbar">
