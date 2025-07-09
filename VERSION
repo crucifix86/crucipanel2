@@ -1,6 +1,11 @@
-v1.5.1
+v1.5.2
 
 Version History:
+- v1.5.2 (2025-01-09): Theme Selector Fixes
+  - Fixed theme selector modal clicking issues
+  - Added prominent theme widget to user dashboard
+  - Changed from Alpine.js to Livewire syntax for proper functionality
+
 - v1.5.1 (2025-01-09): Theme System & Footer Management
   - Added customizable theme system with theme selector
   - Modern Dark Gamer theme with neon effects
