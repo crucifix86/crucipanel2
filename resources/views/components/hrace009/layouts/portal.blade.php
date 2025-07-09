@@ -835,7 +835,7 @@
     <header class="site-header">
         <div class="container-fluid">
             <div class="header-content">
-                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo">
+                <a href="{{ route('HOME') }}"><img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo"></a>
             </div>
         </div>
     </header>
