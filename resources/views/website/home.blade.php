@@ -712,6 +712,9 @@
 <body class="theme-{{ $userTheme }}">
     {{-- Language Selector and Theme Toggle - Fixed Position, Top Right --}}
     <div style="position: fixed; top: 20px; right: 20px; z-index: 1100; display: flex; align-items: center; gap: 10px;">
+        @if(Auth::check())
+            @livewire('theme-selector')
+        @endif
         <x-home-theme-toggle />
         <x-hrace009::language-button />
     </div>
@@ -849,8 +852,6 @@
                                 </div>
                                 <hr>
                                 <div class="d-grid gap-2"> {{-- Increased gap slightly --}}
-                                    @livewire('theme-selector')
-                                    <hr class="my-2">
                                     <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"> {{-- Original used profile.show --}}
                                         <i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}
                                     </a>
