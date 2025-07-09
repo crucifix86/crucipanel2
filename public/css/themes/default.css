@@ -406,3 +406,66 @@ body:not(.dark-mode).theme-default .login-form {
 .theme-default .bg-gradient-to-r {
     background: linear-gradient(135deg, var(--default-primary-dark), var(--default-primary)) !important;
 }
+
+/* Player Dashboard Specific */
+.theme-default main {
+    background-color: var(--default-bg) !important;
+}
+
+.theme-default .grid > div {
+    background-color: transparent !important;
+}
+
+/* Theme selector widget */
+.theme-default .theme-selector-widget {
+    background-color: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+}
+
+/* News view in dashboard */
+.theme-default .news-view {
+    background-color: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+/* Widget area */
+.theme-default .widget-area,
+.theme-default [class*="widget"] {
+    background-color: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+}
+
+/* Dashboard content area */
+.theme-default .max-w {
+    background-color: transparent !important;
+}
+
+.theme-default .space-y-6 > * {
+    background-color: var(--default-surface) !important;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--default-border) !important;
+}
+
+/* Header styling */
+.theme-default header .border-b {
+    border-bottom-color: var(--default-border) !important;
+}
+
+.theme-default header h1 {
+    color: var(--default-text) !important;
+}
+
+/* Light mode overrides for player dashboard */
+body:not(.dark-mode).theme-default .space-y-6 > * {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}
+
+body:not(.dark-mode).theme-default .widget-area,
+body:not(.dark-mode).theme-default [class*="widget"] {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+}

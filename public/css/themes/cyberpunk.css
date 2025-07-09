@@ -446,3 +446,44 @@ body:not(.dark-mode).theme-cyberpunk .bg-blue-600 {
 body:not(.dark-mode).theme-cyberpunk .custom-home-content-wrap {
     background: #fffbeb !important;
 }
+
+/* Player Dashboard Styles */
+.theme-cyberpunk main {
+    background-color: var(--cyber-black) !important;
+}
+
+.theme-cyberpunk .space-y-6 > * {
+    background-color: var(--cyber-surface) !important;
+    padding: 1.5rem;
+    border-radius: 0 !important;
+    border: 1px solid var(--cyber-yellow) !important;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)) !important;
+    position: relative;
+}
+
+.theme-cyberpunk .widget-area,
+.theme-cyberpunk [class*="widget"] {
+    background-color: var(--cyber-surface) !important;
+    border: 1px solid var(--cyber-yellow) !important;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)) !important;
+}
+
+.theme-cyberpunk header h1 {
+    color: var(--cyber-yellow) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2em !important;
+    animation: glitch 2s linear infinite !important;
+}
+
+/* Light mode dashboard */
+body:not(.dark-mode).theme-cyberpunk .space-y-6 > * {
+    background-color: #ffffff !important;
+    border: 2px solid #f59e0b !important;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)) !important;
+}
+
+body:not(.dark-mode).theme-cyberpunk .widget-area,
+body:not(.dark-mode).theme-cyberpunk [class*="widget"] {
+    background-color: #ffffff !important;
+    border: 2px solid #f59e0b !important;
+}
