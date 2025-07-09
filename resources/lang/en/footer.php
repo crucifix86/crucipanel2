@@ -28,4 +28,16 @@ return [
     'align_left' => 'Left',
     'align_center' => 'Center',
     'align_right' => 'Right',
+    
+    'image_settings' => 'Footer Image Settings',
+    'footer_image' => 'Footer Image',
+    'current_image' => 'Current Image',
+    'image_help' => 'Upload an image to display in the footer. Recommended formats: PNG, JPG, SVG',
+    'or_path' => 'Or specify file path',
+    'image_path_placeholder' => 'e.g., img/footer/logo.png',
+    'image_link' => 'Image Link (Optional)',
+    'image_link_placeholder' => 'https://example.com',
+    'image_link_help' => 'Make the image clickable by adding a URL',
+    'image_alt' => 'Image Alt Text',
+    'image_alt_placeholder' => 'Descriptive text for the image',
 ];

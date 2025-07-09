@@ -17,7 +17,7 @@
                     <div class="border bg-white dark:bg-darker shadow-xs rounded-lg p-6">
                         <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('footer.content_settings') }}</h3>
                         
-                        <form action="{{ route('admin.footer.updateContent') }}" method="POST" class="space-y-4">
+                        <form action="{{ route('admin.footer.updateContent') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                             @csrf
                             @method('PUT')
                             
@@ -59,6 +59,64 @@
                                 @error('alignment')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
+                            </div>
+                            
+                            {{-- Footer Image Section --}}
+                            <div class="border-t pt-4 mt-4">
+                                <h4 class="text-lg font-semibold mb-4">{{ __('footer.image_settings') }}</h4>
+                                
+                                <div class="mb-4">
+                                    <x-hrace009::label for="footer_image" :value="__('footer.footer_image')" />
+                                    @if($footerSettings && $footerSettings->footer_image)
+                                        <div class="mb-3">
+                                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">{{ __('footer.current_image') }}:</p>
+                                            <img src="{{ asset($footerSettings->footer_image) }}" alt="{{ $footerSettings->footer_image_alt ?? 'Footer Image' }}" class="max-h-32 bg-gray-100 dark:bg-gray-700 p-2 rounded">
+                                        </div>
+                                    @endif
+                                    <input type="file" name="footer_image" id="footer_image" accept="image/*" 
+                                           class="block w-full text-sm text-gray-500 dark:text-gray-400
+                                                  file:mr-4 file:py-2 file:px-4
+                                                  file:rounded-full file:border-0
+                                                  file:text-sm file:font-semibold
+                                                  file:bg-indigo-50 file:text-indigo-700
+                                                  hover:file:bg-indigo-100
+                                                  dark:file:bg-gray-700 dark:file:text-gray-200">
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('footer.image_help') }}</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <x-hrace009::label for="footer_image_path" :value="__('footer.or_path')" />
+                                    <x-hrace009::input-box
+                                        id="footer_image_path"
+                                        name="footer_image_path"
+                                        type="text"
+                                        :value="old('footer_image_path', $footerSettings?->footer_image)"
+                                        placeholder="{{ __('footer.image_path_placeholder') }}"
+                                    />
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <x-hrace009::label for="footer_image_link" :value="__('footer.image_link')" />
+                                    <x-hrace009::input-box
+                                        id="footer_image_link"
+                                        name="footer_image_link"
+                                        type="url"
+                                        :value="old('footer_image_link', $footerSettings?->footer_image_link)"
+                                        placeholder="{{ __('footer.image_link_placeholder') }}"
+                                    />
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('footer.image_link_help') }}</p>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <x-hrace009::label for="footer_image_alt" :value="__('footer.image_alt')" />
+                                    <x-hrace009::input-box
+                                        id="footer_image_alt"
+                                        name="footer_image_alt"
+                                        type="text"
+                                        :value="old('footer_image_alt', $footerSettings?->footer_image_alt)"
+                                        placeholder="{{ __('footer.image_alt_placeholder') }}"
+                                    />
+                                </div>
                             </div>
                             
                             <div class="flex justify-end">

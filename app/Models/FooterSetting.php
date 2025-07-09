@@ -12,6 +12,9 @@ class FooterSetting extends Model
     protected $fillable = [
         'content',
         'copyright',
-        'alignment'
+        'alignment',
+        'footer_image',
+        'footer_image_link',
+        'footer_image_alt'
     ];
 }
