@@ -1,6 +1,13 @@
-v1.5.14
+v1.5.15
 
 Version History:
+- v1.5.15 (2025-01-09): Complete Light Mode Variants
+  - Each theme now has distinct light and dark modes
+  - Default light: Clean white/gray with purple accents
+  - Gamer light: Light green theme with emerald tones
+  - Cyberpunk light: Warm amber/orange without effects
+  - Light mode dramatically changes entire appearance
+
 - v1.5.14 (2025-01-09): Dark Default Theme
   - Made default theme dark by default (no white backgrounds)
   - Background: #0f172a, Surfaces: #1e293b
