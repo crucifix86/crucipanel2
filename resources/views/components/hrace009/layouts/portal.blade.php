@@ -777,7 +777,7 @@
     @endif
     {{-- Removed <x-hrace009::portal.top-script/> as scripts are now at the bottom or included in head --}}
 </head>
-<body class="theme-{{ $userTheme }}">
+<body class="dark theme-{{ $userTheme }}">
 
 {{-- <x-hrace009::portal.preload/> --}} {{-- Preloader can be added back if desired --}}
 

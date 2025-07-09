@@ -40,7 +40,7 @@
         <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
     @endif
 </head>
-<body class="antialiased theme-{{ $userTheme }}">
+<body class="antialiased dark theme-{{ $userTheme }}">
 <x-hrace009::front.big-frame>
     <x-hrace009::loading>
         {{ __('general.loading') }}
