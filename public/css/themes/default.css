@@ -1,4 +1,4 @@
-/* Default Theme - Modern & Clean */
+/* Default Theme - Modern Dark */
 :root {
     --default-primary: #5b21b6;
     --default-primary-dark: #4c1d95;
@@ -7,13 +7,13 @@
     --default-success: #10b981;
     --default-warning: #f59e0b;
     --default-danger: #ef4444;
-    --default-bg: #f8fafc;
-    --default-surface: #ffffff;
-    --default-surface-secondary: #f3f4f6;
-    --default-border: #e5e7eb;
-    --default-text: #111827;
-    --default-text-secondary: #6b7280;
-    --default-text-muted: #9ca3af;
+    --default-bg: #0f172a;
+    --default-surface: #1e293b;
+    --default-surface-secondary: #334155;
+    --default-border: #475569;
+    --default-text: #e2e8f0;
+    --default-text-secondary: #cbd5e1;
+    --default-text-muted: #94a3b8;
 }
 
 /* Base Theme */
@@ -29,19 +29,7 @@
     color: var(--default-text);
 }
 
-/* Dark mode overrides */
-.theme-default.dark body,
-body.dark-mode.theme-default {
-    --default-bg: #0f172a;
-    --default-surface: #1e293b;
-    --default-surface-secondary: #334155;
-    --default-border: #475569;
-    --default-text: #e2e8f0;
-    --default-text-secondary: #cbd5e1;
-    --default-text-muted: #94a3b8;
-    background-color: #0f172a !important;
-    color: #e2e8f0 !important;
-}
+/* Theme is dark by default - no need for dark mode overrides */
 
 /* Cards and Surfaces */
 .theme-default .bg-white,
@@ -125,43 +113,12 @@ body.dark-mode.theme-default {
 
 /* Alerts */
 .theme-default .bg-green-100 {
-    background-color: #d1fae5 !important;
-    border: 1px solid #a7f3d0 !important;
-    color: #065f46 !important;
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
+    color: #10b981 !important;
 }
 
-/* Dark mode for surfaces */
-body.dark-mode.theme-default .bg-white,
-body.dark-mode.theme-default .dark\:bg-darker,
-body.dark-mode.theme-default .dark\:bg-dark,
-body.dark-mode.theme-default .news-article-item,
-body.dark-mode.theme-default .sidebar-area,
-body.dark-mode.theme-default .dropdown-menu {
-    background-color: #1e293b !important;
-}
-
-body.dark-mode.theme-default .custom-home-content-wrap {
-    background: #0f172a !important;
-}
-
-body.dark-mode.theme-default input,
-body.dark-mode.theme-default textarea,
-body.dark-mode.theme-default select {
-    background-color: #1e293b !important;
-    border-color: #475569 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode.theme-default .news-article-item h3 a,
-body.dark-mode.theme-default h2,
-body.dark-mode.theme-default .sidebar-area h4 {
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode.theme-default .article-meta,
-body.dark-mode.theme-default .article-description {
-    color: #cbd5e1 !important;
-}
+/* Remove all dark mode specific styles since theme is dark by default */
 
 /* Home Page Specific */
 .theme-default .custom-navbar {
@@ -169,11 +126,6 @@ body.dark-mode.theme-default .article-description {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
 
-/* Dark mode navbar - even darker */
-body.dark-mode.theme-default .custom-navbar {
-    background: linear-gradient(135deg, #2e1065 0%, #3730a3 100%) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
-}
 
 .theme-default .custom-navbar .nav-link {
     color: rgba(255,255,255,0.9) !important;
@@ -352,14 +304,6 @@ body.dark-mode.theme-default .custom-navbar {
     background-color: rgba(91, 33, 182, 0.05) !important;
 }
 
-/* Dashboard dark mode */
-body.dark-mode.theme-default .dark\:bg-primary-darker {
-    background-color: var(--default-surface) !important;
-}
-
-body.dark-mode.theme-default aside {
-    background-color: var(--default-surface) !important;
-}
 
 /* Dashboard buttons */
 .theme-default .btn-primary,
