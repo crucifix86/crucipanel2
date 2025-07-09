@@ -1,10 +1,5 @@
 <!-- Footer -->
-<footer class="youplay-footer youplay-footer-parallax">
-
-    <div class="image" data-speed="0.4" data-img-position="50% 0%">
-        <img src="{{ asset('img/bg/footer.jpg') }}" alt="" class="jarallax-img">
-    </div>
-
+<footer class="youplay-footer">
 
     <div class="wrapper">
 
