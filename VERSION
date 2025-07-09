@@ -1,6 +1,12 @@
-v1.5.10
+v1.5.11
 
 Version History:
+- v1.5.11 (2025-01-09): Default Theme Dark Mode Fix
+  - Fixed white background in dark mode
+  - Added proper dark mode overrides for default theme
+  - Dark backgrounds and light text when dark mode is active
+  - Respects existing dark mode toggle
+
 - v1.5.10 (2025-01-09): Default Theme Improvements
   - Fixed theme selector text visibility (white background)
   - Created modern default theme with gradient accents
