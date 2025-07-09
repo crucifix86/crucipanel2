@@ -44,7 +44,10 @@
         <!-- /Single News Block -->
     @endforeach
 @else
-    <iframe class="center-block" width="560" height="315" src="https://www.youtube-nocookie.com/embed/Z6q_u3EGJsw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="no-news-message text-center">
+        <h3>{{ __('news.noNews') }}</h3>
+        <p>{{ __('news.try') }}</p>
+    </div>
 @endif
 <!-- Pagination -->
 {{ $news->links('vendor.pagination.portal') }}

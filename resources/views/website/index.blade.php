@@ -51,15 +51,10 @@
                 <!-- /Single News Block -->
             @endforeach
         @else
-            @if( config('app.debug') === false )
-                <iframe class="center-block" width="560" height="315"
-                        src="https://www.youtube.com/embed/Z6q_u3EGJsw" title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-            @else
-                Welcome
-            @endif
+            <div class="no-news-message text-center">
+                <h3>{{ __('news.noNews') }}</h3>
+                <p>{{ __('news.try') }}</p>
+            </div>
         @endif
         <!-- Pagination -->
         {{ $news->links('vendor.pagination.portal') }}
