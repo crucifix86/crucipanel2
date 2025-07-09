@@ -242,3 +242,117 @@
     opacity: 0.3;
     animation: cyber-scan 2s linear infinite;
 }
+
+/* Home Page Specific Styles */
+.theme-cyberpunk .custom-navbar {
+    background: linear-gradient(to right, var(--cyber-black), var(--cyber-surface)) !important;
+    border-bottom: 3px solid var(--cyber-yellow) !important;
+    box-shadow: 0 0 30px var(--cyber-yellow) !important;
+}
+
+.theme-cyberpunk .custom-navbar .nav-link {
+    color: var(--cyber-cyan) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.theme-cyberpunk .custom-navbar .nav-link:hover,
+.theme-cyberpunk .custom-navbar .nav-link.active {
+    color: var(--cyber-yellow) !important;
+    background-color: rgba(252, 238, 9, 0.1) !important;
+    animation: glitch 0.5s linear infinite;
+}
+
+.theme-cyberpunk .custom-home-content-wrap {
+    background: var(--cyber-black) !important;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(252, 238, 9, 0.03) 2px,
+            rgba(252, 238, 9, 0.03) 4px
+        ) !important;
+}
+
+.theme-cyberpunk .news-article-item {
+    background: var(--cyber-surface) !important;
+    border: 1px solid var(--cyber-yellow) !important;
+    position: relative !important;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)) !important;
+}
+
+.theme-cyberpunk .news-article-item::before {
+    background: var(--cyber-yellow) !important;
+    height: 2px !important;
+}
+
+.theme-cyberpunk .news-article-item:hover {
+    box-shadow: 0 0 20px var(--cyber-pink) !important;
+    animation: glitch 1s linear infinite;
+}
+
+.theme-cyberpunk .news-article-item h3 a {
+    color: var(--cyber-yellow) !important;
+    text-transform: uppercase;
+}
+
+.theme-cyberpunk .news-article-item h3 a:hover {
+    animation: glitch 0.5s linear infinite;
+}
+
+.theme-cyberpunk h2 {
+    color: var(--cyber-yellow) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2em !important;
+    animation: glitch 2s linear infinite !important;
+    border-bottom-color: var(--cyber-yellow) !important;
+}
+
+.theme-cyberpunk .read-more {
+    background: linear-gradient(45deg, var(--cyber-yellow), var(--cyber-pink)) !important;
+    color: var(--cyber-black) !important;
+    text-transform: uppercase !important;
+    font-weight: bold !important;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 30%, 100% 100%, 10px 100%, 0 70%) !important;
+}
+
+.theme-cyberpunk .read-more:hover {
+    animation: glitch 0.3s linear infinite;
+}
+
+.theme-cyberpunk .sidebar-area {
+    background: var(--cyber-surface) !important;
+    border: 1px solid var(--cyber-yellow) !important;
+    position: relative !important;
+}
+
+.theme-cyberpunk .sidebar-area::before {
+    content: 'SYSTEM_INFO';
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: var(--cyber-surface);
+    color: var(--cyber-yellow);
+    padding: 0 10px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+}
+
+.theme-cyberpunk .login-form {
+    background: var(--cyber-surface) !important;
+    border: 2px solid var(--cyber-yellow) !important;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+
+.theme-cyberpunk .login-form .form-control {
+    background: var(--cyber-black) !important;
+    border: 2px solid var(--cyber-yellow) !important;
+    color: var(--cyber-yellow) !important;
+    text-transform: uppercase;
+}
+
+.theme-cyberpunk .login-form .form-control:focus {
+    border-color: var(--cyber-pink) !important;
+    box-shadow: 0 0 20px var(--cyber-pink) !important;
+}

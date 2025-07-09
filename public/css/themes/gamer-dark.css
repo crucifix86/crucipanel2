@@ -209,3 +209,95 @@
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
+
+/* Home Page Specific Styles */
+.theme-gamer-dark .custom-navbar {
+    background: rgba(26, 26, 26, 0.95) !important;
+    border-bottom: 2px solid var(--gamer-neon-green) !important;
+    box-shadow: 0 2px 20px rgba(0, 255, 136, 0.3) !important;
+}
+
+.theme-gamer-dark .custom-navbar .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+}
+
+.theme-gamer-dark .custom-navbar .nav-link:hover,
+.theme-gamer-dark .custom-navbar .nav-link.active {
+    color: var(--gamer-neon-green) !important;
+    background-color: rgba(0, 255, 136, 0.1) !important;
+    text-shadow: 0 0 10px var(--gamer-neon-green);
+}
+
+.theme-gamer-dark .custom-home-content-wrap {
+    background: var(--gamer-dark-bg) !important;
+}
+
+.theme-gamer-dark .news-article-item {
+    background: var(--gamer-surface) !important;
+    border: 1px solid var(--gamer-border) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+.theme-gamer-dark .news-article-item::before {
+    background: linear-gradient(90deg, var(--gamer-neon-green), var(--gamer-neon-pink)) !important;
+    height: 3px !important;
+}
+
+.theme-gamer-dark .news-article-item:hover {
+    border-color: var(--gamer-neon-green) !important;
+    box-shadow: 0 6px 25px rgba(0, 255, 136, 0.3) !important;
+}
+
+.theme-gamer-dark .news-article-item h3 a {
+    color: #ffffff !important;
+}
+
+.theme-gamer-dark .news-article-item h3 a:hover {
+    color: var(--gamer-neon-green) !important;
+    text-shadow: 0 0 10px var(--gamer-neon-green);
+}
+
+.theme-gamer-dark h2 {
+    background: linear-gradient(45deg, var(--gamer-neon-green), var(--gamer-neon-cyan)) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    border-bottom-color: var(--gamer-neon-green) !important;
+}
+
+.theme-gamer-dark .read-more {
+    background: linear-gradient(45deg, var(--gamer-neon-green), var(--gamer-neon-cyan)) !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+}
+
+.theme-gamer-dark .read-more:hover {
+    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5) !important;
+    transform: translateY(-2px) !important;
+}
+
+.theme-gamer-dark .sidebar-area {
+    background: var(--gamer-surface) !important;
+    border: 1px solid var(--gamer-border) !important;
+}
+
+.theme-gamer-dark .sidebar-area h4 {
+    border-bottom-color: var(--gamer-neon-green) !important;
+}
+
+.theme-gamer-dark .login-form {
+    background: var(--gamer-surface) !important;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.theme-gamer-dark .login-form .form-control {
+    background: var(--gamer-dark-bg) !important;
+    border: 1px solid var(--gamer-border) !important;
+    color: #ffffff !important;
+}
+
+.theme-gamer-dark .login-form .form-control:focus {
+    border-color: var(--gamer-neon-green) !important;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2) !important;
+}
