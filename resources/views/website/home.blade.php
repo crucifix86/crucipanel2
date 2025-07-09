@@ -15,6 +15,18 @@
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
 
+    @php
+        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+
+    {{-- Livewire Styles --}}
+    @livewireStyles
+
     <style>
         /* Light Theme Variables (Default) */
         :root {
@@ -697,7 +709,7 @@
 
     </style>
 </head>
-<body class="dark-mode">
+<body class="theme-{{ $userTheme }}">
     {{-- Language Selector and Theme Toggle - Fixed Position, Top Right --}}
     <div style="position: fixed; top: 20px; right: 20px; z-index: 1100; display: flex; align-items: center; gap: 10px;">
         <x-home-theme-toggle />
@@ -837,6 +849,8 @@
                                 </div>
                                 <hr>
                                 <div class="d-grid gap-2"> {{-- Increased gap slightly --}}
+                                    @livewire('theme-selector')
+                                    <hr class="my-2">
                                     <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"> {{-- Original used profile.show --}}
                                         <i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}
                                     </a>
@@ -1000,6 +1014,9 @@
 
     {{-- AlpineJS for dropdowns and other reactive components --}}
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    {{-- Livewire Scripts --}}
+    @livewireScripts
 
 </body>
 </html>
