@@ -14,7 +14,7 @@ return [
     'currency_name' => 'Coin',
     'encryption_type' => 'base64',
     'level_up_cap' => '150',
-    'logo' => 'img/logo/logo.png',
+    'logo' => 'img/logo/crucifix_logo.svg',
     'server_ip' => '127.0.0.1',
     'server_name' => 'PW Panel',
     'gmwa' => '62879456123',

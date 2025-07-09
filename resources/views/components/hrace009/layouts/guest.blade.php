@@ -6,19 +6,19 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }} @yield('title')</title>
 
-    @if( config('pw-config.logo') === 'img/logo/logo.png' )
-        <link rel="shortcut icon" href="{{ asset(config('pw-config.logo')) }}"/>
-        <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="{{ asset(config('pw-config.logo')) }}"
-        />
-    @elseif( ! config('pw-config.logo') )
+    @if( ! config('pw-config.logo') )
         <link rel="shortcut icon" href="{{ asset('img/logo/logo.png') }}"/>
         <link
             rel="apple-touch-icon"
             sizes="76x76"
             href="{{ asset('img/logo/logo.png') }}"
+        />
+    @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
+        <link rel="shortcut icon" href="{{ asset(config('pw-config.logo')) }}"/>
+        <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="{{ asset(config('pw-config.logo')) }}"
         />
     @else
         <link rel="shortcut icon" href="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}"/>
