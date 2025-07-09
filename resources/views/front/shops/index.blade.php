@@ -102,7 +102,7 @@
                                                         <!-- Modal -->
                                                         <div
                                                             x-show="gift_{{ $item->id }}"
-                                                            class="bg-white dark:bg-dark rounded shadow p-6 w-auto mx-10"
+                                                            class="dark:bg-darker dark:bg-dark rounded shadow p-6 w-auto mx-10"
                                                             @click.away="gift_{{ $item->id }} = false"
                                                             x-transition:enter="ease-out duration-300"
                                                             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"

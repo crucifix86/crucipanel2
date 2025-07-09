@@ -36,7 +36,7 @@
         </div>
         <div class="max-w-screen-xl mx-6 my-6">
             <div class="grid grid-cols-3 gap-8 p-4">
-                <div class="flex-col p-4 bg-white rounded-md dark:bg-darker">
+                <div class="flex-col p-4 dark:bg-darker rounded-md dark:bg-darker">
                     <h1
                         class="text-sm font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                     >
@@ -56,7 +56,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex-col p-4 bg-white rounded-md dark:bg-darker">
+                <div class="flex-col p-4 dark:bg-darker rounded-md dark:bg-darker">
                     <h1
                         class="text-sm font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                     >
@@ -76,7 +76,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex-col p-4 bg-white rounded-md dark:bg-darker">
+                <div class="flex-col p-4 dark:bg-darker rounded-md dark:bg-darker">
                     <h1
                         class="text-sm font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                     >

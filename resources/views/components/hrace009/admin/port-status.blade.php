@@ -1,5 +1,5 @@
 @foreach( $api->ports() as $name => $port )
-    <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+    <div class="flex items-center justify-between p-4 dark:bg-darker rounded-md dark:bg-darker">
         <div>
             <h6
                 class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"

@@ -14,7 +14,7 @@
                     {{ __('footer.content_settings') }}
                 </x-slot>
                 <div class="max-w-7xl mx-auto">
-                    <div class="border bg-white dark:bg-darker shadow-xs rounded-lg p-6">
+                    <div class="border dark:bg-darker dark:bg-darker shadow-xs rounded-lg p-6">
                         <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ __('footer.content_settings') }}</h3>
                         
                         <form action="{{ route('admin.footer.updateContent') }}" method="POST" class="space-y-4">
@@ -68,7 +68,7 @@
                     {{ __('footer.social_links') }}
                 </x-slot>
                 <div class="max-w-7xl mx-auto">
-                    <div class="border bg-white dark:bg-darker shadow-xs rounded-lg p-6">
+                    <div class="border dark:bg-darker dark:bg-darker shadow-xs rounded-lg p-6">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ __('footer.social_links') }}</h3>
                             <a 
@@ -95,7 +95,7 @@
         <div class="flex items-center justify-center min-h-screen px-4">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="document.getElementById('add-social-modal').style.display='none'"></div>
             
-            <div class="relative bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
+            <div class="relative dark:bg-darker dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
                 <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                     {{ __('footer.add_social_link') }}
                 </h2>

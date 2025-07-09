@@ -1,7 +1,7 @@
 <div class="flex flex-col pl-6 pr-6 items-center justify-between">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle min-w-0 inline-block sm:px-6 lg:px-8">
-            <div class="shadow overflow-hidden border dark:bg-darker bg-white dark:border-primary-darker sm:rounded-lg">
+            <div class="shadow overflow-hidden border dark:bg-darker dark:bg-darker dark:border-primary-darker sm:rounded-lg">
                 <div
                     class="relative flex-shrink-0 px-4 py-8 text-gray-400 border-b dark:border-primary-darker dark:focus-within:text-light focus-within:text-gray-700">
                             <span class="absolute inset-y-0 inline-flex items-center px-4">
@@ -125,7 +125,7 @@
                                                         <!-- Modal -->
                                                         <div
                                                             x-show="{{ $user->name }}_Coin"
-                                                            class="dark:bg-dark bg-white rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
+                                                            class="dark:bg-dark dark:bg-darker rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
                                                             @click.away="{{ $user->name }}_Coin = false"
                                                             x-transition:enter="ease-out duration-300"
                                                             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -199,7 +199,7 @@
                                                     <!-- Modal -->
                                                     <div
                                                         x-show="{{ $user->name }}_Password"
-                                                        class="dark:bg-dark bg-white rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
+                                                        class="dark:bg-dark dark:bg-darker rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
                                                         @click.away="{{ $user->name }}_Password = false"
                                                         x-transition:enter="ease-out duration-300"
                                                         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -228,7 +228,7 @@
                                                                         />
                                                                         <span
                                                                             @popper({{ __('members.actions.confirm') }})
-                                                                            class="absolute top-0 left-0 w-5 h-5 transition-all transform scale-150 bg-white rounded-full shadow-sm"
+                                                                            class="absolute top-0 left-0 w-5 h-5 transition-all transform scale-150 dark:bg-darker rounded-full shadow-sm"
                                                                         ></span>
                                                                     </div>
                                                                 </label>
@@ -289,7 +289,7 @@
                                                     <!-- Modal -->
                                                     <div
                                                         x-show="{{ $user->name }}_Email"
-                                                        class="dark:bg-dark bg-white rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
+                                                        class="dark:bg-dark dark:bg-darker rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
                                                         @click.away="{{ $user->name }}_Email = false"
                                                         x-transition:enter="ease-out duration-300"
                                                         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -366,7 +366,7 @@
                                                         <!-- Modal -->
                                                         <div
                                                             x-show="{{ $user->name }}_Role"
-                                                            class="dark:bg-dark bg-white rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
+                                                            class="dark:bg-dark dark:bg-darker rounded-xl shadow-2xl p-6 sm:w-full sm:max-w-lg mx-10"
                                                             @click.away="{{ $user->name }}_Role = false"
                                                             x-transition:enter="ease-out duration-300"
                                                             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"

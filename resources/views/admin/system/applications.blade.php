@@ -11,7 +11,7 @@
             {!! csrf_field() !!}
             <div class="grid grid-cols-2 gap-8 p-4 lg:grid-cols-2 xl:grid-cols-4">
                 @foreach( $apps as $app => $value )
-                    <div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+                    <div class="flex items-center justify-between p-4 dark:bg-darker rounded-md dark:bg-darker">
                         <h2
                             class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
                         >
@@ -29,7 +29,7 @@
                                 />
                                 <span
                                     @popper({{ __('system.application_desc.' . $app ) }})
-                                    class="absolute top-0 left-0 w-5 h-5 transition-all transform scale-150 bg-white rounded-full shadow-sm"
+                                    class="absolute top-0 left-0 w-5 h-5 transition-all transform scale-150 dark:bg-darker rounded-full shadow-sm"
                                 ></span>
                             </div>
                         </label>

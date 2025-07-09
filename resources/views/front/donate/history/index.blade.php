@@ -39,7 +39,7 @@
                 <div id="ingame" class="hidden p-4 mx-auto">
                     @if( $ingamelogs->items() )
                         <div
-                            class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                            class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                             <table class="w-full table-auto">
                                 <thead>
                                 <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">
@@ -100,7 +100,7 @@
                     <div id="paymentwall" class="hidden p-4 mx-auto">
                         @if( $pws->items() )
                             <div
-                                class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                                class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                                 <table class="w-full table-auto">
                                     <thead>
                                     <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">
@@ -161,7 +161,7 @@
                 <div id="store" class="hidden p-4 mx-auto">
                     @if( $shoplogs->items() )
                         <div
-                            class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                            class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                             <table class="w-full table-auto">
                                 <thead>
                                 <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">
@@ -214,7 +214,7 @@
                     <div id="bank" class="hidden p-4 mx-auto">
                         @if( $banks->items() )
                             <div
-                                class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                                class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                                 <table class="w-full table-auto">
                                     <thead>
                                     <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">
@@ -279,7 +279,7 @@
                     <div id="paypal" class="hidden p-4 mx-auto">
                         @if( $paypals->items() )
                             <div
-                                class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                                class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                                 <table class="w-full table-auto">
                                     <thead>
                                     <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">
@@ -327,7 +327,7 @@
                     <div id="ipaymu" class="hidden p-4 mx-auto">
                         @if( $ipaymu->items() )
                             <div
-                                class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                                class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                                 <table class="w-full table-auto">
                                     <thead>
                                     <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">

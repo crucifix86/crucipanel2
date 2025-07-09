@@ -8,7 +8,7 @@
     <x-slot name="content">
         <div class="max-w mx-4 my-2">
             <div
-                class="bg-white dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
+                class="dark:bg-darker dark:bg-primary shadow-md rounded border border-gray-300 dark:border-primary-light justify-items-center">
                 <table class="w-full table-auto">
                     <thead>
                     <tr class="bg-gray-200 dark:bg-primary dark:text-light text-gray-600 uppercase text-xs leading-normal">
