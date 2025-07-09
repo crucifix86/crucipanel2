@@ -1,5 +1,7 @@
 <!-- Footer -->
 <footer class="portal-footer" id="site-footer">
+    <!-- Additional isolation wrapper -->
+    <div style="position: relative; z-index: 1; contain: layout style paint; isolation: isolate;">
     <div class="footer-wrapper">
         @php
             try {
@@ -17,7 +19,9 @@
             <div class="container">
                 <div class="social-content">
                     @if($footerSettings && $footerSettings->content)
-                        <h3 class="social-heading">{!! $footerSettings->content !!}</h3>
+                        <div class="footer-custom-content">
+                            {!! $footerSettings->content !!}
+                        </div>
                     @else
                         <h3 class="social-heading">Connect socially with <strong>{{ config('pw-config.server_name') }}</strong></h3>
                     @endif
@@ -43,7 +47,9 @@
                 <div class="copyright-content">
                     <div class="copyright-text">
                         @if($footerSettings && $footerSettings->copyright)
-                            <p>{!! $footerSettings->copyright !!}</p>
+                            <div class="footer-custom-content">
+                                {!! $footerSettings->copyright !!}
+                            </div>
                         @else
                             <p>{{ date('Y') }} &copy; <strong>{{ config('pw-config.server_name') }}</strong>. All rights reserved</p>
                         @endif
@@ -57,7 +63,42 @@
             </div>
         </div>
     </div>
+    </div>
 </footer>
+
+<script>
+// Scope any style tags in footer to prevent page-wide effects
+document.addEventListener('DOMContentLoaded', function() {
+    const footerStyles = document.querySelectorAll('#site-footer style');
+    footerStyles.forEach(function(styleTag) {
+        // Get the CSS text
+        let css = styleTag.innerHTML;
+        
+        // Remove any body/html selectors
+        css = css.replace(/\b(body|html)\b[^{]*/g, '#site-footer ');
+        
+        // Prefix all selectors with #site-footer
+        css = css.replace(/([^{}]+){/g, function(match, selector) {
+            // Skip keyframes and media queries
+            if (selector.includes('@')) return match;
+            
+            // Add footer scope to each selector
+            const selectors = selector.split(',');
+            const scopedSelectors = selectors.map(s => {
+                s = s.trim();
+                if (s && !s.startsWith('#site-footer')) {
+                    return '#site-footer ' + s;
+                }
+                return s;
+            });
+            return scopedSelectors.join(', ') + ' {';
+        });
+        
+        // Update the style tag
+        styleTag.innerHTML = css;
+    });
+});
+</script>
 
 <style>
 .portal-footer {
@@ -112,20 +153,52 @@
     font-weight: 600;
 }
 
-/* Scope any style tags within footer content */
-#site-footer style {
+/* Footer custom content isolation */
+.footer-custom-content {
+    /* Create a new stacking context */
+    position: relative;
+    z-index: 1;
+    /* Prevent any background styles from leaking out */
+    overflow: hidden;
+    /* Isolate the content */
+    isolation: isolate;
+}
+
+/* Scope any styles within custom content to footer only */
+.footer-custom-content style {
+    /* We'll process style tags to scope them */
+}
+
+/* Target any elements that try to style body/html */
+.footer-custom-content body,
+.footer-custom-content html {
     display: none !important;
 }
 
-/* Override any body/html styles that might leak from footer content */
-body {
-    background-color: var(--body-bg) !important;
-    background-image: var(--body-bg-image) !important;
+/* Ensure footer content can't change page background */
+.portal-footer {
+    /* Create containment boundary */
+    contain: layout style paint;
+    /* Ensure footer has its own stacking context */
+    position: relative;
+    z-index: 10;
 }
 
-/* Prevent footer from changing page styles */
-.portal-footer {
-    contain: layout style;
+/* Force correct backgrounds on main elements */
+html, body {
+    /* Use !important to override any injected styles */
+    background: var(--body-bg, #1a1f2e) !important;
+}
+
+/* Scope all footer content styles */
+.footer-custom-content * {
+    /* Reset any position fixed/absolute that might escape footer */
+    position: static !important;
+}
+
+.footer-custom-content *[style*="position: fixed"],
+.footer-custom-content *[style*="position: absolute"] {
+    position: relative !important;
 }
 
 .social-icons-wrapper {
