@@ -301,6 +301,12 @@ body:not(.dark-mode).theme-gamer-dark .bg-blue-600:hover {
 
 /* Let existing styles handle dashboard */
 
+.theme-gamer-dark .space-y-6 > * {
+    background-color: var(--gamer-surface) !important;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
 .theme-gamer-dark header h1 {
     color: var(--gamer-neon-green) !important;
     text-shadow: 0 0 10px var(--gamer-neon-green);

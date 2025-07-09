@@ -1,6 +1,6 @@
 <!-- GM's Widget -->
 <div class="w-64">
-    <div class="flex-col bg-white rounded-md dark:bg-darker border dark:border-primary">
+    <div class="flex-col rounded-md dark:bg-darker border dark:border-primary">
         <div class="p-2 border-b dark:border-primary">
             <h1
                 class="text-sm font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
@@ -39,7 +39,7 @@
 
 <!-- Server Status Widget -->
 <div class="py-4 w-64">
-    <div class="flex flex-col bg-white rounded-md dark:bg-darker border dark:border-primary">
+    <div class="flex flex-col rounded-md dark:bg-darker border dark:border-primary">
         <div class="flex align-middle items-center justify-between p-2">
             <div>
                 <h6

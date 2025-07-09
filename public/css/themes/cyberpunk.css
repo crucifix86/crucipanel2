@@ -454,6 +454,13 @@ body:not(.dark-mode).theme-cyberpunk .custom-home-content-wrap {
 
 /* Let existing styles handle dashboard */
 
+.theme-cyberpunk .space-y-6 > * {
+    background-color: var(--cyber-surface) !important;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--cyber-yellow);
+}
+
 .theme-cyberpunk header h1 {
     color: var(--cyber-yellow) !important;
     text-transform: uppercase !important;

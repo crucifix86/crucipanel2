@@ -424,6 +424,7 @@ body:not(.dark-mode).theme-default .login-form {
 }
 
 .theme-default .space-y-6 > * {
+    background-color: var(--default-surface) !important;
     padding: 1.5rem;
     border-radius: 0.5rem;
 }

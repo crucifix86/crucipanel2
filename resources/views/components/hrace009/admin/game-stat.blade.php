@@ -1,5 +1,5 @@
 <!-- Player Online -->
-<div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+<div class="flex items-center justify-between p-4 rounded-md dark:bg-darker">
     <div>
         <h6
             class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
@@ -29,7 +29,7 @@
 </div>
 
 <!-- Account Registered -->
-<div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+<div class="flex items-center justify-between p-4 rounded-md dark:bg-darker">
     <div>
         <h6
             class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
@@ -59,7 +59,7 @@
 </div>
 
 <!-- Characters Created -->
-<div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+<div class="flex items-center justify-between p-4 rounded-md dark:bg-darker">
     <div>
         <h6
             class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
@@ -89,7 +89,7 @@
 </div>
 
 <!-- Faction Created -->
-<div class="flex items-center justify-between p-4 bg-white rounded-md dark:bg-darker">
+<div class="flex items-center justify-between p-4 rounded-md dark:bg-darker">
     <div>
         <h6
             class="text-xs font-medium leading-none tracking-wider text-gray-500 uppercase dark:text-primary-light"
