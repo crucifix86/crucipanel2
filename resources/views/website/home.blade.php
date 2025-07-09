@@ -715,7 +715,6 @@
         @if(Auth::check())
             @livewire('theme-selector')
         @endif
-        <x-home-theme-toggle />
         <x-hrace009::language-button />
     </div>
 

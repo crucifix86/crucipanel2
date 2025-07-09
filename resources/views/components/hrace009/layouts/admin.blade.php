@@ -93,7 +93,6 @@
                 <x-hrace009::desktop-right-button>
                     <x-slot name="button">
                         @livewire('theme-selector')
-                        <x-hrace009::dark-theme-button/>
                         <x-hrace009::language-button/>
                         <x-hrace009::user-button/>
                         <x-hrace009::user-avatar/>
@@ -102,7 +101,6 @@
                 <x-hrace009.mobile-sub-menu>
                     <x-slot name="button">
                         @livewire('theme-selector')
-                        <x-hrace009::dark-theme-button/>
                         <x-hrace009::mobile-language-menu/>
                         <x-hrace009::user-button/>
                         <x-hrace009::admin.mobile-user-avatar/>

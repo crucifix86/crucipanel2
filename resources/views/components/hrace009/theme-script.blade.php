@@ -1,30 +1,6 @@
 <script src="{{asset('js/kamona-wd.js')}}"></script>
 <script>
     const setup = () => {
-        const getTheme = () => {
-            // Check for theme preference (compatible with home page)
-            const theme = window.localStorage.getItem('theme');
-            if (theme !== null) {
-                return theme === 'dark';
-            }
-            
-            // Check for old 'dark' key for backwards compatibility
-            if (window.localStorage.getItem('dark') !== null) {
-                const isDark = JSON.parse(window.localStorage.getItem('dark'));
-                // Migrate to new format
-                window.localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                window.localStorage.removeItem('dark');
-                return isDark;
-            }
-
-            // Default to dark mode
-            return true
-        }
-
-        const setTheme = (value) => {
-            window.localStorage.setItem('theme', value ? 'dark' : 'light')
-        }
-
         const getColor = () => {
             if (window.localStorage.getItem('color')) {
                 return window.localStorage.getItem('color')
@@ -43,7 +19,6 @@
             root.style.setProperty('--color-primary-darker', `var(--color-${color}-darker)`)
             this.selectedColor = color
             window.localStorage.setItem('color', color)
-            //
         }
 
         const updateBarChart = (on) => {
@@ -83,19 +58,6 @@
 
         return {
             loading: true,
-            isDark: getTheme(),
-            toggleTheme() {
-                this.isDark = !this.isDark
-                setTheme(this.isDark)
-            },
-            setLightTheme() {
-                this.isDark = false
-                setTheme(this.isDark)
-            },
-            setDarkTheme() {
-                this.isDark = true
-                setTheme(this.isDark)
-            },
             color: getColor(),
             selectedColor: 'cyan',
             setColors,
