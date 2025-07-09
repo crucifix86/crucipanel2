@@ -639,7 +639,7 @@
         }
         
         .header-logo {
-            max-height: 120px;
+            max-height: 200px;
             width: auto;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
             transition: transform 0.3s ease;
@@ -649,13 +649,18 @@
             transform: scale(1.05);
         }
         
+        .header-link {
+            display: inline-block;
+            text-decoration: none;
+        }
+        
         @media (max-width: 768px) {
             .site-header {
                 padding: 20px 0;
             }
             
             .header-logo {
-                max-height: 80px;
+                max-height: 120px;
             }
         }
 
@@ -764,7 +769,9 @@
     <header class="site-header">
         <div class="container-fluid">
             <div class="header-content">
-                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo">
+                <a href="{{ route('HOME') }}" class="header-link">
+                    <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo">
+                </a>
             </div>
         </div>
     </header>
