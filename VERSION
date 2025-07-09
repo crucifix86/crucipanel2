@@ -1,6 +1,12 @@
-v1.5.12
+v1.5.13
 
 Version History:
+- v1.5.13 (2025-01-09): Dashboard Theme Styling
+  - Added comprehensive dashboard page styling
+  - Dashboard now matches home page theme
+  - Purple accents throughout dashboard elements
+  - Consistent forms, buttons, and card styling
+
 - v1.5.12 (2025-01-09): Darker Purple Default Theme
   - Changed navbar to darker purple gradient
   - Even darker purple in dark mode for better contrast
