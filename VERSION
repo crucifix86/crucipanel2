@@ -1,6 +1,12 @@
-v1.5.16
+v1.5.17
 
 Version History:
+- v1.5.17 (2025-01-09): Fixed Dashboard White Backgrounds
+  - Fixed white backgrounds appearing on all dashboards
+  - Forced dark surface colors on bg-white elements
+  - Dashboards now properly show dark theme colors
+  - No more ugly white backgrounds in dark mode
+
 - v1.5.16 (2025-01-09): Player Dashboard Theming
   - Player dashboard now themed like admin dashboard
   - Dark backgrounds and proper surfaces for all elements
