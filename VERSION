@@ -1,6 +1,13 @@
-v1.5.15
+v1.5.16
 
 Version History:
+- v1.5.16 (2025-01-09): Player Dashboard Theming
+  - Player dashboard now themed like admin dashboard
+  - Dark backgrounds and proper surfaces for all elements
+  - Gamer theme: Neon effects on dashboard widgets
+  - Cyberpunk theme: Angular designs on dashboard
+  - Consistent theming across all user types
+
 - v1.5.15 (2025-01-09): Complete Light Mode Variants
   - Each theme now has distinct light and dark modes
   - Default light: Clean white/gray with purple accents
