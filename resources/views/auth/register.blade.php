@@ -612,6 +612,16 @@
                                     <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info"> {{-- Original donate history link --}}
                                         <i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}
                                     </a>
+                                    @if(Auth::user()->isAdministrator())
+                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-user-shield me-1"></i>Admin Dashboard
+                                    </a>
+                                    @endif
+                                    @if(Auth::user()->isGamemaster())
+                                    <a href="{{ route('gm.dashboard') }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-gamepad me-1"></i>GM Dashboard
+                                    </a>
+                                    @endif
                                     <hr class="my-2">
                                     <form method="POST" action="{{ route('logout') }}" class="d-grid">
                                         @csrf

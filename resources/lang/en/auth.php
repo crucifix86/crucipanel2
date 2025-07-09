@@ -28,6 +28,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'form' => [
         'login' => 'Log in',
+        'login_placeholder' => 'Login',
         'remember' => 'Remember me',
         'forgotPassword' => 'Forgot Password?',
         'password' => 'Password',
@@ -41,6 +42,7 @@ return [
         'sendLinkPassword' => 'Email Password Reset Link',
         'forgotPasswordDescription' => 'Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.',
         'resetPassword' => 'Reset Password',
+        'noAccount' => "Don't have an account?",
     ],
     'email' => [
         'loginid' => 'User Name',
