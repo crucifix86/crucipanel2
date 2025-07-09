@@ -1040,16 +1040,10 @@
                         {{ $news->links('vendor.pagination.portal') }}
                     </div>
                 @else
-                    <p>No news articles found.</p>
-                    @if( config('app.debug') === false )
-                        <iframe class="center-block" width="560" height="315"
-                                src="https://www.youtube.com/embed/Z6q_u3EGJsw" title="YouTube video player"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                    @else
-                        <p>Welcome to the site! (Debug mode is on)</p>
-                    @endif
+                    <div class="no-news-message">
+                        <p>No news articles found.</p>
+                        <p>Check back soon for updates!</p>
+                    </div>
                 @endif
             </div>
 
