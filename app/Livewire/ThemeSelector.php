@@ -9,7 +9,6 @@ class ThemeSelector extends Component
 {
     public $currentTheme;
     public $themes;
-    public $showModal = false;
     
     public function mount()
     {
@@ -25,10 +24,6 @@ class ThemeSelector extends Component
             $user->save();
             
             $this->currentTheme = $theme;
-            $this->showModal = false;
-            
-            // Emit event to update theme immediately
-            $this->dispatch('theme-changed', theme: $theme);
             
             // Refresh the page to apply new theme
             return redirect()->back()->with('success', 'Theme updated successfully!');
