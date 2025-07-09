@@ -22,7 +22,7 @@
                             @method('PUT')
                             
                             <div>
-                                <x-hrace009::simple-label for="content" :value="__('footer.content')" />
+                                <x-hrace009::label for="content" :value="__('footer.content')" />
                                 <textarea
                                     id="content"
                                     name="content"
@@ -36,7 +36,7 @@
                             </div>
                             
                             <div>
-                                <x-hrace009::simple-label for="copyright" :value="__('footer.copyright')" />
+                                <x-hrace009::label for="copyright" :value="__('footer.copyright')" />
                                 <x-hrace009::input-box
                                     id="copyright"
                                     name="copyright"
@@ -98,7 +98,7 @@
                     @csrf
 
                     <div>
-                        <x-hrace009::simple-label for="platform" :value="__('footer.platform')" />
+                        <x-hrace009::label for="platform" :value="__('footer.platform')" />
                         <select
                             id="platform"
                             name="platform"
@@ -120,7 +120,7 @@
                     </div>
 
                     <div>
-                        <x-hrace009::simple-label for="url" :value="__('footer.url')" />
+                        <x-hrace009::label for="url" :value="__('footer.url')" />
                         <x-hrace009::input-box
                             id="url"
                             name="url"
@@ -131,7 +131,7 @@
                     </div>
 
                     <div>
-                        <x-hrace009::simple-label for="icon" :value="__('footer.icon_class')" />
+                        <x-hrace009::label for="icon" :value="__('footer.icon_class')" />
                         <x-hrace009::input-box
                             id="icon"
                             name="icon"
