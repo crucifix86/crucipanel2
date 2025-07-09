@@ -31,7 +31,8 @@
 
 /* Dark mode overrides */
 .theme-default.dark body,
-body.dark-mode.theme-default {
+body.dark-mode.theme-default,
+body.dark.theme-default {
     --default-bg: #0f172a;
     --default-surface: #1e293b;
     --default-surface-secondary: #334155;
@@ -44,7 +45,11 @@ body.dark-mode.theme-default {
 }
 
 /* Cards and Surfaces */
-.theme-default .bg-white,
+.theme-default .bg-white {
+    background-color: var(--default-surface) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
 .theme-default .dark\:bg-darker,
 .theme-default .dark\:bg-dark {
     background-color: var(--default-surface) !important;
@@ -132,8 +137,12 @@ body.dark-mode.theme-default {
 
 /* Dark mode for surfaces */
 body.dark-mode.theme-default .bg-white,
+.theme-default.dark .bg-white,
+body.dark.theme-default .bg-white,
 body.dark-mode.theme-default .dark\:bg-darker,
+body.dark.theme-default .dark\:bg-darker,
 body.dark-mode.theme-default .dark\:bg-dark,
+body.dark.theme-default .dark\:bg-dark,
 body.dark-mode.theme-default .news-article-item,
 body.dark-mode.theme-default .sidebar-area,
 body.dark-mode.theme-default .dropdown-menu {
