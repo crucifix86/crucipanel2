@@ -1,6 +1,12 @@
-v1.5.22
+v1.5.23
 
 Version History:
+- v1.5.23 (2025-01-09): Themes Now Flow Through Entire Site
+  - Added dark class to admin layout
+  - Added dark class to gamemaster layout
+  - Added dark class to guest layout
+  - Added dark class to portal layout
+  - Themes now properly apply to ALL dashboards and pages
 - v1.5.22 (2025-01-09): REMOVED ALL WHITE BACKGROUNDS
   - Replaced every single bg-white with dark:bg-darker
   - Fixed ALL admin panels, front panels, and components
