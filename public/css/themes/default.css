@@ -1,0 +1,250 @@
+/* Default Theme - Modern & Clean */
+:root {
+    --default-primary: #3b82f6;
+    --default-primary-dark: #2563eb;
+    --default-secondary: #8b5cf6;
+    --default-accent: #06b6d4;
+    --default-success: #10b981;
+    --default-warning: #f59e0b;
+    --default-danger: #ef4444;
+    --default-bg: #f8fafc;
+    --default-surface: #ffffff;
+    --default-surface-secondary: #f3f4f6;
+    --default-border: #e5e7eb;
+    --default-text: #111827;
+    --default-text-secondary: #6b7280;
+    --default-text-muted: #9ca3af;
+}
+
+/* Base Theme */
+.theme-default {
+    --color-primary: var(--default-primary);
+    --color-secondary: var(--default-secondary);
+    --color-accent: var(--default-accent);
+}
+
+/* Background */
+.theme-default body {
+    background-color: var(--default-bg);
+    color: var(--default-text);
+}
+
+/* Cards and Surfaces */
+.theme-default .bg-white,
+.theme-default .dark\:bg-darker,
+.theme-default .dark\:bg-dark {
+    background-color: var(--default-surface) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.theme-default .rounded-lg {
+    border: 1px solid var(--default-border);
+}
+
+/* Buttons */
+.theme-default .bg-green-600,
+.theme-default .bg-blue-600 {
+    background-color: var(--default-primary) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+.theme-default .bg-green-600:hover,
+.theme-default .bg-blue-600:hover {
+    background-color: var(--default-primary-dark) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
+}
+
+/* Input Fields */
+.theme-default input,
+.theme-default textarea,
+.theme-default select {
+    background-color: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+    color: var(--default-text) !important;
+    transition: all 0.2s;
+}
+
+.theme-default input:focus,
+.theme-default textarea:focus,
+.theme-default select:focus {
+    border-color: var(--default-primary) !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Navigation */
+.theme-default header {
+    background-color: var(--default-surface);
+    border-bottom: 1px solid var(--default-border);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Links */
+.theme-default a {
+    color: var(--default-primary);
+}
+
+.theme-default a:hover {
+    color: var(--default-primary-dark);
+}
+
+/* Tables */
+.theme-default table {
+    background-color: var(--default-surface);
+}
+
+.theme-default thead {
+    background-color: var(--default-surface-secondary);
+    border-bottom: 2px solid var(--default-border);
+}
+
+.theme-default tbody tr {
+    border-bottom: 1px solid var(--default-border);
+}
+
+.theme-default tbody tr:hover {
+    background-color: var(--default-surface-secondary);
+}
+
+/* Alerts */
+.theme-default .bg-green-100 {
+    background-color: #d1fae5 !important;
+    border: 1px solid #a7f3d0 !important;
+    color: #065f46 !important;
+}
+
+/* Home Page Specific */
+.theme-default .custom-navbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.theme-default .custom-navbar .nav-link {
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+}
+
+.theme-default .custom-navbar .nav-link:hover,
+.theme-default .custom-navbar .nav-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255,255,255,0.2) !important;
+}
+
+.theme-default .custom-home-content-wrap {
+    background: var(--default-bg) !important;
+}
+
+.theme-default .news-article-item {
+    background: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.3s ease;
+}
+
+.theme-default .news-article-item::before {
+    background: linear-gradient(90deg, var(--default-primary), var(--default-secondary)) !important;
+}
+
+.theme-default .news-article-item:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-2px);
+}
+
+.theme-default .news-article-item h3 a {
+    color: var(--default-text) !important;
+    font-weight: 600;
+}
+
+.theme-default .news-article-item h3 a:hover {
+    color: var(--default-primary) !important;
+}
+
+.theme-default h2 {
+    color: var(--default-text) !important;
+    border-bottom-color: var(--default-primary) !important;
+}
+
+.theme-default .read-more {
+    background: linear-gradient(135deg, var(--default-primary), var(--default-secondary)) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.theme-default .read-more:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    transform: translateY(-1px) !important;
+}
+
+.theme-default .sidebar-area {
+    background: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+}
+
+.theme-default .sidebar-area h4 {
+    color: var(--default-text) !important;
+    border-bottom-color: var(--default-primary) !important;
+}
+
+.theme-default .article-meta {
+    color: var(--default-text-secondary) !important;
+}
+
+.theme-default .article-description {
+    color: var(--default-text-secondary) !important;
+}
+
+/* Better form styling */
+.theme-default .login-form {
+    background: var(--default-surface) !important;
+}
+
+.theme-default .login-form h5 {
+    color: var(--default-primary) !important;
+}
+
+.theme-default .login-form .form-control {
+    background: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+    color: var(--default-text) !important;
+}
+
+.theme-default .login-form .form-control:focus {
+    border-color: var(--default-primary) !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.theme-default .login-form .btn-login {
+    background: linear-gradient(135deg, var(--default-primary), var(--default-secondary)) !important;
+}
+
+.theme-default .login-form .btn-register {
+    border-color: var(--default-border) !important;
+    color: var(--default-text-secondary) !important;
+}
+
+.theme-default .login-form .btn-register:hover {
+    border-color: var(--default-primary) !important;
+    color: var(--default-primary) !important;
+    background: rgba(59, 130, 246, 0.05) !important;
+}
+
+/* Dropdown styling */
+.theme-default .dropdown-menu {
+    background-color: var(--default-surface) !important;
+    border: 1px solid var(--default-border) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.theme-default .dropdown-menu .dropdown-item {
+    color: var(--default-text) !important;
+}
+
+.theme-default .dropdown-menu .dropdown-item:hover {
+    background-color: var(--default-surface-secondary) !important;
+    color: var(--default-primary) !important;
+}

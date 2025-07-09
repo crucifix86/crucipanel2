@@ -6,9 +6,17 @@ return [
     'themes' => [
         'default' => [
             'name' => 'Default Theme',
-            'description' => 'Classic light theme with dark mode support',
-            'css' => null, // Uses default Tailwind classes
-            'preview' => 'img/themes/default.png'
+            'description' => 'Modern clean theme with gradient accents',
+            'css' => 'css/themes/default.css',
+            'preview' => 'img/themes/default.png',
+            'colors' => [
+                'primary' => '#3b82f6',
+                'secondary' => '#8b5cf6',
+                'accent' => '#06b6d4',
+                'background' => '#f8fafc',
+                'surface' => '#ffffff',
+                'text' => '#111827'
+            ]
         ],
         'gamer-dark' => [
             'name' => 'Gamer Dark',
