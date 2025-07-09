@@ -29,9 +29,9 @@
                 <div class="social-icons">
                     @foreach($socialLinks as $link)
                     <div class="social-icon">
-                        <a href="{{ $link->url }}" target="_blank">
-                            <i class="{{ $link->icon }}"></i>
-                            <span>{{ $link->platform }}</span>
+                        <a href="{{ $link->url }}" target="_blank" class="flex flex-col items-center hover:opacity-80 transition-opacity">
+                            <i class="{{ $link->icon }} text-3xl mb-2"></i>
+                            <span class="text-sm">{{ $link->platform }}</span>
                         </a>
                     </div>
                     @endforeach

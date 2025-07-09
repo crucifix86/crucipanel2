@@ -16,7 +16,7 @@ return [
     'select_platform' => 'Choose a Platform',
     'url' => 'Profile URL',
     'icon_class' => 'Icon Class',
-    'icon_help' => 'Use Font Awesome icons (e.g., fab fa-facebook, fab fa-twitter)',
+    'icon_help' => 'Use Font Awesome icons (e.g., fa-facebook, fa-twitter)',
     'add_link' => 'Save Social Link',
     'no_social_links' => 'No social media links have been added yet. Click the button above to add your first link!',
     'link_updated' => 'Social link has been updated successfully.',

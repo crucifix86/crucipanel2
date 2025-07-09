@@ -142,7 +142,7 @@
                             id="icon"
                             name="icon"
                             type="text"
-                            placeholder="fab fa-facebook"
+                            placeholder="fa-facebook"
                             required
                         />
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">

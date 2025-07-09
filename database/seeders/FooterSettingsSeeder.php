@@ -28,14 +28,14 @@ class FooterSettingsSeeder extends Seeder
             [
                 'platform' => 'YouTube',
                 'url' => 'https://youtube.com/c/hrace009',
-                'icon' => 'fab fa-youtube',
+                'icon' => 'fa-brands fa-youtube',
                 'order' => 0,
                 'active' => true
             ],
             [
                 'platform' => 'Twitter',
                 'url' => 'https://twitter.com/hrace009',
-                'icon' => 'fab fa-twitter-square',
+                'icon' => 'fa-brands fa-twitter',
                 'order' => 1,
                 'active' => true
             ]
