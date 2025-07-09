@@ -30,7 +30,7 @@
                         @foreach($socialLinks as $link)
                         <a href="{{ $link->url }}" target="_blank" class="social-icon-link" title="{{ $link->platform }}">
                             <div class="social-icon-box">
-                                <i class="{{ $link->icon }}"></i>
+                                <i class="{{ $link->icon }}" style="font-size: 4rem !important;"></i>
                             </div>
                             <span class="social-label">{{ $link->platform }}</span>
                         </a>
@@ -259,10 +259,31 @@ html, body {
 }
 
 .social-icon-box i {
-    font-size: 4rem;
+    font-size: 4rem !important;
     color: var(--social-icon-color, #94a3b8);
     z-index: 1;
     transition: all 0.3s ease;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    line-height: 120px !important;
+    text-align: center !important;
+}
+
+/* Force icon sizes with higher specificity */
+#site-footer .social-icon-box i,
+.portal-footer .social-icon-box i,
+.footer-social-section .social-icon-box i {
+    font-size: 4rem !important;
+}
+
+/* Target Font Awesome icons specifically */
+.social-icon-box .fa,
+.social-icon-box .fas,
+.social-icon-box .far,
+.social-icon-box .fab,
+.social-icon-box .fa-brands {
+    font-size: 4rem !important;
 }
 
 .social-icon-link:hover .social-icon-box i {
@@ -441,7 +462,13 @@ html, body {
     }
     
     .social-icon-box i {
-        font-size: 3rem;
+        font-size: 3rem !important;
+    }
+    
+    /* Force mobile icon sizes */
+    #site-footer .social-icon-box i,
+    .portal-footer .social-icon-box i {
+        font-size: 3rem !important;
     }
     
     .social-label {
