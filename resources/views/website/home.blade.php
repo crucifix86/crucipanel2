@@ -649,11 +649,6 @@
             transform: scale(1.05);
         }
         
-        .header-link {
-            display: inline-block;
-            text-decoration: none;
-        }
-        
         @media (max-width: 768px) {
             .site-header {
                 padding: 20px 0;
@@ -769,9 +764,7 @@
     <header class="site-header">
         <div class="container-fluid">
             <div class="header-content">
-                <a href="{{ route('HOME') }}" class="header-link">
-                    <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo">
-                </a>
+                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo">
             </div>
         </div>
     </header>
