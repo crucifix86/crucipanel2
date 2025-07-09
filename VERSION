@@ -1,0 +1,17 @@
+v1.5.1
+
+Version History:
+- v1.5.1 (2025-01-09): Theme System & Footer Management
+  - Added customizable theme system with theme selector
+  - Modern Dark Gamer theme with neon effects
+  - Cyberpunk 2077 theme with glitch effects
+  - Footer management system for admin panel
+  - Fixed various UI issues and Livewire functionality
+
+- v1.5.0: Previous release (baseline)
+
+Notes:
+- Panel version in config/pw-config.php shows 'version' => '1.0' (internal version)
+- GitHub releases use semantic versioning (v1.5.x)
+- Always check current release tags before creating new ones
+- Update system compares GitHub release versions
