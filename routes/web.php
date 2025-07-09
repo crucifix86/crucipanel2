@@ -305,6 +305,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'uses' => 'App\Http\Controllers\Admin\UpdateController@installUpdate'
         ]);
 
+        Route::get('footer', [
+            'as' => 'admin.footer.index',
+            'uses' => 'App\Http\Controllers\Admin\FooterController@index'
+        ]);
+
+        Route::put('footer/content', [
+            'as' => 'admin.footer.updateContent',
+            'uses' => 'App\Http\Controllers\Admin\FooterController@updateContent'
+        ]);
+
+        Route::post('footer/social', [
+            'as' => 'admin.footer.social.store',
+            'uses' => 'App\Http\Controllers\Admin\FooterController@storeSocialLink'
+        ]);
+
     });
 
     Route::group(['prefix' => 'members'], static function () {
