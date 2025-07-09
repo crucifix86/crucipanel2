@@ -8,7 +8,6 @@
 
     <x-slot name="content">
         <div class="space-y-6">
-            @livewire('theme-selector-widget')
             <x-hrace009::front.news-view/>
         </div>
     </x-slot>
