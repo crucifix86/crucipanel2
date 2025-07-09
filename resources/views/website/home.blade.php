@@ -78,6 +78,34 @@
             padding: 0;
         }
 
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for news items */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-article-item {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .news-article-item:nth-child(1) { animation-delay: 0.1s; }
+        .news-article-item:nth-child(2) { animation-delay: 0.2s; }
+        .news-article-item:nth-child(3) { animation-delay: 0.3s; }
+        .news-article-item:nth-child(4) { animation-delay: 0.4s; }
+        .news-article-item:nth-child(5) { animation-delay: 0.5s; }
+
         /* Custom Navbar Styles */
         .custom-navbar {
             background: rgba(15, 15, 35, 0.95);
@@ -422,126 +450,231 @@
 
         .news-article-item {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 28px;
-            margin-bottom: 24px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            padding: 0;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            overflow: hidden; /* For the ::before pseudo-element */
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        .news-article-item::before { /* Top border accent */
+        .news-article-item::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: var(--gradient-accent); /* Or var(--accent-primary) for solid */
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         .news-article-item:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--accent-primary); /* Optional: change border on hover */
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+
+        .news-article-item:hover::before {
+            opacity: 1;
+        }
+
+        /* Article Header Section */
+        .article-header {
+            padding: 32px 32px 20px;
+            position: relative;
+        }
+
+        /* Article Body Section */
+        .article-body {
+            padding: 0 32px 32px;
+        }
+
+        .news-article-item h3 {
+            margin: 0 0 16px 0;
+            font-size: 1.75rem;
+            line-height: 1.3;
         }
 
         .news-article-item h3 a {
             color: var(--text-primary);
             text-decoration: none;
-            font-weight: 600; /* Or your preferred weight */
-            transition: color 0.3s ease;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-primary)) no-repeat;
+            background-size: 0% 3px;
+            background-position: left bottom;
+            padding-bottom: 2px;
         }
 
         .news-article-item h3 a:hover {
+            background-size: 100% 3px;
             color: var(--accent-primary);
         }
 
         .article-meta {
-            font-size: 0.9em;
+            font-size: 0.875rem;
             color: var(--text-muted);
-            margin-bottom: 16px;
-            display: flex; /* For aligning items like date and category */
-            gap: 20px; /* Space between meta items */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        }
-
-        .article-meta .date, .article-meta .category {
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 6px; /* Space between icon and text */
-        }
-
-        .article-meta .label { /* For category labels */
-            padding: 4px 12px;
-            border-radius: 20px; /* Pill shape */
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .article-meta .label a {
-            color: white !important; /* Ensure text is readable on colored labels */
-            text-decoration: none;
-        }
-
-        .article-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .article-tags {
-            font-size: 0.9em;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            gap: 24px;
             flex-wrap: wrap;
         }
 
-        .article-tags a {
+        .article-meta .date {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .article-meta .date i {
             color: var(--accent-primary);
-            text-decoration: none;
-            padding: 4px 8px;
-            background: var(--hover-bg);
-            border-radius: 4px;
-            font-size: 12px;
+            font-size: 0.875rem;
+        }
+
+        .article-meta .category {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             transition: all 0.3s ease;
+            background: var(--gradient-accent);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .article-meta .category a {
+            color: white !important;
+            text-decoration: none;
+        }
+
+        .article-meta .category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .article-image {
+            margin: -32px -32px 24px -32px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+            max-height: 400px;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .article-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .article-tags {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .article-tags i {
+            color: var(--accent-primary);
+            font-size: 0.875rem;
+        }
+
+        .article-tags a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 4px 12px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
 
         .article-tags a:hover {
             background: var(--accent-primary);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
         .article-description {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--text-secondary);
-            line-height: 1.6; /* Or 1.7 for more spacing */
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
         }
 
         .read-more {
-            display: inline-flex; /* For aligning icon and text */
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: var(--gradient-accent);
             color: white !important;
-            padding: 12px 20px;
+            padding: 14px 28px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 30px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            border: none; /* Remove default button border */
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .read-more::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .read-more:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .read-more:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .read-more i {
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover i {
+            transform: translateX(4px);
         }
 
         .pagination-links nav { /* Assuming Laravel pagination renders a nav element */
@@ -1010,11 +1143,6 @@
                 @if( isset($news) && $news->items() )
                     @foreach( $news as $article )
                         <div class="news-article-item">
-                            <h3><a href="{{ route('show.article', $article->slug) }}">{{ strtoupper($article->title) }}</a></h3>
-                            <p class="article-meta">
-                                <span class="date"><i class="fa fa-calendar"></i> {{ $article->date( $article->created_at ) }}</span>
-                                <span class="category label label-{{ $article->categoryColor($article->category) }}"><a href="{{ route('show.article.by.category', $article->category) }}">{{ __('news.category.' . $article->category) }}</a></span>
-                            </p>
                             @if($article->og_image)
                             <div class="article-image">
                                 <a href="{{ route('show.article', $article->slug) }}">
@@ -1022,16 +1150,29 @@
                                 </a>
                             </div>
                             @endif
-                            <div class="article-tags">
-                                <i class="fa fa-tags"></i>
-                                @foreach( $article->tags($article->keywords) as $tag )
-                                    <a href="{{ route( 'show.article.tag', $tag ) }}">{{ $tag }}</a>{{ $loop->last ? '' : ', ' }}
-                                @endforeach
+                            <div class="article-header">
+                                <h3><a href="{{ route('show.article', $article->slug) }}">{{ $article->title }}</a></h3>
+                                <div class="article-meta">
+                                    <span class="date"><i class="far fa-calendar-alt"></i> {{ $article->date( $article->created_at ) }}</span>
+                                    <span class="category"><a href="{{ route('show.article.by.category', $article->category) }}">{{ __('news.category.' . $article->category) }}</a></span>
+                                </div>
                             </div>
-                            <div class="article-description">
-                                {{ $article->description }}
+                            <div class="article-body">
+                                <div class="article-tags">
+                                    <i class="fas fa-tags"></i>
+                                    @foreach( $article->tags($article->keywords) as $tag )
+                                        <a href="{{ route( 'show.article.tag', $tag ) }}">#{{ $tag }}</a>
+                                    @endforeach
+                                </div>
+                                <div class="article-description">
+                                    {{ $article->description }}
+                                </div>
+                                <div class="article-footer">
+                                    <a href="{{ route('show.article', $article->slug ) }}" class="read-more">
+                                        Read More <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <a href="{{ route('show.article', $article->slug ) }}" class="btn read-more">Read More</a>
                         </div>
                     @endforeach
 
