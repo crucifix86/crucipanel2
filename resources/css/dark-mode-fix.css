@@ -1,0 +1,118 @@
+/*
+ * Dark Mode Fix - Ensures proper dark backgrounds on all pages
+ * This file addresses specificity issues with dark mode
+ */
+
+/* Fix body background for dark mode */
+body.dark,
+html.dark body {
+    background-color: #0f0f23 !important;
+}
+
+/* Ensure main content areas have dark backgrounds */
+.dark main,
+.dark .main-content,
+.dark .content-wrapper,
+.dark #app {
+    background-color: #0f0f23 !important;
+}
+
+/* Fix for any elements that might have inline styles or higher specificity */
+.dark [style*="background-color: white"],
+.dark [style*="background-color: #fff"],
+.dark [style*="background-color: #ffffff"],
+.dark [style*="background-color: rgb(255"],
+.dark [style*="background-color: rgba(255"] {
+    background-color: #0f0f23 !important;
+}
+
+/* Ensure all gray backgrounds respect dark mode */
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-gray-200 {
+    background-color: #1a1a3a !important;
+}
+
+/* Fix for cards and panels */
+.dark .bg-white,
+.dark .bg-white.shadow,
+.dark .bg-white.rounded,
+.dark .bg-white.rounded-lg,
+.dark .bg-white.rounded-md,
+.dark .card,
+.dark .panel {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Ensure text is visible in dark mode */
+.dark,
+.dark * {
+    color: #e2e8f0;
+}
+
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-black {
+    color: #e2e8f0 !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+    color: #94a3b8 !important;
+}
+
+.dark .text-gray-400,
+.dark .text-gray-300 {
+    color: #64748b !important;
+}
+
+/* Fix for inputs and form elements */
+.dark input,
+.dark textarea,
+.dark select {
+    background-color: #2a2a4a !important;
+    border-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Fix for tables */
+.dark table {
+    background-color: #1e293b !important;
+}
+
+.dark th {
+    background-color: #2a2a4a !important;
+    border-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+.dark td {
+    border-color: #334155 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Fix for dropdowns and menus */
+.dark .dropdown-menu,
+.dark [role="menu"] {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Fix for modals */
+.dark .modal-content,
+.dark [role="dialog"] {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+/* Navigation fixes */
+.dark nav,
+.dark .navbar,
+.dark .sidebar,
+.dark aside {
+    background-color: rgba(15, 15, 35, 0.95) !important;
+    backdrop-filter: blur(20px);
+    border-color: #334155 !important;
+}
