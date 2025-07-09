@@ -1,6 +1,12 @@
-v1.5.7
+v1.5.8
 
 Version History:
+- v1.5.8 (2025-01-09): Simple Dropdown Theme Selector
+  - Replaced complex UI with simple select dropdown
+  - Just shows theme names in a standard dropdown
+  - No icons, no modals, no fancy buttons
+  - Clean and simple as requested
+
 - v1.5.7 (2025-01-09): Compact Theme Selector
   - Made theme selector a simple icon button (no text)
   - Reduced dropdown width for compact display
