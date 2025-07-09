@@ -31,8 +31,16 @@
 
     <x-hrace009::front.top-script/>
 
+    @php
+        $userTheme = auth()->user()->theme ?? config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
 </head>
-<body class="antialiased">
+<body class="antialiased theme-{{ $userTheme }}">
 <x-hrace009::front.big-frame>
     <x-hrace009::loading>
         {{ __('general.loading') }}
@@ -83,6 +91,7 @@
                 <x-hrace009::mobile-sub-menu-button/>
                 <x-hrace009::desktop-right-button>
                     <x-slot name="button">
+                        @livewire('theme-selector')
                         <x-hrace009::dark-theme-button/>
                         <x-hrace009::language-button/>
                         <x-hrace009::character-selector/>
@@ -95,6 +104,7 @@
                 </x-hrace009::desktop-right-button>
                 <x-hrace009.mobile-sub-menu>
                     <x-slot name="button">
+                        @livewire('theme-selector')
                         <x-hrace009::dark-theme-button/>
                         <x-hrace009::mobile-language-menu/>
                         <x-hrace009::character-selector/>
