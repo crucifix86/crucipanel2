@@ -1,312 +1,389 @@
-/* Default Theme - Modern & Clean */
+/* Default Theme - Dark MMO Gaming Theme */
 :root {
-    --default-primary: #5b21b6;
-    --default-primary-dark: #4c1d95;
-    --default-secondary: #7c3aed;
-    --default-accent: #6366f1;
-    --default-success: #10b981;
-    --default-warning: #f59e0b;
-    --default-danger: #ef4444;
-    --default-bg: #f8fafc;
-    --default-surface: #ffffff;
-    --default-surface-secondary: #f3f4f6;
-    --default-border: #e5e7eb;
-    --default-text: #111827;
-    --default-text-secondary: #6b7280;
-    --default-text-muted: #9ca3af;
+    --mmo-purple: #8b5cf6;
+    --mmo-purple-dark: #7c3aed;
+    --mmo-purple-light: #a78bfa;
+    --mmo-indigo: #6366f1;
+    --mmo-pink: #ec4899;
+    --mmo-cyan: #06b6d4;
+    --mmo-gold: #fbbf24;
+    --mmo-dark-bg: #0a0e1a;
+    --mmo-surface: #1a1f2e;
+    --mmo-surface-light: #2a2f3e;
+    --mmo-border: #3a3f4e;
+    --mmo-text: #e2e8f0;
+    --mmo-text-secondary: #94a3b8;
 }
 
 /* Base Theme */
 .theme-default {
-    --color-primary: var(--default-primary);
-    --color-secondary: var(--default-secondary);
-    --color-accent: var(--default-accent);
+    --color-primary: var(--mmo-purple);
+    --color-secondary: var(--mmo-indigo);
+    --color-accent: var(--mmo-pink);
 }
 
-/* Background */
+/* Background - Always dark for MMO theme */
 .theme-default body {
-    background-color: var(--default-bg);
-    color: var(--default-text);
+    background-color: var(--mmo-dark-bg);
+    color: var(--mmo-text);
 }
 
-/* Dark mode overrides */
-.theme-default.dark body,
-body.dark-mode.theme-default,
-body.dark.theme-default {
-    --default-bg: #0f172a;
-    --default-surface: #1e293b;
-    --default-surface-secondary: #334155;
-    --default-border: #475569;
-    --default-text: #e2e8f0;
-    --default-text-secondary: #cbd5e1;
-    --default-text-muted: #94a3b8;
-    background-color: #0f172a !important;
-    color: #e2e8f0 !important;
+/* Override all white backgrounds */
+.theme-default .bg-white {
+    background-color: var(--mmo-surface) !important;
+    border: 1px solid var(--mmo-border);
+}
+
+.theme-default .dark\:bg-darker {
+    background-color: var(--mmo-surface) !important;
+}
+
+.theme-default .dark\:bg-dark {
+    background-color: var(--mmo-surface-light) !important;
 }
 
 /* Cards and Surfaces */
-.theme-default .bg-white {
-    background-color: var(--default-surface) !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+.theme-default .rounded-lg,
+.theme-default .rounded-md {
+    background-color: var(--mmo-surface);
+    border: 1px solid var(--mmo-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
-.theme-default .dark\:bg-darker,
-.theme-default .dark\:bg-dark {
-    background-color: var(--default-surface) !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-
-.theme-default .rounded-lg {
-    border: 1px solid var(--default-border);
+/* Purple Glow Effects */
+.theme-default .text-primary-600,
+.theme-default .text-primary-500 {
+    color: var(--mmo-purple-light) !important;
+    text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
 }
 
 /* Buttons */
 .theme-default .bg-green-600,
 .theme-default .bg-blue-600 {
-    background-color: var(--default-primary) !important;
+    background: linear-gradient(135deg, var(--mmo-purple-dark), var(--mmo-purple)) !important;
     color: white !important;
-    border: none !important;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: all 0.2s;
+    border: 1px solid var(--mmo-purple-light);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    transition: all 0.3s;
 }
 
 .theme-default .bg-green-600:hover,
 .theme-default .bg-blue-600:hover {
-    background-color: var(--default-primary-dark) !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, var(--mmo-purple), var(--mmo-purple-light)) !important;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
 }
 
 /* Input Fields */
 .theme-default input,
 .theme-default textarea,
 .theme-default select {
-    background-color: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-    color: var(--default-text) !important;
+    background-color: var(--mmo-dark-bg) !important;
+    border: 1px solid var(--mmo-border) !important;
+    color: var(--mmo-text) !important;
     transition: all 0.2s;
 }
 
 .theme-default input:focus,
 .theme-default textarea:focus,
 .theme-default select:focus {
-    border-color: var(--default-primary) !important;
-    box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.1) !important;
+    border-color: var(--mmo-purple) !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
+    outline: none !important;
 }
 
-/* Navigation */
+/* Navigation and Headers */
 .theme-default header {
-    background-color: var(--default-surface);
-    border-bottom: 1px solid var(--default-border);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    background-color: var(--mmo-surface);
+    border-bottom: 2px solid var(--mmo-purple);
+    box-shadow: 0 2px 15px rgba(139, 92, 246, 0.2);
+}
+
+/* Sidebar */
+.theme-default aside {
+    background-color: var(--mmo-surface);
+    border-right: 1px solid var(--mmo-border);
 }
 
 /* Links */
 .theme-default a {
-    color: var(--default-primary);
+    color: var(--mmo-purple-light);
+    text-decoration: none;
 }
 
 .theme-default a:hover {
-    color: var(--default-primary-dark);
+    color: var(--mmo-purple);
+    text-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
 }
 
 /* Tables */
 .theme-default table {
-    background-color: var(--default-surface);
+    background-color: var(--mmo-surface);
 }
 
 .theme-default thead {
-    background-color: var(--default-surface-secondary);
-    border-bottom: 2px solid var(--default-border);
+    background-color: var(--mmo-surface-light);
+    border-bottom: 2px solid var(--mmo-purple);
 }
 
 .theme-default tbody tr {
-    border-bottom: 1px solid var(--default-border);
+    border-bottom: 1px solid var(--mmo-border);
 }
 
 .theme-default tbody tr:hover {
-    background-color: var(--default-surface-secondary);
+    background-color: rgba(139, 92, 246, 0.1);
 }
 
-/* Alerts */
+/* Status Badges */
 .theme-default .bg-green-100 {
-    background-color: #d1fae5 !important;
-    border: 1px solid #a7f3d0 !important;
-    color: #065f46 !important;
+    background-color: rgba(16, 185, 129, 0.2) !important;
+    border: 1px solid #10b981 !important;
+    color: #34d399 !important;
 }
 
-/* Dark mode for surfaces */
-body.dark-mode.theme-default .bg-white,
-.theme-default.dark .bg-white,
-body.dark.theme-default .bg-white,
-body.dark-mode.theme-default .dark\:bg-darker,
-body.dark.theme-default .dark\:bg-darker,
-body.dark-mode.theme-default .dark\:bg-dark,
-body.dark.theme-default .dark\:bg-dark,
-body.dark-mode.theme-default .news-article-item,
-body.dark-mode.theme-default .sidebar-area,
-body.dark-mode.theme-default .dropdown-menu {
-    background-color: #1e293b !important;
+.theme-default .bg-red-100 {
+    background-color: rgba(239, 68, 68, 0.2) !important;
+    border: 1px solid #ef4444 !important;
+    color: #f87171 !important;
 }
 
-body.dark-mode.theme-default .custom-home-content-wrap {
-    background: #0f172a !important;
+.theme-default .bg-yellow-100 {
+    background-color: rgba(251, 191, 36, 0.2) !important;
+    border: 1px solid var(--mmo-gold) !important;
+    color: var(--mmo-gold) !important;
 }
 
-body.dark-mode.theme-default input,
-body.dark-mode.theme-default textarea,
-body.dark-mode.theme-default select {
-    background-color: #1e293b !important;
-    border-color: #475569 !important;
-    color: #e2e8f0 !important;
+/* Scrollbar */
+.theme-default ::-webkit-scrollbar {
+    width: 12px;
+    background-color: var(--mmo-dark-bg);
 }
 
-body.dark-mode.theme-default .news-article-item h3 a,
-body.dark-mode.theme-default h2,
-body.dark-mode.theme-default .sidebar-area h4 {
-    color: #e2e8f0 !important;
+.theme-default ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--mmo-purple-dark), var(--mmo-purple));
+    border-radius: 6px;
 }
 
-body.dark-mode.theme-default .article-meta,
-body.dark-mode.theme-default .article-description {
-    color: #cbd5e1 !important;
+.theme-default ::-webkit-scrollbar-track {
+    background-color: var(--mmo-surface);
+}
+
+/* Modal Overlays */
+.theme-default .bg-gray-500 {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Headers with Gradient */
+.theme-default h1,
+.theme-default h2,
+.theme-default h3 {
+    background: linear-gradient(135deg, var(--mmo-purple-light), var(--mmo-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Special MMO Effects */
+@keyframes mmo-glow {
+    0% { box-shadow: 0 0 5px var(--mmo-purple); }
+    50% { box-shadow: 0 0 20px var(--mmo-purple), 0 0 30px var(--mmo-purple-dark); }
+    100% { box-shadow: 0 0 5px var(--mmo-purple); }
+}
+
+.theme-default .animate-glow {
+    animation: mmo-glow 3s infinite;
 }
 
 /* Home Page Specific */
 .theme-default .custom-navbar {
-    background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%) !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-}
-
-/* Dark mode navbar - even darker */
-body.dark-mode.theme-default .custom-navbar {
-    background: linear-gradient(135deg, #2e1065 0%, #3730a3 100%) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+    background: linear-gradient(135deg, #1a1f2e 0%, #2a2f3e 100%) !important;
+    border-bottom: 2px solid var(--mmo-purple) !important;
+    box-shadow: 0 2px 20px rgba(139, 92, 246, 0.3) !important;
 }
 
 .theme-default .custom-navbar .nav-link {
-    color: rgba(255,255,255,0.9) !important;
+    color: var(--mmo-text) !important;
     font-weight: 500;
+    transition: all 0.3s;
 }
 
 .theme-default .custom-navbar .nav-link:hover,
 .theme-default .custom-navbar .nav-link.active {
-    color: #ffffff !important;
-    background-color: rgba(255,255,255,0.2) !important;
+    color: var(--mmo-purple-light) !important;
+    background-color: rgba(139, 92, 246, 0.1) !important;
+    text-shadow: 0 0 10px var(--mmo-purple);
 }
 
 .theme-default .custom-home-content-wrap {
-    background: var(--default-bg) !important;
+    background: var(--mmo-dark-bg) !important;
 }
 
+/* News Articles */
 .theme-default .news-article-item {
-    background: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+    background: var(--mmo-surface) !important;
+    border: 1px solid var(--mmo-border) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
     transition: all 0.3s ease;
 }
 
 .theme-default .news-article-item::before {
-    background: linear-gradient(90deg, var(--default-primary-dark), var(--default-primary)) !important;
+    background: linear-gradient(90deg, var(--mmo-purple-dark), var(--mmo-purple-light)) !important;
+    height: 3px !important;
 }
 
 .theme-default .news-article-item:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    border-color: var(--mmo-purple) !important;
+    box-shadow: 0 6px 25px rgba(139, 92, 246, 0.3) !important;
     transform: translateY(-2px);
 }
 
 .theme-default .news-article-item h3 a {
-    color: var(--default-text) !important;
+    color: var(--mmo-text) !important;
     font-weight: 600;
 }
 
 .theme-default .news-article-item h3 a:hover {
-    color: var(--default-primary) !important;
+    color: var(--mmo-purple-light) !important;
 }
 
 .theme-default h2 {
-    color: var(--default-text) !important;
-    border-bottom-color: var(--default-primary) !important;
+    color: var(--mmo-purple-light) !important;
+    border-bottom-color: var(--mmo-purple) !important;
 }
 
+/* Read More Button */
 .theme-default .read-more {
-    background: linear-gradient(135deg, var(--default-primary-dark), var(--default-primary)) !important;
+    background: linear-gradient(135deg, var(--mmo-purple-dark), var(--mmo-purple)) !important;
     color: white !important;
     font-weight: 600 !important;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--mmo-purple-light);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .theme-default .read-more:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-    transform: translateY(-1px) !important;
+    background: linear-gradient(135deg, var(--mmo-purple), var(--mmo-purple-light)) !important;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
+    transform: translateY(-2px) !important;
 }
 
+/* Sidebar */
 .theme-default .sidebar-area {
-    background: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+    background: var(--mmo-surface) !important;
+    border: 1px solid var(--mmo-border) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
 .theme-default .sidebar-area h4 {
-    color: var(--default-text) !important;
-    border-bottom-color: var(--default-primary) !important;
+    color: var(--mmo-purple-light) !important;
+    border-bottom-color: var(--mmo-purple) !important;
 }
 
 .theme-default .article-meta {
-    color: var(--default-text-secondary) !important;
+    color: var(--mmo-text-secondary) !important;
 }
 
 .theme-default .article-description {
-    color: var(--default-text-secondary) !important;
+    color: var(--mmo-text-secondary) !important;
 }
 
-/* Better form styling */
+/* Login Form */
 .theme-default .login-form {
-    background: var(--default-surface) !important;
+    background: var(--mmo-surface) !important;
+    border: 1px solid var(--mmo-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .theme-default .login-form h5 {
-    color: var(--default-primary) !important;
+    color: var(--mmo-purple-light) !important;
 }
 
 .theme-default .login-form .form-control {
-    background: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-    color: var(--default-text) !important;
+    background: var(--mmo-dark-bg) !important;
+    border: 1px solid var(--mmo-border) !important;
+    color: var(--mmo-text) !important;
 }
 
 .theme-default .login-form .form-control:focus {
-    border-color: var(--default-primary) !important;
-    box-shadow: 0 0 0 3px rgba(91, 33, 182, 0.1) !important;
+    border-color: var(--mmo-purple) !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2) !important;
 }
 
 .theme-default .login-form .btn-login {
-    background: linear-gradient(135deg, var(--default-primary-dark), var(--default-primary)) !important;
+    background: linear-gradient(135deg, var(--mmo-purple-dark), var(--mmo-purple)) !important;
+    border: 1px solid var(--mmo-purple-light);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 
 .theme-default .login-form .btn-register {
-    border-color: var(--default-border) !important;
-    color: var(--default-text-secondary) !important;
+    border-color: var(--mmo-purple) !important;
+    color: var(--mmo-purple-light) !important;
 }
 
 .theme-default .login-form .btn-register:hover {
-    border-color: var(--default-primary) !important;
-    color: var(--default-primary) !important;
-    background: rgba(59, 130, 246, 0.05) !important;
+    background: rgba(139, 92, 246, 0.1) !important;
+    border-color: var(--mmo-purple-light) !important;
 }
 
-/* Dropdown styling */
+/* Dropdown Menus */
 .theme-default .dropdown-menu {
-    background-color: var(--default-surface) !important;
-    border: 1px solid var(--default-border) !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    background-color: var(--mmo-surface) !important;
+    border: 1px solid var(--mmo-border) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
 }
 
 .theme-default .dropdown-menu .dropdown-item {
-    color: var(--default-text) !important;
+    color: var(--mmo-text) !important;
 }
 
 .theme-default .dropdown-menu .dropdown-item:hover {
-    background-color: var(--default-surface-secondary) !important;
-    color: var(--default-primary) !important;
+    background-color: rgba(139, 92, 246, 0.1) !important;
+    color: var(--mmo-purple-light) !important;
+}
+
+/* Toggle Switches */
+.theme-default .toggle {
+    background-color: var(--mmo-border) !important;
+}
+
+.theme-default .toggle:checked {
+    background-color: var(--mmo-purple) !important;
+}
+
+/* Loading Animation */
+.theme-default .animate-pulse {
+    background: linear-gradient(90deg, 
+        var(--mmo-surface) 0%, 
+        rgba(139, 92, 246, 0.1) 50%, 
+        var(--mmo-surface) 100%
+    );
+    background-size: 200% 100%;
+    animation: pulse-mmo 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-mmo {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Fix any remaining white backgrounds */
+.theme-default [class*="bg-white"] {
+    background-color: var(--mmo-surface) !important;
+}
+
+/* Text color adjustments */
+.theme-default .text-gray-900,
+.theme-default .text-gray-800,
+.theme-default .text-gray-700,
+.theme-default .text-gray-600 {
+    color: var(--mmo-text) !important;
+}
+
+.theme-default .text-gray-500,
+.theme-default .text-gray-400 {
+    color: var(--mmo-text-secondary) !important;
+}
+
+/* Border adjustments */
+.theme-default [class*="border-gray"] {
+    border-color: var(--mmo-border) !important;
 }

@@ -5,17 +5,17 @@ return [
     
     'themes' => [
         'default' => [
-            'name' => 'Default Theme',
-            'description' => 'Modern clean theme with gradient accents',
+            'name' => 'MMO Dark',
+            'description' => 'Dark purple theme perfect for MMO gaming sites',
             'css' => 'css/themes/default.css',
             'preview' => 'img/themes/default.png',
             'colors' => [
-                'primary' => '#3b82f6',
-                'secondary' => '#8b5cf6',
-                'accent' => '#06b6d4',
-                'background' => '#f8fafc',
-                'surface' => '#ffffff',
-                'text' => '#111827'
+                'primary' => '#8b5cf6',
+                'secondary' => '#6366f1',
+                'accent' => '#ec4899',
+                'background' => '#0a0e1a',
+                'surface' => '#1a1f2e',
+                'text' => '#e2e8f0'
             ]
         ],
         'gamer-dark' => [
