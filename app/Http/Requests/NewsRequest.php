@@ -33,7 +33,7 @@ class NewsRequest extends FormRequest
     {
         return [
             'title' => 'required|min:3|max:255',
-            'og_image' => 'required|image',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp,svg|max:10240', // Optional, more formats, max 10MB
             'description' => 'required|min:20|max:255',
             'keywords' => 'required',
             'content' => 'required',

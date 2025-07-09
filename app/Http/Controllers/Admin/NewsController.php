@@ -57,11 +57,14 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request): RedirectResponse
     {
-        $image = $request->file('og_image')->getClientOriginalName();
-        $request->file('og_image')->storeAs('og_image', $image, config('filesystems.default'));
-
         $input = $request->all();
-        $input['og_image'] = $image;
+        
+        // Handle optional image upload
+        if ($request->hasFile('og_image')) {
+            $image = $request->file('og_image')->getClientOriginalName();
+            $request->file('og_image')->storeAs('og_image', $image, config('filesystems.default'));
+            $input['og_image'] = $image;
+        }
 
         $slug = \Str::slug($request->title);
         $count = News::where('slug', 'LIKE', '%' . $slug . '%')->count();
@@ -105,19 +108,24 @@ class NewsController extends Controller
      */
     public function update(NewsRequest $request, int $id): RedirectResponse
     {
-        $image = $request->file('og_image')->getClientOriginalName();
-        $request->file('og_image')->storeAs('og_image', $image, config('filesystems.default'));
-
-        News::whereId($id)->update([
+        $updateData = [
             'title' => $request->get('title'),
             'slug' => \Str::slug($request->title),
-            'og_image' => $image,
             'description' => $request->get('description'),
             'keywords' => $request->get('keywords'),
             'content' => $request->get('content'),
             'category' => $request->get('category'),
             'author' => $request->get('author'),
-        ]);
+        ];
+        
+        // Handle optional image upload
+        if ($request->hasFile('og_image')) {
+            $image = $request->file('og_image')->getClientOriginalName();
+            $request->file('og_image')->storeAs('og_image', $image, config('filesystems.default'));
+            $updateData['og_image'] = $image;
+        }
+
+        News::whereId($id)->update($updateData);
         return redirect(route('news.index'))->with('success', __('news.edit_success'));
     }
 

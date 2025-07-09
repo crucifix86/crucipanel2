@@ -38,8 +38,8 @@ return [
         'desc_desc' => 'Enter news description at least 100 word.',
         'keyword' => 'Keyword',
         'keyword_desc' => 'Enter news keyword, seperated it with comma.',
-        'og_image' => 'Opengraph Image',
-        'og_image_desc' => 'Upload your opengraph image!'
+        'og_image' => 'Featured Image (Optional)',
+        'og_image_desc' => 'Upload an optional featured image. Supports: JPG, PNG, GIF, WebP, SVG (Max 10MB)'
     ],
     'category' => [
         'update' => 'Update',
