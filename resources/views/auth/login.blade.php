@@ -298,6 +298,7 @@
             }
         }
         .navbar-logo { height: 60px !important; width: auto; margin-right: 10px; }
+        .navbar-badge { cursor: default; pointer-events: none; }
 
     </style>
 </head>
@@ -314,16 +315,15 @@
     {{-- Custom Navbar (copied from home.blade.php/register.blade.php) --}}
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('HOME') }}">
+            <div class="navbar-brand">
                 @if( !config('pw-config.logo') || config('pw-config.logo') === '' )
-                    <img src="{{ asset('img/logo/logo.png') }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo">
+                    <img src="{{ asset('img/logo/logo.png') }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
                 @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
-                    <img src="{{ asset(config('pw-config.logo')) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo">
+                    <img src="{{ asset(config('pw-config.logo')) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
                 @else
-                    <img src="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo">
+                    <img src="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
                 @endif
-                {{ config('pw-config.server_name', 'PW Panel') }}
-            </a>
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

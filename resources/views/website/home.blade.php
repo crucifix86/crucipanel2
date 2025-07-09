@@ -617,6 +617,11 @@
             width: auto;
             margin-right: 10px; /* Adjusted gap */
         }
+        
+        .navbar-badge {
+            cursor: default;
+            pointer-events: none;
+        }
 
         /* Widget Styling for Dark Theme */
         .sidebar-area .side-block {
@@ -722,16 +727,15 @@
     {{-- Custom Navbar with Working Hover Login --}}
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('HOME') }}">
+            <div class="navbar-brand">
                 @if( !config('pw-config.logo') || config('pw-config.logo') === '' )
-                    <img src="{{ asset('img/logo/logo.png') }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo">
+                    <img src="{{ asset('img/logo/logo.png') }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
                 @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
-                    <img src="{{ asset(config('pw-config.logo')) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo">
+                    <img src="{{ asset(config('pw-config.logo')) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
                 @else
-                    <img src="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo">
+                    <img src="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
                 @endif
-                {{ config('pw-config.server_name', 'PW Panel') }}
-            </a>
+            </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
