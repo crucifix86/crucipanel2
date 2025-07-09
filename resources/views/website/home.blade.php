@@ -613,9 +613,9 @@
 
         /* Logo styling */
         .navbar-logo {
-            height: 35px; /* Adjusted from 40px to better fit common case */
+            height: 50px; /* Increased size for better readability */
             width: auto;
-            margin-right: 8px; /* Consistent gap */
+            margin-right: 10px; /* Adjusted gap */
         }
 
         /* Widget Styling for Dark Theme */

@@ -487,7 +487,7 @@
                 margin-right: 15px;
             }
         }
-        .navbar-logo { height: 35px; width: auto; margin-right: 8px; }
+        .navbar-logo { height: 50px; width: auto; margin-right: 10px; }
 
     </style>
 </head>
