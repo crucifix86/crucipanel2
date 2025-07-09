@@ -11,40 +11,6 @@
             }
         @endphp
         
-        <!-- Footer Image Section -->
-        @if($footerSettings && $footerSettings->footer_image)
-        <div class="footer-image-section">
-            <div class="container">
-                <div class="footer-image-wrapper" style="text-align: {{ $footerSettings->alignment ?? 'center' }};">
-                    @php
-                        $imagePath = $footerSettings->footer_image;
-                        // Handle different path formats
-                        if (str_starts_with($imagePath, 'storage/')) {
-                            $imageUrl = asset($imagePath);
-                        } elseif (str_starts_with($imagePath, '/storage/')) {
-                            $imageUrl = asset(ltrim($imagePath, '/'));
-                        } else {
-                            $imageUrl = asset('storage/' . $imagePath);
-                        }
-                    @endphp
-                    @if($footerSettings->footer_image_link)
-                        <a href="{{ $footerSettings->footer_image_link }}" target="_blank" class="footer-image-link">
-                            <img src="{{ $imageUrl }}" 
-                                 alt="{{ $footerSettings->footer_image_alt ?? 'Footer Image' }}" 
-                                 class="footer-image"
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'100\'%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\'%3EImage not found%3C/text%3E%3C/svg%3E';">
-                        </a>
-                    @else
-                        <img src="{{ $imageUrl }}" 
-                             alt="{{ $footerSettings->footer_image_alt ?? 'Footer Image' }}" 
-                             class="footer-image"
-                             onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'100\'%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\'%3EImage not found%3C/text%3E%3C/svg%3E';">
-                    @endif
-                </div>
-            </div>
-        </div>
-        @endif
-        
         <!-- Social Section -->
         @if($socialLinks->count() > 0)
         <div class="footer-social-section">
@@ -123,35 +89,6 @@
     50% { opacity: 1; }
 }
 
-.footer-image-section {
-    background: var(--footer-image-bg, #1a1f2e);
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--footer-border, #3a3f4e);
-}
-
-.footer-image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.footer-image {
-    max-height: 150px;
-    width: auto;
-    max-width: 100%;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-    transition: all 0.3s ease;
-}
-
-.footer-image-link {
-    display: inline-block;
-    text-decoration: none;
-}
-
-.footer-image-link:hover .footer-image {
-    transform: scale(1.05);
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
-}
 
 .footer-social-section {
     background: var(--footer-social-bg, #1a1f2e);
@@ -304,7 +241,6 @@
 /* Theme-specific styles */
 .theme-default .portal-footer {
     --footer-bg: #0a0e1a;
-    --footer-image-bg: #1a1f2e;
     --footer-social-bg: #1a1f2e;
     --footer-copyright-bg: #0a0e1a;
     --footer-border: #3a3f4e;
@@ -326,7 +262,6 @@
 
 .theme-gamer-dark .portal-footer {
     --footer-bg: #0a0a0a;
-    --footer-image-bg: #1a1a1a;
     --footer-social-bg: #1a1a1a;
     --footer-copyright-bg: #0a0a0a;
     --footer-border: #333333;
@@ -348,7 +283,6 @@
 
 .theme-cyberpunk .portal-footer {
     --footer-bg: #000000;
-    --footer-image-bg: #1a0f1a;
     --footer-social-bg: #1a0f1a;
     --footer-copyright-bg: #000000;
     --footer-border: #333333;
@@ -382,10 +316,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-    .footer-image {
-        max-height: 100px;
-    }
-    
     .social-icons-wrapper {
         gap: 1.5rem;
     }

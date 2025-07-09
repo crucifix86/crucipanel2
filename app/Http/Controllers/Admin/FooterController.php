@@ -29,29 +29,15 @@ class FooterController extends Controller
         $validated = $request->validate([
             'content' => 'nullable|string',
             'copyright' => 'nullable|string|max:255',
-            'alignment' => 'required|in:left,center,right',
-            'footer_image' => 'nullable|image|mimes:svg,png,jpg,jpeg,gif|max:2048',
-            'footer_image_link' => 'nullable|url|max:255',
-            'footer_image_alt' => 'nullable|string|max:255',
-            'footer_image_path' => 'nullable|string|max:255'
+            'alignment' => 'required|in:left,center,right'
         ]);
         
         $footerSettings = FooterSetting::firstOrNew(['id' => 1]);
         
-        // Handle footer image upload
-        if ($request->hasFile('footer_image')) {
-            $imagePath = $request->file('footer_image')->store('footer', 'public');
-            $footerSettings->footer_image = 'storage/' . $imagePath;
-        } elseif ($request->filled('footer_image_path')) {
-            $footerSettings->footer_image = $request->footer_image_path;
-        }
-        
-        // Update other fields
+        // Update fields
         $footerSettings->content = $validated['content'] ?? null;
         $footerSettings->copyright = $validated['copyright'] ?? null;
         $footerSettings->alignment = $validated['alignment'];
-        $footerSettings->footer_image_link = $validated['footer_image_link'] ?? null;
-        $footerSettings->footer_image_alt = $validated['footer_image_alt'] ?? null;
         
         $footerSettings->save();
         
