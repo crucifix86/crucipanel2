@@ -232,14 +232,14 @@ html, body {
 }
 
 .social-icon-box {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--social-icon-bg, #2a2f3e);
-    border: 2px solid var(--social-icon-border, #3a3f4e);
-    border-radius: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 20px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -252,20 +252,14 @@ html, body {
     left: 50%;
     width: 0;
     height: 0;
-    background: var(--social-icon-hover-bg, #8b5cf6);
+    background: transparent;
     transition: all 0.3s ease;
     transform: translate(-50%, -50%);
     border-radius: 50%;
 }
 
-.social-icon-link:hover .social-icon-box::before {
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-}
-
 .social-icon-box i {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--social-icon-color, #94a3b8);
     z-index: 1;
     transition: all 0.3s ease;
@@ -277,9 +271,26 @@ html, body {
 }
 
 .social-icon-link:hover .social-icon-box {
-    border-color: var(--social-icon-hover-border, #8b5cf6);
-    box-shadow: 0 0 20px var(--social-icon-glow, rgba(139, 92, 246, 0.5));
-    transform: translateY(-2px);
+    transform: translateY(-5px) scale(1.1);
+}
+
+/* Fix active/focus states */
+.social-icon-link:active .social-icon-box,
+.social-icon-link:focus .social-icon-box {
+    outline: none;
+    transform: translateY(0);
+}
+
+.social-icon-link:active .social-icon-box::before {
+    opacity: 0.8;
+}
+
+/* Prevent default link highlighting */
+.social-icon-link {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .social-label {
@@ -407,16 +418,16 @@ html, body {
 }
 
 /* Platform-specific colors */
-.social-icon-link[title="Facebook"]:hover .social-icon-box { --social-icon-hover-bg: #1877f2; }
-.social-icon-link[title="Twitter"]:hover .social-icon-box { --social-icon-hover-bg: #1da1f2; }
-.social-icon-link[title="Instagram"]:hover .social-icon-box { --social-icon-hover-bg: #e4405f; }
-.social-icon-link[title="YouTube"]:hover .social-icon-box { --social-icon-hover-bg: #ff0000; }
-.social-icon-link[title="Discord"]:hover .social-icon-box { --social-icon-hover-bg: #5865f2; }
-.social-icon-link[title="Twitch"]:hover .social-icon-box { --social-icon-hover-bg: #9146ff; }
-.social-icon-link[title="TikTok"]:hover .social-icon-box { --social-icon-hover-bg: #000000; }
-.social-icon-link[title="LinkedIn"]:hover .social-icon-box { --social-icon-hover-bg: #0077b5; }
-.social-icon-link[title="GitHub"]:hover .social-icon-box { --social-icon-hover-bg: #333333; }
-.social-icon-link[title="Reddit"]:hover .social-icon-box { --social-icon-hover-bg: #ff4500; }
+.social-icon-link[title="Facebook"]:hover .social-icon-box i { color: #1877f2; }
+.social-icon-link[title="Twitter"]:hover .social-icon-box i { color: #1da1f2; }
+.social-icon-link[title="Instagram"]:hover .social-icon-box i { color: #e4405f; }
+.social-icon-link[title="YouTube"]:hover .social-icon-box i { color: #ff0000; }
+.social-icon-link[title="Discord"]:hover .social-icon-box i { color: #5865f2; }
+.social-icon-link[title="Twitch"]:hover .social-icon-box i { color: #9146ff; }
+.social-icon-link[title="TikTok"]:hover .social-icon-box i { color: #000000; }
+.social-icon-link[title="LinkedIn"]:hover .social-icon-box i { color: #0077b5; }
+.social-icon-link[title="GitHub"]:hover .social-icon-box i { color: #333333; }
+.social-icon-link[title="Reddit"]:hover .social-icon-box i { color: #ff4500; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -425,12 +436,12 @@ html, body {
     }
     
     .social-icon-box {
-        width: 65px;
-        height: 65px;
+        width: 80px;
+        height: 80px;
     }
     
     .social-icon-box i {
-        font-size: 1.75rem;
+        font-size: 2rem;
     }
     
     .social-label {
