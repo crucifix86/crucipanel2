@@ -34,8 +34,13 @@
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
         rel="stylesheet"
     />
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('vendor/portal/bootstrap/dist/css/bootstrap.min.css') }}" />
+    <!-- FontAwesome for icons -->
+    <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fontawesome-all.min.js') }}"></script>
+    <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fa-v4-shims.min.js') }}"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
 
     @php
         $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
@@ -46,8 +51,8 @@
         <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
     @endif
 
-    <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <!-- Livewire Styles -->
+    @livewireStyles
 </head>
 <body class="antialiased theme-{{ $userTheme }}">
 <x-hrace009::auth.general-frame>
@@ -71,5 +76,12 @@
     <x-hrace009::dark-mode/>
 </x-hrace009::auth.general-frame>
 <x-hrace009::auth.script/>
+
+<!-- Scripts -->
+<script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Livewire Scripts -->
+@livewireScripts
 </body>
 </html>
