@@ -282,7 +282,7 @@
                 @livewire('theme-selector-widget')
 
                 {{-- Language Button --}}
-                @livewire('language-flag')
+                <x-hrace009::language-button />
 
                 {{-- Login/Logout --}}
                 @guest
