@@ -62,7 +62,7 @@
                                         {{ $user->email }}
                                     </td>
                                     <td class="px-2 py-3 whitespace-nowrap">
-                                        {{ ucwords($user->truename) }}
+                                        {{ $user->truename }}
                                     </td>
                                     <td class="px-2 py-3 whitespace-nowrap">
                                         {{ $user->money }}

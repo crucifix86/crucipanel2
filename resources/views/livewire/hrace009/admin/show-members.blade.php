@@ -54,7 +54,7 @@
                                             {{ $user->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ ucwords($user->truename) }}
+                                            {{ $user->truename }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $user->money }}
@@ -88,7 +88,7 @@
                                             {{ $searchUser->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ ucwords($searchUser->truename) }}
+                                            {{ $searchUser->truename }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $searchUser->money }}

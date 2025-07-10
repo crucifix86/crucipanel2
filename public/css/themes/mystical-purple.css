@@ -644,6 +644,18 @@ footer {
     background: var(--accent-primary) !important;
 }
 
+/* ===== THEME SELECTOR OVERRIDE ===== */
+select.bg-white {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+select.bg-white option {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
 /* ===== ANNOUNCEMENT BANNER ===== */
 .announcement-banner {
     background: var(--gradient-gold) !important;
