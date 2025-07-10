@@ -336,6 +336,28 @@
             transform: translateY(-2px);
         }
 
+        /* Main Content Area */
+        .main-content-area {
+            float: left;
+            width: 70%;
+            padding-right: 30px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-area {
+            float: right;
+            width: 30%;
+            padding-left: 30px;
+            box-sizing: border-box;
+        }
+
+        /* Clearfix for container */
+        .container::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
         /* Widget Styling for Dark Theme */
         .sidebar-area .side-block {
             background-color: var(--card-bg);
@@ -442,6 +464,18 @@
             
             .header-logo {
                 max-height: 80px;
+            }
+
+            .main-content-area,
+            .sidebar-area {
+                float: none;
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .sidebar-area {
+                margin-top: 30px;
             }
         }
     </style>
@@ -708,9 +742,9 @@
             </div>
         </section>
 
-        <div class="container youplay-news">
+        <div class="container youplay-news" style="display: flow-root;">
             {{-- News Article --}}
-            <div class="col-md-9">
+            <div class="main-content-area">
                 <article class="news-one">
                     <div class="tags">
                         @php($tags = explode(',', $keywords ))
@@ -745,11 +779,9 @@
             </div>
 
             {{-- Right Side --}}
-            <div class="col-md-3">
-                <aside class="sidebar-area">
-                    {{ $widget }}
-                </aside>
-            </div>
+            <aside class="sidebar-area">
+                {{ $widget }}
+            </aside>
         </div>
 
         <x-hrace009::portal.footer/>
