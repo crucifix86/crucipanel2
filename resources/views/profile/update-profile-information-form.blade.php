@@ -76,6 +76,17 @@
                                    autocomplete="phonenumber"/>
             <x-input-error for="phonenumber" class="mt-2"/>
         </div>
+
+        <!-- Discord ID -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-label for="discord_id" value="Discord ID"/>
+            <x-hrace009::input-box id="discord_id" type="text" class="mt-1 block w-full"
+                                   wire:model="state.discord_id"
+                                   placeholder="username#0000 or username"
+                                   autocomplete="discord_id"/>
+            <x-input-error for="discord_id" class="mt-2"/>
+            <p class="text-sm text-gray-500 mt-1">{{ __('Optional: Share your Discord ID so players can contact you') }}</p>
+        </div>
     </x-slot>
 
     <x-slot name="actions">

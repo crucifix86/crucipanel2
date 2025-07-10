@@ -66,6 +66,7 @@ class User extends Authenticatable
         'answer',
         'creatime',
         'theme',
+        'discord_id',
     ];
 
     /**

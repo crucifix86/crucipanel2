@@ -7,7 +7,12 @@
                 <tbody>
                 @foreach( $gms as $gm )
                     <tr>
-                        <td style="font-weight: bold; font-size: 1.1rem; color: var(--text-primary); padding: 8px 0;">{{ $gm->truename ?: $gm->name }}</td>
+                        <td style="font-weight: bold; font-size: 1.1rem; color: var(--text-primary); padding: 8px 0;">
+                            {{ $gm->truename ?: $gm->name }}
+                            @if($gm->discord_id)
+                                <br><small style="font-weight: normal; font-size: 0.85rem; color: var(--text-secondary);">Discord: {{ $gm->discord_id }}</small>
+                            @endif
+                        </td>
                         <td style="text-align: right;"><span
                                 class="badge {{ $gm->online() ? 'bg-success' : 'bg-danger' }}">{{ $gm->online() ? __('widget.table.field.online') : __('widget.table.field.offline') }}</span>
                         </td>
