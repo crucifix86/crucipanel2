@@ -58,10 +58,23 @@ class PhpMailTransport extends AbstractTransport
         $body = $email->getHtmlBody() ?? $email->getTextBody() ?? '';
         
         // Send email using PHP mail() function
-        $result = mail($to, $subject, $body, $headersString);
+        $result = @mail($to, $subject, $body, $headersString);
         
         if (!$result) {
-            throw new \RuntimeException('Failed to send email using PHP mail() function');
+            $error = error_get_last();
+            $errorMessage = isset($error['message']) ? $error['message'] : 'Unknown error';
+            
+            // Log debugging info
+            \Log::error('PHP mail() failed', [
+                'to' => $to,
+                'subject' => $subject,
+                'error' => $errorMessage,
+                'php_ini_sendmail_path' => ini_get('sendmail_path'),
+                'php_ini_smtp' => ini_get('SMTP'),
+                'php_ini_smtp_port' => ini_get('smtp_port'),
+            ]);
+            
+            throw new \RuntimeException('Failed to send email using PHP mail() function: ' . $errorMessage);
         }
     }
 
