@@ -84,16 +84,29 @@ class SystemController extends Controller
         ]);
 
         // Update .env file
-        $this->updateEnvironmentFile([
+        $envData = [
             'MAIL_MAILER' => $request->mail_driver,
-            'MAIL_HOST' => $request->mail_host ?: '',
-            'MAIL_PORT' => $request->mail_port ?: '587',
-            'MAIL_USERNAME' => $request->mail_username ?: '',
-            'MAIL_PASSWORD' => $request->mail_password ?: '',
-            'MAIL_ENCRYPTION' => $request->mail_encryption ?: 'null',
             'MAIL_FROM_ADDRESS' => $request->mail_from_address,
             'MAIL_FROM_NAME' => $request->mail_from_name,
-        ]);
+        ];
+        
+        // Only include SMTP settings if not using 'mail' or 'sendmail' driver
+        if (!in_array($request->mail_driver, ['mail', 'sendmail', 'log'])) {
+            $envData['MAIL_HOST'] = $request->mail_host ?: '';
+            $envData['MAIL_PORT'] = $request->mail_port ?: '587';
+            $envData['MAIL_USERNAME'] = $request->mail_username ?: '';
+            $envData['MAIL_PASSWORD'] = $request->mail_password ?: '';
+            $envData['MAIL_ENCRYPTION'] = $request->mail_encryption ?: 'null';
+        } else {
+            // Clear SMTP settings for non-SMTP drivers
+            $envData['MAIL_HOST'] = '';
+            $envData['MAIL_PORT'] = '';
+            $envData['MAIL_USERNAME'] = '';
+            $envData['MAIL_PASSWORD'] = '';
+            $envData['MAIL_ENCRYPTION'] = 'null';
+        }
+        
+        $this->updateEnvironmentFile($envData);
 
         // Clear config cache
         \Artisan::call('config:clear');
