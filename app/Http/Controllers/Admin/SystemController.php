@@ -52,13 +52,13 @@ class SystemController extends Controller
     public function getEmailSettings()
     {
         $mailConfig = [
-            'driver' => env('MAIL_MAILER', 'smtp'),
-            'host' => env('MAIL_HOST', ''),
-            'port' => env('MAIL_PORT', 587),
-            'username' => env('MAIL_USERNAME', ''),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'from_address' => env('MAIL_FROM_ADDRESS', ''),
-            'from_name' => env('MAIL_FROM_NAME', config('pw-config.server_name')),
+            'driver' => config('mail.default', 'smtp'),
+            'host' => config('mail.mailers.smtp.host', ''),
+            'port' => config('mail.mailers.smtp.port', 587),
+            'username' => config('mail.mailers.smtp.username', ''),
+            'encryption' => config('mail.mailers.smtp.encryption', 'tls'),
+            'from_address' => config('mail.from.address', ''),
+            'from_name' => config('mail.from.name', config('pw-config.server_name')),
         ];
 
         return view('admin.system.email', compact('mailConfig'));
@@ -109,8 +109,9 @@ class SystemController extends Controller
         
         $this->updateEnvironmentFile($envData);
 
-        // Clear config cache
+        // Clear config cache and re-cache with new values
         \Artisan::call('config:clear');
+        \Artisan::call('config:cache');
 
         return redirect()->back()->with('success', __('Email configuration updated successfully'));
     }
