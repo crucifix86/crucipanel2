@@ -661,6 +661,16 @@ select.bg-white option {
     font-family: Arial, sans-serif !important;
     font-variant: normal !important;
     text-transform: none !important;
+    font-variant-caps: normal !important;
+    font-feature-settings: normal !important;
+    letter-spacing: normal !important;
+}
+
+/* Override any parent styles forcing caps */
+#gm_status td.text-left {
+    font-family: Arial, sans-serif !important;
+    text-transform: none !important;
+    font-variant: normal !important;
 }
 
 /* ===== ANNOUNCEMENT BANNER ===== */
