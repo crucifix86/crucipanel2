@@ -16,7 +16,7 @@
                         <tr>
                             <td class="p-2"><img class="rounded" src="{{ $gm->profile_photo_url }}" width="48px"
                                                  height="48px" alt="{{ $gm->truename }}"/></td>
-                            <td class="p-2 text-left">{{ $gm->truename }}</td>
+                            <td class="p-2 text-left" data-discord-name="{{ $gm->truename }}">{{ $gm->truename }}</td>
                             <td class="p-2 text-right">
                                 <span
                                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $gm->online() ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}"> {{ $gm->online() ? __('widget.table.field.online') : __('widget.table.field.offline') }} </span>
