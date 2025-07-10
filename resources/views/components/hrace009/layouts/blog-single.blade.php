@@ -334,11 +334,13 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--border-color);
+            text-align: center;
         }
 
         .article-tags .tags-container {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             flex-wrap: wrap;
         }
@@ -351,15 +353,15 @@
         .article-tags a {
             display: inline-flex;
             align-items: center;
-            color: var(--text-secondary);
+            color: var(--text-primary);
             text-decoration: none;
-            padding: 8px 16px;
-            background: rgba(99, 102, 241, 0.1);
+            padding: 8px 20px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-primary);
             border-radius: 30px;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            border: 1px solid transparent;
         }
 
         .article-tags a:hover {
@@ -371,13 +373,16 @@
 
         .article-text {
             color: var(--text-secondary);
-            line-height: 1.9;
-            font-size: 1.1rem;
+            line-height: 1.8;
+            font-size: 1.2rem;
             margin-bottom: 30px;
+            letter-spacing: 0.01em;
         }
 
         .article-text p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+            text-align: justify;
+            text-justify: inter-word;
         }
 
         .article-text h2, .article-text h3 {
@@ -465,7 +470,9 @@
         .social-share {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
 
         .social-share-label {
@@ -527,121 +534,17 @@
             }
         }
 
-        /* Main Content Area */
-        .main-content-area {
-            float: left;
-            width: 70%;
-            padding-right: 30px;
-            box-sizing: border-box;
+        /* Article Container - Full Width Reading */
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .sidebar-area {
-            float: right;
-            width: 30%;
-            margin-left: 30px;
-            box-sizing: border-box;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 28px;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
+        .content-wrap {
+            min-height: calc(100vh - 200px);
         }
 
-        /* Clearfix for container */
-        .container::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        /* Widget Styling for Dark Theme */
-        .sidebar-area .side-block {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .sidebar-area .side-block .block-title {
-            color: var(--text-primary);
-            font-size: 1.25rem;
-            font-weight: 600;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--accent-secondary);
-            background: var(--gradient-accent);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .sidebar-area .side-block .block-content {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-        }
-
-        .sidebar-area .side-block .block-content:last-child {
-            margin-bottom: 0;
-        }
-
-        .sidebar-area .side-block .block-content .label,
-        .sidebar-area .side-block .block-content .badge {
-            background-color: var(--accent-primary) !important;
-            color: white !important;
-            font-weight: 500;
-            border-radius: 6px;
-            padding: 5px 10px;
-            font-size: 0.9rem;
-        }
-
-        .sidebar-area .side-block .block-content .bg-success {
-            background-color: #28a745 !important;
-        }
-        .sidebar-area .side-block .block-content .bg-danger {
-            background-color: #dc3545 !important;
-        }
-
-        /* GM List Table */
-        .sidebar-area .table-gmlist {
-            width: 100%;
-            color: var(--text-secondary);
-        }
-        .sidebar-area .table-gmlist td {
-            padding: 8px 4px;
-            vertical-align: middle;
-            border-top: 1px solid var(--border-color);
-        }
-        .sidebar-area .table-gmlist tr:first-child td {
-            border-top: none;
-        }
-        .sidebar-area .table-gmlist img.img-rounded {
-            border-radius: 50%;
-            border: 2px solid var(--border-color);
-        }
-
-        /* News Category Links in Widget */
-        .sidebar-area .side-block ul.block-content {
-            list-style: none;
-            padding-left: 0;
-        }
-        .sidebar-area .side-block ul.block-content a {
-            display: block;
-            color: var(--accent-secondary);
-            text-decoration: none;
-            padding: 6px 0;
-            border-bottom: 1px dashed var(--border-color);
-            transition: color 0.3s ease, padding-left 0.3s ease;
-        }
-        .sidebar-area .side-block ul.block-content a:hover {
-            color: var(--accent-primary);
-            padding-left: 5px;
-        }
-        .sidebar-area .side-block ul.block-content a:last-child {
-            border-bottom: none;
-        }
 
         /* Mobile responsiveness */
         @media (max-width: 991px) {
@@ -662,16 +565,8 @@
                 max-height: 80px;
             }
 
-            .main-content-area,
-            .sidebar-area {
-                float: none;
-                width: 100%;
-                padding-left: 0;
-                padding-right: 0;
-            }
-
-            .sidebar-area {
-                margin-top: 30px;
+            .article-container {
+                padding: 0 15px;
             }
         }
     </style>
@@ -949,9 +844,8 @@
             </div>
         </section>
 
-        <div class="container youplay-news" style="display: flow-root;">
-            {{-- News Article --}}
-            <div class="main-content-area">
+        <div class="youplay-news">
+            <div class="article-container">
                 <article class="article-content">
                     <div class="article-body">
                         <div class="article-tags">
@@ -991,11 +885,6 @@
                     </div>
                 </article>
             </div>
-
-            {{-- Right Side --}}
-            <aside class="sidebar-area">
-                {{ $widget }}
-            </aside>
         </div>
 
         <x-hrace009::portal.footer/>
