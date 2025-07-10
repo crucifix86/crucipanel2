@@ -691,7 +691,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], static fun
     // Authentication...
     if ($enableViews) {
         Route::get('/login', [AuthenticatedSessionController::class, 'create'])
-            ->middleware(['guest:' . config('fortify.guard')])
+            ->middleware(['guest:' . config('fortify.guard'), 'pre.login'])
             ->name('login');
     }
 
@@ -733,7 +733,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], static fun
     if (Features::enabled(Features::registration())) {
         if ($enableViews) {
             Route::get('/register', [RegisteredUserController::class, 'create'])
-                ->middleware(['guest:' . config('fortify.guard')])
+                ->middleware(['guest:' . config('fortify.guard'), 'pre.login'])
                 ->name('register');
         }
 

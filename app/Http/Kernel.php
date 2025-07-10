@@ -14,6 +14,7 @@ use App\Http\Middleware\BankTransferActive;
 use App\Http\Middleware\DonateActive;
 use App\Http\Middleware\DonateAntiSpam;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\EnsurePreLogin;
 use App\Http\Middleware\IngameService;
 use App\Http\Middleware\IpaymuActive;
 use App\Http\Middleware\isAdministrator;
@@ -133,6 +134,7 @@ class Kernel extends HttpKernel
         'paypal.active' => PaypalActive::class,
         'service.enable' => ServiceEnabled::class,
         'ipaymu.active' => IpaymuActive::class,
-        'arena.active' => ArenaActive::class
+        'arena.active' => ArenaActive::class,
+        'pre.login' => EnsurePreLogin::class
     ];
 }

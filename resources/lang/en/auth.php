@@ -58,4 +58,16 @@ return [
     'profile' => [
         'invalidPassword' => 'This password does not match our records.'
     ],
+    'welcome_realm' => 'Welcome to Perfect World Haven',
+    'username' => 'Username',
+    'enter_username' => 'Enter your username',
+    'password' => 'Password',
+    'enter_password' => 'Enter your password',
+    'pin' => 'PIN',
+    'enter_pin' => 'Enter your PIN',
+    'remember_path' => 'Remember my path',
+    'reset_password' => 'Reset Password',
+    'enter_haven' => 'ENTER HAVEN',
+    'new_to_haven' => 'New to Haven?',
+    'register_here' => 'Register here',
 ];
