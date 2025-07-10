@@ -35,6 +35,20 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Choose how emails should be sent</p>
                     </div>
 
+                    <div id="driver-info" class="mb-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg {{ $mailConfig['driver'] == 'smtp' ? 'hidden' : '' }}">
+                        <p class="text-sm text-blue-800 dark:text-blue-200">
+                            @if($mailConfig['driver'] == 'mail')
+                                <strong>PHP Mail Selected:</strong> No additional configuration needed. Just set your From Email and Name below.
+                            @elseif($mailConfig['driver'] == 'sendmail')
+                                <strong>Sendmail Selected:</strong> Uses your server's sendmail binary. No SMTP configuration needed.
+                            @elseif($mailConfig['driver'] == 'log')
+                                <strong>Log Driver Selected:</strong> Emails will be saved to storage/logs/laravel.log for testing.
+                            @else
+                                <strong>Selected Driver:</strong> Configuration may be required based on the service.
+                            @endif
+                        </p>
+                    </div>
+
                     <div id="smtp-fields" class="{{ $mailConfig['driver'] != 'smtp' ? 'hidden' : '' }}">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
@@ -169,10 +183,38 @@
     <script>
         function toggleMailFields(driver) {
             const smtpFields = document.getElementById('smtp-fields');
+            const driverInfo = document.getElementById('driver-info');
+            const infoText = driverInfo.querySelector('p');
+            
             if (driver === 'smtp') {
                 smtpFields.classList.remove('hidden');
+                driverInfo.classList.add('hidden');
             } else {
                 smtpFields.classList.add('hidden');
+                driverInfo.classList.remove('hidden');
+                
+                // Update info message based on driver
+                let message = '';
+                switch(driver) {
+                    case 'mail':
+                        message = '<strong>PHP Mail Selected:</strong> No additional configuration needed. Just set your From Email and Name below.';
+                        break;
+                    case 'sendmail':
+                        message = '<strong>Sendmail Selected:</strong> Uses your server\'s sendmail binary. No SMTP configuration needed.';
+                        break;
+                    case 'log':
+                        message = '<strong>Log Driver Selected:</strong> Emails will be saved to storage/logs/laravel.log for testing.';
+                        break;
+                    case 'mailgun':
+                        message = '<strong>Mailgun Selected:</strong> You need to configure Mailgun API settings in your .env file.';
+                        break;
+                    case 'ses':
+                        message = '<strong>Amazon SES Selected:</strong> You need to configure AWS credentials in your .env file.';
+                        break;
+                    default:
+                        message = '<strong>Selected Driver:</strong> Configuration may be required based on the service.';
+                }
+                infoText.innerHTML = message;
             }
         }
 
@@ -240,6 +282,11 @@
                 alert('Error: ' + error.message);
             });
         }
+
+        // Initialize the page with current driver
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleMailFields(document.getElementById('mail_driver').value);
+        });
     </script>
     @endpush
 </x-hrace009.layouts.admin>

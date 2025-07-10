@@ -98,8 +98,7 @@ class SystemController extends Controller
         // Clear config cache
         \Artisan::call('config:clear');
 
-        flash()->success(__('Email configuration updated successfully'));
-        return redirect()->back();
+        return redirect()->back()->with('success', __('Email configuration updated successfully'));
     }
 
     /**
