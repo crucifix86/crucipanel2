@@ -83,6 +83,11 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'show.article.tag',
         'uses' => 'App\Http\Controllers\Website\Home@indexTags'
     ]);
+
+    Route::get('page/{slug}', [
+        'as' => 'page.show',
+        'uses' => 'App\Http\Controllers\PageController@show'
+    ]);
 });
 
 /* App Page */
@@ -621,6 +626,44 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
                 'uses' => 'App\Http\Controllers\Admin\ChatController@postChatLogs'
             ]);
         }
+    });
+
+    /* Page Management Routes */
+    Route::group(['prefix' => 'pages'], static function () {
+        Route::get('/', [
+            'as' => 'admin.pages.index',
+            'uses' => 'App\Http\Controllers\Admin\PageController@index'
+        ]);
+
+        Route::get('create', [
+            'as' => 'admin.pages.create',
+            'uses' => 'App\Http\Controllers\Admin\PageController@create'
+        ]);
+
+        Route::post('store', [
+            'as' => 'admin.pages.store',
+            'uses' => 'App\Http\Controllers\Admin\PageController@store'
+        ]);
+
+        Route::get('{page}/edit', [
+            'as' => 'admin.pages.edit',
+            'uses' => 'App\Http\Controllers\Admin\PageController@edit'
+        ]);
+
+        Route::put('{page}', [
+            'as' => 'admin.pages.update',
+            'uses' => 'App\Http\Controllers\Admin\PageController@update'
+        ]);
+
+        Route::delete('{page}', [
+            'as' => 'admin.pages.destroy',
+            'uses' => 'App\Http\Controllers\Admin\PageController@destroy'
+        ]);
+
+        Route::patch('{page}/toggle', [
+            'as' => 'admin.pages.toggle',
+            'uses' => 'App\Http\Controllers\Admin\PageController@toggle'
+        ]);
     });
 });
 

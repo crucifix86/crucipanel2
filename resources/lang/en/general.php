@@ -82,6 +82,9 @@ return [
     'restricted' => 'Restricted area!',
     'buy' => 'Buy',
     'or' => 'OR',
+    'extras' => 'Extras',
+    'last_updated' => 'Last Updated',
+    'back_to_home' => 'Back to Home',
     /* Class Names */
     'classes' => [
         0 => 'Blademaster',
