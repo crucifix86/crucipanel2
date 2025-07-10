@@ -194,13 +194,6 @@
                                     <input id="password" type="password" name="password" />
                                 </div>
 
-                                @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
-                                    <label for="pin">{{ __('auth.form.pin') }}:</label>
-                                    <div class="youplay-input">
-                                        <input id="pin" type="password" name="pin" required
-                                               autocomplete="current-pin" />
-                                    </div>
-                                @endif
 
                                 @if( config('pw-config.system.apps.captcha') )
                                     @captcha
