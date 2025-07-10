@@ -493,12 +493,6 @@
                                             <input id="password-login" type="password" name="password" class="form-control" placeholder="{{ __('auth.form.password') }}" required />
                                         </div>
 
-                                        @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
-                                            <div class="mb-3">
-                                                <label for="pin-login" class="form-label visually-hidden">{{ __('auth.form.pin') }}:</label>
-                                                <input id="pin-login" type="password" name="pin" class="form-control" placeholder="{{ __('auth.form.pin') }}" required autocomplete="current-pin" />
-                                            </div>
-                                        @endif
 
                                         @if( config('pw-config.system.apps.captcha') )
                                             @captcha
@@ -572,12 +566,6 @@
                            placeholder="{{ __('auth.form.password') }}" required autocomplete="current-password"/>
                 </div>
 
-                @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
-                    <div class="mb-3">
-                        <input id="pin" type="password" class="form-control" name="pin"
-                               placeholder="{{ __('auth.form.pin') }}" required autocomplete="current-pin"/>
-                    </div>
-                @endif
 
                 @if( config('pw-config.system.apps.captcha') )
                     <div class="mb-3">
