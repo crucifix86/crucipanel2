@@ -344,12 +344,13 @@
                     title: 'PHP Mail with Postfix Setup Instructions',
                     content: `
                         <div class="bg-red-100 dark:bg-red-900 p-3 rounded mb-4">
-                            <strong class="text-red-800 dark:text-red-200">⚠️ IMPORTANT REQUIREMENTS:</strong>
+                            <strong class="text-red-800 dark:text-red-200">⚠️ CRITICAL REQUIREMENTS:</strong>
                             <ul class="list-disc ml-5 mt-2 text-red-700 dark:text-red-300">
                                 <li><strong>You MUST have a domain name</strong> (e.g., yourdomain.com)</li>
                                 <li><strong>You MUST have SSL certificates</strong> (Let's Encrypt recommended)</li>
                                 <li><strong>Your domain MUST point to your server IP</strong></li>
-                                <li><strong>Without these, emails WILL NOT be delivered!</strong></li>
+                                <li><strong>You MUST add SPF record to DNS</strong> (Step 4 - Gmail requires this!)</li>
+                                <li><strong>Without ALL of these, emails WILL be rejected!</strong></li>
                             </ul>
                         </div>
 
@@ -391,12 +392,26 @@ inet_protocols = all</pre>
                             </div>
 
                             <div class="border rounded p-3">
-                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 4: Set up SPF Record</h5>
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 4: Set up SPF Record (REQUIRED!)</h5>
+                                <div class="bg-red-100 dark:bg-red-900 p-2 rounded mb-2">
+                                    <strong class="text-red-700 dark:text-red-300">⚠️ Without this, Gmail and other providers WILL reject your emails!</strong>
+                                </div>
                                 <p class="mb-2">Add this TXT record to your domain's DNS:</p>
-                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm">
-                                    v=spf1 a mx ip4:YOUR_SERVER_IP ~all
-                                </code>
-                                <p class="text-sm mt-2">Replace YOUR_SERVER_IP with your actual server IP address.</p>
+                                <div class="bg-gray-100 dark:bg-gray-800 p-3 rounded">
+                                    <p class="text-sm mb-2">In your DNS management panel, create a new record with:</p>
+                                    <ul class="list-disc ml-5 text-sm">
+                                        <li><strong>Name/Host:</strong> @ (or leave blank for root domain)</li>
+                                        <li><strong>Type:</strong> TXT</li>
+                                        <li><strong>TTL:</strong> 3600 (or default)</li>
+                                        <li><strong>Priority:</strong> Leave blank (not used for TXT)</li>
+                                        <li><strong>Value/Data:</strong> <code>v=spf1 ip4:YOUR_SERVER_IP ~all</code></li>
+                                    </ul>
+                                </div>
+                                <p class="text-sm mt-2">To find your server IP, run: <code>curl ifconfig.me</code></p>
+                                <p class="text-sm mt-1">Example: If your IP is 123.45.67.89, use: <code>v=spf1 ip4:123.45.67.89 ~all</code></p>
+                                <div class="bg-yellow-100 dark:bg-yellow-900 p-2 rounded mt-2">
+                                    <p class="text-sm"><strong>Note:</strong> DNS changes can take 5-30 minutes to propagate. Verify with: <code>dig +short txt yourdomain.com</code></p>
+                                </div>
                             </div>
 
                             <div class="border rounded p-3">
