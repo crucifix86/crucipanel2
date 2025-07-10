@@ -87,6 +87,7 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             SetLanguage::class,
+            EnsurePreLogin::class,
         ],
 
         'api' => [
