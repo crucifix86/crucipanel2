@@ -1,755 +1,502 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ config('pw-config.server_name', 'Laravel') }} - {{ __('auth.form.register') }}</title>
-    <meta name="description" content="User registration for {{ config('pw-config.server_name') }}">
-
-    {{-- Bootstrap CSS --}}
-    <link rel="stylesheet" href="{{ asset('vendor/portal/bootstrap/dist/css/bootstrap.min.css') }}" />
-    {{-- FontAwesome for icons --}}
-    <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fontawesome-all.min.js') }}"></script>
-    <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fa-v4-shims.min.js') }}"></script>
-    {{-- Custom CSS --}}
-    <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
-
-    @php
-        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
-        $themeConfig = config('themes.themes.' . $userTheme);
-    @endphp
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - Create Your Legend</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    @if($themeConfig && isset($themeConfig['css']))
-        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
-    @endif
-
-    {{-- Livewire Styles --}}
-    @livewireStyles
-
     <style>
-        /* Light Theme Variables (Default) */
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --accent-primary: #6366f1;
-            --accent-secondary: #8b5cf6;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border-color: #e2e8f0;
-            --card-bg: #ffffff;
-            --hover-bg: rgba(99, 102, 241, 0.05);
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
-        /* Dark Theme Variables */
-        body.dark-mode {
-            --bg-primary: #0f0f23;
-            --bg-secondary: #1a1a3a;
-            --bg-tertiary: #2a2a4a;
-            --accent-primary: #6366f1;
-            --accent-secondary: #8b5cf6;
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: #334155;
-            --card-bg: #1e293b;
-            --hover-bg: rgba(99, 102, 241, 0.1);
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        }
-
-        /* Global Dark Theme */
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Custom Navbar Styles */
-        .custom-navbar {
-            background: rgba(15, 15, 35, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: var(--shadow-lg);
-            padding: 12px 0;
-            min-height: 70px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .custom-navbar .navbar-brand {
-            color: white !important;
-            font-weight: bold;
-            font-size: 1.5rem;
+        body {
+            font-family: 'Cinzel', serif;
+            background: radial-gradient(ellipse at center, #1a0d26 0%, #0f0518 50%, #080313 100%);
+            color: #e6d7ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
         }
 
-        .custom-navbar .navbar-brand img {
-            height: 40px;
-            width: auto;
-        }
-
-        .custom-navbar .nav-link {
-            color: rgba(255,255,255,0.9) !important;
-            font-weight: 500;
-            padding: 8px 16px !important;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            margin: 0 2px;
-        }
-
-        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
-            color: #ffd700 !important;
-            background-color: rgba(255,255,255,0.1);
-            transform: translateY(-2px);
-        }
-
-        .custom-navbar .navbar-toggler {
-            border-color: rgba(255,255,255,0.3);
-            padding: 4px 8px;
-        }
-
-        .custom-navbar .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        /* Dropdown styles */
-        .custom-navbar .dropdown-menu {
-            background-color: #6a5acd;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 10px 0;
-        }
-        .custom-navbar .dropdown-menu .dropdown-item {
-            color: rgba(255,255,255,0.85) !important;
-            padding: 10px 20px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        .custom-navbar .dropdown-menu .dropdown-item:hover {
-            background-color: rgba(255,255,255,0.1);
-            color: #ffd700 !important;
-        }
-        .custom-navbar .dropdown-toggle::after {
-            color: rgba(255,255,255,0.9);
-        }
-
-        /* Account Dropdown Styling */
-        .navbar .dropdown-menu {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            margin-top: 10px;
-        }
-        
-        .navbar .dropdown-menu .dropdown-item {
-            color: var(--text-primary);
-        }
-        
-        .navbar .dropdown-menu .dropdown-item:hover {
-            background: var(--hover-bg);
-            color: var(--accent-primary);
-        }
-
-        .login-form {
-            color: var(--text-primary);
-        }
-
-        .login-form h5 {
-            color: var(--accent-primary);
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        .login-form .form-control {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            padding: 14px 16px;
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            margin-bottom: 16px;
-        }
-
-        .login-form .form-control::placeholder {
-            color: var(--text-muted);
-        }
-
-        .login-form .form-control:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-            outline: none;
-            background: var(--bg-tertiary);
-        }
-
-        .login-form .btn-login {
-            background: var(--gradient-accent);
-            border: none;
-            color: white;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-form .btn-login::before {
-            content: '';
-            position: absolute;
+        .mystical-bg {
+            position: fixed;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(75, 0, 130, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(147, 112, 219, 0.08) 0%, transparent 50%);
         }
 
-        .login-form .btn-login:hover::before {
-            left: 100%;
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
         }
 
-        .login-form .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 10s infinite ease-in-out;
+            box-shadow: 0 0 8px rgba(147, 112, 219, 0.6);
         }
 
-        .login-form .btn-register {
-            background: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--text-secondary);
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            50% { 
+                transform: translateY(-120px) rotate(180deg);
+                opacity: 0.8;
+            }
         }
 
-        .login-form .btn-register:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            background: var(--hover-bg);
-            transform: translateY(-1px);
+        .dragon-ornament {
+            position: absolute;
+            font-size: 12rem;
+            opacity: 0.08;
+            color: #9370db;
+            animation: dragonPulse 5s ease-in-out infinite;
+            user-select: none;
         }
 
-        .login-form .form-check-input {
-            background-color: var(--bg-secondary);
-            border-color: var(--border-color);
+        .dragon-left {
+            top: 5%;
+            left: -8%;
+            transform: rotate(-20deg);
         }
 
-        .login-form .form-check-input:checked {
-            background-color: var(--accent-primary);
-            border-color: var(--accent-primary);
+        .dragon-right {
+            bottom: 5%;
+            right: -8%;
+            transform: rotate(20deg) scaleX(-1);
         }
 
-        .login-form .form-check-input:focus {
-            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        @keyframes dragonPulse {
+            0%, 100% { opacity: 0.08; transform: scale(1) rotate(-20deg); }
+            50% { opacity: 0.15; transform: scale(1.05) rotate(-15deg); }
         }
 
-        .login-form .form-check-label {
-            color: var(--text-secondary);
+        .register-container {
+            position: relative;
+            z-index: 3;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.15));
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 25px;
+            padding: 40px 35px;
+            width: 500px;
+            max-width: 90vw;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(147, 112, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
-        .login-form a {
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
+        .register-container::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .login-form a:hover {
-            color: var(--accent-secondary);
+        .register-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
         }
 
-        .login-divider {
+        .register-container::-webkit-scrollbar-thumb {
+            background: rgba(147, 112, 219, 0.5);
+            border-radius: 4px;
+        }
+
+        .register-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(147, 112, 219, 0.08), transparent);
+            animation: shimmerBg 6s ease-in-out infinite;
+        }
+
+        @keyframes shimmerBg {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .mystical-border {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #9370db, transparent, #8a2be2, transparent);
+            background-size: 300% 300%;
+            animation: rotateBorder 12s linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header {
             text-align: center;
-            margin: 20px 0;
-            color: var(--text-muted);
-            font-size: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #9370db, #8a2be2, #dda0dd, #9370db);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease-in-out infinite;
+            text-shadow: 0 0 40px rgba(147, 112, 219, 0.8);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            color: #dda0dd;
+            margin-bottom: 25px;
+            font-style: italic;
+            text-shadow: 0 0 15px rgba(221, 160, 221, 0.5);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .register-form {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
             position: relative;
         }
 
-        .login-divider::before {
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #dda0dd;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-shadow: 0 0 10px rgba(221, 160, 221, 0.6);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(147, 112, 219, 0.5);
+            border-radius: 15px;
+            color: #e6d7ff;
+            font-size: 0.95rem;
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-transform: none !important;
+            font-variant: normal !important;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #9370db;
+            box-shadow: 
+                0 0 20px rgba(147, 112, 219, 0.4),
+                inset 0 0 20px rgba(147, 112, 219, 0.1);
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(221, 160, 221, 0.6);
+            font-style: italic;
+        }
+
+        .form-group::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #9370db, #8a2be2);
+            transition: width 0.3s ease;
+        }
+
+        .form-group:focus-within::after {
+            width: 100%;
+        }
+
+        .register-button {
+            width: 100%;
+            background: linear-gradient(45deg, #9370db, #8a2be2, #4b0082);
+            background-size: 300% 300%;
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: buttonGlow 3s ease-in-out infinite alternate;
+            font-family: 'Cinzel', serif;
+            margin-top: 25px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes buttonGlow {
+            0% { 
+                box-shadow: 0 5px 25px rgba(147, 112, 219, 0.4);
+                background-position: 0% 50%;
+            }
+            100% { 
+                box-shadow: 0 8px 35px rgba(138, 43, 226, 0.6);
+                background-position: 100% 50%;
+            }
+        }
+
+        .register-button:hover {
+            transform: translateY(-3px);
+            background-position: 100% 50%;
+            box-shadow: 0 15px 45px rgba(147, 112, 219, 0.8);
+        }
+
+        .register-button::before {
             content: '';
             position: absolute;
             top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--border-color);
-            z-index: -1;
-        }
-
-
-        /* User dropdown for logged in users - Dark Theme */
-        .user-dropdown-content {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            padding: 24px;
-            min-width: 280px;
-            color: var(--text-primary);
-        }
-
-        .user-dropdown-content .btn {
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 10px 14px;
-            margin-bottom: 8px;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
             transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
         }
 
-        .user-dropdown-content .btn:last-child {
-            margin-bottom: 0;
+        .register-button:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
-        .user-dropdown-content .btn-outline-primary {
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-
-        .user-dropdown-content .btn-outline-primary:hover {
-            background: var(--accent-primary);
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        .user-dropdown-content .btn-outline-secondary {
-            color: var(--text-secondary);
-            border-color: var(--border-color);
-        }
-
-        .user-dropdown-content .btn-outline-secondary:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
-        .user-dropdown-content .btn-outline-info {
-            color: #06b6d4;
-            border-color: #06b6d4;
-        }
-
-        .user-dropdown-content .btn-outline-info:hover {
-            background: #06b6d4;
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        .user-dropdown-content .btn-outline-danger {
-            color: #ef4444;
-            border-color: #ef4444;
-        }
-
-        .user-dropdown-content .btn-outline-danger:hover {
-            background: #ef4444;
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        /* Form Styling (adapted from home.blade.php login form) */
-        .auth-form-container {
-            max-width: 500px; /* Or desired width */
-            margin: 40px auto; /* Centering with space */
-            padding: 30px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-        }
-        .auth-form-container h2 {
-            color: var(--accent-primary);
-            font-weight: 600;
-            margin-bottom: 24px;
-            text-align: center;
-            font-size: 1.75rem; /* Slightly larger title for the page */
-        }
-        .auth-form-container .form-control {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            padding: 14px 16px;
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            margin-bottom: 16px; /* Spacing between fields */
-            width: 100%; /* Ensure full width */
-        }
-        .auth-form-container .form-control::placeholder { color: var(--text-muted); }
-        .auth-form-container .form-control:focus {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-            outline: none;
-            background: var(--bg-tertiary);
-        }
-        .auth-form-container .btn-submit { /* General submit button for register */
-            background: var(--gradient-accent);
-            border: none; color: white; padding: 14px 20px; border-radius: 10px;
-            font-weight: 600; font-size: 15px; transition: all 0.3s ease;
-            position: relative; overflow: hidden; width: 100%;
-        }
-        .auth-form-container .btn-submit::before { /* Shimmer effect */
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-        .auth-form-container .btn-submit:hover::before { left: 100%; }
-        .auth-form-container .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-        }
-        .auth-form-container .form-check-input {
-            background-color: var(--bg-secondary); border-color: var(--border-color);
-        }
-        .auth-form-container .form-check-input:checked {
-            background-color: var(--accent-primary); border-color: var(--accent-primary);
-        }
-        .auth-form-container .form-check-input:focus {
-            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
-        }
-        .auth-form-container .form-check-label { color: var(--text-secondary); }
-        .auth-form-container .auth-links {
-            text-align: center; margin-top: 20px;
-        }
-        .auth-form-container .auth-links a {
-            color: var(--accent-primary); text-decoration: none; font-size: 14px;
-            transition: color 0.3s ease;
-        }
-        .auth-form-container .auth-links a:hover { color: var(--accent-secondary); }
-
-        /* Validation errors styling */
-        .validation-errors {
-            background-color: rgba(239, 68, 68, 0.1); /* Light red background */
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            color: #f87171; /* Red text for errors */
-        }
-        .validation-errors ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
-        }
-        .validation-errors li {
-            font-size: 14px;
-        }
-
-
-        /* Main Content Area - Minimal for register page */
-        .custom-home-content-wrap {
-            background: var(--bg-primary);
-            min-height: calc(100vh - 140px); /* Adjust based on navbar and footer height */
-            padding: 40px 0;
-            display: flex; /* For centering the form container */
-            align-items: flex-start; /* Align to top, padding will handle spacing */
-            justify-content: center;
-        }
-
-        /* Footer Styles (from home.blade.php if needed) */
-        /* Ensure footer styles from custom-home.css are applied or define here */
-
-        /* Mobile responsiveness */
-        @media (max-width: 991px) {
-            .custom-navbar .navbar-nav {
-                padding-top: 10px; /* Space above nav items when collapsed */
-            }
-
-            .custom-navbar .nav-link, .custom-navbar .nav-item .dropdown-toggle { /* Apply to dropdown toggles too */
-                margin: 2px 0;
-                text-align: center; /* Center links in mobile view */
-            }
-
-            .auth-form-container {
-                margin-left: 15px;
-                margin-right: 15px;
-            }
-        }
-        .navbar-logo { height: 60px !important; width: auto; margin-right: 10px; }
-        .navbar-badge { cursor: default; pointer-events: none; }
-        
-        /* Header Section */
-        .site-header {
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            padding: 30px 0;
-            text-align: center;
-            border-bottom: 2px solid var(--accent-primary);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .header-content {
+        .form-check {
             display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .header-logo {
-            max-height: 120px;
-            width: auto;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
-            transition: transform 0.3s ease;
-        }
-        
-        .header-logo:hover {
-            transform: scale(1.05);
-        }
-        
-        @media (max-width: 768px) {
-            .site-header { padding: 20px 0; }
-            .header-logo { max-height: 80px; }
+            align-items: flex-start;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
 
+        .form-check input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 4px;
+            accent-color: #9370db;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-check label {
+            color: #dda0dd;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .form-check label a {
+            color: #9370db;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-check label a:hover {
+            color: #dda0dd;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-link {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-link a {
+            color: #dda0dd;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .login-link a:hover {
+            color: #9370db;
+            border-bottom-color: #9370db;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+
+        .error-message {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            color: #ff6b6b;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            animation: errorShake 0.5s ease-out;
+        }
+
+        .error-message ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9370db;
+            font-size: 1.1rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-group:focus-within .input-icon {
+            opacity: 1;
+            color: #dda0dd;
+        }
+
+        @media (max-width: 768px) {
+            .register-container {
+                padding: 30px 25px;
+                width: 95vw;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.5rem;
+            }
+            
+            .dragon-ornament {
+                font-size: 8rem;
+            }
+        }
+
+        .epic-glow {
+            animation: epicGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes epicGlow {
+            0% { text-shadow: 0 0 20px rgba(147, 112, 219, 0.6); }
+            100% { text-shadow: 0 0 40px rgba(147, 112, 219, 1), 0 0 60px rgba(138, 43, 226, 0.8); }
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .button-text {
+            display: inline-block;
+        }
+
+        .captcha-wrapper {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .captcha-wrapper img {
+            border-radius: 8px;
+            border: 2px solid rgba(147, 112, 219, 0.5);
+        }
     </style>
 </head>
-<body class="theme-{{ $userTheme }}">
-    {{-- Language Selector and Theme Toggle - Fixed Position, Top Right --}}
-    <div style="position: fixed; top: 20px; right: 20px; z-index: 1100; display: flex; align-items: center; gap: 10px;">
-        @if(Auth::check())
-            @livewire('theme-selector')
-        @endif
-        <x-home-theme-toggle />
-        <x-hrace009::language-button />
-    </div>
-
-    {{-- Header Section --}}
-    <header class="site-header">
-        <div class="container-fluid">
-            <div class="header-content">
-                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
-            </div>
+<body>
+    <div class="mystical-bg"></div>
+    <div class="floating-particles"></div>
+    
+    <div class="dragon-ornament dragon-left">🐉</div>
+    <div class="dragon-ornament dragon-right">🐉</div>
+    
+    <div class="register-container">
+        <div class="mystical-border"></div>
+        
+        <div class="header">
+            <p class="tagline">Create Your Legend</p>
         </div>
-    </header>
 
-    {{-- Custom Navbar (copied from home.blade.php) --}}
-    <nav class="navbar navbar-expand-lg custom-navbar">
-        <div class="container-fluid">
-            <div class="navbar-brand">
-                @if( !config('pw-config.logo') || config('pw-config.logo') === '' )
-                    <img src="{{ asset('img/logo/logo.png') }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
-                @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
-                    <img src="{{ asset(config('pw-config.logo')) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
-                @else
-                    <img src="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
-                @endif
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link {{ Route::is('HOME') ? 'active' : '' }}" href="{{ route('HOME') }}"><i class="fas fa-home me-1"></i>{{ __('general.home') }}</a>
-                    @if( config('pw-config.system.apps.shop') )
-                    <a class="nav-link {{ Route::is('app.shop.index') ? 'active' : '' }}" href="{{ route('app.shop.index') }}"><i class="fas fa-shopping-cart me-1"></i>{{ __('shop.title') }}</a>
-                    @endif
-                    @if( config('pw-config.system.apps.donate') )
-                    <a class="nav-link {{ Route::is('app.donate.history') ? 'active' : '' }}" href="{{ route('app.donate.history') }}"><i class="fas fa-credit-card me-1"></i>{{ __('donate.title') }}</a>
-                    @endif
-                    @if( config('pw-config.system.apps.voucher') )
-                    <a class="nav-link {{ Route::is('app.voucher.index') ? 'active' : '' }}" href="{{ route('app.voucher.index') }}"><i class="fas fa-ticket-alt me-1"></i>{{ __('voucher.title') }}</a>
-                    @endif
-                    @if( config('pw-config.system.apps.inGameService') )
-                    <a class="nav-link {{ Route::is('app.services.index') ? 'active' : '' }}" href="{{ route('app.services.index') }}"><i class="fas fa-tools me-1"></i>{{ __('service.title') }}</a>
-                    @endif
-                    @if( config('pw-config.system.apps.ranking') )
-                    <a class="nav-link {{ Route::is('app.ranking.index') ? 'active' : '' }}" href="{{ route('app.ranking.index') }}"><i class="fas fa-trophy me-1"></i>{{ __('ranking.title') }}</a>
-                    @endif
-                    @if( config('pw-config.system.apps.vote') )
-                    <a class="nav-link {{ Route::is('app.vote.index') ? 'active' : '' }}" href="{{ route('app.vote.index') }}"><i class="fas fa-vote-yea me-1"></i>{{ __('vote.title') }}</a>
-                    @endif
-                    {{-- Download Links --}}
-                    @isset($download) {{-- Check if $download is passed and not null --}}
-                        @if( $download->exists() && $download->count() > 0 ) {{-- Ensure it exists and has items --}}
-                            @if( $download->count() === 1 )
-                                <a class="nav-link" href="{{ route('show.article', $download->first()->slug ) }}">
-                                    <i class="fas fa-download me-1"></i>{{ $download->first()->title }}
-                                </a>
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-download me-1"></i>{{ __('news.category.download') }}
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
-                                        @foreach( $download->get() as $page )
-                                            <li><a class="dropdown-item" href="{{ route('show.article', $page->slug ) }}">{{ $page->title }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endif
-                        @endif
-                    @endisset
-
-                    {{-- Guide Links --}}
-                    @isset($guide) {{-- Check if $guide is passed and not null --}}
-                        @if( $guide->exists() && $guide->count() > 0 ) {{-- Ensure it exists and has items --}}
-                            @if( $guide->count() === 1 )
-                                <a class="nav-link" href="{{ route('show.article', $guide->first()->slug ) }}">
-                                    <i class="fas fa-book-open me-1"></i>{{ $guide->first()->title }}
-                                </a>
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="guideDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fas fa-book-open me-1"></i>{{ __('news.category.guide') }}
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="guideDropdown">
-                                        @foreach( $guide->get() as $guidepage )
-                                            <li><a class="dropdown-item" href="{{ route('show.article', $guidepage->slug ) }}">{{ $guidepage->title }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endif
-                        @endif
-                    @endisset
-                </div>
-                <div class="navbar-nav">
-                    @if(Auth::check())
-                        {{-- If user is logged in --}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle me-1"></i>
-                                {{-- Use truename if available, fallback to name --}}
-                                <span>{{ Auth::user()->truename ?? Auth::user()->name ?? 'User' }}</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown" style="min-width: 280px; padding: 20px;">
-                                <div class="text-center mb-3">
-                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
-                                        <img class="img-fluid rounded-circle mb-2" width="64" height="64" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->truename ?? Auth::user()->name }}" />
-                                    @else
-                                        <i class="fas fa-user-circle" style="font-size: 2.5rem; color: #667eea;"></i>
-                                    @endif
-                                    <h6 class="mt-2 mb-0">{{ Auth::user()->truename ?? Auth::user()->name ?? 'User' }}</h6>
-                                    <small class="text-muted">{{ Auth::user()->email ?? '' }}</small>
-                                </div>
-                                <hr>
-                                <div class="d-grid gap-2"> {{-- Increased gap slightly --}}
-                                    <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary"> {{-- Original used profile.show --}}
-                                        <i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}
-                                    </a>
-                                    <a href="{{ route('app.dashboard') }}" class="btn btn-sm btn-outline-secondary"> {{-- Original dashboard link --}}
-                                        <i class="fas fa-tachometer-alt me-1"></i>{{ __('general.menu.dashboard') }}
-                                    </a>
-                                    <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info"> {{-- Original donate history link --}}
-                                        <i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}
-                                    </a>
-                                    @if(Auth::user()->isAdministrator())
-                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-outline-warning">
-                                        <i class="fas fa-user-shield me-1"></i>Admin Dashboard
-                                    </a>
-                                    @endif
-                                    @if(Auth::user()->isGamemaster())
-                                    <a href="{{ route('gm.dashboard') }}" class="btn btn-sm btn-outline-success">
-                                        <i class="fas fa-gamepad me-1"></i>GM Dashboard
-                                    </a>
-                                    @endif
-                                    <hr class="my-2">
-                                    <form method="POST" action="{{ route('logout') }}" class="d-grid">
-                                        @csrf
-                                        <a href="{{ route('logout') }}" class="btn btn-sm btn-outline-danger"
-                                           onclick="event.preventDefault(); this.closest('form').submit();">
-                                            <i class="fas fa-sign-out-alt me-1"></i>{{ __('general.logout') }}
-                                        </a>
-                                    </form>
-                                </div>
-                            </ul>
-                        </li>
-                    @else
-                        {{-- If user is not logged in --}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-1"></i>
-                                <span>Account</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown" style="min-width: 320px; padding: 20px;">
-                                <div class="login-form">
-                                    <h5 class="text-center mb-3" style="color: #667eea;">
-                                        <i class="fas fa-sign-in-alt me-2"></i>{{ __('auth.form.login') }}
-                                    </h5>
-
-                                    {{-- Login form adapted from original navbar --}}
-                                    <form method="POST" action="{{ route('login') }}">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="name-login" class="form-label visually-hidden">{{ __('auth.form.login') }}:</label>
-                                            <input id="name-login" type="text" name="name" class="form-control" placeholder="{{ __('auth.form.login_placeholder') ?? 'Username or Email' }}" required autofocus />
-                                        </div>
-
-                                        <div class="mb-3">
-                                            <label for="password-login" class="form-label visually-hidden">{{ __('auth.form.password') }}:</label>
-                                            <input id="password-login" type="password" name="password" class="form-control" placeholder="{{ __('auth.form.password') }}" required />
-                                        </div>
-
-                                        @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
-                                            <div class="mb-3">
-                                                <label for="pin-login" class="form-label visually-hidden">{{ __('auth.form.pin') }}:</label>
-                                                <input id="pin-login" type="password" name="pin" class="form-control" placeholder="{{ __('auth.form.pin') }}" required autocomplete="current-pin" />
-                                            </div>
-                                        @endif
-
-                                        @if( config('pw-config.system.apps.captcha') )
-                                            @captcha
-                                            <div class="mb-3">
-                                                <label for="captcha-login" class="form-label visually-hidden">{{ __('captcha.enter_code') }}:</label>
-                                                <input id="captcha-login" type="text" name="captcha" class="form-control" placeholder="{{ __('captcha.enter_code') }}" required />
-                                            </div>
-                                        @endif
-
-                                        <div class="mb-3 form-check">
-                                            <input type="checkbox" name="remember" class="form-check-input" id="remember_me_custom">
-                                            <label class="form-check-label" for="remember_me_custom" style="font-size: 14px;">
-                                                {{ __('auth.form.remember') }}
-                                            </label>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-login w-100 mb-2">
-                                            <i class="fas fa-sign-in-alt me-1"></i>{{ __('auth.form.login') }}
-                                        </button>
-                                    </form>
-
-                                    <div class="login-divider">────── {{ __('general.or') }} ──────</div>
-
-                                    <a href="{{ route('register') }}" class="btn btn-register w-100 mb-2">
-                                        <i class="fas fa-user-plus me-1"></i>{{ __('auth.form.register') }}
-                                    </a>
-
-                                    <div class="text-center">
-                                        <a href="{{ route('password.request') }}">{{ __('auth.form.forgotPassword') }}</a>
-                                    </div>
-                                </div>
-                            </ul>
-                        </li>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="custom-home-content-wrap">
-        <div class="auth-form-container">
-            <h2>{{ __('auth.form.register') }}</h2>
-
+        <form class="register-form" method="POST" action="{{ route('register') }}" id="registerForm">
+            @csrf
+            
             @if ($errors->any())
-                <div class="validation-errors">
+                <div class="error-message">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -758,79 +505,203 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
-
-                <div class="mb-3">
-                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"
-                           placeholder="{{ __('auth.form.login') }}" required autofocus autocomplete="name"/>
-                </div>
-
-                <div class="mb-3">
-                    <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
-                           placeholder="{{ __('auth.form.email') }}" required autocomplete="email"/>
-                </div>
-
-                <div class="mb-3">
-                    <input id="password" type="password" class="form-control" name="password"
-                           placeholder="{{ __('auth.form.password') }}" required autocomplete="new-password"/>
-                </div>
-
-                <div class="mb-3">
-                    <input id="password_confirmation" type="password" class="form-control" name="password_confirmation"
-                           placeholder="{{ __('auth.form.confirmPassword') }}" required autocomplete="new-password"/>
-                </div>
-
-                @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
-                    <div class="mb-3">
-                        <input id="pin" type="password" class="form-control" name="pin"
-                               placeholder="{{ __('auth.form.pin') }}" required autocomplete="new-pin"/>
-                    </div>
-                @endif
-
-                @if( config('pw-config.system.apps.captcha') )
-                    <div class="mb-3">
-                        @captcha
-                        <input id="captcha" type="text" class="form-control mt-2" name="captcha" placeholder="{{ __('captcha.enter_code') }}" required>
-                    </div>
-                @endif
-
-                @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                    <div class="mb-3 form-check">
-                        <input id="terms" type="checkbox" class="form-check-input" name="terms" required>
-                        <label class="form-check-label" for="terms">
-                            {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                    'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                    'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
-                            ]) !!}
-                        </label>
-                    </div>
-                @endif
-
-                <button type="submit" class="btn btn-submit">
-                    {{ __('auth.form.register') }}
-                </button>
-            </form>
-            <div class="auth-links">
-                {{__('auth.form.registered')}} <a href="{{ route('login') }}">{{ __('auth.form.login') }}</a>
+            <div class="form-group">
+                <label for="username">{{ __('auth.username') }}</label>
+                <input type="text" id="username" name="name" placeholder="{{ __('auth.enter_username') }}" 
+                       value="{{ old('name') }}" required autofocus autocomplete="username">
+                <div class="input-icon">👤</div>
             </div>
-        </div>
+            
+            <div class="form-group">
+                <label for="email">{{ __('auth.email') }}</label>
+                <input type="email" id="email" name="email" placeholder="{{ __('auth.enter_email') }}" 
+                       value="{{ old('email') }}" required autocomplete="email">
+                <div class="input-icon">✉️</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">{{ __('auth.password') }}</label>
+                <input type="password" id="password" name="password" placeholder="{{ __('auth.enter_password') }}" 
+                       required autocomplete="new-password">
+                <div class="input-icon">🗝️</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password_confirmation">{{ __('auth.confirm_password') }}</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" 
+                       placeholder="{{ __('auth.enter_password_confirmation') }}" required autocomplete="new-password">
+                <div class="input-icon">🔐</div>
+            </div>
+            
+            @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
+                <div class="form-group">
+                    <label for="pin">{{ __('auth.pin') }}</label>
+                    <input type="password" id="pin" name="pin" placeholder="{{ __('auth.enter_pin') }}" 
+                           pattern="[0-9]{4,6}" maxlength="6" required autocomplete="new-pin">
+                    <div class="input-icon">🔒</div>
+                </div>
+            @endif
+            
+            @if( config('pw-config.system.apps.captcha') )
+                <div class="form-group">
+                    <label for="captcha">{{ __('captcha.title') }}</label>
+                    <div class="captcha-wrapper">
+                        @captcha
+                    </div>
+                    <input type="text" id="captcha" name="captcha" placeholder="{{ __('captcha.enter_code') }}" required>
+                    <div class="input-icon">🛡️</div>
+                </div>
+            @endif
+            
+            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
+                <div class="form-check">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        {!! __('I agree to the :terms_of_service and :privacy_policy', [
+                                'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'">'.__('Terms of Service').'</a>',
+                                'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'">'.__('Privacy Policy').'</a>',
+                        ]) !!}
+                    </label>
+                </div>
+            @endif
+            
+            <button type="submit" class="register-button">
+                <span class="button-text">{{ __('auth.begin_journey') }}</span>
+                <div class="loading-spinner"></div>
+            </button>
+            
+            <div class="login-link">
+                <p>{{ __('auth.already_have_account') }} <a href="{{ route('login') }}">{{ __('auth.login_here') }}</a></p>
+            </div>
+        </form>
     </div>
 
-    <x-hrace009::portal.footer />
+    <script>
+        // Create floating mystical particles
+        function createParticles() {
+            const particlesContainer = document.querySelector('.floating-particles');
+            const numberOfParticles = 60;
 
-    {{-- Scripts --}}
-    <script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
-    {{-- Ensure Bootstrap 5 JS for data-bs-toggle --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
-    <script src="{{ asset('js/portal/portal.js') }}"></script>
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                
+                // Random purple particle colors
+                const colors = ['#9370db', '#8a2be2', '#4b0082', '#dda0dd'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = `linear-gradient(45deg, ${color}, ${color}aa)`;
+                particle.style.boxShadow = `0 0 10px ${color}`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
 
-    {{-- AlpineJS for dropdowns and other reactive components --}}
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        // Enhanced register form interactions
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const button = document.querySelector('.register-button');
+            const buttonText = button.querySelector('.button-text');
+            const spinner = button.querySelector('.loading-spinner');
+            
+            // Show loading state
+            buttonText.style.display = 'none';
+            spinner.style.display = 'block';
+            button.disabled = true;
+            button.style.background = 'linear-gradient(45deg, #32cd32, #00ff7f)';
+            button.style.transform = 'scale(0.95)';
+            
+            // Create mystical portal effect
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const portal = document.createElement('div');
+                    portal.style.cssText = `
+                        position: fixed;
+                        left: ${centerX}px;
+                        top: ${centerY}px;
+                        width: 10px;
+                        height: 10px;
+                        background: radial-gradient(circle, rgba(147,112,219,0.8), transparent);
+                        border-radius: 50%;
+                        pointer-events: none;
+                        animation: portalExpand 1.5s ease-out forwards;
+                        z-index: 9999;
+                    `;
+                    document.body.appendChild(portal);
+                    setTimeout(() => portal.remove(), 1500);
+                }, i * 200);
+            }
+            
+            // Form will submit naturally without preventDefault
+        });
 
-    {{-- Livewire Scripts --}}
-    @livewireScripts
+        // Input field magic effects
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.filter = 'brightness(1.2)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+                this.parentElement.style.filter = 'brightness(1)';
+            });
+        });
 
+        // Mystical hover effects
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Initialize particles
+        createParticles();
+
+        // Add portal expansion animation
+        const portalStyle = document.createElement('style');
+        portalStyle.textContent = `
+            @keyframes portalExpand {
+                0% {
+                    transform: translate(-50%, -50%) scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(30);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(portalStyle);
+
+        // Add entrance animation
+        window.addEventListener('load', function() {
+            document.querySelector('.register-container').style.animation = 'fadeInScale 1.5s ease-out';
+            const entranceStyle = document.createElement('style');
+            entranceStyle.textContent = `
+                @keyframes fadeInScale {
+                    0% {
+                        opacity: 0;
+                        transform: scale(0.8) translateY(50px);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: scale(1) translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(entranceStyle);
+        });
+    </script>
 </body>
 </html>
