@@ -918,7 +918,7 @@
                                 <i class="fas fa-download me-1"></i>{{ $download->first()->title }}
                             </a>
                         @else
-                            <li class="nav-item dropdown">
+                            <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-download me-1"></i>{{ __('news.category.download') }}
                                 </a>
@@ -927,7 +927,7 @@
                                         <li><a class="dropdown-item" href="{{ route('show.article', $page->slug ) }}">{{ $page->title }}</a></li>
                                     @endforeach
                                 </ul>
-                            </li>
+                            </div>
                         @endif
                     @endif
                 @endisset
@@ -940,7 +940,7 @@
                                 <i class="fas fa-book-open me-1"></i>{{ $guide->first()->title }}
                             </a>
                         @else
-                            <li class="nav-item dropdown">
+                            <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="guideDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-book-open me-1"></i>{{ __('news.category.guide') }}
                                 </a>
@@ -949,7 +949,7 @@
                                         <li><a class="dropdown-item" href="{{ route('show.article', $guidepage->slug ) }}">{{ $guidepage->title }}</a></li>
                                     @endforeach
                                 </ul>
-                            </li>
+                            </div>
                         @endif
                     @endif
                 @endisset
@@ -958,7 +958,7 @@
             <div class="navbar-nav">
                 @if(Auth::check())
                     {{-- If user is logged in --}}
-                    <li class="nav-item dropdown">
+                    <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user-circle me-1"></i>
                             {{-- Use truename if available, fallback to name --}}
@@ -1005,10 +1005,10 @@
                                 </form>
                             </div>
                         </ul>
-                    </li>
+                    </div>
                 @else
                     {{-- If user is not logged in --}}
-                    <li class="nav-item dropdown">
+                    <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user me-1"></i>
                             <span>Account</span>
@@ -1070,7 +1070,7 @@
                                 </div>
                             </div>
                         </ul>
-                    </li>
+                    </div>
                 @endif
             </div>
         </div> {{-- End .collapse .navbar-collapse --}}

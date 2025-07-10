@@ -81,6 +81,7 @@ return [
     'not_enough_gold' => 'You don\'t have enough gold.',
     'restricted' => 'Restricted area!',
     'buy' => 'Buy',
+    'or' => 'OR',
     /* Class Names */
     'classes' => [
         0 => 'Blademaster',
