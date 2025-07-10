@@ -117,7 +117,12 @@
                         <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">PHP Mail (100% Free)</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Unlimited emails - No external service</p>
-                            <button type="button" onclick="setPhpMailConfig()" class="btn btn-sm btn-secondary">Use PHP Mail</button>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setPhpMailConfig()" class="btn btn-sm btn-secondary">Use PHP Mail</button>
+                                <button type="button" onclick="showInstructions('phpmail')" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-question-circle"></i> Help
+                                </button>
+                            </div>
                             <div class="mt-2 text-xs text-gray-600">
                                 <p>✓ No configuration needed</p>
                                 <p>✓ Works on most servers</p>
@@ -128,7 +133,12 @@
                         <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">Gmail (Free)</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Up to 500 emails/day</p>
-                            <button type="button" onclick="setGmailConfig()" class="btn btn-sm btn-secondary">Use Gmail Settings</button>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setGmailConfig()" class="btn btn-sm btn-secondary">Use Gmail Settings</button>
+                                <button type="button" onclick="showInstructions('gmail')" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-question-circle"></i> Help
+                                </button>
+                            </div>
                             <div class="mt-2 text-xs text-gray-600">
                                 <p>1. Enable 2FA on your Google account</p>
                                 <p>2. Generate app password at myaccount.google.com/apppasswords</p>
@@ -138,7 +148,12 @@
                         <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">SendGrid (Free tier)</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">100 emails/day free</p>
-                            <button type="button" onclick="setSendGridConfig()" class="btn btn-sm btn-secondary">Use SendGrid Settings</button>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setSendGridConfig()" class="btn btn-sm btn-secondary">Use SendGrid Settings</button>
+                                <button type="button" onclick="showInstructions('sendgrid')" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-question-circle"></i> Help
+                                </button>
+                            </div>
                             <div class="mt-2 text-xs text-gray-600">
                                 <p>1. Sign up at sendgrid.com</p>
                                 <p>2. Create API key in Settings</p>
@@ -148,7 +163,12 @@
                         <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">Mailgun (Free trial)</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">5,000 emails/month for 3 months</p>
-                            <button type="button" onclick="setMailgunConfig()" class="btn btn-sm btn-secondary">Use Mailgun Settings</button>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setMailgunConfig()" class="btn btn-sm btn-secondary">Use Mailgun Settings</button>
+                                <button type="button" onclick="showInstructions('mailgun')" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-question-circle"></i> Help
+                                </button>
+                            </div>
                             <div class="mt-2 text-xs text-gray-600">
                                 <p>1. Sign up at mailgun.com</p>
                                 <p>2. Get SMTP credentials from domain settings</p>
@@ -158,7 +178,12 @@
                         <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">Log Driver (Testing)</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Emails saved to log file</p>
-                            <button type="button" onclick="setLogConfig()" class="btn btn-sm btn-secondary">Use Log Driver</button>
+                            <div class="flex gap-2">
+                                <button type="button" onclick="setLogConfig()" class="btn btn-sm btn-secondary">Use Log Driver</button>
+                                <button type="button" onclick="showInstructions('log')" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-question-circle"></i> Help
+                                </button>
+                            </div>
                             <div class="mt-2 text-xs text-gray-600">
                                 <p>Emails will be saved to storage/logs/laravel.log</p>
                                 <p>Perfect for testing without sending real emails</p>
@@ -176,6 +201,21 @@
                     </button>
                 </div>
             </form>
+        </div>
+
+        <!-- Instructions Modal -->
+        <div id="instructionsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+            <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white dark:bg-gray-800">
+                <div class="mt-3">
+                    <h3 id="modalTitle" class="text-lg font-medium text-gray-900 dark:text-white mb-4"></h3>
+                    <div id="modalContent" class="mt-2 text-sm text-gray-600 dark:text-gray-300"></div>
+                    <div class="mt-4">
+                        <button onclick="closeInstructions()" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </x-slot>
 
@@ -287,6 +327,218 @@
         document.addEventListener('DOMContentLoaded', function() {
             toggleMailFields(document.getElementById('mail_driver').value);
         });
+
+        function showInstructions(service) {
+            const modal = document.getElementById('instructionsModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
+            
+            const instructions = {
+                phpmail: {
+                    title: 'PHP Mail Setup Instructions',
+                    content: `
+                        <h4 class="font-semibold mb-2">How PHP Mail Works:</h4>
+                        <p class="mb-3">PHP Mail uses your server's built-in mail() function. No external service required!</p>
+                        
+                        <h4 class="font-semibold mb-2">Requirements:</h4>
+                        <ul class="list-disc ml-5 mb-3">
+                            <li>PHP with mail() function enabled (most servers have this)</li>
+                            <li>Valid "From" email address</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2">Setup Steps:</h4>
+                        <ol class="list-decimal ml-5 mb-3">
+                            <li>Click "Use PHP Mail" button</li>
+                            <li>Enter your From Email (e.g., noreply@yourdomain.com)</li>
+                            <li>Enter your From Name (e.g., Your Server Name)</li>
+                            <li>Save Configuration</li>
+                        </ol>
+                        
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded mt-3">
+                            <strong>Note:</strong> Emails may go to spam folder. To improve delivery:
+                            <ul class="list-disc ml-5 mt-2">
+                                <li>Use an email address from your domain</li>
+                                <li>Set up SPF records in your DNS</li>
+                                <li>Consider using SMTP for better delivery</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                gmail: {
+                    title: 'Gmail Setup Instructions',
+                    content: `
+                        <h4 class="font-semibold mb-2">Gmail SMTP Setup:</h4>
+                        <p class="mb-3">Gmail provides free SMTP service with up to 500 emails per day.</p>
+                        
+                        <h4 class="font-semibold mb-2">Step-by-Step Setup:</h4>
+                        <ol class="list-decimal ml-5 mb-3">
+                            <li class="mb-2">
+                                <strong>Enable 2-Factor Authentication:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Go to <a href="https://myaccount.google.com/security" target="_blank" class="text-blue-600 hover:underline">Google Account Security</a></li>
+                                    <li>Click on "2-Step Verification"</li>
+                                    <li>Follow the setup process</li>
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Generate App Password:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Go to <a href="https://myaccount.google.com/apppasswords" target="_blank" class="text-blue-600 hover:underline">App Passwords</a></li>
+                                    <li>Select "Mail" as the app</li>
+                                    <li>Select "Other" as device and name it (e.g., "Laravel App")</li>
+                                    <li>Copy the 16-character password</li>
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Configure in Panel:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Click "Use Gmail Settings"</li>
+                                    <li>Username: your-email@gmail.com</li>
+                                    <li>Password: The 16-character app password</li>
+                                    <li>From Email: your-email@gmail.com</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        
+                        <div class="bg-green-100 dark:bg-green-900 p-3 rounded mt-3">
+                            <strong>Benefits:</strong> Excellent delivery rate, reliable, and completely free for up to 500 emails/day.
+                        </div>
+                    `
+                },
+                sendgrid: {
+                    title: 'SendGrid Setup Instructions',
+                    content: `
+                        <h4 class="font-semibold mb-2">SendGrid Free Tier Setup:</h4>
+                        <p class="mb-3">SendGrid offers 100 free emails per day forever.</p>
+                        
+                        <h4 class="font-semibold mb-2">Setup Process:</h4>
+                        <ol class="list-decimal ml-5 mb-3">
+                            <li class="mb-2">
+                                <strong>Create SendGrid Account:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Go to <a href="https://signup.sendgrid.com/" target="_blank" class="text-blue-600 hover:underline">SendGrid Signup</a></li>
+                                    <li>Complete the registration (may require business info)</li>
+                                    <li>Verify your email address</li>
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Create API Key:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Go to Settings → API Keys</li>
+                                    <li>Click "Create API Key"</li>
+                                    <li>Name it (e.g., "Laravel SMTP")</li>
+                                    <li>Select "Full Access"</li>
+                                    <li>Copy the API key (you won't see it again!)</li>
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Configure in Panel:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Click "Use SendGrid Settings"</li>
+                                    <li>Username: <code>apikey</code> (literally this word)</li>
+                                    <li>Password: Your API key</li>
+                                    <li>From Email: Must be verified in SendGrid</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded mt-3">
+                            <strong>Note:</strong> You may need to verify your sender email in SendGrid's Sender Authentication section.
+                        </div>
+                    `
+                },
+                mailgun: {
+                    title: 'Mailgun Setup Instructions',
+                    content: `
+                        <h4 class="font-semibold mb-2">Mailgun Trial Setup:</h4>
+                        <p class="mb-3">Mailgun offers 5,000 emails/month for 3 months trial.</p>
+                        
+                        <h4 class="font-semibold mb-2">Setup Steps:</h4>
+                        <ol class="list-decimal ml-5 mb-3">
+                            <li class="mb-2">
+                                <strong>Create Mailgun Account:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Go to <a href="https://signup.mailgun.com/new/signup" target="_blank" class="text-blue-600 hover:underline">Mailgun Signup</a></li>
+                                    <li>Complete registration</li>
+                                    <li>Add credit card (required but won't be charged during trial)</li>
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Get SMTP Credentials:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Go to Sending → Domains</li>
+                                    <li>Click on your sandbox domain</li>
+                                    <li>Select "SMTP" tab</li>
+                                    <li>Copy the SMTP credentials</li>
+                                </ul>
+                            </li>
+                            <li class="mb-2">
+                                <strong>Configure in Panel:</strong>
+                                <ul class="list-disc ml-5 mt-1">
+                                    <li>Click "Use Mailgun Settings"</li>
+                                    <li>Username: Default SMTP Login from Mailgun</li>
+                                    <li>Password: Default Password from Mailgun</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded mt-3">
+                            <strong>Trial Note:</strong> After 3 months, you'll need to upgrade to continue using Mailgun.
+                        </div>
+                    `
+                },
+                log: {
+                    title: 'Log Driver Instructions',
+                    content: `
+                        <h4 class="font-semibold mb-2">Log Driver Setup:</h4>
+                        <p class="mb-3">Perfect for testing! Emails are saved to a file instead of being sent.</p>
+                        
+                        <h4 class="font-semibold mb-2">How It Works:</h4>
+                        <ul class="list-disc ml-5 mb-3">
+                            <li>All emails are written to: <code>storage/logs/laravel.log</code></li>
+                            <li>No actual emails are sent</li>
+                            <li>Great for development and testing</li>
+                            <li>You can see the full email content in the log</li>
+                        </ul>
+                        
+                        <h4 class="font-semibold mb-2">Setup:</h4>
+                        <ol class="list-decimal ml-5 mb-3">
+                            <li>Click "Use Log Driver"</li>
+                            <li>Enter From Email and Name</li>
+                            <li>Save Configuration</li>
+                        </ol>
+                        
+                        <h4 class="font-semibold mb-2">View Emails:</h4>
+                        <p class="mb-2">To see sent emails, check your log file:</p>
+                        <code class="block bg-gray-100 dark:bg-gray-700 p-2 rounded mb-3">
+                            tail -f storage/logs/laravel.log
+                        </code>
+                        
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded mt-3">
+                            <strong>Perfect for:</strong> Testing password resets, notifications, and any email functionality without sending real emails.
+                        </div>
+                    `
+                }
+            };
+            
+            if (instructions[service]) {
+                title.textContent = instructions[service].title;
+                content.innerHTML = instructions[service].content;
+                modal.classList.remove('hidden');
+            }
+        }
+        
+        function closeInstructions() {
+            document.getElementById('instructionsModal').classList.add('hidden');
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('instructionsModal');
+            if (event.target == modal) {
+                closeInstructions();
+            }
+        }
     </script>
     @endpush
 </x-hrace009.layouts.admin>
