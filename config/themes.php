@@ -1,21 +1,21 @@
 <?php
 
 return [
-    'default' => 'default',
+    'default' => 'mystical-purple',
     
     'themes' => [
-        'default' => [
-            'name' => 'MMO Dark',
-            'description' => 'Dark purple theme perfect for MMO gaming sites',
-            'css' => 'css/themes/default.css',
-            'preview' => 'img/themes/default.png',
+        'mystical-purple' => [
+            'name' => 'Mystical Purple',
+            'description' => 'Epic fantasy theme with mystical purple gradients and golden accents',
+            'css' => 'css/themes/mystical-purple.css',
+            'preview' => 'img/themes/mystical-purple.png',
             'colors' => [
-                'primary' => '#8b5cf6',
-                'secondary' => '#6366f1',
-                'accent' => '#ec4899',
-                'background' => '#0a0e1a',
-                'surface' => '#1a1f2e',
-                'text' => '#e2e8f0'
+                'primary' => '#9370db',
+                'secondary' => '#8a2be2',
+                'accent' => '#d4af37',
+                'background' => '#0f0518',
+                'surface' => '#1a0d26',
+                'text' => '#e6d7ff'
             ]
         ],
         'gamer-dark' => [
@@ -46,18 +46,18 @@ return [
                 'text' => '#ffffff'
             ]
         ],
-        'mystical-purple' => [
-            'name' => 'Mystical Purple',
-            'description' => 'Epic fantasy theme with mystical purple gradients and golden accents',
-            'css' => 'css/themes/mystical-purple.css',
-            'preview' => 'img/themes/mystical-purple.png',
+        'default' => [
+            'name' => 'MMO Dark',
+            'description' => 'Dark purple theme perfect for MMO gaming sites',
+            'css' => 'css/themes/default.css',
+            'preview' => 'img/themes/default.png',
             'colors' => [
-                'primary' => '#9370db',
-                'secondary' => '#8a2be2',
-                'accent' => '#d4af37',
-                'background' => '#0f0518',
-                'surface' => '#1a0d26',
-                'text' => '#e6d7ff'
+                'primary' => '#8b5cf6',
+                'secondary' => '#6366f1',
+                'accent' => '#ec4899',
+                'background' => '#0a0e1a',
+                'surface' => '#1a1f2e',
+                'text' => '#e2e8f0'
             ]
         ]
     ]
