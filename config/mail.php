@@ -56,7 +56,7 @@ return [
         ],
 
         'mail' => [
-            'transport' => 'mail',
+            'transport' => 'phpmail',
         ],
 
         'ses' => [

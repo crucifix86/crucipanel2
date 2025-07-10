@@ -193,6 +193,7 @@ return [
         App\Providers\Hrace009ServiceProvider::class,
         App\Providers\Hrace009Validation::class,
         App\Providers\HashServiceProvider::class,
+        App\Providers\MailConfigServiceProvider::class,
         hrace009\PerfectWorldAPI\ServiceProvider::class,
         hrace009\ConfigWriter\ServiceProvider::class,
     ],
