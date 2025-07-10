@@ -98,9 +98,10 @@ class SystemController extends Controller
             $envData['MAIL_PASSWORD'] = $request->mail_password ?: '';
             $envData['MAIL_ENCRYPTION'] = $request->mail_encryption ?: 'null';
         } else {
-            // Clear SMTP settings for non-SMTP drivers
-            $envData['MAIL_HOST'] = '';
-            $envData['MAIL_PORT'] = '';
+            // For non-SMTP drivers, keep default values to avoid config issues
+            // These values are ignored by mail/sendmail drivers anyway
+            $envData['MAIL_HOST'] = 'localhost';
+            $envData['MAIL_PORT'] = '25';
             $envData['MAIL_USERNAME'] = '';
             $envData['MAIL_PASSWORD'] = '';
             $envData['MAIL_ENCRYPTION'] = 'null';
