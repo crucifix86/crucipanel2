@@ -336,6 +336,95 @@
             transform: translateY(-2px);
         }
 
+        /* Widget Styling for Dark Theme */
+        .sidebar-area .side-block {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-area .side-block .block-title {
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-secondary);
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-area .side-block .block-content {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-area .side-block .block-content:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-area .side-block .block-content .label,
+        .sidebar-area .side-block .block-content .badge {
+            background-color: var(--accent-primary) !important;
+            color: white !important;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-area .side-block .block-content .bg-success {
+            background-color: #28a745 !important;
+        }
+        .sidebar-area .side-block .block-content .bg-danger {
+            background-color: #dc3545 !important;
+        }
+
+        /* GM List Table */
+        .sidebar-area .table-gmlist {
+            width: 100%;
+            color: var(--text-secondary);
+        }
+        .sidebar-area .table-gmlist td {
+            padding: 8px 4px;
+            vertical-align: middle;
+            border-top: 1px solid var(--border-color);
+        }
+        .sidebar-area .table-gmlist tr:first-child td {
+            border-top: none;
+        }
+        .sidebar-area .table-gmlist img.img-rounded {
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+        }
+
+        /* News Category Links in Widget */
+        .sidebar-area .side-block ul.block-content {
+            list-style: none;
+            padding-left: 0;
+        }
+        .sidebar-area .side-block ul.block-content a {
+            display: block;
+            color: var(--accent-secondary);
+            text-decoration: none;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border-color);
+            transition: color 0.3s ease, padding-left 0.3s ease;
+        }
+        .sidebar-area .side-block ul.block-content a:hover {
+            color: var(--accent-primary);
+            padding-left: 5px;
+        }
+        .sidebar-area .side-block ul.block-content a:last-child {
+            border-bottom: none;
+        }
+
         /* Mobile responsiveness */
         @media (max-width: 991px) {
             .custom-navbar .navbar-nav {
@@ -657,7 +746,9 @@
 
             {{-- Right Side --}}
             <div class="col-md-3">
-                {{ $widget }}
+                <aside class="sidebar-area">
+                    {{ $widget }}
+                </aside>
             </div>
         </div>
 
