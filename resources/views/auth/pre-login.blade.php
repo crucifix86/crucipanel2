@@ -181,11 +181,13 @@
         }
 
         .tagline {
-            font-size: 1.1rem;
+            font-size: 2.2rem;
             color: #dda0dd;
             margin-bottom: 30px;
             font-style: italic;
             text-shadow: 0 0 15px rgba(221, 160, 221, 0.5);
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
         .login-form {
@@ -467,7 +469,6 @@
         <div class="mystical-border"></div>
         
         <div class="header">
-            <h1 class="logo">Haven Perfect World</h1>
             <p class="tagline">Welcome to Haven Perfect World</p>
         </div>
 
