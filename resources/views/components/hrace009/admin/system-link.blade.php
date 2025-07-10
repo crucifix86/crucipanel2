@@ -83,5 +83,13 @@
         >
             {{ __('header.management') }}
         </a>
+
+        <a
+            href="{{ route('admin.email.settings') }}"
+            role="menuitem"
+            class="block p-2 text-sm text-gray-{{ request()->routeIs('admin.email.*') ? '700' : '400' }} transition-colors duration-200 rounded-md dark:{{ request()->routeIs('admin.email.*') ? 'text-light' : 'text-gray-400' }} dark:hover:text-light hover:text-gray-700"
+        >
+            {{ __('Email Configuration') }}
+        </a>
     </div>
 </div>

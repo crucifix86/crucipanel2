@@ -336,6 +336,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'uses' => 'App\Http\Controllers\Admin\HeaderController@update'
         ]);
 
+        Route::get('email', [
+            'as' => 'admin.email.settings',
+            'uses' => 'App\Http\Controllers\Admin\SystemController@getEmailSettings'
+        ]);
+
+        Route::post('email', [
+            'as' => 'admin.email.settings.post',
+            'uses' => 'App\Http\Controllers\Admin\SystemController@saveEmailSettings'
+        ]);
+
+        Route::post('email/test', [
+            'as' => 'admin.email.test',
+            'uses' => 'App\Http\Controllers\Admin\SystemController@testEmailSettings'
+        ]);
+
     });
 
     Route::group(['prefix' => 'members'], static function () {
