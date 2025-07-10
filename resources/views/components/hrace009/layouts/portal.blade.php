@@ -848,6 +848,30 @@
             pointer-events: auto;
         }
         
+        /* Fix dropdown menus in navbar */
+        .custom-navbar .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            margin-top: 10px;
+        }
+        
+        .custom-navbar .dropdown-menu.show {
+            display: block;
+        }
+        
+        .custom-navbar .dropdown-menu .dropdown-item {
+            color: var(--text-primary);
+        }
+        
+        .custom-navbar .dropdown-menu .dropdown-item:hover {
+            background: var(--hover-bg);
+            color: var(--accent-primary);
+        }
+        
 
     </style>
     @if( config('pw-config.logo') === 'img/logo/logo.png' )
@@ -1198,6 +1222,15 @@
     // Run on load and resize
     handleNavbarToggler();
     window.addEventListener('resize', handleNavbarToggler);
+    
+    // Initialize Bootstrap dropdowns
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize all dropdowns
+        var dropdownElementList = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+            return new bootstrap.Dropdown(dropdownToggleEl);
+        });
+    });
 </script>
 
 <script src="{{ asset('js/portal/portal.js') }}"></script>
