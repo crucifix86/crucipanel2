@@ -177,9 +177,11 @@ class NewsController extends Controller
     public function postSettings(Request $request): RedirectResponse
     {
         $validate = $request->validate([
-            'article_page' => 'required|numeric'
+            'article_page' => 'required|numeric',
+            'default_og_logo' => 'required|string'
         ]);
         Config::write('pw-config.news.page', $validate['article_page']);
+        Config::write('pw-config.news.default_og_logo', $validate['default_og_logo']);
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 }

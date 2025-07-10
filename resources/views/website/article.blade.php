@@ -19,7 +19,7 @@
         @if($article->og_image)
             {{ asset('uploads/og_image/' . $article->og_image) }}
         @else
-            {{ asset('img/logo/logo.png') }}
+            {{ asset(config('pw-config.news.default_og_logo', 'img/logo/crucifix_logo.svg')) }}
         @endif
     </x-slot>
 

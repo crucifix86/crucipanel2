@@ -43,6 +43,7 @@ return [
     ],
     'news' => [
         'page' => '15',
+        'default_og_logo' => 'img/logo/crucifix_logo.svg',
     ],
     'shop' => [
         'page' => '15'

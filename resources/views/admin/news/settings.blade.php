@@ -17,6 +17,17 @@
                                                     :popover="__('news.articles_per_page_desc')"/>
                     <x-hrace009::label for="article_page">{{ __('news.articles_per_page') }}</x-hrace009::label>
                 </div>
+                
+                <div class="relative z-0 mb-6 w-full group">
+                    <x-hrace009::input-with-popover id="default_og_logo" name="default_og_logo"
+                                                    value="{{ config('pw-config.news.default_og_logo') }}"
+                                                    placeholder=" " required
+                                                    :popover="__('news.default_og_logo_desc', ['default' => 'img/logo/crucifix_logo.svg'])"/>
+                    <x-hrace009::label for="default_og_logo">{{ __('news.default_og_logo') }}</x-hrace009::label>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        {{ __('news.default_og_logo_help') }}
+                    </p>
+                </div>
                 <!-- Submit Button -->
                 <x-hrace009::button-with-popover class="w-auto" popover="{{ __('general.config_save_desc') }}">
                     {{ __('general.Save') }}
