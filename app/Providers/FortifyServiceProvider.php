@@ -72,7 +72,14 @@ class FortifyServiceProvider extends ServiceProvider
                 if ($user &&
                     Hash::check($request->name . $request->password, $user->passwd)
                 ) {
-                    return $user;
+                    // Check PIN only if user has PIN enabled
+                    if ($user->pin_enabled) {
+                        if ($request->pin && $user->qq === $request->pin) {
+                            return $user;
+                        }
+                        return null; // PIN required but incorrect
+                    }
+                    return $user; // No PIN required
                 }
             }
         });
@@ -111,33 +118,20 @@ class FortifyServiceProvider extends ServiceProvider
      */
     protected function validateLogin(Request $request): void
     {
-        if (Features::enabled(Features::twoFactorAuthentication())) {
-            if (config('pw-config.system.apps.captcha')) {
-                $request->validate([
-                    'name' => $this->LoginPageUserNameRules(),
-                    'password' => $this->LoginPagePasswordRules(),
-                    'captcha' => $this->captchaRules(),
-                ]);
-            } else {
-                $request->validate([
-                    'name' => $this->LoginPageUserNameRules(),
-                    'password' => $this->LoginPagePasswordRules(),
-                ]);
-            }
+        $rules = [
+            'name' => $this->LoginPageUserNameRules(),
+            'password' => $this->LoginPagePasswordRules(),
+        ];
 
-        } else {
-            if (config('pw-config.system.apps.captcha')) {
-                $request->validate([
-                    'name' => $this->LoginPageUserNameRules(),
-                    'password' => $this->LoginPagePasswordRules(),
-                    'captcha' => $this->captchaRules(),
-                ]);
-            } else {
-                $request->validate([
-                    'name' => $this->LoginPageUserNameRules(),
-                    'password' => $this->LoginPagePasswordRules(),
-                ]);
-            }
+        if (config('pw-config.system.apps.captcha')) {
+            $rules['captcha'] = $this->captchaRules();
         }
+
+        // Only validate PIN if it's provided (we'll check if it's required during authentication)
+        if ($request->has('pin') && $request->pin) {
+            $rules['pin'] = $this->LoginPagePinRules();
+        }
+
+        $request->validate($rules);
     }
 }

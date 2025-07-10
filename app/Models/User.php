@@ -65,6 +65,7 @@ class User extends Authenticatable
         'creatime',
         'theme',
         'discord_id',
+        'pin_enabled',
     ];
 
     /**
@@ -95,6 +96,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'pin_enabled' => 'boolean',
     ];
     /**
      * The accessors to append to the model's array form.

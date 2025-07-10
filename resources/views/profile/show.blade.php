@@ -27,12 +27,10 @@
                 </div>
 
                 <x-section-border/>
-                @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
-                    <div class="mt-10 sm:mt-0">
-                        @livewire('profile.update-pin-form')
-                    </div>
-                    <x-section-border/>
-                @endif
+                <div class="mt-10 sm:mt-0">
+                    @livewire('profile.pin-settings')
+                </div>
+                <x-section-border/>
             @endif
 
 
