@@ -194,6 +194,13 @@
                                     <input id="password" type="password" name="password" />
                                 </div>
 
+                                <!-- Dynamic PIN field -->
+                                <div id="pin-field-navbar" style="display: none;">
+                                    <label for="pin">{{ __('auth.form.pin') }}:</label>
+                                    <div class="youplay-input">
+                                        <input id="pin" type="password" name="pin" autocomplete="current-pin" />
+                                    </div>
+                                </div>
 
                                 @if( config('pw-config.system.apps.captcha') )
                                     @captcha
@@ -224,3 +231,58 @@
     </div>
 </nav>
 <!-- /Navbar -->
+
+<!-- PIN Check Script for Navbar Dropdown Login -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameInput = document.getElementById('name');
+        const pinField = document.getElementById('pin-field-navbar');
+        const pinInput = document.getElementById('pin');
+        let checkTimeout;
+
+        function checkPinRequired() {
+            const username = nameInput.value;
+            if (username.length < 3) {
+                pinField.style.display = 'none';
+                pinInput.removeAttribute('required');
+                return;
+            }
+
+            fetch('/api/check-pin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ username: username })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.pin_required) {
+                    pinField.style.display = 'block';
+                    pinInput.setAttribute('required', 'required');
+                } else {
+                    pinField.style.display = 'none';
+                    pinInput.removeAttribute('required');
+                }
+            })
+            .catch(error => {
+                console.error('Error checking PIN requirement:', error);
+            });
+        }
+
+        if (nameInput) {
+            nameInput.addEventListener('input', function() {
+                clearTimeout(checkTimeout);
+                checkTimeout = setTimeout(checkPinRequired, 500);
+            });
+
+            nameInput.addEventListener('blur', checkPinRequired);
+
+            // Check on page load if username is pre-filled
+            if (nameInput.value) {
+                checkPinRequired();
+            }
+        }
+    });
+</script>

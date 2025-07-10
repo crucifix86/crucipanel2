@@ -63,6 +63,12 @@ Route::group(['middleware' => 'web'], static function () {
         'uses' => 'App\Http\Controllers\Website\Home@index'
     ]);
 
+    // API endpoint to check if user has PIN enabled
+    Route::post('/api/check-pin', [
+        'as' => 'api.check-pin',
+        'uses' => 'App\Http\Controllers\Api\CheckPinController@checkPin'
+    ])->withoutMiddleware(VerifyCsrfToken::class);
+
     Route::get('news/{slug}', [
         'as' => 'show.article',
         'uses' => 'App\Http\Controllers\Website\Home@showPost'
