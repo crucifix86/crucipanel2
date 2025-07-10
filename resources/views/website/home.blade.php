@@ -915,9 +915,8 @@
                 @endif
             </div>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            {{-- Navbar toggler will be added by JavaScript for mobile only --}}
+            <div id="navbar-toggler-placeholder"></div>
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav me-auto">
@@ -1201,9 +1200,48 @@
     {{-- Ensure Bootstrap 5 JS for data-bs-toggle --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
-    {{-- Removed Jarallax video and element as they might not be used in this simplified version --}}
-    {{-- <script src="{{ asset('vendor/portal/jarallax/dist/jarallax-video.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('vendor/portal/jarallax/dist/jarallax-element.min.js') }}"></script> --}}
+    
+    {{-- Initialize Bootstrap 5 compatibility and navbar toggler --}}
+    <script>
+        // Create jQuery tooltip wrapper for Bootstrap 5 compatibility
+        if (typeof bootstrap !== 'undefined' && !$.fn.tooltip) {
+            $.fn.tooltip = function(options) {
+                return this.each(function() {
+                    new bootstrap.Tooltip(this, options);
+                });
+            };
+        }
+        
+        // Also add popover compatibility
+        if (typeof bootstrap !== 'undefined' && !$.fn.popover) {
+            $.fn.popover = function(options) {
+                return this.each(function() {
+                    new bootstrap.Popover(this, options);
+                });
+            };
+        }
+        
+        // Only add navbar toggler on mobile screens
+        function handleNavbarToggler() {
+            const placeholder = document.getElementById('navbar-toggler-placeholder');
+            if (!placeholder) return;
+            
+            if (window.innerWidth < 992) {
+                // Only add if not already present
+                if (!placeholder.querySelector('.navbar-toggler')) {
+                    placeholder.innerHTML = '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>';
+                }
+            } else {
+                // Remove on desktop
+                placeholder.innerHTML = '';
+            }
+        }
+        
+        // Run on load and resize
+        handleNavbarToggler();
+        window.addEventListener('resize', handleNavbarToggler);
+    </script>
+    
     <script src="{{ asset('js/portal/portal.js') }}"></script> {{-- portal.js might still be useful for other theme features or footer --}}
 
     {{-- AlpineJS for dropdowns and other reactive components --}}
