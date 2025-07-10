@@ -240,98 +240,291 @@
         }
 
         /* Article content specific styles */
-        .youplay-banner {
-            background: var(--bg-secondary);
-            padding: 60px 0;
+        .article-hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 80px 0 60px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            border-bottom: 2px solid var(--accent-primary);
         }
 
-        .youplay-banner h1 {
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .article-hero h1 {
             color: var(--text-primary);
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin: 0;
+            font-weight: 800;
+            font-size: 3rem;
+            margin: 0 0 20px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .youplay-news {
-            padding: 40px 0;
-            background: var(--bg-primary);
-        }
-
-        .news-one {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-            margin-bottom: 30px;
-        }
-
-        .news-one .tags {
-            margin-bottom: 20px;
-        }
-
-        .news-one .tags a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 4px 12px;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            margin-right: 8px;
-        }
-
-        .news-one .tags a:hover {
-            background: var(--accent-primary);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .news-one .meta {
+        .article-hero-meta {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            color: var(--text-muted);
-            font-size: 0.875rem;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
 
-        .news-one .meta .item {
+        .article-hero-meta .meta-item {
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
         }
 
-        .news-one .meta-icon {
+        .article-hero-meta .meta-item i {
             color: var(--accent-primary);
+            font-size: 1.1rem;
         }
 
-        .news-one .description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 20px;
+        .youplay-news {
+            padding: 60px 0;
+            background: var(--bg-primary);
         }
 
-        .social-list {
-            margin-top: 30px;
-        }
-
-        .social-list .btn {
-            margin-right: 10px;
-            padding: 8px 16px;
-            background: var(--bg-tertiary);
+        .article-content {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .article-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .article-body {
+            padding: 40px;
+        }
+
+        .article-tags {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .article-tags .tags-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .article-tags .tag-icon {
+            color: var(--accent-primary);
+            font-size: 1.2rem;
+        }
+
+        .article-tags a {
+            display: inline-flex;
+            align-items: center;
             color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .article-tags a:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .article-text {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .article-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-text h2, .article-text h3 {
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+            font-weight: 700;
+        }
+
+        .article-text h2 {
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .article-text h3 {
+            font-size: 1.4rem;
+        }
+
+        .article-text blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .article-text a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-primary);
             transition: all 0.3s ease;
         }
 
-        .social-list .btn:hover {
-            background: var(--accent-primary);
+        .article-text a:hover {
+            color: var(--accent-secondary);
+            border-bottom-style: solid;
+        }
+
+        .article-text ul, .article-text ol {
+            margin-bottom: 1.5rem;
+            padding-left: 30px;
+        }
+
+        .article-text li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-text code {
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-primary);
+        }
+
+        .article-text pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .article-text pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .article-text img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .article-footer {
+            padding: 30px 40px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-share {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-share-label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .social-share-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-share-buttons .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-share-buttons .share-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .social-share-buttons .facebook:hover {
+            background: #1877f2;
             color: white;
-            transform: translateY(-2px);
+            border-color: #1877f2;
+        }
+
+        .social-share-buttons .twitter:hover {
+            background: #1da1f2;
+            color: white;
+            border-color: #1da1f2;
+        }
+
+        @media (max-width: 768px) {
+            .article-hero h1 {
+                font-size: 2rem;
+            }
+
+            .article-body {
+                padding: 25px;
+            }
+
+            .article-hero-meta {
+                gap: 15px;
+            }
         }
 
         /* Main Content Area */
@@ -735,11 +928,22 @@
 
     {{-- Article Content --}}
     <div class="content-wrap">
-        <section class="youplay-banner banner-top youplay-banner-parallax small">
-            <div class="info">
-                <div>
-                    <div class="container">
-                        <h1 class="h1">{{ $article_title }}</h1>
+        {{-- Article Hero Section --}}
+        <section class="article-hero">
+            <div class="container">
+                <h1>{{ $article_title }}</h1>
+                <div class="article-hero-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span>{{ $author }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ $published }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-folder"></i>
+                        {{ $categories }}
                     </div>
                 </div>
             </div>
@@ -748,35 +952,42 @@
         <div class="container youplay-news" style="display: flow-root;">
             {{-- News Article --}}
             <div class="main-content-area">
-                <article class="news-one">
-                    <div class="tags">
-                        @php($tags = explode(',', $keywords ))
-                        <i class="fa fa-tags"></i>
-                        @foreach( $tags as $tag )
-                            <a href="{{ route('show.article.tag', $tag) }}">{{ $tag }}</a>{{ $loop->last ? '' : ', ' }}
-                        @endforeach
-                    </div>
-                    <div class="meta">
-                        <div class="item">
-                            <i class="fa fa-user meta-icon"></i>
-                            {{ $author  }}
+                <article class="article-content">
+                    <div class="article-body">
+                        <div class="article-tags">
+                            <div class="tags-container">
+                                <i class="fas fa-tags tag-icon"></i>
+                                @php($tags = explode(',', $keywords ))
+                                @foreach( $tags as $tag )
+                                    <a href="{{ route('show.article.tag', trim($tag)) }}">{{ trim($tag) }}</a>
+                                @endforeach
+                            </div>
                         </div>
-                        <div class="item">
-                            <i class="fa fa-calendar meta-icon"></i>
-                            {{ __('news.published') . ' ' .$published }}
-                        </div>
-                        <div class="item">
-                            <i class="fa fa-bookmark meta-icon"></i>
-                            {{ $categories }}
+                        
+                        <div class="article-text">
+                            {!! $news !!}
                         </div>
                     </div>
-                    <div class="description">
-                        {{ $news }}
-                    </div>
-                    {{-- Post Share --}}
-                    <div class="btn-group social-list social-likes" data-url="{{ $og_url }}" data-counters="no">
-                        <span class="btn btn-default facebook" title="Share link on Facebook"></span>
-                        <span class="btn btn-default twitter" title="Share link on Twitter"></span>
+                    
+                    {{-- Article Footer with Share --}}
+                    <div class="article-footer">
+                        <div class="social-share">
+                            <span class="social-share-label">Share this article:</span>
+                            <div class="social-share-buttons">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($og_url) }}" 
+                                   target="_blank" 
+                                   class="share-btn facebook"
+                                   title="Share on Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($og_url) }}&text={{ urlencode($article_title) }}" 
+                                   target="_blank" 
+                                   class="share-btn twitter"
+                                   title="Share on Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </article>
             </div>
