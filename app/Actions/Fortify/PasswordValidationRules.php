@@ -144,7 +144,7 @@ trait PasswordValidationRules
      */
     protected function UpdateUserProfileInformationPageTrueNameRules(): array
     {
-        return ['required', 'string', 'regex:/^[a-zA-Z ]*$/'];
+        return ['nullable', 'string', 'regex:/^[a-zA-Z ]*$/'];
     }
 
     /**
@@ -166,7 +166,7 @@ trait PasswordValidationRules
      */
     protected function UpdateUserProfileInformationPagePhoneRules($option): array
     {
-        return ['required', 'numeric', 'regex:/^[0-9]+$/', $option];
+        return ['nullable', 'numeric', 'regex:/^[0-9]+$/', $option];
     }
 
     /**

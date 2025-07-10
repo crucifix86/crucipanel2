@@ -48,9 +48,9 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
-                'truename' => ucwords($input['truename']),
+                'truename' => isset($input['truename']) && $input['truename'] ? ucwords($input['truename']) : null,
                 'email' => $input['email'],
-                'phonenumber' => $input['phonenumber'],
+                'phonenumber' => $input['phonenumber'] ?? null,
                 'discord_id' => $input['discord_id'] ?? null
             ])->save();
         }
