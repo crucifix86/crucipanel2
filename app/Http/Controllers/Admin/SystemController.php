@@ -73,7 +73,7 @@ class SystemController extends Controller
     public function saveEmailSettings(Request $request)
     {
         $request->validate([
-            'mail_driver' => ['required', Rule::in(['smtp', 'sendmail', 'mailgun', 'ses', 'log', 'array'])],
+            'mail_driver' => ['required', Rule::in(['smtp', 'mail', 'sendmail', 'mailgun', 'ses', 'log', 'array'])],
             'mail_host' => 'required_if:mail_driver,smtp',
             'mail_port' => 'required_if:mail_driver,smtp|numeric',
             'mail_username' => 'nullable',

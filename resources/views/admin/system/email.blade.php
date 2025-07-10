@@ -26,8 +26,9 @@
                         <label for="mail_driver" class="block text-sm font-medium mb-2">Mail Driver</label>
                         <select id="mail_driver" name="mail_driver" class="form-select w-full rounded-md border-gray-300 dark:bg-primary-darkest dark:border-gray-600" onchange="toggleMailFields(this.value)">
                             <option value="smtp" {{ $mailConfig['driver'] == 'smtp' ? 'selected' : '' }}>SMTP</option>
-                            <option value="log" {{ $mailConfig['driver'] == 'log' ? 'selected' : '' }}>Log (Testing only)</option>
+                            <option value="mail" {{ $mailConfig['driver'] == 'mail' ? 'selected' : '' }}>PHP Mail (Free)</option>
                             <option value="sendmail" {{ $mailConfig['driver'] == 'sendmail' ? 'selected' : '' }}>Sendmail</option>
+                            <option value="log" {{ $mailConfig['driver'] == 'log' ? 'selected' : '' }}>Log (Testing only)</option>
                             <option value="mailgun" {{ $mailConfig['driver'] == 'mailgun' ? 'selected' : '' }}>Mailgun</option>
                             <option value="ses" {{ $mailConfig['driver'] == 'ses' ? 'selected' : '' }}>Amazon SES</option>
                         </select>
@@ -100,6 +101,17 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="border rounded-lg p-4">
+                            <h3 class="font-semibold mb-2">PHP Mail (100% Free)</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Unlimited emails - No external service</p>
+                            <button type="button" onclick="setPhpMailConfig()" class="btn btn-sm btn-secondary">Use PHP Mail</button>
+                            <div class="mt-2 text-xs text-gray-600">
+                                <p>✓ No configuration needed</p>
+                                <p>✓ Works on most servers</p>
+                                <p>⚠️ May go to spam folder</p>
+                            </div>
+                        </div>
+
+                        <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">Gmail (Free)</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Up to 500 emails/day</p>
                             <button type="button" onclick="setGmailConfig()" class="btn btn-sm btn-secondary">Use Gmail Settings</button>
@@ -162,6 +174,12 @@
             } else {
                 smtpFields.classList.add('hidden');
             }
+        }
+
+        function setPhpMailConfig() {
+            document.getElementById('mail_driver').value = 'mail';
+            toggleMailFields('mail');
+            alert('PHP Mail selected. No additional configuration needed! Just add your From Email and From Name below.');
         }
 
         function setGmailConfig() {
