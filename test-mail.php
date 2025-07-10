@@ -57,4 +57,4 @@ foreach ($sendmail_paths as $path) {
 echo "\nAdditional diagnostics:\n";
 echo "- PHP Version: " . phpversion() . "\n";
 echo "- Server hostname: " . gethostname() . "\n";
-echo "- Server IP: " . $_SERVER['SERVER_ADDR'] ?? gethostbyname(gethostname()) . "\n";
+echo "- Server IP: " . (isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : gethostbyname(gethostname())) . "\n";
