@@ -916,10 +916,14 @@
     </div>
 
     {{-- Header Section --}}
+    @php
+        $headerSettings = \App\Models\HeaderSetting::first();
+        $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg');
+    @endphp
     <header class="site-header">
         <div class="container-fluid">
             <div class="header-content">
-                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
             </div>
         </div>
     </header>
