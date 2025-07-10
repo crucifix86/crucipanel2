@@ -1,19 +1,16 @@
-@extends('hrace009.layouts.admin')
-
-@section('content')
+@section('title', ' - Create Page')
+<x-hrace009.layouts.admin>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('admin.create_page') }}
-            </h2>
+        <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
+            <h1 class="text-2xl font-semibold">{{ __('admin.create_page') }}</h1>
             <a href="{{ route('admin.pages.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors duration-200">
                 {{ __('admin.back_to_list') }}
             </a>
         </div>
     </x-slot>
-
-    <div class="pb-12 mt-5">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    
+    <x-slot name="content">
+        <div class="max-w-7xl mx-auto">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <x-hrace009::admin.validation-error/>
@@ -104,18 +101,18 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        // Auto-generate slug from title
-        document.getElementById('title').addEventListener('input', function() {
-            const slug = document.getElementById('slug');
-            if (!slug.value) {
-                slug.value = this.value.toLowerCase()
-                    .replace(/[^\w\s-]/g, '')
-                    .replace(/[\s_-]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
-            }
-        });
-    </script>
-@endsection
+        <script>
+            // Auto-generate slug from title
+            document.getElementById('title').addEventListener('input', function() {
+                const slug = document.getElementById('slug');
+                if (!slug.value) {
+                    slug.value = this.value.toLowerCase()
+                        .replace(/[^\w\s-]/g, '')
+                        .replace(/[\s_-]+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+                }
+            });
+        </script>
+    </x-slot>
+</x-hrace009.layouts.admin>
