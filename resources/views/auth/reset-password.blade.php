@@ -363,7 +363,14 @@
                            placeholder="Confirm your new password">
                 </div>
 
-                @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
+                @php
+                    $user = \App\Models\User::where('email', $request->email)->first();
+                    $showPinFields = !Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()) 
+                                    && $user 
+                                    && $user->pin_enabled;
+                @endphp
+                
+                @if ($showPinFields)
                     <div class="form-group">
                         <label for="pin" class="form-label">New PIN</label>
                         <input id="pin" type="password" class="form-control @error('pin') is-invalid @enderror" 

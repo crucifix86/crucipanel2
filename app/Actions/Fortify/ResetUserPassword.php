@@ -54,25 +54,46 @@ class ResetUserPassword implements ResetsUserPasswords
                 'fullname' => $user->truename
             ];
         } else {
-            Validator::make($input, [
-                'password' => $this->ResetPasswordPagePasswordRules(),
-                'pin' => $this->ResetPasswordPagePinRules()
-            ])->validate();
+            // Check if user has PIN enabled
+            if ($user->pin_enabled) {
+                Validator::make($input, [
+                    'password' => $this->ResetPasswordPagePasswordRules(),
+                    'pin' => $this->ResetPasswordPagePinRules()
+                ])->validate();
 
-            $user->forceFill([
-                'passwd' => Hash::make($user['name'] . $input['password']),
-                'passwd2' => Hash::make($user['name'] . $input['password']),
-                'answer' => config('app.debug') ? $input['password'] : '',
-                'qq' => $input['pin'],
-            ])->save();
+                $user->forceFill([
+                    'passwd' => Hash::make($user['name'] . $input['password']),
+                    'passwd2' => Hash::make($user['name'] . $input['password']),
+                    'answer' => config('app.debug') ? $input['password'] : '',
+                    'qq' => $input['pin'],
+                ])->save();
 
-            $pwusers = [
-                'login' => $user->name,
-                'password' => $input['password'],
-                'email' => $user->email,
-                'pin' => $input['pin'],
-                'fullname' => $user->truename
-            ];
+                $pwusers = [
+                    'login' => $user->name,
+                    'password' => $input['password'],
+                    'email' => $user->email,
+                    'pin' => $input['pin'],
+                    'fullname' => $user->truename
+                ];
+            } else {
+                // User doesn't have PIN enabled, only validate password
+                Validator::make($input, [
+                    'password' => $this->ResetPasswordPagePasswordRules(),
+                ])->validate();
+
+                $user->forceFill([
+                    'passwd' => Hash::make($user['name'] . $input['password']),
+                    'passwd2' => Hash::make($user['name'] . $input['password']),
+                    'answer' => config('app.debug') ? $input['password'] : '',
+                ])->save();
+
+                $pwusers = [
+                    'login' => $user->name,
+                    'password' => $input['password'],
+                    'email' => $user->email,
+                    'fullname' => $user->truename
+                ];
+            }
         }
         Mail::to($pwusers['email'])->locale($user->language)->send(new ResetPasswordPinMail($pwusers));
     }
