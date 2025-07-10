@@ -58,7 +58,7 @@ return [
     'profile' => [
         'invalidPassword' => 'This password does not match our records.'
     ],
-    'welcome_realm' => 'Welcome to Perfect World Haven',
+    'welcome_realm' => 'Welcome to Haven Perfect World',
     'username' => 'Username',
     'enter_username' => 'Enter your username',
     'password' => 'Password',

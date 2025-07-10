@@ -467,8 +467,8 @@
         <div class="mystical-border"></div>
         
         <div class="header">
-            <h1 class="logo">{{ config('pw-config.server_name', 'Haven Perfect World') }}</h1>
-            <p class="tagline">{{ __('auth.welcome_realm') }}</p>
+            <h1 class="logo">Haven Perfect World</h1>
+            <p class="tagline">Welcome to Haven Perfect World</p>
         </div>
 
         <form class="login-form" method="POST" action="{{ route('login') }}" id="loginForm">
