@@ -940,50 +940,64 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav me-auto">
                 {{-- Home Link --}}
-                <a class="nav-link {{ Route::is('HOME') ? 'active' : '' }}" href="{{ route('HOME') }}">
-                    <i class="fas fa-home me-1"></i>{{ __('general.home') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('HOME') ? 'active' : '' }}" href="{{ route('HOME') }}">
+                        <i class="fas fa-home me-1"></i>{{ __('general.home') }}
+                    </a>
+                </div>
 
                 {{-- Shop Link --}}
                 @if( config('pw-config.system.apps.shop') )
-                <a class="nav-link {{ Route::is('app.shop.index') ? 'active' : '' }}" href="{{ route('app.shop.index') }}">
-                    <i class="fas fa-shopping-cart me-1"></i>{{ __('shop.title') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('app.shop.index') ? 'active' : '' }}" href="{{ route('app.shop.index') }}">
+                        <i class="fas fa-shopping-cart me-1"></i>{{ __('shop.title') }}
+                    </a>
+                </div>
                 @endif
 
                 {{-- Donate Link --}}
                 @if( config('pw-config.system.apps.donate') )
-                <a class="nav-link {{ Route::is('app.donate.history') ? 'active' : '' }}" href="{{ route('app.donate.history') }}">
-                    <i class="fas fa-credit-card me-1"></i>{{ __('donate.title') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('app.donate.history') ? 'active' : '' }}" href="{{ route('app.donate.history') }}">
+                        <i class="fas fa-credit-card me-1"></i>{{ __('donate.title') }}
+                    </a>
+                </div>
                 @endif
 
                 {{-- Voucher Link --}}
                 @if( config('pw-config.system.apps.voucher') )
-                <a class="nav-link {{ Route::is('app.voucher.index') ? 'active' : '' }}" href="{{ route('app.voucher.index') }}">
-                    <i class="fas fa-ticket-alt me-1"></i>{{ __('voucher.title') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('app.voucher.index') ? 'active' : '' }}" href="{{ route('app.voucher.index') }}">
+                        <i class="fas fa-ticket-alt me-1"></i>{{ __('voucher.title') }}
+                    </a>
+                </div>
                 @endif
 
                 {{-- Ingame Service Link --}}
                 @if( config('pw-config.system.apps.inGameService') )
-                <a class="nav-link {{ Route::is('app.services.index') ? 'active' : '' }}" href="{{ route('app.services.index') }}">
-                    <i class="fas fa-tools me-1"></i>{{ __('service.title') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('app.services.index') ? 'active' : '' }}" href="{{ route('app.services.index') }}">
+                        <i class="fas fa-tools me-1"></i>{{ __('service.title') }}
+                    </a>
+                </div>
                 @endif
 
                 {{-- Ranking Link --}}
                 @if( config('pw-config.system.apps.ranking') )
-                <a class="nav-link {{ Route::is('app.ranking.index') ? 'active' : '' }}" href="{{ route('app.ranking.index') }}">
-                    <i class="fas fa-trophy me-1"></i>{{ __('ranking.title') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('app.ranking.index') ? 'active' : '' }}" href="{{ route('app.ranking.index') }}">
+                        <i class="fas fa-trophy me-1"></i>{{ __('ranking.title') }}
+                    </a>
+                </div>
                 @endif
 
                 {{-- Vote Link --}}
                 @if( config('pw-config.system.apps.vote') )
-                <a class="nav-link {{ Route::is('app.vote.index') ? 'active' : '' }}" href="{{ route('app.vote.index') }}">
-                    <i class="fas fa-vote-yea me-1"></i>{{ __('vote.title') }}
-                </a>
+                <div class="nav-item">
+                    <a class="nav-link {{ Route::is('app.vote.index') ? 'active' : '' }}" href="{{ route('app.vote.index') }}">
+                        <i class="fas fa-vote-yea me-1"></i>{{ __('vote.title') }}
+                    </a>
+                </div>
                 @endif
 
                 {{-- Extras Dropdown (Custom Pages) --}}
@@ -1007,9 +1021,11 @@
                 @isset($download)
                     @if( $download->exists() && $download->count() > 0 )
                         @if( $download->count() === 1 )
-                            <a class="nav-link" href="{{ route('show.article', $download->first()->slug ) }}">
-                                <i class="fas fa-download me-1"></i>{{ $download->first()->title }}
-                            </a>
+                            <div class="nav-item">
+                                <a class="nav-link" href="{{ route('show.article', $download->first()->slug ) }}">
+                                    <i class="fas fa-download me-1"></i>{{ $download->first()->title }}
+                                </a>
+                            </div>
                         @else
                             <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1029,9 +1045,11 @@
                 @isset($guide)
                     @if( $guide->exists() && $guide->count() > 0 )
                         @if( $guide->count() === 1 )
-                            <a class="nav-link" href="{{ route('show.article', $guide->first()->slug ) }}">
-                                <i class="fas fa-book-open me-1"></i>{{ $guide->first()->title }}
-                            </a>
+                            <div class="nav-item">
+                                <a class="nav-link" href="{{ route('show.article', $guide->first()->slug ) }}">
+                                    <i class="fas fa-book-open me-1"></i>{{ $guide->first()->title }}
+                                </a>
+                            </div>
                         @else
                             <div class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="guideDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
