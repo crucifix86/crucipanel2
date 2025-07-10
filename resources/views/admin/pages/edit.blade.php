@@ -16,6 +16,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <x-hrace009::admin.validation-error/>
+                    
                     <form method="POST" action="{{ route('admin.pages.update', $page) }}">
                         @csrf
                         @method('PUT')
@@ -23,47 +25,61 @@
                         <div class="mb-4">
                             <x-hrace009::label for="title" value="{{ __('admin.page_title') }}" />
                             <x-hrace009::input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title', $page->title)" required autofocus />
-                            <x-hrace009::input-error :messages="$errors->get('title')" class="mt-2" />
+                            @error('title')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-4">
                             <x-hrace009::label for="nav_title" value="{{ __('admin.nav_title') }}" />
                             <x-hrace009::input id="nav_title" class="block mt-1 w-full" type="text" name="nav_title" :value="old('nav_title', $page->nav_title)" required />
-                            <x-hrace009::input-error :messages="$errors->get('nav_title')" class="mt-2" />
+                            @error('nav_title')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ __('admin.nav_title_help') }}</p>
                         </div>
 
                         <div class="mb-4">
                             <x-hrace009::label for="slug" value="{{ __('admin.slug') }}" />
                             <x-hrace009::input id="slug" class="block mt-1 w-full" type="text" name="slug" :value="old('slug', $page->slug)" />
-                            <x-hrace009::input-error :messages="$errors->get('slug')" class="mt-2" />
+                            @error('slug')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ __('admin.slug_help') }}</p>
                         </div>
 
                         <div class="mb-4">
                             <x-hrace009::label for="content" value="{{ __('admin.content') }}" />
                             <textarea id="content" name="content" rows="15" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600" required>{{ old('content', $page->content) }}</textarea>
-                            <x-hrace009::input-error :messages="$errors->get('content')" class="mt-2" />
+                            @error('content')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ __('admin.content_help') }}</p>
                         </div>
 
                         <div class="mb-4">
                             <x-hrace009::label for="order" value="{{ __('admin.order') }}" />
                             <x-hrace009::input id="order" class="block mt-1 w-full" type="number" name="order" :value="old('order', $page->order)" />
-                            <x-hrace009::input-error :messages="$errors->get('order')" class="mt-2" />
+                            @error('order')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ __('admin.order_help') }}</p>
                         </div>
 
                         <div class="mb-4">
                             <x-hrace009::label for="meta_description" value="{{ __('admin.meta_description') }}" />
                             <x-hrace009::input id="meta_description" class="block mt-1 w-full" type="text" name="meta_description" :value="old('meta_description', $page->meta_description)" />
-                            <x-hrace009::input-error :messages="$errors->get('meta_description')" class="mt-2" />
+                            @error('meta_description')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-4">
                             <x-hrace009::label for="meta_keywords" value="{{ __('admin.meta_keywords') }}" />
                             <x-hrace009::input id="meta_keywords" class="block mt-1 w-full" type="text" name="meta_keywords" :value="old('meta_keywords', $page->meta_keywords)" />
-                            <x-hrace009::input-error :messages="$errors->get('meta_keywords')" class="mt-2" />
+                            @error('meta_keywords')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-4">
