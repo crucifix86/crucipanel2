@@ -795,6 +795,13 @@
         .sidebar-area .side-block ul.block-content a:last-child {
             border-bottom: none;
         }
+        
+        /* Fix: Hide navbar toggler on desktop screens */
+        @media (min-width: 992px) {
+            .custom-navbar .navbar-toggler {
+                display: none !important;
+            }
+        }
 
     </style>
     @if( config('pw-config.logo') === 'img/logo/logo.png' )

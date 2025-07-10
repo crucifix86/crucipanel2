@@ -545,6 +545,12 @@
             min-height: calc(100vh - 200px);
         }
 
+        /* Fix: Hide navbar toggler on desktop screens */
+        @media (min-width: 992px) {
+            .custom-navbar .navbar-toggler {
+                display: none !important;
+            }
+        }
 
         /* Mobile responsiveness */
         @media (max-width: 991px) {
