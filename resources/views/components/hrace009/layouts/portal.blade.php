@@ -821,10 +821,24 @@
             z-index: 1;
         }
         
-        /* TEMPORARY DEBUG - Remove after finding the issue */
-        .custom-navbar *:hover {
-            outline: 2px solid red !important;
+        /* Ensure no elements overflow outside navbar */
+        .custom-navbar {
+            overflow: visible; /* For dropdowns */
         }
+        
+        .custom-navbar .navbar-collapse {
+            position: relative;
+        }
+        
+        /* Ensure navbar brand doesn't have any invisible clickable area */
+        .custom-navbar .navbar-brand * {
+            pointer-events: none;
+        }
+        
+        .custom-navbar .navbar-brand {
+            pointer-events: auto;
+        }
+        
 
     </style>
     @if( config('pw-config.logo') === 'img/logo/logo.png' )
