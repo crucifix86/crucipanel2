@@ -45,6 +45,20 @@ return [
                 'surface' => '#1a0f1a',
                 'text' => '#ffffff'
             ]
+        ],
+        'mystical-purple' => [
+            'name' => 'Mystical Purple',
+            'description' => 'Epic fantasy theme with mystical purple gradients and golden accents',
+            'css' => 'css/themes/mystical-purple.css',
+            'preview' => 'img/themes/mystical-purple.png',
+            'colors' => [
+                'primary' => '#9370db',
+                'secondary' => '#8a2be2',
+                'accent' => '#d4af37',
+                'background' => '#0f0518',
+                'surface' => '#1a0d26',
+                'text' => '#e6d7ff'
+            ]
         ]
     ]
 ];
