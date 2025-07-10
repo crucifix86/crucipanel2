@@ -55,6 +55,10 @@ return [
             'auth_mode' => null,
         ],
 
+        'mail' => [
+            'transport' => 'mail',
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],
