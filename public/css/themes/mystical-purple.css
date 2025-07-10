@@ -657,20 +657,24 @@ select.bg-white option {
 }
 
 /* ===== GM WIDGET USERNAME FIX ===== */
-#gm_status td[data-discord-name] {
-    font-family: Arial, sans-serif !important;
-    font-variant: normal !important;
+.gm-username {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     text-transform: none !important;
+    font-variant: normal !important;
     font-variant-caps: normal !important;
     font-feature-settings: normal !important;
     letter-spacing: normal !important;
+    -webkit-font-feature-settings: normal !important;
+    -moz-font-feature-settings: normal !important;
+    text-rendering: auto !important;
 }
 
-/* Override any parent styles forcing caps */
-#gm_status td.text-left {
-    font-family: Arial, sans-serif !important;
+/* Force override all possible text transformations */
+span.gm-username {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     text-transform: none !important;
     font-variant: normal !important;
+    font-variant-caps: normal !important;
 }
 
 /* ===== ANNOUNCEMENT BANNER ===== */
