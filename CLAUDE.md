@@ -5,8 +5,7 @@
 ### Development Environment
 - **This project is NOT installed locally** - it runs on a VPS
 - All testing must be done on the VPS, not locally
-- The VPS is a Contabo server (vmi2301977.contaboserver.net)
-- Domain: crucifixpwi.net
+- The VPS is a Contabo server
 
 ### Git Configuration
 - GitHub username: **crucifix86**
@@ -40,7 +39,7 @@ When making releases, ALWAYS follow these steps in order:
 - Using PHP mail with Postfix (not sendmail)
 - Domain must have SPF record: `v=spf1 ip4:SERVER_IP ~all`
 - Email settings are stored in .env and cached with `config:cache`
-- FROM address must match domain (e.g., admin@crucifixpwi.net)
+- FROM address must match the user's domain
 
 ### Project Structure
 - Admin panel uses: `layouts/admin.blade.php`
@@ -71,7 +70,7 @@ When making releases, ALWAYS follow these steps in order:
 - Check mail log: `sudo tail -f /var/log/mail.log`
 - Clear Laravel cache: `php artisan config:clear && php artisan config:cache`
 - Find server IP: `curl ifconfig.me`
-- Verify SPF: `dig +short txt crucifixpwi.net`
+- Verify SPF: `dig +short txt yourdomain.com`
 
 ## DO NOT
 - Test locally - the panel is on VPS only
