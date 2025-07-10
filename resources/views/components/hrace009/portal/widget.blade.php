@@ -9,7 +9,7 @@
                     <tr>
                         <td><img class="img-rounded" src="{{ $gm->profile_photo_url }}" width="48px" height="48px"
                                  alt="{{ $gm->truename }}"/></td>
-                        <td>{{ $gm->truename }}</td>
+                        <td style="font-weight: bold; font-size: 1.1rem; color: var(--text-primary);">{{ $gm->truename }}</td>
                         <td><span
                                 class="badge {{ $gm->online() ? 'bg-success' : 'bg-danger' }}">{{ $gm->online() ? __('widget.table.field.online') : __('widget.table.field.offline') }}</span>
                         </td>
