@@ -38,8 +38,6 @@
     {{-- FontAwesome for icons --}}
     <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fontawesome-all.min.js') }}"></script>
     <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fa-v4-shims.min.js') }}"></script>
-    {{-- Original portal styles --}}
-    <x-hrace009::portal.top-script/>
     {{-- Custom CSS from home page --}}
     <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
 
@@ -347,8 +345,13 @@
         .sidebar-area {
             float: right;
             width: 30%;
-            padding-left: 30px;
+            margin-left: 30px;
             box-sizing: border-box;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
         }
 
         /* Clearfix for container */
@@ -791,9 +794,7 @@
     <script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
-    <script src="{{ asset('js/portal/portal.js') }}"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <x-hrace009::portal.bottom-script/>
 
     {{-- Livewire Scripts --}}
     @livewireScripts
