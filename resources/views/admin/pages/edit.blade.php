@@ -21,6 +21,7 @@
 
                         <div class="mb-4">
                             <x-hrace009::label for="title" value="{{ __('admin.page_title') }}" />
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">The main title of your page</p>
                             <x-hrace009::input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title', $page->title)" required autofocus />
                             @error('title')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -65,6 +66,7 @@
 
                         <div class="mb-4">
                             <x-hrace009::label for="meta_description" value="{{ __('admin.meta_description') }}" />
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">SEO meta description for search engines</p>
                             <x-hrace009::input id="meta_description" class="block mt-1 w-full" type="text" name="meta_description" :value="old('meta_description', $page->meta_description)" />
                             @error('meta_description')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -73,6 +75,7 @@
 
                         <div class="mb-4">
                             <x-hrace009::label for="meta_keywords" value="{{ __('admin.meta_keywords') }}" />
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">SEO keywords separated by commas</p>
                             <x-hrace009::input id="meta_keywords" class="block mt-1 w-full" type="text" name="meta_keywords" :value="old('meta_keywords', $page->meta_keywords)" />
                             @error('meta_keywords')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
