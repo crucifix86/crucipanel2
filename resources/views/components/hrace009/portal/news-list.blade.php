@@ -4,16 +4,19 @@
         <div class="news-one">
             <div class="row vertical-gutter">
                 <div class="col-md-4">
+                    @if($article->og_image)
                     <a href="{{ route('show.article', $article->slug) }}" class="angled-img">
                         <div class="img">
                             <img src="{{ asset('uploads/og_image') . '/' . $article->og_image }}" alt="">
-
                         </div>
-                        <!--
-                        TODO: For next update, please make rating system on each article
-                        <div class="youplay-hexagon-rating youplay-hexagon-rating-small" data-max="10" data-size="50" title="9.1 out of 10"><span>9.1</span></div>
-                        -->
                     </a>
+                    @else
+                    <a href="{{ route('show.article', $article->slug) }}" class="angled-img">
+                        <div class="img">
+                            <img src="{{ asset('img/logo/logo.png') }}" alt="Default">
+                        </div>
+                    </a>
+                    @endif
                 </div>
                 <div class="col-md-8">
                     <div class="clearfix">

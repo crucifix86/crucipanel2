@@ -12,11 +12,15 @@
     </x-slot>
 
     <x-slot name="author">
-        {{ __('news.by') . ': ' . ucwords($user->findOrFail($article->author)->truename)  }}
+        {{ __('news.by') . ': ' . ucwords(\App\Models\User::findOrFail($article->author)->truename)  }}
     </x-slot>
 
     <x-slot name="og_image">
-        {{ asset('uploads/og_image/' . $article->og_image) }}
+        @if($article->og_image)
+            {{ asset('uploads/og_image/' . $article->og_image) }}
+        @else
+            {{ asset('img/logo/logo.png') }}
+        @endif
     </x-slot>
 
     <x-slot name="og_url">
