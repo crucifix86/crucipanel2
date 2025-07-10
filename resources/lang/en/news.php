@@ -64,5 +64,8 @@ return [
     'default_og_logo' => 'Default News Logo',
     'default_og_logo_desc' => 'Path to default logo for news articles (when no featured image is set). Default: :default',
     'default_og_logo_help' => 'This logo will be used as the Open Graph image for news articles without a featured image.',
+    'current_logo_preview' => 'Current Logo Preview',
+    'current_path' => 'Current Path',
+    'logo_path_examples' => 'Example paths',
 
 ];
