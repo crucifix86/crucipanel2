@@ -506,37 +506,37 @@
             @endif
 
             <div class="form-group">
-                <label for="username">{{ __('auth.username') }}</label>
-                <input type="text" id="username" name="name" placeholder="{{ __('auth.enter_username') }}" 
+                <label for="username">{{ __('auth.form.login_placeholder') }}</label>
+                <input type="text" id="username" name="name" placeholder="Enter your username" 
                        value="{{ old('name') }}" required autofocus autocomplete="username">
                 <div class="input-icon">👤</div>
             </div>
             
             <div class="form-group">
-                <label for="email">{{ __('auth.email') }}</label>
-                <input type="email" id="email" name="email" placeholder="{{ __('auth.enter_email') }}" 
+                <label for="email">{{ __('auth.form.email') }}</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" 
                        value="{{ old('email') }}" required autocomplete="email">
                 <div class="input-icon">✉️</div>
             </div>
             
             <div class="form-group">
-                <label for="password">{{ __('auth.password') }}</label>
-                <input type="password" id="password" name="password" placeholder="{{ __('auth.enter_password') }}" 
+                <label for="password">{{ __('auth.form.password') }}</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" 
                        required autocomplete="new-password">
                 <div class="input-icon">🗝️</div>
             </div>
             
             <div class="form-group">
-                <label for="password_confirmation">{{ __('auth.confirm_password') }}</label>
+                <label for="password_confirmation">{{ __('auth.form.confirmPassword') }}</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" 
-                       placeholder="{{ __('auth.enter_password_confirmation') }}" required autocomplete="new-password">
+                       placeholder="Confirm your password" required autocomplete="new-password">
                 <div class="input-icon">🔐</div>
             </div>
             
             @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
                 <div class="form-group">
-                    <label for="pin">{{ __('auth.pin') }}</label>
-                    <input type="password" id="pin" name="pin" placeholder="{{ __('auth.enter_pin') }}" 
+                    <label for="pin">{{ __('auth.form.pin') }}</label>
+                    <input type="password" id="pin" name="pin" placeholder="Enter your 4-6 digit PIN" 
                            pattern="[0-9]{4,6}" maxlength="6" required autocomplete="new-pin">
                     <div class="input-icon">🔒</div>
                 </div>
@@ -544,7 +544,7 @@
             
             @if( config('pw-config.system.apps.captcha') )
                 <div class="form-group">
-                    <label for="captcha">{{ __('captcha.title') }}</label>
+                    <label for="captcha">Verification Code</label>
                     <div class="captcha-wrapper">
                         @captcha
                     </div>
@@ -566,12 +566,12 @@
             @endif
             
             <button type="submit" class="register-button">
-                <span class="button-text">{{ __('auth.begin_journey') }}</span>
+                <span class="button-text">Begin Your Journey</span>
                 <div class="loading-spinner"></div>
             </button>
             
             <div class="login-link">
-                <p>{{ __('auth.already_have_account') }} <a href="{{ route('login') }}">{{ __('auth.login_here') }}</a></p>
+                <p>Already have an account? <a href="{{ route('login') }}">Login here</a></p>
             </div>
         </form>
     </div>

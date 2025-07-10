@@ -29,6 +29,7 @@ class EnsurePreLogin
             'password.reset',
             'password.update',
             'logout',
+            'register',  // Add register route to skip list
         ];
 
         // Skip for any POST request to login route (both named and unnamed)

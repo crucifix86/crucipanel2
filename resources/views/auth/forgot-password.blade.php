@@ -475,15 +475,15 @@
             @endif
 
             <div class="form-group">
-                <label for="email">{{ __('auth.email') }}</label>
-                <input type="email" id="email" name="email" placeholder="{{ __('auth.enter_email') }}" 
+                <label for="email">{{ __('auth.form.email') }}</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" 
                        value="{{ old('email') }}" required autofocus autocomplete="email">
                 <div class="input-icon">✉️</div>
             </div>
             
             @if( config('pw-config.system.apps.captcha') )
                 <div class="form-group">
-                    <label for="captcha">{{ __('captcha.title') }}</label>
+                    <label for="captcha">Verification Code</label>
                     <div class="captcha-wrapper">
                         @captcha
                     </div>
@@ -493,12 +493,12 @@
             @endif
             
             <button type="submit" class="reset-button">
-                <span class="button-text">{{ __('auth.send_reset_link') }}</span>
+                <span class="button-text">{{ __('auth.form.sendLinkPassword') }}</span>
                 <div class="loading-spinner"></div>
             </button>
             
             <div class="back-link">
-                <p><a href="{{ route('login') }}">{{ __('auth.back_to_login') }}</a></p>
+                <p><a href="{{ route('login') }}">Back to Login</a></p>
             </div>
         </form>
     </div>
