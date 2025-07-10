@@ -1014,7 +1014,7 @@
                     @if($customPages->count() > 0)
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ request()->routeIs('page.show') ? 'active' : '' }}" href="#" id="extrasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h me-1"></i>{{ __('general.extras') }}
+                                {{ __('general.extras') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="extrasDropdown">
                                 @foreach($customPages as $page)
