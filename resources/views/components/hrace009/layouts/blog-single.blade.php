@@ -545,10 +545,19 @@
             min-height: calc(100vh - 200px);
         }
 
-        /* Fix: Hide navbar toggler on desktop screens */
+        /* Fix: Hide navbar toggler on desktop screens - more aggressive */
         @media (min-width: 992px) {
             .custom-navbar .navbar-toggler {
                 display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                width: 0 !important;
+                height: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: 0 !important;
+                position: absolute !important;
+                left: -9999px !important;
             }
         }
 
