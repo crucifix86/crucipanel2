@@ -910,9 +910,8 @@
             @endif
         </div>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        {{-- Navbar toggler will be added by JavaScript for mobile only --}}
+        <div id="navbar-toggler-placeholder"></div>
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav me-auto">
@@ -1179,6 +1178,26 @@
             });
         };
     }
+    
+    // Only add navbar toggler on mobile screens
+    function handleNavbarToggler() {
+        const placeholder = document.getElementById('navbar-toggler-placeholder');
+        if (!placeholder) return;
+        
+        if (window.innerWidth < 992) {
+            // Only add if not already present
+            if (!placeholder.querySelector('.navbar-toggler')) {
+                placeholder.innerHTML = '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>';
+            }
+        } else {
+            // Remove on desktop
+            placeholder.innerHTML = '';
+        }
+    }
+    
+    // Run on load and resize
+    handleNavbarToggler();
+    window.addEventListener('resize', handleNavbarToggler);
 </script>
 
 <script src="{{ asset('js/portal/portal.js') }}"></script>
