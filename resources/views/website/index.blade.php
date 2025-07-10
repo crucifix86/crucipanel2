@@ -11,7 +11,7 @@
                                     @if($article->og_image)
                                         <img src="{{ asset('uploads/og_image') . '/' . $article->og_image }}" alt="">
                                     @else
-                                        <img src="{{ asset('img/logo/logo.png') }}" alt="Default">
+                                        <img src="{{ asset(config('pw-config.news.default_og_logo', 'img/logo/crucifix_logo.svg')) }}" alt="Default">
                                     @endif
                                 </div>
                             </a>
