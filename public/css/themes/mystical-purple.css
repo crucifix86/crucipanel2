@@ -656,6 +656,13 @@ select.bg-white option {
     color: var(--text-primary) !important;
 }
 
+/* ===== GM WIDGET USERNAME FIX ===== */
+#gm_status td[data-discord-name] {
+    font-family: Arial, sans-serif !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+}
+
 /* ===== ANNOUNCEMENT BANNER ===== */
 .announcement-banner {
     background: var(--gradient-gold) !important;
