@@ -3,14 +3,12 @@
     <h4 class="block-title">{{ __('widget.table.gmonline') }}</h4>
     <ul class="block-content">
         @if ( count( $gms ) > 0 )
-            <table class="table-gmlist">
+            <table class="table-gmlist" style="width: 100%;">
                 <tbody>
                 @foreach( $gms as $gm )
                     <tr>
-                        <td><img class="img-rounded" src="{{ $gm->profile_photo_url }}" width="48px" height="48px"
-                                 alt="{{ $gm->truename }}"/></td>
-                        <td style="font-weight: bold; font-size: 1.1rem; color: var(--text-primary);">{{ $gm->truename }}</td>
-                        <td><span
+                        <td style="font-weight: bold; font-size: 1.1rem; color: var(--text-primary); padding: 8px 0;">{{ $gm->truename ?: $gm->name }}</td>
+                        <td style="text-align: right;"><span
                                 class="badge {{ $gm->online() ? 'bg-success' : 'bg-danger' }}">{{ $gm->online() ? __('widget.table.field.online') : __('widget.table.field.offline') }}</span>
                         </td>
                     </tr>
