@@ -116,17 +116,18 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="border rounded-lg p-4">
                             <h3 class="font-semibold mb-2">PHP Mail (100% Free)</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Unlimited emails - No external service</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Unlimited emails - Requires domain setup</p>
                             <div class="flex gap-2">
                                 <button type="button" onclick="setPhpMailConfig()" class="btn btn-sm btn-secondary">Use PHP Mail</button>
                                 <button type="button" onclick="showInstructions('phpmail')" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fas fa-question-circle"></i> Help
+                                    <i class="fas fa-exclamation-triangle text-yellow-500"></i> Setup Required
                                 </button>
                             </div>
-                            <div class="mt-2 text-xs text-gray-600">
-                                <p>✓ No configuration needed</p>
-                                <p>✓ Works on most servers</p>
-                                <p>⚠️ May go to spam folder</p>
+                            <div class="mt-2 text-xs">
+                                <p class="text-red-600">⚠️ Requires: Domain name + Postfix setup</p>
+                                <p class="text-gray-600">✓ Unlimited free emails when configured</p>
+                                <p class="text-gray-600">✓ Works with all email features</p>
+                                <p class="text-yellow-600">⚠️ Click "Setup Required" for instructions</p>
                             </div>
                         </div>
 
@@ -261,7 +262,12 @@
         function setPhpMailConfig() {
             document.getElementById('mail_driver').value = 'mail';
             toggleMailFields('mail');
-            alert('PHP Mail selected. No additional configuration needed! Just add your From Email and From Name below.');
+            if (confirm('⚠️ IMPORTANT: PHP Mail requires:\n\n1. A domain name (e.g., yourdomain.com)\n2. Postfix properly configured\n3. DNS records (SPF, PTR)\n4. From email matching your domain\n\nWithout these, emails will NOT be delivered!\n\nDo you want to continue?')) {
+                alert('Click "Setup Required" button to see detailed setup instructions.\n\nMake sure your From Email matches your domain!');
+            } else {
+                document.getElementById('mail_driver').value = 'smtp';
+                toggleMailFields('smtp');
+            }
         }
 
         function setGmailConfig() {
@@ -335,31 +341,117 @@
             
             const instructions = {
                 phpmail: {
-                    title: 'PHP Mail Setup Instructions',
+                    title: 'PHP Mail with Postfix Setup Instructions',
                     content: `
-                        <h4 class="font-semibold mb-2">How PHP Mail Works:</h4>
-                        <p class="mb-3">PHP Mail uses your server's built-in mail() function. No external service required!</p>
+                        <div class="bg-red-100 dark:bg-red-900 p-3 rounded mb-4">
+                            <strong class="text-red-800 dark:text-red-200">⚠️ IMPORTANT REQUIREMENTS:</strong>
+                            <ul class="list-disc ml-5 mt-2 text-red-700 dark:text-red-300">
+                                <li><strong>You MUST have a domain name</strong> (e.g., yourdomain.com)</li>
+                                <li><strong>You MUST have SSL certificates</strong> (Let's Encrypt recommended)</li>
+                                <li><strong>Your domain MUST point to your server IP</strong></li>
+                                <li><strong>Without these, emails WILL NOT be delivered!</strong></li>
+                            </ul>
+                        </div>
+
+                        <h4 class="font-semibold mb-2">Complete Postfix Setup Guide:</h4>
                         
-                        <h4 class="font-semibold mb-2">Requirements:</h4>
-                        <ul class="list-disc ml-5 mb-3">
-                            <li>PHP with mail() function enabled (most servers have this)</li>
-                            <li>Valid "From" email address</li>
-                        </ul>
-                        
-                        <h4 class="font-semibold mb-2">Setup Steps:</h4>
-                        <ol class="list-decimal ml-5 mb-3">
-                            <li>Click "Use PHP Mail" button</li>
-                            <li>Enter your From Email (e.g., noreply@yourdomain.com)</li>
-                            <li>Enter your From Name (e.g., Your Server Name)</li>
-                            <li>Save Configuration</li>
-                        </ol>
-                        
-                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded mt-3">
-                            <strong>Note:</strong> Emails may go to spam folder. To improve delivery:
-                            <ul class="list-disc ml-5 mt-2">
-                                <li>Use an email address from your domain</li>
-                                <li>Set up SPF records in your DNS</li>
-                                <li>Consider using SMTP for better delivery</li>
+                        <div class="space-y-4">
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 1: Install Postfix</h5>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm">
+                                    sudo apt update<br>
+                                    sudo apt install postfix mailutils -y
+                                </code>
+                                <p class="text-sm mt-2">During installation, select "Internet Site" and enter your domain name.</p>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 2: Configure Postfix</h5>
+                                <p class="mb-2">Edit the main configuration file:</p>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm mb-2">
+                                    sudo nano /etc/postfix/main.cf
+                                </code>
+                                <p class="mb-2">Update these settings:</p>
+                                <pre class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm overflow-x-auto">
+myhostname = mail.yourdomain.com
+mydomain = yourdomain.com
+myorigin = $mydomain
+mydestination = $myhostname, $mydomain, localhost
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+inet_interfaces = all
+inet_protocols = all</pre>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 3: Create /etc/mailname</h5>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm">
+                                    echo "yourdomain.com" | sudo tee /etc/mailname
+                                </code>
+                                <p class="text-sm mt-2">This ensures emails come from your domain, not the server hostname.</p>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 4: Set up SPF Record</h5>
+                                <p class="mb-2">Add this TXT record to your domain's DNS:</p>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm">
+                                    v=spf1 a mx ip4:YOUR_SERVER_IP ~all
+                                </code>
+                                <p class="text-sm mt-2">Replace YOUR_SERVER_IP with your actual server IP address.</p>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 5: Set up PTR Record (Reverse DNS)</h5>
+                                <p class="mb-2">Contact your hosting provider to set PTR record to:</p>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm">
+                                    mail.yourdomain.com
+                                </code>
+                                <p class="text-sm mt-2">This prevents emails being marked as spam.</p>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 6: Restart Postfix</h5>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm">
+                                    sudo systemctl restart postfix<br>
+                                    sudo systemctl enable postfix
+                                </code>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 7: Configure Panel Settings</h5>
+                                <ol class="list-decimal ml-5 text-sm">
+                                    <li>Select "PHP Mail (Free)" as Mail Driver</li>
+                                    <li>Set From Email: <strong>admin@yourdomain.com</strong></li>
+                                    <li>Set From Name: Your site name</li>
+                                    <li>Save Configuration</li>
+                                </ol>
+                            </div>
+
+                            <div class="border rounded p-3">
+                                <h5 class="font-semibold text-blue-600 dark:text-blue-400 mb-2">Step 8: Test Email Delivery</h5>
+                                <code class="block bg-gray-100 dark:bg-gray-800 p-2 rounded text-sm mb-2">
+                                    echo "Test email" | mail -s "Test Subject" your-email@gmail.com
+                                </code>
+                                <p class="text-sm">Check spam folder if not in inbox!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded mt-4">
+                            <strong>Troubleshooting:</strong>
+                            <ul class="list-disc ml-5 mt-2 text-sm">
+                                <li>Check logs: <code>sudo tail -f /var/log/mail.log</code></li>
+                                <li>Verify DNS: <code>dig +short txt yourdomain.com</code> (should show SPF record)</li>
+                                <li>Test PTR: <code>dig +short -x YOUR_SERVER_IP</code></li>
+                                <li>Check queue: <code>mailq</code></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-100 dark:bg-green-900 p-3 rounded mt-4">
+                            <strong>✓ When properly configured:</strong>
+                            <ul class="list-disc ml-5 mt-2 text-sm">
+                                <li>Emails will be sent from your domain</li>
+                                <li>Much better delivery rates than default server hostname</li>
+                                <li>Free and unlimited emails</li>
+                                <li>Works with password resets, notifications, etc.</li>
                             </ul>
                         </div>
                     `
