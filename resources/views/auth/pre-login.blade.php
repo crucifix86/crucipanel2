@@ -220,6 +220,7 @@
             font-family: 'Cinzel', serif;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            text-transform: none;
         }
 
         .form-group input:focus {
