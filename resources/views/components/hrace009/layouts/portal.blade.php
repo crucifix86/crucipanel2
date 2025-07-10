@@ -1150,6 +1150,28 @@
 <script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
+
+{{-- Initialize Bootstrap 5 tooltips before portal.js --}}
+<script>
+    // Create jQuery tooltip wrapper for Bootstrap 5 compatibility
+    if (typeof bootstrap !== 'undefined' && !$.fn.tooltip) {
+        $.fn.tooltip = function(options) {
+            return this.each(function() {
+                new bootstrap.Tooltip(this, options);
+            });
+        };
+    }
+    
+    // Also add popover compatibility
+    if (typeof bootstrap !== 'undefined' && !$.fn.popover) {
+        $.fn.popover = function(options) {
+            return this.each(function() {
+                new bootstrap.Popover(this, options);
+            });
+        };
+    }
+</script>
+
 <script src="{{ asset('js/portal/portal.js') }}"></script>
 
 {{-- AlpineJS for dropdowns and other reactive components --}}
