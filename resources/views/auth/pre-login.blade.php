@@ -217,10 +217,11 @@
             border-radius: 15px;
             color: #e6d7ff;
             font-size: 1rem;
-            font-family: 'Cinzel', serif;
+            font-family: Arial, sans-serif;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            text-transform: none;
+            text-transform: none !important;
+            font-variant: normal !important;
         }
 
         .form-group input:focus {
