@@ -13,7 +13,7 @@
                     @else
                     <a href="{{ route('show.article', $article->slug) }}" class="angled-img">
                         <div class="img">
-                            <img src="{{ asset('img/logo/logo.png') }}" alt="Default">
+                            <img src="{{ asset(config('pw-config.news.default_og_logo', 'img/logo/crucifix_logo.svg')) }}" alt="Default">
                         </div>
                     </a>
                     @endif
