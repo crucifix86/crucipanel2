@@ -122,6 +122,28 @@
             top: 0;
             z-index: 1000;
         }
+        
+        /* Ensure navbar items maintain proper order */
+        .custom-navbar .navbar-nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .custom-navbar .nav-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Ensure all navbar items maintain their order */
+        .custom-navbar .navbar-nav > * {
+            order: initial;
+        }
+        
+        /* Make nav-item dropdowns behave like inline elements */
+        .custom-navbar .nav-item.dropdown {
+            display: inline-flex;
+        }
 
         .custom-navbar .navbar-brand {
             color: white !important;

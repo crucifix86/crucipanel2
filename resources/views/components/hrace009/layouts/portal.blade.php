@@ -65,10 +65,32 @@
             border-bottom: 1px solid var(--border-color);
             box-shadow: var(--shadow-lg);
             padding: 12px 0;
-            min-height: 70px;
+            min-height: 80px;
             position: sticky;
             top: 0;
             z-index: 1000;
+        }
+        
+        /* Ensure navbar items maintain proper order */
+        .custom-navbar .navbar-nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .custom-navbar .nav-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Ensure all navbar items maintain their order */
+        .custom-navbar .navbar-nav > * {
+            order: initial;
+        }
+        
+        /* Make nav-item dropdowns behave like inline elements */
+        .custom-navbar .nav-item.dropdown {
+            display: inline-flex;
         }
 
         .custom-navbar .navbar-brand {
@@ -81,7 +103,7 @@
         }
 
         .custom-navbar .navbar-brand img {
-            height: 40px;
+            height: 60px;
             width: auto;
         }
 
