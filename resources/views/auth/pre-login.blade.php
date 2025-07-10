@@ -251,6 +251,10 @@
 
         #pin-group {
             display: none;
+        }
+        
+        #pin-group.show {
+            display: block;
             animation: fadeInSlide 0.5s ease-out;
         }
 
@@ -492,8 +496,8 @@
             
             <div class="form-group" id="pin-group">
                 <label for="pin">{{ __('auth.pin') }}</label>
-                <input type="text" id="pin" name="pin" placeholder="{{ __('auth.enter_pin') }}" 
-                       pattern="[0-9]{4,6}" maxlength="6" autocomplete="off">
+                <input type="password" id="pin" name="pin" placeholder="{{ __('auth.enter_pin') }}" 
+                       pattern="[0-9]{4,6}" maxlength="6" autocomplete="current-pin">
                 <div class="input-icon">🔐</div>
             </div>
             
@@ -546,8 +550,13 @@
 
         // Check if user needs PIN
         async function checkPinRequired(username) {
+            const pinGroup = document.getElementById('pin-group');
+            const pinInput = document.getElementById('pin');
+            
             if (!username) {
-                document.getElementById('pin-group').style.display = 'none';
+                pinGroup.classList.remove('show');
+                pinInput.required = false;
+                pinInput.value = '';
                 return;
             }
 
@@ -562,16 +571,23 @@
                 });
 
                 const data = await response.json();
+                console.log('PIN check response:', data); // Debug log
                 
-                if (data.requires_pin) {
-                    document.getElementById('pin-group').style.display = 'block';
-                    document.getElementById('pin').required = true;
+                if (data.pin_required) {
+                    pinGroup.classList.add('show');
+                    pinInput.required = true;
+                    // Focus on PIN field after it appears
+                    setTimeout(() => pinInput.focus(), 100);
                 } else {
-                    document.getElementById('pin-group').style.display = 'none';
-                    document.getElementById('pin').required = false;
+                    pinGroup.classList.remove('show');
+                    pinInput.required = false;
+                    pinInput.value = '';
                 }
             } catch (error) {
                 console.error('Error checking PIN requirement:', error);
+                // Hide PIN field on error
+                pinGroup.classList.remove('show');
+                pinInput.required = false;
             }
         }
 
