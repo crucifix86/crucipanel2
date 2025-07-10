@@ -25,7 +25,15 @@ class PhpMailTransport extends AbstractTransport
         
         // Add From header
         if ($from = $email->getFrom()) {
-            $headers[] = 'From: ' . $from[0]->toString();
+            $fromAddress = $from[0]->toString();
+            $headers[] = 'From: ' . $fromAddress;
+            
+            // Extract email for envelope sender
+            if (preg_match('/<(.+)>/', $fromAddress, $matches)) {
+                $envelopeFrom = $matches[1];
+            } else {
+                $envelopeFrom = $from[0]->getAddress();
+            }
         }
         
         // Add Reply-To header
@@ -58,7 +66,12 @@ class PhpMailTransport extends AbstractTransport
         $body = $email->getHtmlBody() ?? $email->getTextBody() ?? '';
         
         // Send email using PHP mail() function
-        $result = @mail($to, $subject, $body, $headersString);
+        // Use envelope sender if we have a from address
+        if (isset($envelopeFrom)) {
+            $result = @mail($to, $subject, $body, $headersString, '-f ' . $envelopeFrom);
+        } else {
+            $result = @mail($to, $subject, $body, $headersString);
+        }
         
         if (!$result) {
             $error = error_get_last();

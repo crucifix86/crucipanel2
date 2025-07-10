@@ -1,4 +1,5 @@
-[2025-07-10 11:46:37] production.ERROR: Failed to send email using PHP mail() function {"exception":"[object] (RuntimeException(code: 0): Failed to send email using PHP mail() function at /var/www/html/panel/app/Mail/Transport/PhpMailTransport.php:64)
+[2025-07-10 11:56:39] production.ERROR: PHP mail() failed {"to":"dldunning48@gmail.com","subject":"Reset Password Notification","error":"Unknown error","php_ini_sendmail_path":"/user/sbin/sendmail -t -i","php_ini_smtp":"localhost","php_ini_smtp_port":"25"} 
+[2025-07-10 11:56:39] production.ERROR: Failed to send email using PHP mail() function: Unknown error {"exception":"[object] (RuntimeException(code: 0): Failed to send email using PHP mail() function: Unknown error at /var/www/html/panel/app/Mail/Transport/PhpMailTransport.php:77)
 [stacktrace]
 #0 /var/www/html/panel/vendor/symfony/mailer/Transport/AbstractTransport.php(69): App\\Mail\\Transport\\PhpMailTransport->doSend()
 #1 /var/www/html/panel/vendor/laravel/framework/src/Illuminate/Mail/Mailer.php(573): Symfony\\Component\\Mailer\\Transport\\AbstractTransport->send()
