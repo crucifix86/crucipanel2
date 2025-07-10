@@ -802,6 +802,29 @@
                 display: none !important;
             }
         }
+        
+        /* Debug: Help identify mystery element */
+        .custom-navbar * {
+            position: relative;
+        }
+        
+        /* Make sure navbar-brand doesn't overflow */
+        .custom-navbar .navbar-brand {
+            position: relative;
+            z-index: 1;
+            flex: 0 0 auto; /* Don't grow or shrink */
+            max-width: fit-content; /* Only take up space needed */
+        }
+        
+        .custom-navbar .navbar-nav {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* TEMPORARY DEBUG - Remove after finding the issue */
+        .custom-navbar *:hover {
+            outline: 2px solid red !important;
+        }
 
     </style>
     @if( config('pw-config.logo') === 'img/logo/logo.png' )
