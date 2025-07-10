@@ -137,8 +137,8 @@
         {{-- Header Section --}}
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
-            $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : 'img/logo/haven_perfect_world_logo.svg';
-            $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : 'img/logo/crucifix_logo.svg';
+            $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg');
+            $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : config('pw-config.badge_logo', 'img/logo/crucifix_logo.svg');
         @endphp
         <header class="admin-header">
             <div class="header-content">

@@ -684,6 +684,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 40px;
         }
         
         .header-logo {
@@ -693,13 +694,32 @@
             transition: transform 0.3s ease;
         }
         
-        .header-logo:hover {
+        .badge-logo {
+            max-height: 80px;
+            width: auto;
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+        
+        .header-logo:hover, .badge-logo:hover {
             transform: scale(1.05);
         }
         
         @media (max-width: 768px) {
             .site-header {
                 padding: 20px 0;
+            }
+            
+            .header-content {
+                gap: 20px;
+            }
+            
+            .header-logo {
+                max-height: 80px;
+            }
+            
+            .badge-logo {
+                max-height: 60px;
             }
             
             .header-logo {
@@ -832,10 +852,16 @@
     </div>
 
     {{-- Header Section --}}
+    @php
+        $headerSettings = \App\Models\HeaderSetting::first();
+        $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg');
+        $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : config('pw-config.badge_logo', 'img/logo/crucifix_logo.svg');
+    @endphp
     <header class="site-header">
         <div class="container-fluid">
             <div class="header-content">
-                <img src="{{ asset('img/logo/haven_perfect_world_logo.svg') }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+                <img src="{{ asset($badgeLogo) }}" alt="Badge" class="badge-logo">
             </div>
         </div>
     </header>
