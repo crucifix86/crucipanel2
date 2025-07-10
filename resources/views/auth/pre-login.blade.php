@@ -594,8 +594,6 @@
 
         // Enhanced login form interactions
         document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const button = document.querySelector('.login-button');
             const buttonText = button.querySelector('.button-text');
             const spinner = button.querySelector('.loading-spinner');
@@ -632,10 +630,7 @@
                 }, i * 200);
             }
             
-            // Submit the form after a short delay for effect
-            setTimeout(() => {
-                this.submit();
-            }, 1000);
+            // Form will submit naturally without preventDefault
         });
 
         // Check PIN on username blur

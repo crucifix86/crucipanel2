@@ -31,13 +31,13 @@ class EnsurePreLogin
             'logout',
         ];
 
-        // Skip for POST login request (actual login submission)
-        if ($request->route() && $request->route()->getName() === 'login' && $request->isMethod('post')) {
+        // Skip for any POST request to login route (both named and unnamed)
+        if ($request->isMethod('post') && $request->path() === 'login') {
             return $next($request);
         }
 
-        // Skip for POST register request (actual registration submission)
-        if ($request->route() && $request->route()->getName() === 'register' && $request->isMethod('post')) {
+        // Skip for POST register request
+        if ($request->isMethod('post') && $request->path() === 'register') {
             return $next($request);
         }
 
