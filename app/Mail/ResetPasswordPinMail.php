@@ -52,15 +52,21 @@ class ResetPasswordPinMail extends Mailable implements ShouldQueue
                     'fullname' => $pwusers->fullname
                 ]);
         } else {
+            $data = [
+                'login' => $pwusers->login,
+                'password' => $pwusers->password,
+                'email' => $pwusers->email,
+                'fullname' => $pwusers->fullname
+            ];
+            
+            // Only add PIN if it exists
+            if (isset($pwusers->pin)) {
+                $data['pin'] = $pwusers->pin;
+            }
+            
             return $this->subject(__('auth.email.subject') . ' ' . $pwusers->fullname)
                 ->markdown('emails.reset-password-pin')
-                ->with([
-                    'login' => $pwusers->login,
-                    'password' => $pwusers->password,
-                    'email' => $pwusers->email,
-                    'pin' => $pwusers->pin,
-                    'fullname' => $pwusers->fullname
-                ]);
+                ->with($data);
         }
     }
 }

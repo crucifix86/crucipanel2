@@ -14,7 +14,7 @@
             <td>:</td>
             <td>{{ $password }}</td>
         </tr>
-        @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()))
+        @if (! Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::twoFactorAuthentication()) && isset($pin))
             <tr>
                 <td>@lang('auth.email.pin')</td>
                 <td>:</td>
