@@ -463,7 +463,13 @@
             <!-- Top Players Section -->
             <div class="ranking-section">
                 <h2 class="section-title">Top Players</h2>
+                <!-- Debug: {{ $topPlayers->count() }} players found -->
                 <div class="ranking-table">
+                    @if($topPlayers->count() == 0)
+                        <div style="text-align: center; padding: 40px; color: #b19cd9;">
+                            No players found. Please update rankings in admin panel.
+                        </div>
+                    @endif
                     @foreach($topPlayers as $index => $player)
                         <div class="ranking-row">
                             <div class="rank-number @if($index < 3) rank-{{ $index + 1 }} @endif">

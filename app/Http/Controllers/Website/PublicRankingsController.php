@@ -10,6 +10,10 @@ class PublicRankingsController extends Controller
 {
     public function index()
     {
+        // Debug: First check if there are ANY players in the table
+        $totalPlayers = Player::count();
+        $totalFactions = Faction::count();
+        
         // Get top 20 players by level using existing scope
         $topPlayers = Player::subtype('level')->limit(20)->get();
 
@@ -23,7 +27,14 @@ class PublicRankingsController extends Controller
         $topFactions = Faction::subtype('level')->limit(10)->get();
         
         // Debug: Log the counts
-        \Log::info('Rankings Debug: Players: ' . $topPlayers->count() . ', PvP: ' . $topPvPPlayers->count() . ', Factions: ' . $topFactions->count());
+        \Log::info('Rankings Debug - Total in DB: Players: ' . $totalPlayers . ', Factions: ' . $totalFactions);
+        \Log::info('Rankings Debug - After filters: Players: ' . $topPlayers->count() . ', PvP: ' . $topPvPPlayers->count() . ', Factions: ' . $topFactions->count());
+        
+        // If no filtered results but there are players, try without the subtype scope
+        if ($topPlayers->count() == 0 && $totalPlayers > 0) {
+            $topPlayers = Player::orderBy('level', 'desc')->limit(20)->get();
+            \Log::info('Rankings Debug - Used direct query, found: ' . $topPlayers->count());
+        }
 
         return view('website.rankings', [
             'topPlayers' => $topPlayers,
