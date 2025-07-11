@@ -102,6 +102,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            min-height: 100vh;
         }
         
         .container-inner {
@@ -157,10 +158,11 @@
 
         /* Login Box Container */
         .login-box-wrapper {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 20px;
             z-index: 100;
+            width: 280px;
         }
         
         /* Login Box */
