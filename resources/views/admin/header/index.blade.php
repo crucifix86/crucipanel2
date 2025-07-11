@@ -8,17 +8,91 @@
 
     <x-slot name="content">
         <div class="mx-auto px-4 sm:px-6 md:px-8">
+            {{-- Header Content Editor (Like Footer) --}}
+            <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg mb-6">
+                <form action="{{ route('admin.header.update') }}" method="POST">
+                    @csrf
+                    <div class="px-4 py-5 sm:p-6">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100 mb-4">
+                            {{ __('header.content_editor') }}
+                        </h3>
+                        
+                        {{-- Content Editor --}}
+                        <div class="mb-6">
+                            <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ __('header.content') }}
+                            </label>
+                            <textarea name="content" id="content" rows="8" 
+                                      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-md">{{ $headerSettings->content ?? '<div class="logo-container">
+    <h1 class="logo">Haven Perfect World</h1>
+    <p class="tagline">Embark on the Path of Immortals</p>
+</div>' }}</textarea>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                                {{ __('header.content_help') }}
+                            </p>
+                        </div>
+                        
+                        {{-- Alignment Options --}}
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ __('header.alignment') }}
+                            </label>
+                            <div class="flex space-x-4">
+                                @php
+                                    $currentAlignment = $headerSettings->alignment ?? 'center';
+                                @endphp
+                                
+                                <button type="button" 
+                                        onclick="document.getElementById('alignment').value='left'; updateAlignmentButtons('left')"
+                                        class="alignment-btn px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 
+                                               {{ $currentAlignment === 'left' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600' }}"
+                                        data-alignment="left">
+                                    <i class="fas fa-align-left"></i> {{ __('header.align_left') }}
+                                </button>
+                                
+                                <button type="button" 
+                                        onclick="document.getElementById('alignment').value='center'; updateAlignmentButtons('center')"
+                                        class="alignment-btn px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 
+                                               {{ $currentAlignment === 'center' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600' }}"
+                                        data-alignment="center">
+                                    <i class="fas fa-align-center"></i> {{ __('header.align_center') }}
+                                </button>
+                                
+                                <button type="button" 
+                                        onclick="document.getElementById('alignment').value='right'; updateAlignmentButtons('right')"
+                                        class="alignment-btn px-4 py-2 border rounded-md text-sm font-medium transition-colors duration-200 
+                                               {{ $currentAlignment === 'right' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600' }}"
+                                        data-alignment="right">
+                                    <i class="fas fa-align-right"></i> {{ __('header.align_right') }}
+                                </button>
+                            </div>
+                            <input type="hidden" name="alignment" id="alignment" value="{{ $currentAlignment }}">
+                        </div>
+                        
+                        {{-- Submit Button --}}
+                        <div class="flex justify-end">
+                            <button type="submit" 
+                                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ __('header.save_content') }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {{-- Logo Settings (Keep existing) --}}
             <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg">
                 <div class="px-4 py-5 sm:p-6">
                     <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('header.settings') }}
+                        {{ __('header.logo_settings') }}
                     </h3>
                     <div class="mt-2 max-w-xl text-sm text-gray-500 dark:text-gray-400">
-                        <p>{{ __('header.settings_description') }}</p>
+                        <p>{{ __('header.logo_settings_description') }}</p>
                     </div>
 
                     <form action="{{ route('admin.header.update') }}" method="POST" enctype="multipart/form-data" class="mt-5">
                         @csrf
+                        <input type="hidden" name="alignment" value="{{ $currentAlignment }}">
                         
                         <div class="space-y-6">
                             {{-- Header Logo --}}
@@ -42,14 +116,6 @@
                                                   hover:file:bg-indigo-100
                                                   dark:file:bg-gray-700 dark:file:text-gray-200">
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('header.logo_help') }}</p>
-                                </div>
-                                <div class="mt-3">
-                                    <label for="header_logo_path" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        {{ __('header.or_path') }}
-                                    </label>
-                                    <input type="text" name="header_logo_path" id="header_logo_path" 
-                                           value="{{ $headerSettings->header_logo ?? 'img/logo/haven_perfect_world_logo.svg' }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
                                 </div>
                             </div>
 
@@ -75,20 +141,12 @@
                                                   dark:file:bg-gray-700 dark:file:text-gray-200">
                                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ __('header.badge_help') }}</p>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="badge_logo_path" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        {{ __('header.or_path') }}
-                                    </label>
-                                    <input type="text" name="badge_logo_path" id="badge_logo_path" 
-                                           value="{{ $headerSettings->badge_logo ?? 'img/logo/crucifix_logo.svg' }}"
-                                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
-                                </div>
                             </div>
                         </div>
 
                         <div class="mt-6">
                             <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                {{ __('header.update_settings') }}
+                                {{ __('header.update_logos') }}
                             </button>
                         </div>
                     </form>
@@ -96,4 +154,20 @@
             </div>
         </div>
     </x-slot>
+
+    @push('scripts')
+    <script>
+        function updateAlignmentButtons(alignment) {
+            document.querySelectorAll('.alignment-btn').forEach(btn => {
+                if (btn.dataset.alignment === alignment) {
+                    btn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+                    btn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300', 'hover:bg-gray-50', 'dark:bg-gray-700', 'dark:text-gray-300', 'dark:border-gray-600');
+                } else {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
+                    btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300', 'hover:bg-gray-50', 'dark:bg-gray-700', 'dark:text-gray-300', 'dark:border-gray-600');
+                }
+            });
+        }
+    </script>
+    @endpush
 </x-hrace009.layouts.admin>

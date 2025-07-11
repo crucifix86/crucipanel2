@@ -25,6 +25,8 @@ class HeaderController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate([
+            'content' => 'nullable|string',
+            'alignment' => 'required|in:left,center,right',
             'header_logo' => 'nullable|image|mimes:svg,png,jpg,jpeg|max:2048',
             'badge_logo' => 'nullable|image|mimes:svg,png,jpg,jpeg|max:2048',
             'header_logo_path' => 'nullable|string|max:255',
@@ -32,6 +34,12 @@ class HeaderController extends Controller
         ]);
         
         $headerSettings = HeaderSetting::firstOrNew(['id' => 1]);
+        
+        // Update content and alignment if provided
+        if ($request->has('content')) {
+            $headerSettings->content = $validated['content'] ?? null;
+            $headerSettings->alignment = $validated['alignment'];
+        }
         
         // Handle header logo upload
         if ($request->hasFile('header_logo')) {

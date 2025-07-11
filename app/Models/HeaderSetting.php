@@ -11,6 +11,8 @@ class HeaderSetting extends Model
 
     protected $fillable = [
         'header_logo',
-        'badge_logo'
+        'badge_logo',
+        'content',
+        'alignment'
     ];
 }

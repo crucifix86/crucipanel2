@@ -543,6 +543,21 @@
             text-decoration: underline;
         }
 
+        /* Header Alignment Classes */
+        .header-left {
+            text-align: left;
+            padding-left: 40px;
+        }
+        
+        .header-center {
+            text-align: center;
+        }
+        
+        .header-right {
+            text-align: right;
+            padding-right: 40px;
+        }
+
         /* Footer */
         .footer {
             padding: 40px 0;
@@ -615,12 +630,20 @@
     <div class="dragon-ornament dragon-right">🐉</div>
     
     <div class="container">
-        <div class="header">
+        @php
+            $headerSettings = \App\Models\HeaderSetting::first();
+            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
+    <h1 class="logo">Haven Perfect World</h1>
+    <p class="tagline">Embark on the Path of Immortals</p>
+</div>';
+            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
+        @endphp
+        
+        <div class="header header-{{ $headerAlignment }}">
             <div class="mystical-border"></div>
-            <div class="logo-container">
-                <h1 class="logo">Haven Perfect World</h1>
-                <p class="tagline">Support the Realm</p>
-            </div>
+            <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
+                {!! $headerContent !!}
+            </a>
         </div>
 
         <nav class="nav-bar">
