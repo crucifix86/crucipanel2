@@ -658,12 +658,27 @@
 
         /* Footer */
         .footer {
-            text-align: center;
             padding: 40px 0;
             border-top: 2px solid rgba(147, 112, 219, 0.3);
             margin-top: 60px;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
             border-radius: 20px;
+        }
+
+        .footer-left {
+            text-align: left;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .footer-center {
+            text-align: center;
+        }
+
+        .footer-right {
+            text-align: right;
+            padding-left: 40px;
+            padding-right: 40px;
         }
 
         .footer-text {
@@ -913,8 +928,9 @@
             $footerSettings = \App\Models\FooterSetting::first();
             $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Enhance your journey with mystical items</p>';
             $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
+            $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
         @endphp
-        <div class="footer">
+        <div class="footer footer-{{ $footerAlignment }}">
             {!! $footerContent !!}
             <p class="footer-text">{!! $footerCopyright !!}</p>
         </div>
