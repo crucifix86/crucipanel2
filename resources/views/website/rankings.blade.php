@@ -440,7 +440,7 @@
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('app.donate.history') }}" class="nav-link">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
