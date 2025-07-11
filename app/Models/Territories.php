@@ -22,4 +22,11 @@ class Territories extends Model
     protected $table = 'pwp_territories';
 
     protected $fillable = ['id', 'level', 'owner', 'owner_name', 'occupy_time', 'challenger', 'challenger_name', 'deposit', 'cutoff_time', 'battle_time', 'bonus_time', 'color', 'status', 'timeout', 'max_bonus', 'challenge_time', 'challenger_details'];
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
 }

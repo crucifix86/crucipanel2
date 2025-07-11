@@ -20,18 +20,39 @@ class Faction extends Model
      * @var string
      */
     protected $table = 'pwp_factions';
+    
+    /**
+     * The primary key type
+     *
+     * @var string
+     */
+    protected $keyType = 'int';
+    
+    /**
+     * Indicates if the primary key is auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
 
     /**
      * @var string[]
      */
     protected $fillable = ['id', 'name', 'level', 'master', 'master_name', 'members', 'time_used', 'pk_count', 'announce', 'sys_info', 'last_op_time', 'territories', 'contribution'];
+    
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
 
     /**
      * @param $query
      * @param $sub
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSubType($query, $sub): mixed
+    public function scopeSubType($query, $sub)
     {
         $column = [
             'level' => 'level',
