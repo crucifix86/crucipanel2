@@ -565,9 +565,15 @@
                 </div>
             </div>
             
+            @guest
             <div class="login-notice">
                 <p>Please <a href="{{ route('login') }}">login</a> to vote and receive rewards</p>
             </div>
+            @else
+            <div class="login-notice" style="color: #9370db;">
+                <p>Welcome {{ Auth::user()->truename ?? Auth::user()->name }}! Vote to support our server and earn rewards.</p>
+            </div>
+            @endguest
         </div>
 
         <div class="footer">

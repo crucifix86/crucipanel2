@@ -2,6 +2,14 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.67] - 2025-01-11
+
+### Fixed
+- Shop page now properly shows logged-in status instead of prompting to login
+- Donate page now properly shows logged-in status instead of prompting to login  
+- Vote page now properly shows logged-in status instead of prompting to login
+- Added personalized welcome messages for authenticated users on these pages
+
 ## [v2.1.66] - 2025-01-11
 
 ### Added

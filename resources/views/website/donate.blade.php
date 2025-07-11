@@ -566,9 +566,15 @@
                 </div>
             </div>
             
+            @guest
             <div class="login-notice">
                 <p>Please <a href="{{ route('login') }}">login</a> to make a donation</p>
             </div>
+            @else
+            <div class="login-notice" style="color: #9370db;">
+                <p>Welcome {{ Auth::user()->truename ?? Auth::user()->name }}! Thank you for supporting our realm.</p>
+            </div>
+            @endguest
         </div>
 
         <div class="footer">

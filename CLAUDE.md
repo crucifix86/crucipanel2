@@ -78,3 +78,30 @@ When making releases, ALWAYS follow these steps in order:
 - Add badge logo to public page headers
 - Hardcode domain-specific values (must work for all users)
 - Clear git history or use different git user
+
+## Traditional Website Theme Implementation (v2.1.66+)
+### Important Context
+- **We bypassed the normal Laravel theming system entirely**
+- Created custom HTML pages with inline styles to look like a traditional website
+- Pre-login page remains unchanged (mystical purple theme)
+- All pages use traditional HTML/CSS approach, NOT Laravel components
+
+### Pages Transformed
+1. **home.blade.php** - Traditional HTML with fixed login box
+2. **rankings.blade.php** - Traditional rankings display (including PvP)
+3. **shop.blade.php** - Traditional shop page using Shop model
+4. **donate.blade.php** - Traditional donate page using donation config
+5. **vote.blade.php** - Traditional vote page using VoteSite model
+
+### Key Implementation Details
+- All pages maintain mystical purple theme (floating particles, dragon ornaments)
+- Navigation uses public routes for unauthenticated access
+- Backend functionality preserved using existing models/functions
+- EnsurePreLogin middleware updated to allow public routes
+- Login redirect changed from /dashboard to / (home page)
+
+### When Making Updates
+- Continue using traditional HTML/CSS approach for consistency
+- Avoid Laravel component syntax in these pages
+- Always use existing model methods (e.g., Player::subtype(), Faction::subtype())
+- Maintain the mystical purple theme across all pages

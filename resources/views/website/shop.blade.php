@@ -501,9 +501,15 @@
                 @endforeach
             </div>
             
+            @guest
             <div class="login-notice">
                 <p>Please <a href="{{ route('login') }}">login</a> to purchase items</p>
             </div>
+            @else
+            <div class="login-notice" style="color: #9370db;">
+                <p>Welcome {{ Auth::user()->truename ?? Auth::user()->name }}! Browse our mystical items.</p>
+            </div>
+            @endguest
         </div>
 
         <div class="footer">
