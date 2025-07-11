@@ -103,6 +103,10 @@
             margin: 0 auto;
             padding: 20px;
         }
+        
+        .container-inner {
+            position: relative;
+        }
 
         .header {
             margin-bottom: 60px;
@@ -151,11 +155,16 @@
             margin-bottom: 15px;
         }
 
-        /* Login Box */
-        .login-box {
+        /* Login Box Container */
+        .login-box-wrapper {
             position: absolute;
             top: 20px;
             right: 20px;
+            z-index: 100;
+        }
+        
+        /* Login Box */
+        .login-box {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(20px);
             border: 2px solid rgba(147, 112, 219, 0.4);
@@ -163,7 +172,6 @@
             padding: 0;
             min-width: 280px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-            z-index: 100;
             transition: all 0.3s ease;
         }
         
@@ -781,7 +789,7 @@
                 font-size: 3rem;
             }
             
-            .login-box {
+            .login-box-wrapper {
                 position: relative;
                 top: auto;
                 right: auto;
@@ -832,6 +840,48 @@
     <div class="dragon-ornament dragon-right">🐉</div>
     
     <div class="container">
+        <!-- Login/User Box -->
+        <div class="login-box-wrapper">
+            <div class="login-box" id="loginBox">
+                <div class="login-box-header" onclick="toggleLoginBox()">
+                    <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                    <button class="collapse-toggle">▼</button>
+                </div>
+                <div class="login-box-content">
+                    @if(Auth::check())
+                        <div class="user-info">
+                            <h3>Welcome Back!</h3>
+                            <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                            <div class="user-links">
+                                <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                                <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                                @if(Auth::user()->isAdministrator())
+                                <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                                @endif
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="login-button">Logout</button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <h3>Member Login</h3>
+                        <form method="POST" action="{{ route('login') }}" class="login-form">
+                            @csrf
+                            <input type="text" name="name" placeholder="Username" required autofocus>
+                            <input type="password" name="password" placeholder="Password" required>
+                            <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                            <button type="submit" class="login-button">Login</button>
+                        </form>
+                        <div class="login-links">
+                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('password.request') }}">Forgot Password?</a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
             $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
@@ -891,46 +941,6 @@
             </div>
             
         </nav>
-
-        <!-- Login/User Box -->
-        <div class="login-box" id="loginBox">
-            <div class="login-box-header" onclick="toggleLoginBox()">
-                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
-                <button class="collapse-toggle">▼</button>
-            </div>
-            <div class="login-box-content">
-                @if(Auth::check())
-                    <div class="user-info">
-                        <h3>Welcome Back!</h3>
-                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
-                        <div class="user-links">
-                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
-                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
-                            @if(Auth::user()->isAdministrator())
-                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
-                            @endif
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="login-button">Logout</button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <h3>Member Login</h3>
-                    <form method="POST" action="{{ route('login') }}" class="login-form">
-                        @csrf
-                        <input type="text" name="name" placeholder="Username" required autofocus>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                        <button type="submit" class="login-button">Login</button>
-                    </form>
-                    <div class="login-links">
-                        <a href="{{ route('register') }}">Register</a>
-                        <a href="{{ route('password.request') }}">Forgot Password?</a>
-                    </div>
-                @endif
-            </div>
-        </div>
 
         <div class="content-section">
             <h2 class="section-title">Latest News & Updates</h2>
