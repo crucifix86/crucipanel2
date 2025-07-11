@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
-use Hrace009\PerfectWorldAPI\Article;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -15,8 +15,8 @@ class PageController extends Controller
             ->firstOrFail();
 
         // Get download articles for navigation
-        $download = Article::where('category', 'download')
-            ->where('enabled', 1);
+        $download = News::where('category', 'download')
+            ->orderBy('created_at', 'desc');
 
         return view('website.page', compact('page', 'download'));
     }
