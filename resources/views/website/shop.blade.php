@@ -501,7 +501,9 @@
 
         <div class="shop-section">
             <h2 class="section-title">Item Shop</h2>
+            <!-- Debug: {{ $items->count() }} items found -->
             
+            @if($items->count() > 0)
             <div class="shop-grid">
                 @foreach($items as $item)
                     <div class="shop-item">
@@ -557,6 +559,13 @@
                     </div>
                 @endforeach
             </div>
+            @else
+            <div style="text-align: center; padding: 60px 20px;">
+                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">📦</span>
+                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Items Available</p>
+                <p style="color: #b19cd9;">Check back later for mystical items!</p>
+            </div>
+            @endif
             
             @guest
             <div class="login-notice">

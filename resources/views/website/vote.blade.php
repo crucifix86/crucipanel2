@@ -530,8 +530,10 @@
 
         <div class="vote-section">
             <h2 class="section-title">Vote for Haven Perfect World</h2>
+            <!-- Debug: {{ $sites->count() }} sites found -->
             <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
             
+            @if($sites->count() > 0)
             <div class="vote-sites">
                 @foreach($sites as $site)
                     <div class="vote-site">
@@ -559,6 +561,13 @@
                     </div>
                 @endforeach
             </div>
+            @else
+            <div style="text-align: center; padding: 60px 20px;">
+                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
+                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Vote Sites Available</p>
+                <p style="color: #b19cd9;">Check back later for voting opportunities!</p>
+            </div>
+            @endif
             
             <div class="rewards-info">
                 <h3 class="rewards-title">Why Vote?</h3>

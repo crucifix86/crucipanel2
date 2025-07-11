@@ -2,6 +2,17 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.69] - 2025-01-11
+
+### Fixed
+- Added empty state messages for shop and vote pages when no items/sites exist
+- Added debug output to show item/site counts
+- Fixed potential display issues when database has no data
+
+### Added
+- "No Items Available" message for empty shop
+- "No Vote Sites Available" message for empty vote page
+
 ## [v2.1.68] - 2025-01-11
 
 ### Added
