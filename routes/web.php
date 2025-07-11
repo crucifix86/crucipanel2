@@ -88,6 +88,12 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'page.show',
         'uses' => 'App\Http\Controllers\PageController@show'
     ]);
+
+    // Public Rankings Page
+    Route::get('rankings', [
+        'as' => 'public.rankings',
+        'uses' => 'App\Http\Controllers\Website\PublicRankingsController@index'
+    ]);
 });
 
 /* App Page */

@@ -703,7 +703,7 @@
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('app.ranking.index') }}" class="nav-link {{ Route::is('app.ranking.index') ? 'active' : '' }}">Rankings</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
@@ -813,7 +813,7 @@
 
         <div class="footer">
                 <p class="footer-text">Begin your journey through the realms of endless cultivation</p>
-            <p class="footer-text">&copy; {{ date('Y') }} {{ config('pw-config.server_name', 'Haven Perfect World') }}. All rights reserved.</p>
+            <p class="footer-text">&copy; {{ date('Y') }} Haven Perfect World. All rights reserved.</p>
         </div>
     </div>
 
