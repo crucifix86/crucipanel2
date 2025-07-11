@@ -380,6 +380,30 @@
             display: inline-block;
         }
 
+        .cooldown-timer {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.4);
+            border-radius: 20px;
+            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cooldown-icon {
+            font-size: 1.3rem;
+        }
+
+        .cooldown-text {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .time-remaining {
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+
         /* Rewards Info */
         .rewards-info {
             text-align: center;
@@ -550,10 +574,17 @@
                         </div>
                         <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
                         @auth
-                            <form action="{{ route('app.vote.check.post', $site->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="vote-button">Vote Now</button>
-                            </form>
+                            @if(isset($vote_info[$site->id]) && $vote_info[$site->id]['status'])
+                                <form action="{{ route('app.vote.check.post', $site->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="vote-button">Vote Now</button>
+                                </form>
+                            @else
+                                <div class="cooldown-timer" data-time="{{ $vote_info[$site->id]['end_time'] ?? 0 }}">
+                                    <span class="cooldown-icon">⏱️</span>
+                                    <span class="cooldown-text">Please wait: <span class="time-remaining">--:--:--</span></span>
+                                </div>
+                            @endif
                         @else
                             <span class="method-status">Login Required</span>
                         @endauth
@@ -608,6 +639,35 @@
     </div>
 
     <script>
+        // Countdown timer functionality
+        function updateTimers() {
+            const timers = document.querySelectorAll('.cooldown-timer');
+            timers.forEach(timer => {
+                const timeLeft = parseInt(timer.getAttribute('data-time'));
+                const display = timer.querySelector('.time-remaining');
+                
+                if (timeLeft > 0) {
+                    const hours = Math.floor(timeLeft / 3600);
+                    const minutes = Math.floor((timeLeft % 3600) / 60);
+                    const seconds = timeLeft % 60;
+                    
+                    display.textContent = 
+                        String(hours).padStart(2, '0') + ':' +
+                        String(minutes).padStart(2, '0') + ':' +
+                        String(seconds).padStart(2, '0');
+                    
+                    timer.setAttribute('data-time', timeLeft - 1);
+                } else {
+                    // Reload page when timer expires
+                    location.reload();
+                }
+            });
+        }
+
+        // Update timers every second
+        setInterval(updateTimers, 1000);
+        updateTimers(); // Initial update
+
         // Create floating mystical particles
         function createParticles() {
             const particlesContainer = document.querySelector('.floating-particles');

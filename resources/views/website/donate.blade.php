@@ -371,6 +371,61 @@
             box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
         }
 
+        .payment-details {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #b19cd9;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #e6d7f0;
+            font-weight: 500;
+        }
+
+        .detail-item.bonus .detail-value {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .bank-accounts {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(147, 112, 219, 0.3);
+        }
+
+        .bank-title {
+            color: #9370db;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .bank-info {
+            background: rgba(147, 112, 219, 0.1);
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            color: #dda0dd;
+            font-size: 0.95rem;
+        }
+
         /* Benefits Section */
         .benefits-section {
             text-align: center;
@@ -524,11 +579,27 @@
             <p class="section-subtitle">Your donations help keep the server running and improve the gaming experience for everyone</p>
             
             <div class="donation-methods">
-                @if($paypalEnabled)
+                @if($paypalConfig['enabled'])
                 <div class="donation-method">
                     <span class="method-icon">💳</span>
                     <h3 class="method-name">PayPal</h3>
                     <p class="method-description">Fast and secure payment processing with instant {{ $currency }} delivery</p>
+                    <div class="payment-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Rate:</span>
+                            <span class="detail-value">{{ $paypalConfig['currency'] }} {{ number_format($paypalConfig['rate'], 2) }} = 1 {{ $currency }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Minimum:</span>
+                            <span class="detail-value">{{ $paypalConfig['currency'] }} {{ number_format($paypalConfig['minimum'], 2) }}</span>
+                        </div>
+                        @if($paypalConfig['double'])
+                        <div class="detail-item bonus">
+                            <span class="detail-label">🎉 Bonus:</span>
+                            <span class="detail-value">Double {{ $currency }} Active!</span>
+                        </div>
+                        @endif
+                    </div>
                     @auth
                         <a href="{{ route('app.donate.paypal.get') }}" class="donate-button">Donate via PayPal</a>
                     @else
@@ -537,11 +608,35 @@
                 </div>
                 @endif
                 
-                @if($bankEnabled)
+                @if($bankConfig['enabled'])
                 <div class="donation-method">
                     <span class="method-icon">🏦</span>
                     <h3 class="method-name">Bank Transfer</h3>
                     <p class="method-description">Direct bank transfer with manual verification (1-2 business days)</p>
+                    <div class="payment-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Rate:</span>
+                            <span class="detail-value">{{ config('donate.bank_currency', 'IDR') }} {{ number_format($bankConfig['rate'], 0) }} = 1 {{ $currency }}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Minimum:</span>
+                            <span class="detail-value">{{ $bankConfig['minimum'] }} {{ $currency }}</span>
+                        </div>
+                        @if($bankConfig['double'])
+                        <div class="detail-item bonus">
+                            <span class="detail-label">🎉 Bonus:</span>
+                            <span class="detail-value">Double {{ $currency }} Active!</span>
+                        </div>
+                        @endif
+                        @if(count($bankConfig['banks']) > 0)
+                        <div class="bank-accounts">
+                            <p class="bank-title">Available Banks:</p>
+                            @foreach($bankConfig['banks'] as $bank)
+                                <div class="bank-info">{{ $bank['name'] }}</div>
+                            @endforeach
+                        </div>
+                        @endif
+                    </div>
                     @auth
                         <a href="{{ route('app.donate.bank.get') }}" class="donate-button">Donate via Bank</a>
                     @else

@@ -2,6 +2,25 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.74] - 2025-01-11
+
+### Added
+- Vote page now shows cooldown timers for each voting site
+- Countdown timer with hours:minutes:seconds display
+- Auto-reload when cooldown expires
+- Donate page shows actual payment rates and minimums
+- Bank transfer shows available banks
+- Double bonus indicators when active
+
+### Changed
+- Vote page uses panel's cooldown logic checking IP and user ID
+- Vote controller checks VoteLog for cooldown status
+- Donate page displays detailed payment information
+- Both pages now use actual panel data instead of generic displays
+
+### Fixed
+- Vote and donate pages now properly integrate with panel logic
+
 ## [v2.1.73] - 2025-01-11
 
 ### Fixed
