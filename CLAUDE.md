@@ -105,3 +105,41 @@ When making releases, ALWAYS follow these steps in order:
 - Avoid Laravel component syntax in these pages
 - Always use existing model methods (e.g., Player::subtype(), Faction::subtype())
 - Maintain the mystical purple theme across all pages
+
+## Current Status (v2.1.75)
+### Traditional Theme Pages Completed
+1. **Shop** - Has categories, character selection, balance display, purchase buttons
+2. **Vote** - Has cooldown logic, displays vote sites from database
+3. **Donate** - Shows all payment methods with rates/details
+4. **Rankings** - Shows top players, PvP rankings, and factions
+
+### Important Notes on Donation Settings
+- **Donation settings are NOT in the admin panel** - they are in config files
+- PayPal settings: `config/pw-config.php` under `payment.paypal.*`
+  - Key mismatch: Config uses `currency_per` but code looks for `currency_per`
+  - Bank uses different keys than expected (e.g., `payment_price` not `pay`)
+- Bank transfer: `config/pw-config.php` under `payment.bank_transfer.*`
+  - Config has: `bankAccountNo1`, `bankName1`, etc. (not `bank_1_number`)
+  - Has `payment_price` not `pay`, `multiply` not `rate`
+- Paymentwall: `config/pw-config.php` under `payment.paymentwall.*`
+- iPaymu: NOT in separate file, it's under `payment.ipaymu.*` in pw-config.php
+
+### Current Issues  
+- Donation settings are NOT configurable in the admin panel
+  - Currently only in config files (pw-config.php)
+  - No UI to enable/disable payment methods
+  - Config keys don't match expected keys in some places:
+    - Bank transfer uses 'multiply' not 'rate'
+    - Uses 'CurrencySign' not 'currency' 
+    - Uses 'bankAccountNo1' not 'bank_1_number'
+- Vote and donate pages show blank if:
+  - No vote sites in database (add via admin panel)
+  - All donation methods disabled in config files
+- Shop works but requires:
+  - Shop items in database (add via admin panel)
+  - Character selection to purchase
+
+### Needed Improvements
+- Add donation settings to admin panel (like header/footer settings)
+- Create DonationSetting model and migration
+- Add admin interface to configure PayPal, Bank, Paymentwall, iPaymu

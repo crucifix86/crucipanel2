@@ -578,7 +578,7 @@
                         <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
                         @auth
                             @if(isset($vote_info[$site->id]) && $vote_info[$site->id]['status'])
-                                <form action="{{ route('app.vote.check.post', $site->id) }}" method="POST">
+                                <form action="{{ route('app.vote.check', $site->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="vote-button">Vote Now</button>
                                 </form>

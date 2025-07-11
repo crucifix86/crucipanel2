@@ -578,13 +578,7 @@
             <h2 class="section-title">Support Haven Perfect World</h2>
             <p class="section-subtitle">Your donations help keep the server running and improve the gaming experience for everyone</p>
             
-            <!-- Debug: PayPal enabled: {{ $paypalConfig['enabled'] ? 'true' : 'false' }} -->
-            <!-- Debug: Bank enabled: {{ $bankConfig['enabled'] ? 'true' : 'false' }} -->
-            <!-- Debug: PW enabled: {{ $paymentwallEnabled ? 'true' : 'false' }} -->
-            <!-- Debug: iPaymu enabled: {{ $ipaymuEnabled ? 'true' : 'false' }} -->
-            
             <div class="donation-methods">
-                @if($paypalConfig['enabled'])
                 <div class="donation-method">
                     <span class="method-icon">💳</span>
                     <h3 class="method-name">PayPal</h3>
@@ -606,7 +600,7 @@
                         @endif
                     </div>
                     @auth
-                        <a href="{{ route('app.donate.paypal.get') }}" class="donate-button">Donate via PayPal</a>
+                        <a href="{{ route('app.donate.paypal') }}" class="donate-button">Donate via PayPal</a>
                     @else
                         <span class="method-status">Login Required</span>
                     @endauth
@@ -643,7 +637,7 @@
                         @endif
                     </div>
                     @auth
-                        <a href="{{ route('app.donate.bank.get') }}" class="donate-button">Donate via Bank</a>
+                        <a href="{{ route('app.donate.bank') }}" class="donate-button">Donate via Bank</a>
                     @else
                         <span class="method-status">Login Required</span>
                     @endauth
@@ -656,7 +650,7 @@
                     <h3 class="method-name">Paymentwall</h3>
                     <p class="method-description">Multiple payment options including mobile and prepaid cards</p>
                     @auth
-                        <a href="{{ route('app.donate.paymentwall.get') }}" class="donate-button">Donate via Paymentwall</a>
+                        <a href="{{ route('app.donate.paymentwall') }}" class="donate-button">Donate via Paymentwall</a>
                     @else
                         <span class="method-status">Login Required</span>
                     @endauth
@@ -669,7 +663,7 @@
                     <h3 class="method-name">iPaymu</h3>
                     <p class="method-description">Indonesian payment gateway with local bank support</p>
                     @auth
-                        <a href="{{ route('app.donate.ipaymu.get') }}" class="donate-button">Donate via iPaymu</a>
+                        <a href="{{ route('app.donate.ipaymu') }}" class="donate-button">Donate via iPaymu</a>
                     @else
                         <span class="method-status">Login Required</span>
                     @endauth

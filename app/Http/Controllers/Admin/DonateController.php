@@ -42,7 +42,7 @@ class DonateController extends Controller
             Config::write('pw-config.payment.paymentwall.status', false);
         }
 
-        if (config('pw-config.payment.paymentwall.status') === true) {
+        if (config('pw-config.payment.paymentwall.status') === true && $request->has('project_key')) {
             $configs = $request->validate([
                 'widget_code' => 'string',
                 'widget_width' => 'string',
@@ -135,7 +135,7 @@ class DonateController extends Controller
             Config::write('pw-config.payment.bank_transfer.double', false);
         }
 
-        if (config('pw-config.payment.bank_transfer.status') === true) {
+        if (config('pw-config.payment.bank_transfer.status') === true && $request->has('accountOwner')) {
 
             $configs = $request->validate([
                 'accountOwner' => 'required|string',
@@ -187,7 +187,7 @@ class DonateController extends Controller
             Config::write('pw-config.payment.paypal.double', false);
         }
 
-        if (config('pw-config.payment.paypal.status') === true) {
+        if (config('pw-config.payment.paypal.status') === true && $request->has('client_id')) {
             $configs = $request->validate([
                 'client_id' => 'required|string',
                 'secret' => 'required|string',
@@ -218,24 +218,24 @@ class DonateController extends Controller
     public function postIpaymu(Request $request)
     {
         if ($request->has('status')) {
-            Config::write('ipaymu.status', true);
+            Config::write('pw-config.payment.ipaymu.status', true);
         } else {
-            Config::write('ipaymu.status', false);
+            Config::write('pw-config.payment.ipaymu.status', false);
         }
 
         if ($request->has('sandbox')) {
-            Config::write('ipaymu.sandbox', true);
+            Config::write('pw-config.payment.ipaymu.sandbox', true);
         } else {
-            Config::write('ipaymu.sandbox', false);
+            Config::write('pw-config.payment.ipaymu.sandbox', false);
         }
 
         if ($request->has('double')) {
-            Config::write('ipaymu.double', true);
+            Config::write('pw-config.payment.ipaymu.double', true);
         } else {
-            Config::write('ipaymu.double', false);
+            Config::write('pw-config.payment.ipaymu.double', false);
         }
 
-        if (config('ipaymu.status') === true) {
+        if (config('pw-config.payment.ipaymu.status') === true && $request->has('va')) {
             $configs = $request->validate([
                 'va' => 'required|string',
                 'key' => 'required|string',
@@ -252,9 +252,9 @@ class DonateController extends Controller
             } else {
                 foreach ($configs as $config => $value) {
                     if (!$value) {
-                        Config::write('ipaymu.' . $config, '');
+                        Config::write('pw-config.payment.ipaymu.' . $config, '');
                     } else {
-                        Config::write('ipaymu.' . $config, $value);
+                        Config::write('pw-config.payment.ipaymu.' . $config, $value);
                     }
                 }
             }
