@@ -594,6 +594,14 @@
                 font-size: 3rem;
             }
             
+            .login-box {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+                max-width: 90%;
+            }
+            
             .donate-section {
                 padding: 30px 20px;
             }
@@ -619,6 +627,171 @@
         @keyframes epicGlow {
             0% { text-shadow: 0 0 20px rgba(147, 112, 219, 0.6); }
             100% { text-shadow: 0 0 40px rgba(147, 112, 219, 1), 0 0 60px rgba(138, 43, 226, 0.8); }
+        }
+
+        /* Login Box */
+        .login-box {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 20px;
+            padding: 0;
+            min-width: 280px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .login-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(147, 112, 219, 0.3);
+            cursor: pointer;
+        }
+        
+        .login-box-header h3 {
+            margin: 0;
+            color: #9370db;
+            font-size: 1.2rem;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+        
+        .collapse-toggle {
+            background: none;
+            border: none;
+            color: #b19cd9;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 5px;
+        }
+        
+        .collapse-toggle:hover {
+            color: #9370db;
+        }
+        
+        .login-box.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .login-box-content {
+            padding: 25px;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .login-box.collapsed .login-box-content {
+            max-height: 0;
+            padding: 0 25px;
+        }
+
+        .login-box-content h3 {
+            color: #9370db;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 112, 219, 0.5);
+            border-radius: 10px;
+            color: #e6d7f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-form input::placeholder {
+            color: rgba(177, 156, 217, 0.7);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #9370db;
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+        }
+
+        .login-button {
+            width: 100%;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-links a {
+            color: #b19cd9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .login-links a:hover {
+            color: #dda0dd;
+            text-decoration: underline;
+        }
+
+        .user-info {
+            text-align: center;
+            color: #b19cd9;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            color: #9370db;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .user-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-link {
+            background: rgba(147, 112, 219, 0.2);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            color: #e6d7f0;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .user-link:hover {
+            background: rgba(147, 112, 219, 0.3);
+            border-color: #9370db;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -683,6 +856,46 @@
                 @endif
             </div>
         </nav>
+
+        <!-- Login/User Box -->
+        <div class="login-box" id="loginBox">
+            <div class="login-box-header" onclick="toggleLoginBox()">
+                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="login-box-content">
+                @if(Auth::check())
+                    <div class="user-info">
+                        <h3>Welcome Back!</h3>
+                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                        <div class="user-links">
+                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            @if(Auth::user()->isAdministrator())
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="login-button">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <h3>Member Login</h3>
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Username" required autofocus>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">Login</button>
+                    </form>
+                    <div class="login-links">
+                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('password.request') }}">Forgot Password?</a>
+                    </div>
+                @endif
+            </div>
+        </div>
 
         <div class="donate-section">
             <h2 class="section-title">Support Haven Perfect World</h2>
@@ -870,6 +1083,40 @@
                     dropdown.classList.remove('active');
                 }
             });
+        });
+
+        // Simple PIN check
+        const usernameInput = document.querySelector('input[name="name"]');
+        const pinField = document.getElementById('pin-field');
+        
+        if (usernameInput) {
+            usernameInput.addEventListener('blur', function() {
+                if (this.value.length > 2) {
+                    // For simplicity, show PIN field for all users
+                    // In production, you'd check via API
+                    pinField.style.display = 'block';
+                }
+            });
+        }
+
+        // Login box collapse functionality
+        function toggleLoginBox() {
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = loginBox.classList.contains('collapsed');
+            localStorage.setItem('loginBoxCollapsed', isCollapsed);
+        }
+
+        // Restore login box state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBox = document.getElementById('loginBox');
+            const isCollapsed = localStorage.getItem('loginBoxCollapsed') === 'true';
+            
+            if (isCollapsed) {
+                loginBox.classList.add('collapsed');
+            }
         });
 
         // Add page entrance animation

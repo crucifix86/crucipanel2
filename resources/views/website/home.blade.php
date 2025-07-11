@@ -153,20 +153,67 @@
 
         /* Login Box */
         .login-box {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 20px;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(20px);
             border: 2px solid rgba(147, 112, 219, 0.4);
             border-radius: 20px;
-            padding: 25px;
+            padding: 0;
             min-width: 280px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .login-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(147, 112, 219, 0.3);
+            cursor: pointer;
+        }
+        
+        .login-box-header h3 {
+            margin: 0;
+            color: #9370db;
+            font-size: 1.2rem;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+        
+        .collapse-toggle {
+            background: none;
+            border: none;
+            color: #b19cd9;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 5px;
+        }
+        
+        .collapse-toggle:hover {
+            color: #9370db;
+        }
+        
+        .login-box.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .login-box-content {
+            padding: 25px;
+            max-height: 500px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .login-box.collapsed .login-box-content {
+            max-height: 0;
+            padding: 0 25px;
         }
 
-        .login-box h3 {
+        .login-box-content h3 {
             color: #9370db;
             font-size: 1.4rem;
             margin-bottom: 20px;
@@ -734,6 +781,13 @@
                 font-size: 3rem;
             }
             
+            .login-box {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+                max-width: 90%;
+            }
             
             .content-section {
                 padding: 30px 20px;
@@ -839,37 +893,43 @@
         </nav>
 
         <!-- Login/User Box -->
-        <div class="login-box">
-            @if(Auth::check())
-                <div class="user-info">
-                    <h3>Welcome Back!</h3>
-                    <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
-                    <div class="user-links">
-                        <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
-                        <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
-                        @if(Auth::user()->isAdministrator())
-                        <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
-                        @endif
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="login-button">Logout</button>
-                        </form>
+        <div class="login-box" id="loginBox">
+            <div class="login-box-header" onclick="toggleLoginBox()">
+                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="login-box-content">
+                @if(Auth::check())
+                    <div class="user-info">
+                        <h3>Welcome Back!</h3>
+                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                        <div class="user-links">
+                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            @if(Auth::user()->isAdministrator())
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="login-button">Logout</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            @else
-                <h3>Member Login</h3>
-                <form method="POST" action="{{ route('login') }}" class="login-form">
-                    @csrf
-                    <input type="text" name="name" placeholder="Username" required autofocus>
-                    <input type="password" name="password" placeholder="Password" required>
-                    <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                    <button type="submit" class="login-button">Login</button>
-                </form>
-                <div class="login-links">
-                    <a href="{{ route('register') }}">Register</a>
-                    <a href="{{ route('password.request') }}">Forgot Password?</a>
-                </div>
-            @endif
+                @else
+                    <h3>Member Login</h3>
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Username" required autofocus>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">Login</button>
+                    </form>
+                    <div class="login-links">
+                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('password.request') }}">Forgot Password?</a>
+                    </div>
+                @endif
+            </div>
         </div>
 
         <div class="content-section">
@@ -1011,6 +1071,26 @@
                     dropdown.classList.remove('active');
                 }
             });
+        });
+
+        // Login box collapse functionality
+        function toggleLoginBox() {
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = loginBox.classList.contains('collapsed');
+            localStorage.setItem('loginBoxCollapsed', isCollapsed);
+        }
+
+        // Restore login box state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBox = document.getElementById('loginBox');
+            const isCollapsed = localStorage.getItem('loginBoxCollapsed') === 'true';
+            
+            if (isCollapsed) {
+                loginBox.classList.add('collapsed');
+            }
         });
     </script>
 </body>
