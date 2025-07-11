@@ -441,6 +441,151 @@
             font-weight: 600;
         }
 
+        /* User Info Bar */
+        .user-info-bar {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .user-balance {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .balance-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-icon {
+            font-size: 1.3rem;
+        }
+
+        .balance-label {
+            color: #b19cd9;
+            font-weight: 600;
+        }
+
+        .balance-value {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .character-selector {
+            position: relative;
+        }
+
+        .selected-character, .no-character {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .char-icon {
+            font-size: 1.3rem;
+        }
+
+        .char-label {
+            color: #b19cd9;
+            font-weight: 600;
+        }
+
+        .char-name {
+            color: #dda0dd;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .change-char, .select-char {
+            color: #9370db;
+            text-decoration: none;
+            padding: 5px 15px;
+            border: 1px solid rgba(147, 112, 219, 0.5);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .change-char:hover, .select-char:hover {
+            background: rgba(147, 112, 219, 0.2);
+            border-color: #9370db;
+            color: #dda0dd;
+        }
+
+        .warning {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .char-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(147, 112, 219, 0.2));
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .char-dropdown h4 {
+            color: #9370db;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .char-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            background: rgba(147, 112, 219, 0.1);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 10px;
+            text-decoration: none;
+            color: #e6d7f0;
+            transition: all 0.3s ease;
+        }
+
+        .char-option:hover {
+            background: rgba(147, 112, 219, 0.3);
+            border-color: #9370db;
+            transform: translateX(5px);
+        }
+
+        .char-option .char-name {
+            font-weight: 600;
+        }
+
+        .char-level {
+            color: #b19cd9;
+            font-size: 0.9rem;
+        }
+
+        .no-chars {
+            color: #b19cd9;
+            text-align: center;
+            padding: 20px;
+        }
+
         .login-notice {
             text-align: center;
             color: #b19cd9;
@@ -550,6 +695,61 @@
         <div class="shop-section">
             <h2 class="section-title">Item Shop</h2>
             
+            @auth
+            <!-- User Info Bar -->
+            <div class="user-info-bar">
+                <div class="user-balance">
+                    <div class="balance-item">
+                        <span class="balance-icon">💰</span>
+                        <span class="balance-label">{{ config('pw-config.currency_name', 'Coins') }}:</span>
+                        <span class="balance-value">{{ number_format(Auth::user()->money, 0, '', '.') }}</span>
+                    </div>
+                    <div class="balance-item">
+                        <span class="balance-icon">⭐</span>
+                        <span class="balance-label">Bonus Points:</span>
+                        <span class="balance-value">{{ number_format(Auth::user()->bonuses, 0, '', '.') }}</span>
+                    </div>
+                </div>
+                
+                <div class="character-selector">
+                    @if(Auth::user()->characterId())
+                        <div class="selected-character">
+                            <span class="char-icon">👤</span>
+                            <span class="char-label">Character:</span>
+                            <span class="char-name">{{ Auth::user()->characterName() }}</span>
+                            <a href="#" class="change-char" onclick="toggleCharSelect(event)">Change</a>
+                        </div>
+                    @else
+                        <div class="no-character">
+                            <span class="char-icon">⚠️</span>
+                            <span class="warning">No character selected</span>
+                            <a href="#" class="select-char" onclick="toggleCharSelect(event)">Select Character</a>
+                        </div>
+                    @endif
+                    
+                    <!-- Character Selection Dropdown -->
+                    <div class="char-dropdown" id="charDropdown" style="display: none;">
+                        <h4>Select Character</h4>
+                        @php
+                            $api = new \hrace009\PerfectWorldAPI\API;
+                            $roles = $api->getRoles(Auth::user()->ID) ?? [];
+                        @endphp
+                        
+                        @if(count($roles) > 0)
+                            @foreach($roles as $role)
+                                <a href="{{ route('character.select', $role['id']) }}" class="char-option">
+                                    <span class="char-name">{{ $role['name'] }}</span>
+                                    <span class="char-level">Lv. {{ $role['level'] }}</span>
+                                </a>
+                            @endforeach
+                        @else
+                            <p class="no-chars">No characters found</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endauth
+            
             <!-- Category Navigation -->
             <div class="category-nav">
                 @foreach($categories as $category)
@@ -643,6 +843,22 @@
     </div>
 
     <script>
+        // Toggle character dropdown
+        function toggleCharSelect(event) {
+            event.preventDefault();
+            const dropdown = document.getElementById('charDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('charDropdown');
+            const selector = document.querySelector('.character-selector');
+            if (dropdown && !selector.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
         // Create floating mystical particles
         function createParticles() {
             const particlesContainer = document.querySelector('.floating-particles');

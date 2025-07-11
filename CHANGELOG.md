@@ -2,6 +2,23 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.71] - 2025-01-11
+
+### Added
+- User balance display showing currency and bonus points
+- Character selection system with dropdown menu
+- Selected character display with change option
+- Warning when no character is selected
+- Character level display in selection dropdown
+
+### Changed
+- Shop page now shows user's current balance
+- Shop page displays selected character name
+- Purchase buttons require character selection
+
+### Fixed
+- Shop now properly integrates with panel's character system
+
 ## [v2.1.70] - 2025-01-11
 
 ### Added
