@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
-use App\Models\Article;
+use Hrace009\PerfectWorldAPI\Article;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
