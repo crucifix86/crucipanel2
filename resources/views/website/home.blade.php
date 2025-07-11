@@ -425,7 +425,8 @@
         /* Dropdown Styles */
         .nav-dropdown {
             position: relative;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
         }
 
         .dropdown-toggle {
@@ -458,6 +459,7 @@
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
             transition: all 0.3s ease;
             margin-top: 10px;
         }
@@ -465,6 +467,7 @@
         .nav-dropdown.active .dropdown-menu {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
 
         .dropdown-item {
