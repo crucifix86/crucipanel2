@@ -354,6 +354,23 @@
             background: linear-gradient(45deg, #6c757d, #495057);
         }
 
+        .donate-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .donate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
+        }
+
         /* Benefits Section */
         .benefits-section {
             text-align: center;
@@ -512,7 +529,11 @@
                     <span class="method-icon">💳</span>
                     <h3 class="method-name">PayPal</h3>
                     <p class="method-description">Fast and secure payment processing with instant {{ $currency }} delivery</p>
-                    <span class="method-status">Available</span>
+                    @auth
+                        <a href="{{ route('app.donate.paypal.get') }}" class="donate-button">Donate via PayPal</a>
+                    @else
+                        <span class="method-status">Login Required</span>
+                    @endauth
                 </div>
                 @endif
                 
@@ -521,7 +542,11 @@
                     <span class="method-icon">🏦</span>
                     <h3 class="method-name">Bank Transfer</h3>
                     <p class="method-description">Direct bank transfer with manual verification (1-2 business days)</p>
-                    <span class="method-status">Available</span>
+                    @auth
+                        <a href="{{ route('app.donate.bank.get') }}" class="donate-button">Donate via Bank</a>
+                    @else
+                        <span class="method-status">Login Required</span>
+                    @endauth
                 </div>
                 @endif
                 
@@ -530,7 +555,11 @@
                     <span class="method-icon">🌐</span>
                     <h3 class="method-name">Paymentwall</h3>
                     <p class="method-description">Multiple payment options including mobile and prepaid cards</p>
-                    <span class="method-status">Available</span>
+                    @auth
+                        <a href="{{ route('app.donate.paymentwall.get') }}" class="donate-button">Donate via Paymentwall</a>
+                    @else
+                        <span class="method-status">Login Required</span>
+                    @endauth
                 </div>
                 @endif
                 
@@ -539,7 +568,11 @@
                     <span class="method-icon">📱</span>
                     <h3 class="method-name">iPaymu</h3>
                     <p class="method-description">Indonesian payment gateway with local bank support</p>
-                    <span class="method-status">Available</span>
+                    @auth
+                        <a href="{{ route('app.donate.ipaymu.get') }}" class="donate-button">Donate via iPaymu</a>
+                    @else
+                        <span class="method-status">Login Required</span>
+                    @endauth
                 </div>
                 @endif
             </div>

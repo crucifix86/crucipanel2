@@ -370,6 +370,16 @@
             box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
         }
 
+        .method-status {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
         /* Rewards Info */
         .rewards-info {
             text-align: center;
@@ -538,7 +548,14 @@
                             @endif
                         </div>
                         <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
-                        <a href="#" class="vote-button">Vote Now</a>
+                        @auth
+                            <form action="{{ route('app.vote.check.post', $site->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="vote-button">Vote Now</button>
+                            </form>
+                        @else
+                            <span class="method-status">Login Required</span>
+                        @endauth
                     </div>
                 @endforeach
             </div>

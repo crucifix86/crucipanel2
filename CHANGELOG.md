@@ -2,6 +2,21 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.68] - 2025-01-11
+
+### Added
+- Actual shop functionality with purchase buttons on shop page
+- Support for both currency and bonus point purchases
+- Actual donate functionality with links to all enabled payment methods
+- Actual vote functionality with proper vote submission forms
+- Character selection check for shop purchases
+
+### Changed
+- Shop items now show purchase buttons when logged in
+- Donate methods now show action buttons when logged in
+- Vote sites now have working vote buttons when logged in
+- All pages show "Login Required" status when not authenticated
+
 ## [v2.1.67] - 2025-01-11
 
 ### Fixed

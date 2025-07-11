@@ -357,6 +357,42 @@
             font-weight: 600;
         }
 
+        .purchase-button {
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .purchase-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
+        }
+
+        .bonus-button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .bonus-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+        }
+
         .login-notice {
             text-align: center;
             color: #b19cd9;
@@ -492,11 +528,32 @@
                         
                         <div class="item-price">
                             @if($item->discount > 0)
+                                <div class="original-price" style="text-decoration: line-through; color: #b19cd9; font-size: 0.9rem;">
+                                    {{ number_format($item->price) }} {{ config('pw-config.currency_name', 'Points') }}
+                                </div>
                                 {{ number_format($item->price * (1 - $item->discount/100)) }} {{ config('pw-config.currency_name', 'Points') }}
                             @else
                                 {{ number_format($item->price) }} {{ config('pw-config.currency_name', 'Points') }}
                             @endif
                         </div>
+                        
+                        @auth
+                            @if(Auth::user()->characterId())
+                                <form action="{{ route('app.shop.purchase.post', $item->id) }}" method="POST" style="margin-top: 15px;">
+                                    @csrf
+                                    <button type="submit" class="purchase-button">Purchase</button>
+                                </form>
+                                
+                                @if($item->poin > 0)
+                                <form action="{{ route('app.shop.point.post', $item->id) }}" method="POST" style="margin-top: 10px;">
+                                    @csrf
+                                    <button type="submit" class="bonus-button">Buy with {{ $item->poin }} Bonus Points</button>
+                                </form>
+                                @endif
+                            @else
+                                <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 15px;">Select a character to purchase</p>
+                            @endif
+                        @endauth
                     </div>
                 @endforeach
             </div>
