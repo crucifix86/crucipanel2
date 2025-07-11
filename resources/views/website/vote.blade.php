@@ -530,7 +530,6 @@
 
         <div class="vote-section">
             <h2 class="section-title">Vote for Haven Perfect World</h2>
-            <!-- Debug: {{ $sites->count() }} sites found -->
             <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
             
             @if($sites->count() > 0)

@@ -393,6 +393,54 @@
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
         }
 
+        /* Category Navigation */
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-link {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 15px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #b19cd9;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .category-link:hover {
+            background: rgba(147, 112, 219, 0.2);
+            border-color: #9370db;
+            color: #dda0dd;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.3);
+        }
+
+        .category-link.active {
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            border-color: #8a2be2;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.5);
+        }
+
+        .category-icon {
+            font-size: 1.2rem;
+        }
+
+        .category-name {
+            font-weight: 600;
+        }
+
         .login-notice {
             text-align: center;
             color: #b19cd9;
@@ -501,7 +549,17 @@
 
         <div class="shop-section">
             <h2 class="section-title">Item Shop</h2>
-            <!-- Debug: {{ $items->count() }} items found -->
+            
+            <!-- Category Navigation -->
+            <div class="category-nav">
+                @foreach($categories as $category)
+                    <a href="{{ route('public.shop', ['mask' => $category['mask']]) }}" 
+                       class="category-link {{ $currentMask == $category['mask'] && ($currentMask !== null || $category['mask'] === null) ? 'active' : '' }}">
+                        <span class="category-icon">{{ $category['icon'] }}</span>
+                        <span class="category-name">{{ $category['name'] }}</span>
+                    </a>
+                @endforeach
+            </div>
             
             @if($items->count() > 0)
             <div class="shop-grid">

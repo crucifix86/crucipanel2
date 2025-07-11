@@ -2,6 +2,22 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.70] - 2025-01-11
+
+### Added
+- Shop category navigation system with mask filtering
+- 21 shop categories including weapons, armor, fashion, charms, etc.
+- Active category highlighting
+- Category icons for visual identification
+
+### Changed
+- Shop now properly uses the panel's mask system for item categorization
+- Shop controller now accepts mask parameter for filtering
+- Removed debug comments from shop and vote pages
+
+### Fixed
+- Shop now displays items properly with category filtering
+
 ## [v2.1.69] - 2025-01-11
 
 ### Fixed
