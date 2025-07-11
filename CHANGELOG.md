@@ -2,6 +2,19 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.75] - 2025-01-11
+
+### Fixed
+- Donate page now uses correct config paths (pw-config.payment)
+- Fixed PayPal config path: pw-config.payment.paypal.*
+- Fixed bank transfer config path: pw-config.payment.bank_transfer.*
+- Added fallback message when no payment methods are configured
+- Added debug comments to help troubleshoot empty displays
+
+### Added
+- Debug output showing enabled/disabled status for each payment method
+- "No Payment Methods Configured" message when all methods disabled
+
 ## [v2.1.74] - 2025-01-11
 
 ### Added

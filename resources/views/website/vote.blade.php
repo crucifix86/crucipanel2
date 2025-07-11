@@ -556,7 +556,10 @@
             <h2 class="section-title">Vote for Haven Perfect World</h2>
             <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
             
-            @if($sites->count() > 0)
+            <!-- Debug: {{ $sites->count() }} sites found -->
+            <!-- Debug: Vote info count: {{ count($vote_info ?? []) }} -->
+            
+            @if($sites && $sites->count() > 0)
             <div class="vote-sites">
                 @foreach($sites as $site)
                     <div class="vote-site">

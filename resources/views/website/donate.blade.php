@@ -578,6 +578,11 @@
             <h2 class="section-title">Support Haven Perfect World</h2>
             <p class="section-subtitle">Your donations help keep the server running and improve the gaming experience for everyone</p>
             
+            <!-- Debug: PayPal enabled: {{ $paypalConfig['enabled'] ? 'true' : 'false' }} -->
+            <!-- Debug: Bank enabled: {{ $bankConfig['enabled'] ? 'true' : 'false' }} -->
+            <!-- Debug: PW enabled: {{ $paymentwallEnabled ? 'true' : 'false' }} -->
+            <!-- Debug: iPaymu enabled: {{ $ipaymuEnabled ? 'true' : 'false' }} -->
+            
             <div class="donation-methods">
                 @if($paypalConfig['enabled'])
                 <div class="donation-method">
@@ -616,7 +621,7 @@
                     <div class="payment-details">
                         <div class="detail-item">
                             <span class="detail-label">Rate:</span>
-                            <span class="detail-value">{{ config('donate.bank_currency', 'IDR') }} {{ number_format($bankConfig['rate'], 0) }} = 1 {{ $currency }}</span>
+                            <span class="detail-value">{{ $bankConfig['currency'] ?? 'IDR' }} {{ number_format($bankConfig['rate'], 0) }} = 1 {{ $currency }}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Minimum:</span>
@@ -668,6 +673,14 @@
                     @else
                         <span class="method-status">Login Required</span>
                     @endauth
+                </div>
+                @endif
+                
+                @if(!$paypalConfig['enabled'] && !$bankConfig['enabled'] && !$paymentwallEnabled && !$ipaymuEnabled)
+                <div style="text-align: center; padding: 60px 20px;">
+                    <span style="font-size: 4rem; display: block; margin-bottom: 20px;">💳</span>
+                    <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Payment Methods Configured</p>
+                    <p style="color: #b19cd9;">Please contact an administrator to enable donation methods.</p>
                 </div>
                 @endif
             </div>
