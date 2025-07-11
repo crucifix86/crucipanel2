@@ -57,6 +57,9 @@ class DonateController extends Controller
                 Config::write('pw-config.payment.paymentwall.' . $config, $value);
             }
         }
+        // Clear config cache to ensure changes are visible immediately
+        \Artisan::call('config:clear');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 
@@ -159,6 +162,9 @@ class DonateController extends Controller
                 }
             }
         }
+        // Clear config cache to ensure changes are visible immediately
+        \Artisan::call('config:clear');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 
@@ -207,6 +213,9 @@ class DonateController extends Controller
                 }
             }
         }
+        // Clear config cache to ensure changes are visible immediately
+        \Artisan::call('config:clear');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 
@@ -260,6 +269,9 @@ class DonateController extends Controller
             }
         }
 
+        // Clear config cache to ensure changes are visible immediately
+        \Artisan::call('config:clear');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 

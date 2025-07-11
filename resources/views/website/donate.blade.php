@@ -579,6 +579,7 @@
             <p class="section-subtitle">Your donations help keep the server running and improve the gaming experience for everyone</p>
             
             <div class="donation-methods">
+                @if($paypalConfig['enabled'])
                 <div class="donation-method">
                     <span class="method-icon">💳</span>
                     <h3 class="method-name">PayPal</h3>
