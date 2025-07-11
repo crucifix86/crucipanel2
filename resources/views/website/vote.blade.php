@@ -225,6 +225,62 @@
             box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
         }
 
+        /* Dropdown Styles */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 200px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 15px;
+            padding: 10px 0;
+            margin-top: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .nav-dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: #b19cd9;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            color: #fff;
+            background: rgba(147, 112, 219, 0.3);
+            padding-left: 25px;
+        }
+
         /* Vote Section */
         .vote-section {
             background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
@@ -550,8 +606,20 @@
                 <a href="{{ route('public.vote') }}" class="nav-link active">Vote</a>
                 @endif
                 
-                @if(Auth::check() && Auth::user()->isAdministrator())
-                    <a href="{{ route('admin.pages.index') }}" class="nav-link {{ Route::is('admin.pages.*') ? 'active' : '' }}">Pages</a>
+                @php
+                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
+                @endphp
+                @if($pages->count() > 0)
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
+                            Pages <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach($pages as $page)
+                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
             </div>
         </nav>
@@ -698,6 +766,16 @@
 
         // Initialize particles
         createParticles();
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.nav-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
 
         // Add page entrance animation
         window.addEventListener('load', function() {

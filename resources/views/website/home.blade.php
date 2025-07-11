@@ -344,6 +344,66 @@
             box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
         }
 
+        /* Dropdown Styles */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .nav-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.3));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 20px;
+            padding: 15px 0;
+            min-width: 200px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .nav-dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 25px;
+            color: #b19cd9;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(147, 112, 219, 0.2);
+            color: #fff;
+            padding-left: 30px;
+        }
+
         /* Account Section */
         .account-section {
             position: absolute;
@@ -716,8 +776,20 @@
                     @endif
                 @endisset
                 
-                @if(Auth::check() && Auth::user()->isAdministrator())
-                    <a href="{{ route('admin.pages.index') }}" class="nav-link {{ Route::is('admin.pages.*') ? 'active' : '' }}">Pages</a>
+                @php
+                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
+                @endphp
+                @if($pages->count() > 0)
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
+                            Pages <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach($pages as $page)
+                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
+                            @endforeach
+                        </div>
+                    </div>
                 @endif
             </div>
             
@@ -881,6 +953,16 @@
                 }
             });
         }
+
+        // Handle dropdown clicks
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.nav-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
