@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
-use App\Models\VoteSite;
+use App\Models\ArenaLogs;
 use App\Models\VoteLog;
+use App\Models\VoteSite;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,9 +33,27 @@ class PublicVoteController extends Controller
             }
         }
 
+        $arena_info = [];
+        if (Auth::check()) {
+            $arena_log = ArenaLogs::onCooldown($request, Auth::user()->ID);
+            if ($arena_log->exists()) {
+                $arena_log = $arena_log->first();
+                if (time() < $arena_log->created_at->getTimestamp() + (3600 * config('arena.time'))) {
+                    $arena_info[Auth::user()->ID]['end_time'] = $arena_log->created_at->addHours(config('arena.time'))->getTimestamp() - Carbon::now()->getTimestamp();
+                    $arena_info[Auth::user()->ID]['status'] = FALSE;
+                } else {
+                    $arena_info[Auth::user()->ID]['status'] = TRUE;
+                }
+            } else {
+                $arena_info[Auth::user()->ID]['status'] = TRUE;
+            }
+        }
+
         return view('website.vote', [
             'sites' => $sites,
-            'vote_info' => $vote_info
+            'vote_info' => $vote_info,
+            'arena' => new ArenaLogs(),
+            'arena_info' => $arena_info
         ]);
     }
 }
