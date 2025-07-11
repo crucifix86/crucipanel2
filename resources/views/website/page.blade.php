@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haven Perfect World</title>
+    <title>{{ $page->title }} - Haven Perfect World</title>
+    <meta name="description" content="{{ $page->meta_description ?: $page->title }}">
+    <meta name="keywords" content="{{ $page->meta_keywords ?: $page->title }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -281,7 +283,6 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-    <style>
         /* Navigation Bar */
         .nav-bar {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
@@ -344,33 +345,6 @@
             box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
         }
 
-        /* Account Section */
-        .account-section {
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .account-button {
-            background: linear-gradient(45deg, #9370db, #8a2be2);
-            color: #fff;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .account-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
-        }
-
         /* Main Content Section */
         .content-section {
             background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
@@ -402,7 +376,7 @@
             50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        .section-title {
+        .page-title {
             font-size: 2.8rem;
             margin-bottom: 40px;
             color: #9370db;
@@ -412,202 +386,56 @@
             z-index: 1;
         }
 
-        /* News Grid */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
+        .page-meta {
+            text-align: center;
+            color: #b19cd9;
+            font-size: 1rem;
+            margin-bottom: 30px;
             position: relative;
             z-index: 1;
         }
 
-        .news-card {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
-            border: 2px solid rgba(147, 112, 219, 0.4);
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.4s ease;
+        .page-content {
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .news-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(147, 112, 219, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .news-card:hover::before {
-            left: 100%;
-        }
-
-        .news-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: #9370db;
-            box-shadow: 
-                0 25px 60px rgba(0, 0, 0, 0.4),
-                0 0 50px rgba(147, 112, 219, 0.3);
-        }
-
-        .news-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-            text-align: center;
-            animation: iconFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .news-title {
-            font-size: 1.6rem;
-            color: #9370db;
-            margin-bottom: 15px;
-            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
-            font-weight: 600;
-        }
-
-        .news-title a {
-            color: inherit;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .news-title a:hover {
-            color: #dda0dd;
-        }
-
-        .news-meta {
-            font-size: 0.9rem;
-            color: #b19cd9;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .news-date {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .news-category {
-            background: linear-gradient(45deg, #9370db, #8a2be2);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .news-description {
-            color: #b19cd9;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            font-size: 1rem;
-        }
-
-        .read-more-btn {
-            background: linear-gradient(45deg, #9370db, #8a2be2, #4b0082);
-            background-size: 300% 300%;
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            text-decoration: none;
-            display: inline-block;
-            animation: buttonGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes buttonGlow {
-            0% { 
-                box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
-                background-position: 0% 50%;
-            }
-            100% { 
-                box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
-                background-position: 100% 50%;
-            }
-        }
-
-        .read-more-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(147, 112, 219, 0.8);
-        }
-
-        /* Server Features */
-        .server-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #9370db, #8a2be2, #4b0082);
-            animation: progressBar 3s ease-in-out infinite;
-        }
-
-        @keyframes progressBar {
-            0%, 100% { transform: translateX(-100%); }
-            50% { transform: translateX(100%); }
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: #9370db;
-            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
-        }
-
-        .feature-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: #b19cd9;
-        }
-
-        .feature-value {
+            z-index: 1;
+            color: #e6d7f0;
+            line-height: 1.8;
             font-size: 1.1rem;
-            color: #8a2be2;
-            font-weight: 600;
+        }
+
+        .page-content h1, .page-content h2, .page-content h3, 
+        .page-content h4, .page-content h5, .page-content h6 {
+            color: #9370db;
+            margin: 25px 0 15px 0;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+
+        .page-content p {
+            margin-bottom: 20px;
+        }
+
+        .page-content a {
+            color: #b19cd9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .page-content a:hover {
+            color: #dda0dd;
+            text-decoration: underline;
+        }
+
+        .page-content ul, .page-content ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .page-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
         }
 
         /* Footer */
@@ -626,18 +454,10 @@
             margin-bottom: 20px;
         }
 
-        .chinese-blessing {
-            font-size: 1.3rem;
-            color: #9370db;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
-        }
-
         @media (max-width: 768px) {
             .logo {
                 font-size: 3rem;
             }
-            
             
             .content-section {
                 padding: 30px 20px;
@@ -655,23 +475,7 @@
                 font-size: 1rem;
                 padding: 8px 15px;
             }
-            
-            .account-section {
-                position: static;
-                margin-top: 15px;
-                transform: none;
-            }
         }
-
-        .epic-glow {
-            animation: epicGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes epicGlow {
-            0% { text-shadow: 0 0 20px rgba(147, 112, 219, 0.6); }
-            100% { text-shadow: 0 0 40px rgba(147, 112, 219, 1), 0 0 60px rgba(138, 43, 226, 0.8); }
-        }
-
     </style>
 </head>
 <body>
@@ -692,22 +496,22 @@
 
         <nav class="nav-bar">
             <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
+                <a href="{{ route('HOME') }}" class="nav-link">Home</a>
                 
                 @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                <a href="{{ route('public.shop') }}" class="nav-link">Shop</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
                 @endif
                 
                 @isset($download)
@@ -717,10 +521,9 @@
                 @endisset
                 
                 @if(Auth::check() && Auth::user()->isAdministrator())
-                    <a href="{{ route('admin.pages.index') }}" class="nav-link {{ Route::is('admin.pages.*') ? 'active' : '' }}">Pages</a>
+                    <a href="{{ route('admin.pages.index') }}" class="nav-link">Pages</a>
                 @endif
             </div>
-            
         </nav>
 
         <!-- Login/User Box -->
@@ -758,69 +561,20 @@
         </div>
 
         <div class="content-section">
-            <h2 class="section-title">Latest News & Updates</h2>
-            <div class="news-grid">
-                @if( isset($news) && $news->items() )
-                    @foreach( $news as $article )
-                        <div class="news-card">
-                            <span class="news-icon">
-                                @if($article->category == 'update')
-                                    ✨
-                                @elseif($article->category == 'event')
-                                    🎆
-                                @elseif($article->category == 'maintenance')
-                                    🔧
-                                @else
-                                    📜
-                                @endif
-                            </span>
-                            <h3 class="news-title"><a href="{{ route('show.article', $article->slug) }}">{{ $article->title }}</a></h3>
-                            <div class="news-meta">
-                                <span class="news-date">📅 {{ $article->date( $article->created_at ) }}</span>
-                                <span class="news-category">{{ __('news.category.' . $article->category) }}</span>
-                            </div>
-                            <p class="news-description">{{ Str::limit($article->description, 150) }}</p>
-                            <a href="{{ route('show.article', $article->slug ) }}" class="read-more-btn">Read More</a>
-                        </div>
-                    @endforeach
-                @else
-                    <div style="text-align: center; color: #b19cd9;">
-                        <p>📜 No news articles at the moment</p>
-                        <p>Check back soon for updates!</p>
-                    </div>
-                @endif
+            <h2 class="page-title">{{ $page->title }}</h2>
+            <div class="page-meta">
+                Last Updated: {{ $page->updated_at->format('F d, Y') }}
             </div>
-        </div>
-
-        <div class="server-features">
-            <div class="feature-card">
-                <div class="feature-icon">🌟</div>
-                <div class="feature-title">EXP Rate</div>
-                <div class="feature-value">5x Experience · 3x Spirit</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚖️</div>
-                <div class="feature-title">Max Level</div>
-                <div class="feature-value">Level 105 · Rebirth x2</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏛️</div>
-                <div class="feature-title">Server Version</div>
-                <div class="feature-value">Perfect World v1.4.6</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚔️</div>
-                <div class="feature-title">PvP Mode</div>
-                <div class="feature-value">Balanced PK · Territory Wars</div>
+            <div class="page-content">
+                {!! $page->content !!}
             </div>
         </div>
 
         <div class="footer">
-                <p class="footer-text">Begin your journey through the realms of endless cultivation</p>
+            <p class="footer-text">Begin your journey through the realms of endless cultivation</p>
             <p class="footer-text">&copy; {{ date('Y') }} Haven Perfect World. All rights reserved.</p>
         </div>
     </div>
-
 
     <script>
         // Create floating mystical particles

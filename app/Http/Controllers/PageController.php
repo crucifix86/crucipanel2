@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -13,6 +14,10 @@ class PageController extends Controller
             ->where('active', true)
             ->firstOrFail();
 
-        return view('page.show', compact('page'));
+        // Get download articles for navigation
+        $download = Article::where('category', 'download')
+            ->where('enabled', 1);
+
+        return view('website.page', compact('page', 'download'));
     }
 }

@@ -451,6 +451,10 @@
                 <a href="{{ route('app.vote.index') }}" class="nav-link">Vote</a>
                 @endif
                 
+                @if(Auth::check() && Auth::user()->isAdministrator())
+                    <a href="{{ route('admin.pages.index') }}" class="nav-link {{ Route::is('admin.pages.*') ? 'active' : '' }}">Pages</a>
+                @endif
+                
                 @isset($download)
                     @if( $download->exists() && $download->count() > 0 )
                         <a href="{{ route('show.article', $download->first()->slug ) }}" class="nav-link">Download</a>

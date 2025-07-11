@@ -684,6 +684,10 @@
                 @if( config('pw-config.system.apps.vote') )
                 <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
                 @endif
+                
+                @if(Auth::check() && Auth::user()->isAdministrator())
+                    <a href="{{ route('admin.pages.index') }}" class="nav-link {{ Route::is('admin.pages.*') ? 'active' : '' }}">Pages</a>
+                @endif
             </div>
         </nav>
 
