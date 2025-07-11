@@ -635,7 +635,7 @@
     <div class="container">
         <!-- Login/User Box -->
         <div class="login-box-wrapper">
-            <div class="login-box" id="loginBox">
+            <div class="login-box collapsed" id="loginBox">
                 <div class="login-box-header" onclick="toggleLoginBox()">
                     <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
                     <button class="collapse-toggle">▼</button>
@@ -841,11 +841,14 @@
         // Restore login box state on page load
         document.addEventListener('DOMContentLoaded', function() {
             const loginBox = document.getElementById('loginBox');
-            const isCollapsed = localStorage.getItem('loginBoxCollapsed') === 'true';
+            const savedState = localStorage.getItem('loginBoxCollapsed');
             
-            if (isCollapsed) {
-                loginBox.classList.add('collapsed');
+            // If user has never interacted with it, keep it collapsed (default)
+            // If user has explicitly expanded it, respect their choice
+            if (savedState === 'false') {
+                loginBox.classList.remove('collapsed');
             }
+            // Otherwise it stays collapsed (default state or explicitly collapsed)
         });
 
         // Handle dropdown clicks
