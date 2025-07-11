@@ -2,6 +2,14 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.73] - 2025-01-11
+
+### Fixed
+- Character dropdown now appears above category navigation
+- Increased z-index values to prevent dropdown from appearing behind elements
+- Added backdrop blur to dropdown for better visibility
+- Character selector can now be properly clicked
+
 ## [v2.1.72] - 2025-01-11
 
 ### Fixed

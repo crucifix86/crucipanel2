@@ -454,7 +454,7 @@
             flex-wrap: wrap;
             gap: 20px;
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
         .user-balance {
@@ -487,6 +487,7 @@
 
         .character-selector {
             position: relative;
+            z-index: 999;
         }
 
         .selected-character, .no-character {
@@ -536,13 +537,14 @@
             top: 100%;
             right: 0;
             margin-top: 10px;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(147, 112, 219, 0.2));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(147, 112, 219, 0.3));
+            backdrop-filter: blur(10px);
             border: 2px solid rgba(147, 112, 219, 0.4);
             border-radius: 15px;
             padding: 20px;
             min-width: 250px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            z-index: 100;
+            z-index: 1000;
         }
 
         .char-dropdown h4 {
