@@ -744,7 +744,7 @@
 
         /* Login Box Container */
         .login-box-wrapper {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             z-index: 100;
