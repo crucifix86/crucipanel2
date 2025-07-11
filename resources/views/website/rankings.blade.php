@@ -225,6 +225,32 @@
             box-shadow: 0 8px 30px rgba(138, 43, 226, 0.6);
         }
 
+        /* Content Section (for PvP) */
+        .content-section {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(147, 112, 219, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(147, 112, 219, 0.05), transparent);
+            animation: shimmerBg 4s ease-in-out infinite;
+        }
+
         /* Rankings Section */
         .rankings-container {
             display: grid;
@@ -495,6 +521,46 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+        </div>
+
+        <!-- PvP Rankings Section -->
+        <div class="content-section" style="margin-top: 40px;">
+            <h2 class="section-title" style="color: #ff6b6b; text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);">PvP Champions</h2>
+            <div class="ranking-table">
+                @foreach($topPvPPlayers as $index => $player)
+                    <div class="ranking-row">
+                        <div class="rank-number @if($index < 3) rank-{{ $index + 1 }} @endif">
+                            {{ $index + 1 }}
+                        </div>
+                        <div class="player-info">
+                            <div class="player-name">{{ $player->name }}</div>
+                            <div class="player-details">
+                                @php
+                                    $classes = [
+                                        0 => 'Blademaster',
+                                        1 => 'Wizard',
+                                        2 => 'Psychic',
+                                        3 => 'Venomancer',
+                                        4 => 'Barbarian',
+                                        5 => 'Assassin',
+                                        6 => 'Archer',
+                                        7 => 'Cleric',
+                                        8 => 'Seeker',
+                                        9 => 'Mystic',
+                                        10 => 'Duskblade',
+                                        11 => 'Stormbringer'
+                                    ];
+                                    $className = $classes[$player->cls] ?? 'Unknown';
+                                @endphp
+                                {{ $className }} - Level {{ $player->level }}
+                            </div>
+                        </div>
+                        <div class="player-level" style="background: linear-gradient(45deg, #ff6b6b, #dc3545); min-width: 100px;">
+                            {{ $player->pk_count }} Kills
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 

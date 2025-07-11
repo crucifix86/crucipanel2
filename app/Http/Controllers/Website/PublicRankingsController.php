@@ -16,6 +16,12 @@ class PublicRankingsController extends Controller
             ->limit(20)
             ->get();
 
+        // Get top 20 players by PvP kills
+        $topPvPPlayers = Player::orderBy('pk_count', 'desc')
+            ->where('pk_count', '>', 0)
+            ->limit(20)
+            ->get();
+
         // Get top 10 factions by level
         $topFactions = Faction::orderBy('level', 'desc')
             ->limit(10)
@@ -23,6 +29,7 @@ class PublicRankingsController extends Controller
 
         return view('website.rankings', [
             'topPlayers' => $topPlayers,
+            'topPvPPlayers' => $topPvPPlayers,
             'topFactions' => $topFactions
         ]);
     }
