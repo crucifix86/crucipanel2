@@ -909,9 +909,14 @@
             @endguest
         </div>
 
+        @php
+            $footerSettings = \App\Models\FooterSetting::first();
+            $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Enhance your journey with mystical items</p>';
+            $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
+        @endphp
         <div class="footer">
-            <p class="footer-text">Enhance your journey with mystical items</p>
-            <p class="footer-text">&copy; {{ date('Y') }} Haven Perfect World. All rights reserved.</p>
+            {!! $footerContent !!}
+            <p class="footer-text">{!! $footerCopyright !!}</p>
         </div>
     </div>
 
