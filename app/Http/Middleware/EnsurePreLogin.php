@@ -31,6 +31,9 @@ class EnsurePreLogin
             'logout',
             'register',  // Add register route to skip list
             'public.rankings',  // Add public rankings route
+            'public.shop',  // Add public shop route
+            'public.donate',  // Add public donate route
+            'public.vote',  // Add public vote route
         ];
 
         // Skip for any POST request to login route (both named and unnamed)

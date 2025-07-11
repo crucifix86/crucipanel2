@@ -94,6 +94,24 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'public.rankings',
         'uses' => 'App\Http\Controllers\Website\PublicRankingsController@index'
     ]);
+
+    // Public Shop Page
+    Route::get('shop', [
+        'as' => 'public.shop',
+        'uses' => 'App\Http\Controllers\Website\PublicShopController@index'
+    ]);
+
+    // Public Donate Page
+    Route::get('donate', [
+        'as' => 'public.donate',
+        'uses' => 'App\Http\Controllers\Website\PublicDonateController@index'
+    ]);
+
+    // Public Vote Page
+    Route::get('vote', [
+        'as' => 'public.vote',
+        'uses' => 'App\Http\Controllers\Website\PublicVoteController@index'
+    ]);
 });
 
 /* App Page */

@@ -695,11 +695,11 @@
                 <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
                 
                 @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('app.shop.index') }}" class="nav-link {{ Route::is('app.shop.index') ? 'active' : '' }}">Shop</a>
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('app.donate.history') }}" class="nav-link {{ Route::is('app.donate.history') ? 'active' : '' }}">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
@@ -707,7 +707,7 @@
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('app.vote.index') }}" class="nav-link {{ Route::is('app.vote.index') ? 'active' : '' }}">Vote</a>
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
                 @endif
                 
                 @isset($download)
