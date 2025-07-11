@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - 仙境世界</title>
+    <title>Haven Perfect World</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -130,12 +130,122 @@
             margin-bottom: 15px;
         }
 
-        .chinese-title {
-            font-size: 2.2rem;
+        /* Login Box */
+        .login-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+            min-width: 280px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .login-box h3 {
             color: #9370db;
+            font-size: 1.4rem;
             margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
-            letter-spacing: 8px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 112, 219, 0.5);
+            border-radius: 10px;
+            color: #e6d7f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-form input::placeholder {
+            color: rgba(177, 156, 217, 0.7);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #9370db;
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+        }
+
+        .login-button {
+            width: 100%;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .login-links a {
+            color: #b19cd9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .login-links a:hover {
+            color: #dda0dd;
+            text-decoration: underline;
+        }
+
+        .user-info {
+            text-align: center;
+            color: #b19cd9;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            color: #9370db;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .user-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .user-link {
+            background: rgba(147, 112, 219, 0.2);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            color: #e6d7f0;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .user-link:hover {
+            background: rgba(147, 112, 219, 0.3);
+            border-color: #9370db;
+            transform: translateY(-2px);
         }
 
         @keyframes gradientShift {
@@ -528,10 +638,6 @@
                 font-size: 3rem;
             }
             
-            .chinese-title {
-                font-size: 1.8rem;
-                letter-spacing: 4px;
-            }
             
             .content-section {
                 padding: 30px 20px;
@@ -579,8 +685,7 @@
         <div class="header">
             <div class="mystical-border"></div>
             <div class="logo-container">
-                <h1 class="logo">{{ config('pw-config.server_name', 'Haven Perfect World') }}</h1>
-                <div class="chinese-title">仙境世界</div>
+                <h1 class="logo">Haven Perfect World</h1>
                 <p class="tagline">Embark on the Path of Immortals</p>
             </div>
         </div>
@@ -612,14 +717,41 @@
                 @endisset
             </div>
             
-            <div class="account-section">
-                @if(Auth::check())
-                    <a href="{{ route('app.dashboard') }}" class="account-button">{{ Auth::user()->truename ?? Auth::user()->name ?? 'Dashboard' }}</a>
-                @else
-                    <a href="{{ route('login') }}" class="account-button">Login</a>
-                @endif
-            </div>
         </nav>
+
+        <!-- Login/User Box -->
+        <div class="login-box">
+            @if(Auth::check())
+                <div class="user-info">
+                    <h3>Welcome Back!</h3>
+                    <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                    <div class="user-links">
+                        <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                        <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                        @if(Auth::user()->isAdministrator())
+                        <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="login-button">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <h3>Member Login</h3>
+                <form method="POST" action="{{ route('login') }}" class="login-form">
+                    @csrf
+                    <input type="text" name="name" placeholder="Username" required autofocus>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+                <div class="login-links">
+                    <a href="{{ route('register') }}">Register</a>
+                    <a href="{{ route('password.request') }}">Forgot Password?</a>
+                </div>
+            @endif
+        </div>
 
         <div class="content-section">
             <h2 class="section-title">Latest News & Updates</h2>
@@ -680,8 +812,7 @@
         </div>
 
         <div class="footer">
-            <div class="chinese-blessing">May you cultivate righteousness and ascend to immortality</div>
-            <p class="footer-text">Begin your journey through the realms of endless cultivation</p>
+                <p class="footer-text">Begin your journey through the realms of endless cultivation</p>
             <p class="footer-text">&copy; {{ date('Y') }} {{ config('pw-config.server_name', 'Haven Perfect World') }}. All rights reserved.</p>
         </div>
     </div>
@@ -732,6 +863,20 @@
             `;
             document.head.appendChild(fadeInUpStyle);
         });
+
+        // Simple PIN check
+        const usernameInput = document.querySelector('input[name="name"]');
+        const pinField = document.getElementById('pin-field');
+        
+        if (usernameInput) {
+            usernameInput.addEventListener('blur', function() {
+                if (this.value.length > 2) {
+                    // For simplicity, show PIN field for all users
+                    // In production, you'd check via API
+                    pinField.style.display = 'block';
+                }
+            });
+        }
     </script>
 </body>
 </html>
