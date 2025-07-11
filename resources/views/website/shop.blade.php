@@ -552,9 +552,7 @@
         }
 
         .char-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: block;
             padding: 10px 15px;
             margin-bottom: 8px;
             background: rgba(147, 112, 219, 0.1);
@@ -573,11 +571,6 @@
 
         .char-option .char-name {
             font-weight: 600;
-        }
-
-        .char-level {
-            color: #b19cd9;
-            font-size: 0.9rem;
         }
 
         .no-chars {
@@ -732,18 +725,24 @@
                         <h4>Select Character</h4>
                         @php
                             $api = new \hrace009\PerfectWorldAPI\API;
-                            $roles = $api->getRoles(Auth::user()->ID) ?? [];
                         @endphp
                         
-                        @if(count($roles) > 0)
-                            @foreach($roles as $role)
-                                <a href="{{ route('character.select', $role['id']) }}" class="char-option">
-                                    <span class="char-name">{{ $role['name'] }}</span>
-                                    <span class="char-level">Lv. {{ $role['level'] }}</span>
-                                </a>
-                            @endforeach
+                        @if($api->online)
+                            @php
+                                $roles = Auth::user()->roles();
+                            @endphp
+                            
+                            @if(count($roles) > 0)
+                                @foreach($roles as $role)
+                                    <a href="{{ url('character/select/' . $role['id']) }}" class="char-option">
+                                        <span class="char-name">{{ $role['name'] }}</span>
+                                    </a>
+                                @endforeach
+                            @else
+                                <p class="no-chars">No characters found</p>
+                            @endif
                         @else
-                            <p class="no-chars">No characters found</p>
+                            <p class="no-chars">Server is offline</p>
                         @endif
                     </div>
                 </div>

@@ -2,6 +2,15 @@
 
 All notable changes to Haven Perfect World Panel will be documented in this file.
 
+## [v2.1.72] - 2025-01-11
+
+### Fixed
+- Fixed "Undefined array key 'id'" error in character selection
+- Now uses the same User->roles() method as the dashboard
+- Removed non-existent 'level' field from character display
+- Added server online check before fetching characters
+- Character selection now matches exact dashboard implementation
+
 ## [v2.1.71] - 2025-01-11
 
 ### Added
