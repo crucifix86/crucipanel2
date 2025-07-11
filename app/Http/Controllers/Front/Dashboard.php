@@ -16,6 +16,6 @@ class Dashboard extends Controller
 {
     public function getIndex()
     {
-        return view('front.dashboard-mystical');
+        return view('front.dashboard');
     }
 }
