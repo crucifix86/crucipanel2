@@ -215,6 +215,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 1000;
         }
 
         .header-title {
@@ -309,6 +311,8 @@
             flex: 1;
             padding: 40px;
             overflow-y: auto;
+            position: relative;
+            z-index: 1;
         }
 
         .content-grid {
@@ -328,6 +332,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
         .welcome-section::before {
