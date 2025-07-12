@@ -338,6 +338,7 @@
             font-size: 0.9rem;
             text-transform: none !important;
             font-variant: normal !important;
+            font-family: Arial, 'Helvetica Neue', sans-serif !important;
         }
         
         .no-discord-list {
@@ -423,6 +424,7 @@
             margin-top: 10px;
             text-transform: none !important;
             font-variant: normal !important;
+            font-family: Arial, 'Helvetica Neue', sans-serif !important;
         }
 
         .discord-icon {
@@ -976,12 +978,12 @@
                     @endphp
                     @if(count($gmCharacters) > 0)
                         <div style="margin: 10px 0;">
-                            <button onclick="toggleCharacters('gm-chars-{{ $gm->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 10px; padding: 8px 15px; color: #e6d7f0; cursor: pointer; font-size: 0.9rem; font-weight: 600;">
+                            <button onclick="toggleCharacters('gm-chars-{{ $gm->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 10px; padding: 8px 15px; color: #e6d7f0; cursor: pointer; font-size: 0.9rem; font-weight: 600; font-family: Arial, sans-serif;">
                                 {{ count($gmCharacters) }} Characters ▼
                             </button>
                             <div id="gm-chars-{{ $gm->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.8); border-radius: 10px; padding: 10px; text-align: left;">
                                 @foreach($gmCharacters as $character)
-                                    <div style="padding: 5px 0; color: #b19cd9; font-size: 0.9rem; font-weight: 500;">
+                                    <div style="padding: 5px 0; color: #b19cd9; font-size: 0.9rem; font-weight: 500; font-family: Arial, sans-serif; text-transform: none;">
                                         {{ $character['name'] ?? 'Unknown' }}
                                     </div>
                                 @endforeach
@@ -1048,12 +1050,12 @@
                                     @endphp
                                     @if(count($characters) > 0)
                                         <div class="character-dropdown">
-                                            <button onclick="toggleCharacters('chars-{{ $member->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 5px; padding: 5px 10px; color: #e6d7f0; cursor: pointer; font-size: 0.85rem;">
+                                            <button onclick="toggleCharacters('chars-{{ $member->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 5px; padding: 5px 10px; color: #e6d7f0; cursor: pointer; font-size: 0.85rem; font-family: Arial, sans-serif;">
                                                 {{ count($characters) }} Characters ▼
                                             </button>
                                             <div id="chars-{{ $member->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.6); border-radius: 5px; padding: 10px;">
                                                 @foreach($characters as $character)
-                                                    <div style="padding: 3px 0; color: #b19cd9; font-size: 0.85rem;">
+                                                    <div style="padding: 3px 0; color: #b19cd9; font-size: 0.85rem; font-family: Arial, sans-serif; text-transform: none;">
                                                         {{ $character['name'] ?? 'Unknown' }}
                                                     </div>
                                                 @endforeach
