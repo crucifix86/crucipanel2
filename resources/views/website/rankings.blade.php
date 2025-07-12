@@ -177,26 +177,12 @@
             z-index: 10;
         }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
         .nav-links {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 30px;
             flex-wrap: wrap;
-        }
-
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
         .nav-link {
@@ -877,41 +863,42 @@
         </div>
 
         <nav class="nav-bar">
-            <div class="nav-container">
-                <div class="nav-links">
-                    <a href="{{ route('HOME') }}" class="nav-link {{ request()->routeIs('HOME') ? 'active' : '' }}">Home</a>
-                    <a href="{{ route('public.shop') }}" class="nav-link {{ request()->routeIs('public.shop') ? 'active' : '' }}">Shop</a>
-                    <a href="{{ route('public.donate') }}" class="nav-link {{ request()->routeIs('public.donate') ? 'active' : '' }}">Donate</a>
-                    <a href="{{ route('public.rankings') }}" class="nav-link {{ request()->routeIs('public.rankings') ? 'active' : '' }}">Rankings</a>
-                    <a href="{{ route('public.vote') }}" class="nav-link {{ request()->routeIs('public.vote') ? 'active' : '' }}">Vote</a>
-                    
-                    @php
-                        $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
-                    @endphp
-                    @if($pages->count() > 0)
-                        <div class="nav-dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                                Pages <span class="dropdown-arrow">▼</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                @foreach($pages as $page)
-                                    <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-                    
-                    <a href="{{ route('public.members') }}" class="nav-link {{ request()->routeIs('public.members') ? 'active' : '' }}">Members</a>
-                </div>
+            <div class="nav-links">
+                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
                 
-                <div class="user-section">
-                    @auth
-                        <x-hrace009::user-avatar/>
-                    @else
-                        <a href="{{ route('login') }}" class="nav-link">Login</a>
-                        <a href="{{ route('register') }}" class="nav-link">Register</a>
-                    @endauth
-                </div>
+                @if( config('pw-config.system.apps.shop') )
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.donate') )
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.ranking') )
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.vote') )
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                @endif
+                
+                @php
+                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
+                @endphp
+                @if($pages->count() > 0)
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
+                            Pages <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach($pages as $page)
+                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
             </div>
         </nav>
 
