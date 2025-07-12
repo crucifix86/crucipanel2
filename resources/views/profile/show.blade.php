@@ -538,6 +538,21 @@
             text-shadow: 0 0 10px rgba(147, 112, 219, 0.6) !important;
         }
         
+        /* Fix avatar upload section */
+        .col-span-6.sm\\:col-span-4:has(img[alt]) {
+            max-width: fit-content !important;
+        }
+        
+        /* Success message styling */
+        .text-green-600 {
+            background: rgba(34, 197, 94, 0.1) !important;
+            border: 1px solid rgba(34, 197, 94, 0.3) !important;
+            padding: 8px 16px !important;
+            border-radius: 8px !important;
+            color: #86efac !important;
+            display: inline-block !important;
+        }
+        
         /* Footer */
         .footer {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
@@ -668,6 +683,27 @@
 
         // Initialize particles
         createParticles();
+        
+        // Listen for Livewire saved event and refresh page
+        document.addEventListener('DOMContentLoaded', function () {
+            // For Livewire v2
+            if (typeof Livewire !== 'undefined') {
+                Livewire.on('saved', () => {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
+                });
+            }
+            
+            // For Livewire v3
+            document.addEventListener('livewire:initialized', () => {
+                Livewire.on('saved', () => {
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 2000);
+                });
+            });
+        });
     </script>
     
     <x-hrace009::front.bottom-script/>
