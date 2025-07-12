@@ -9,9 +9,19 @@
     <x-slot name="content">
         <div class="max-w-sm mx-auto mt-6 rounded-md dark:bg-darker bg-white p-4">
             <x-hrace009::admin.validation-error/>
+            
+            <!-- Debug: Page loaded at -->
+            <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                Page loaded: {{ now()->format('H:i:s') }}
+            </div>
+            
             @if(session('success'))
                 <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded relative mb-4" role="alert">
                     <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @else
+                <div class="bg-yellow-100 dark:bg-yellow-900 border border-yellow-400 dark:border-yellow-600 text-yellow-700 dark:text-yellow-300 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">No success message in session</span>
                 </div>
             @endif
             <form method="post" action="{{ route('admin.settings.post') }}" enctype="multipart/form-data">

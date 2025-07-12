@@ -212,6 +212,9 @@ class SystemController extends Controller
      */
     public function saveSettings(Request $request): RedirectResponse
     {
+        // Log to see if we're even reaching this method
+        \Log::info('SystemController::saveSettings called');
+        
         $validate = $request->validate([
             'server_name' => 'required|string',
             'discord' => 'required|string',
@@ -246,6 +249,9 @@ class SystemController extends Controller
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
-        return redirect()->back()->with('success', __('admin.configSaved'));
+        // Add timestamp to prove the message is fresh
+        $message = __('admin.configSaved') . ' - ' . now()->format('H:i:s');
+        
+        return redirect()->back()->with('success', $message);
     }
 }
