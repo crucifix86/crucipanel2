@@ -322,6 +322,14 @@ class UpdateController extends Controller
         if (function_exists('opcache_reset')) {
             opcache_reset();
         }
+        
+        // Clean up old backups (keep only the last 2)
+        try {
+            Artisan::call('backup:cleanup', ['--keep' => 2]);
+            \Log::info('Backup cleanup completed after update');
+        } catch (\Exception $e) {
+            \Log::warning('Failed to run backup cleanup: ' . $e->getMessage());
+        }
     }
     
     /**
