@@ -574,12 +574,6 @@
                 </li>
                 @endif
                 
-                <li class="nav-item">
-                    <a href="{{ route('HOME') }}" class="nav-link">
-                        <span class="nav-icon">🌐</span>
-                        Website
-                    </a>
-                </li>
             </ul>
         </aside>
         
