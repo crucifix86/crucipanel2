@@ -921,51 +921,52 @@
         @endif
     </div>
     
-    <div class="container">
-        <!-- Login/User Box -->
-        <div class="login-box-wrapper">
-            <div class="login-box collapsed" id="loginBox">
-                <div class="login-box-header" onclick="toggleLoginBox()">
-                    <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
-                    <button class="collapse-toggle">▼</button>
-                </div>
-                <div class="login-box-content">
-                    @if(Auth::check())
-                        <div class="user-info">
-                            <h3>Welcome Back!</h3>
-                            <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
-                            <div class="user-links">
-                                <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
-                                <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
-                                @if(Auth::user()->isAdministrator())
-                                <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
-                                @endif
-                                @if(Auth::user()->isGamemaster())
-                                <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
-                                @endif
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="login-button">Logout</button>
-                                </form>
-                            </div>
+    <!-- Login/User Box -->
+    <div class="login-box-wrapper">
+        <div class="login-box collapsed" id="loginBox">
+            <div class="login-box-header" onclick="toggleLoginBox()">
+                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="login-box-content">
+                @if(Auth::check())
+                    <div class="user-info">
+                        <h3>Welcome Back!</h3>
+                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                        <div class="user-links">
+                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            @if(Auth::user()->isAdministrator())
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            @endif
+                            @if(Auth::user()->isGamemaster())
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="login-button">Logout</button>
+                            </form>
                         </div>
-                    @else
-                        <h3>Member Login</h3>
-                        <form method="POST" action="{{ route('login') }}" class="login-form">
-                            @csrf
-                            <input type="text" name="name" placeholder="Username" required autofocus>
-                            <input type="password" name="password" placeholder="Password" required>
-                            <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                            <button type="submit" class="login-button">Login</button>
-                        </form>
-                        <div class="login-links">
-                            <a href="{{ route('register') }}">Register</a>
-                            <a href="{{ route('password.request') }}">Forgot?</a>
-                        </div>
-                    @endif
-                </div>
+                    </div>
+                @else
+                    <h3>Member Login</h3>
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Username" required autofocus>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">Login</button>
+                    </form>
+                    <div class="login-links">
+                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('password.request') }}">Forgot?</a>
+                    </div>
+                @endif
             </div>
         </div>
+    </div>
+    
+    <div class="container">
         
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
