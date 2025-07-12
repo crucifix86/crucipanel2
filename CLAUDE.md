@@ -106,6 +106,47 @@ When making releases, ALWAYS follow these steps in order:
 - Always use existing model methods (e.g., Player::subtype(), Faction::subtype())
 - Maintain the mystical purple theme across all pages
 
+## Important Fix Needed - Admin Panel Success Messages (v2.1.128)
+### Problem Identified
+- Session flash messages aren't working properly after saving settings
+- This is likely due to config cache clearing affecting sessions
+- Affects ALL admin panel save operations (not just system settings)
+
+### Solution That Works
+- Use URL query parameter (?saved=1) instead of session flash
+- Display inline success message (green box with readable colors)
+- Add simple JavaScript to refresh page after 2 seconds
+- This pattern needs to be applied to ALL admin controllers
+
+### Controllers That Need This Fix
+- DonateController (payment settings)
+- NewsController (news settings)
+- ChatController (chat settings)
+- RankingController (ranking settings)
+- ServiceController (service settings)
+- ShopController (shop settings)
+- VoteController (vote settings)
+- Any other admin controllers with save operations
+
+### Implementation Pattern
+```php
+// In controller:
+return redirect()->back()->withInput()->with('saved', '1')
+    ->setTargetUrl(url()->previous() . '?saved=1');
+
+// In view:
+@if(request()->get('saved') == 1)
+    <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
+        <span class="block sm:inline">✓ {{ __('admin.configSaved') }}</span>
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = window.location.pathname;
+        }, 2000);
+    </script>
+@endif
+```
+
 ## Current Status (v2.1.75)
 ### Traditional Theme Pages Completed
 1. **Shop** - Has categories, character selection, balance display, purchase buttons
