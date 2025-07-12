@@ -524,6 +524,23 @@
                     <div class="member-info">
                         Member since {{ $gm->created_at->format('M Y') }}
                     </div>
+                    @php
+                        $gmCharacters = $gm->roles();
+                    @endphp
+                    @if(count($gmCharacters) > 0)
+                        <div style="margin: 10px 0;">
+                            <button onclick="toggleCharacters('gm-chars-{{ $gm->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 10px; padding: 8px 15px; color: #e6d7f0; cursor: pointer; font-size: 0.9rem; font-weight: 600;">
+                                {{ count($gmCharacters) }} Characters ▼
+                            </button>
+                            <div id="gm-chars-{{ $gm->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.8); border-radius: 10px; padding: 10px; text-align: left;">
+                                @foreach($gmCharacters as $character)
+                                    <div style="padding: 5px 0; color: #b19cd9; font-size: 0.9rem; font-weight: 500;">
+                                        {{ $character['name'] }} (Lv.{{ $character['level'] }})
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                     @if($gm->discord_id)
                         <div class="discord-info">
                             <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor">
