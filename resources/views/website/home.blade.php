@@ -835,6 +835,78 @@
             100% { text-shadow: 0 0 40px rgba(147, 112, 219, 1), 0 0 60px rgba(138, 43, 226, 0.8); }
         }
 
+        /* Server Status */
+        .server-status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 15px;
+            padding: 15px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-indicator.online .status-dot {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+        
+        .status-indicator.offline .status-dot {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        .status-text {
+            color: #e6d7f0;
+            font-size: 1.1rem;
+        }
+        
+        .players-online {
+            color: #b19cd9;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .players-online i {
+            color: #9370db;
+        }
+        
+        @media (max-width: 768px) {
+            .server-status {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin: 10px;
+                margin-bottom: 20px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -843,6 +915,23 @@
     
     <div class="dragon-ornament dragon-left">🐉</div>
     <div class="dragon-ornament dragon-right">🐉</div>
+    
+    <!-- Server Status -->
+    @php
+        $api = new \App\Models\Pwapi();
+        $onlineCount = $api->online ? ($api->getUsercount() + config('pw-config.fakeonline', 0)) : 0;
+    @endphp
+    <div class="server-status">
+        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
+            <span class="status-dot"></span>
+            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+        </div>
+        @if($api->online)
+            <div class="players-online">
+                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+            </div>
+        @endif
+    </div>
     
     <div class="container">
         <!-- Login/User Box -->
