@@ -159,8 +159,8 @@
         /* Login Box Container */
         .login-box-wrapper {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 130px;  /* Position below server status with gap */
+            left: 20px;
             z-index: 100;
             width: 280px;
         }
@@ -847,6 +847,7 @@
             border-radius: 15px;
             padding: 15px 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 280px;  /* Match login box width */
         }
         
         .status-indicator {
@@ -917,7 +918,7 @@
             
             .login-box-wrapper {
                 position: fixed;
-                top: 60px;  /* Move down to avoid overlap with server status */
+                top: 120px;  /* Position below server status on mobile too */
                 left: 10px;
                 right: 10px;
                 width: auto;
