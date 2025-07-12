@@ -15,10 +15,10 @@
                     <span class="block sm:inline">✓ {{ __('admin.configSaved') }}</span>
                 </div>
                 <script>
-                    // Simple page refresh after 2 seconds
+                    // Simple page refresh after 5 seconds
                     setTimeout(function() {
                         window.location.href = window.location.pathname;
-                    }, 2000);
+                    }, 5000);
                 </script>
             @endif
             <form method="post" action="{{ route('admin.settings.post') }}" enctype="multipart/form-data">
