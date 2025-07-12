@@ -211,7 +211,7 @@
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
             backdrop-filter: blur(20px);
             border-bottom: 2px solid rgba(147, 112, 219, 0.3);
-            padding: 20px 60px 20px 40px; /* More padding on right to move content left */
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -303,40 +303,15 @@
         .user-avatar {
             width: 40px;
             height: 40px;
-        }
-        
-        /* Style the actual avatar image */
-        .user-avatar img {
-            width: 40px;
-            height: 40px;
             border-radius: 50%;
             border: 2px solid #9370db;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .user-avatar img:hover {
+        .user-avatar:hover {
             border-color: #8a2be2;
             box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
-        }
-        
-        /* Style avatar button when no image */
-        .user-avatar button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
-            border: 1px solid rgba(147, 112, 219, 0.4);
-            border-radius: 25px;
-            padding: 8px 15px;
-            color: #e6d7f0;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .user-avatar button:hover {
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
-            border-color: #9370db;
         }
         
         /* Dropdown Menu Styling */
