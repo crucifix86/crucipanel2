@@ -575,36 +575,10 @@
                 @endif
                 
                 <li class="nav-item">
-                    <a href="{{ route('profile.show') }}" class="nav-link {{ Route::is('profile.*') ? 'active' : '' }}">
-                        <span class="nav-icon">👤</span>
-                        Profile
-                    </a>
-                </li>
-                
-                @if(Auth::user()->isAdministrator())
-                <li class="nav-item">
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link">
-                        <span class="nav-icon">⚙️</span>
-                        Admin Panel
-                    </a>
-                </li>
-                @endif
-                
-                <li class="nav-item">
                     <a href="{{ route('HOME') }}" class="nav-link">
                         <span class="nav-icon">🌐</span>
                         Website
                     </a>
-                </li>
-                
-                <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
-                        @csrf
-                        <button type="submit" class="nav-link" style="width: 100%; border: none; background: none; cursor: pointer; text-align: left;">
-                            <span class="nav-icon">🚪</span>
-                            Logout
-                        </button>
-                    </form>
                 </li>
             </ul>
         </aside>
