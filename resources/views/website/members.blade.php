@@ -98,41 +98,41 @@
 
         .container {
             position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            z-index: 3;
+            max-width: 1000px;
+            margin-left: 260px;
+            margin-right: auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
         }
 
         .nav-bar {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(147, 112, 219, 0.3);
-            padding: 20px 40px;
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 20px;
+            padding: 15px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             position: relative;
-            z-index: 100;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
+            z-index: 10;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .nav-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
             align-items: center;
+            gap: 20px;
             flex-wrap: wrap;
-        }
-        
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
         .nav-link {
@@ -410,11 +410,343 @@
         }
 
         .footer {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
+            padding: 40px 0;
             border-top: 2px solid rgba(147, 112, 219, 0.3);
-            padding: 30px 40px;
+            margin-top: 60px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
+            border-radius: 20px;
+        }
+
+        .footer-left {
+            text-align: left;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .footer-center {
+            text-align: center;
+        }
+
+        .footer-right {
+            text-align: right;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        .footer-text {
+            font-size: 1.1rem;
+            color: #b19cd9;
+            margin-bottom: 20px;
+        }
+
+        /* Server Status */
+        .server-status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 220px;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-indicator.online .status-dot {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+        
+        .status-indicator.offline .status-dot {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        .status-text {
+            color: #e6d7f0;
+            font-size: 0.95rem;
+        }
+        
+        .players-online {
+            color: #b19cd9;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .players-online i {
+            color: #9370db;
+            font-size: 0.9rem;
+        }
+        
+        /* Login Box Container */
+        .login-box-wrapper {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 9998;
+            width: 220px;
+        }
+        
+        /* Login Box */
+        .login-box {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .login-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(147, 112, 219, 0.3);
+            cursor: pointer;
+        }
+        
+        .login-box-header h3 {
+            margin: 0;
+            color: #9370db;
+            font-size: 1rem;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+        
+        .collapse-toggle {
+            background: none;
+            border: none;
+            color: #b19cd9;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 3px;
+        }
+        
+        .collapse-toggle:hover {
+            color: #9370db;
+        }
+        
+        .login-box.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .login-box-content {
+            padding: 15px;
+            max-height: 300px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .login-box.collapsed .login-box-content {
+            max-height: 0;
+            padding: 0 15px;
+        }
+
+        .login-box-content h3 {
+            color: #9370db;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 112, 219, 0.5);
+            border-radius: 8px;
+            color: #e6d7f0;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-form input::placeholder {
+            color: rgba(177, 156, 217, 0.7);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #9370db;
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+        }
+
+        .login-button {
+            width: 100%;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
+        }
+
+        .login-links {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login-links a {
+            color: #b19cd9;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin: 0 8px;
+            transition: color 0.3s ease;
+        }
+
+        .login-links a:hover {
+            color: #dda0dd;
+            text-decoration: underline;
+        }
+
+        .user-info {
             text-align: center;
             color: #b19cd9;
+        }
+
+        .user-name {
+            font-size: 0.95rem;
+            color: #9370db;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .user-links {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .user-link {
+            background: rgba(147, 112, 219, 0.2);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            color: #e6d7f0;
+            padding: 6px 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .user-link:hover {
+            background: rgba(147, 112, 219, 0.3);
+            border-color: #9370db;
+            transform: translateY(-2px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #9370db, #8a2be2, #9370db, #4b0082);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            text-shadow: 0 0 50px rgba(147, 112, 219, 0.8);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            font-size: 1.4rem;
+            color: #b19cd9;
+            margin-bottom: 30px;
+            font-style: italic;
+            text-shadow: 0 0 15px rgba(177, 156, 217, 0.5);
+        }
+
+        .mystical-border {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%;
+            height: 150%;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #9370db, transparent, #4b0082, transparent);
+            background-size: 300% 300%;
+            animation: rotateBorder 8s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* Header Alignment Classes */
+        .header-left {
+            text-align: left;
+            padding-left: 40px;
+        }
+        
+        .header-center {
+            text-align: center;
+        }
+        
+        .header-right {
+            text-align: right;
+            padding-right: 40px;
         }
 
         /* Responsive */
@@ -468,14 +800,108 @@
     <div class="dragon-ornament dragon-left">🐉</div>
     <div class="dragon-ornament dragon-right">🐉</div>
     
-    <nav class="nav-bar">
-        <div class="nav-container">
+    @php
+        $api = new \hrace009\PerfectWorldAPI\API();
+        $point = new \App\Models\Point();
+        $onlinePlayer = $point->getOnlinePlayer();
+        $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
+    @endphp
+    
+    <!-- Server Status -->
+    <div class="server-status">
+        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
+            <span class="status-dot"></span>
+            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+        </div>
+        @if($api->online)
+            <div class="players-online">
+                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+            </div>
+        @endif
+    </div>
+    
+    <!-- Login/User Box -->
+    <div class="login-box-wrapper">
+        <div class="login-box collapsed" id="loginBox">
+            <div class="login-box-header" onclick="toggleLoginBox()">
+                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="login-box-content">
+                @if(Auth::check())
+                    <div class="user-info">
+                        <h3>Welcome Back!</h3>
+                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                        <div class="user-links">
+                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            @if(Auth::user()->isAdministrator())
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            @endif
+                            @if(Auth::user()->isGamemaster())
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="login-button">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <h3>Member Login</h3>
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Username" required autofocus>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">Login</button>
+                    </form>
+                    <div class="login-links">
+                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('password.request') }}">Forgot?</a>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        
+        @php
+            $headerSettings = \App\Models\HeaderSetting::first();
+            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
+    <h1 class="logo">Haven Perfect World</h1>
+    <p class="tagline">Embark on the Path of Immortals</p>
+</div>';
+            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
+        @endphp
+        
+        <div class="header header-{{ $headerAlignment }}">
+            <div class="mystical-border"></div>
+            <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
+                {!! $headerContent !!}
+            </a>
+        </div>
+
+        <nav class="nav-bar">
             <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link">Home</a>
-                <a href="{{ route('public.shop') }}" class="nav-link">Shop</a>
-                <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
-                <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
-                <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
+                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
+                
+                @if( config('pw-config.system.apps.shop') )
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.donate') )
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.ranking') )
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.vote') )
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                @endif
                 
                 @php
                     $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
@@ -493,21 +919,11 @@
                     </div>
                 @endif
                 
-                <a href="{{ route('public.members') }}" class="nav-link active">Members</a>
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
             </div>
-            
-            <div class="user-section">
-                @auth
-                    <x-hrace009::user-avatar/>
-                @else
-                    <a href="{{ route('login') }}" class="nav-link">Login</a>
-                    <a href="{{ route('register') }}" class="nav-link">Register</a>
-                @endauth
-            </div>
-        </div>
-    </nav>
-    
-    <div class="container content-section">
+        </nav>
+        
+        <div class="content-section">
         <h1 class="page-title">Community Members</h1>
         
         @if(count($gms) > 0)
@@ -654,12 +1070,17 @@
                 @endif
             </div>
         </div>
+        @php
+            $footerSettings = \App\Models\FooterSetting::first();
+            $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Begin your journey through the realms of endless cultivation</p>';
+            $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
+            $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
+        @endphp
+        <div class="footer footer-{{ $footerAlignment }}">
+            {!! $footerContent !!}
+            <p class="footer-text">{!! $footerCopyright !!}</p>
+        </div>
     </div>
-    
-    <!-- Footer -->
-    <footer class="footer">
-        <x-hrace009::footer/>
-    </footer>
     
     <script>
         // Create floating particles
@@ -695,6 +1116,53 @@
             } else {
                 element.style.display = 'none';
             }
+        }
+        
+        // Login box collapse functionality
+        function toggleLoginBox() {
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = loginBox.classList.contains('collapsed');
+            localStorage.setItem('loginBoxCollapsed', isCollapsed);
+        }
+
+        // Restore login box state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBox = document.getElementById('loginBox');
+            const savedState = localStorage.getItem('loginBoxCollapsed');
+            
+            // If user has never interacted with it, keep it collapsed (default)
+            // If user has explicitly expanded it, respect their choice
+            if (savedState === 'false') {
+                loginBox.classList.remove('collapsed');
+            }
+            // Otherwise it stays collapsed (default state or explicitly collapsed)
+        });
+
+        // Handle dropdown clicks
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.nav-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+        
+        // Simple PIN check
+        const usernameInput = document.querySelector('input[name="name"]');
+        const pinField = document.getElementById('pin-field');
+        
+        if (usernameInput) {
+            usernameInput.addEventListener('blur', function() {
+                if (this.value.length > 2) {
+                    // For simplicity, show PIN field for all users
+                    // In production, you'd check via API
+                    pinField.style.display = 'block';
+                }
+            });
         }
     </script>
     @livewireScripts
