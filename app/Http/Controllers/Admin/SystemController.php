@@ -246,6 +246,10 @@ class SystemController extends Controller
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
-        return redirect()->back()->with('success', __('admin.configSaved'));
+        // Set flash message and save session
+        session()->flash('success', __('admin.configSaved'));
+        session()->save();
+        
+        return redirect()->back();
     }
 }

@@ -230,5 +230,6 @@
 </x-hrace009::front.big-frame>
 @yield('footer')
 <x-hrace009::front.bottom-script/>
+<x-hrace009::flash-message/>
 </body>
 </html>
