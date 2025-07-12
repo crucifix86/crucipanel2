@@ -112,6 +112,14 @@
             position: relative;
             z-index: 100;
         }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
         .nav-links {
             display: flex;
@@ -119,6 +127,16 @@
             gap: 30px;
             align-items: center;
             flex-wrap: wrap;
+        }
+        
+        .user-avatar-nav {
+            position: relative;
+        }
+        
+        .auth-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
         }
 
         .nav-link {
@@ -291,6 +309,8 @@
             gap: 8px;
             color: #7289da;
             font-size: 0.9rem;
+            text-transform: none !important;
+            font-variant: normal !important;
         }
         
         .no-discord-list {
@@ -374,6 +394,8 @@
             color: #7289da;
             font-size: 0.95rem;
             margin-top: 10px;
+            text-transform: none !important;
+            font-variant: normal !important;
         }
 
         .discord-icon {
@@ -444,30 +466,43 @@
     <div class="dragon-ornament dragon-right">🐉</div>
     
     <nav class="nav-bar">
-        <div class="nav-links">
-            <a href="{{ route('HOME') }}" class="nav-link">Home</a>
-            <a href="{{ route('public.shop') }}" class="nav-link">Shop</a>
-            <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
-            <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
-            <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
-            
-            @php
-                $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
-            @endphp
-            @if($pages->count() > 0)
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                        Pages <span class="dropdown-arrow">▼</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        @foreach($pages as $page)
-                            <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
-                        @endforeach
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="{{ route('HOME') }}" class="nav-link">Home</a>
+                <a href="{{ route('public.shop') }}" class="nav-link">Shop</a>
+                <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
+                <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
+                
+                @php
+                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
+                @endphp
+                @if($pages->count() > 0)
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
+                            Pages <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach($pages as $page)
+                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
-            @endif
+                @endif
+                
+                <a href="{{ route('public.members') }}" class="nav-link active">Members</a>
+            </div>
             
-            <a href="{{ route('public.members') }}" class="nav-link active">Members</a>
+            @auth
+                <div class="user-avatar-nav">
+                    <x-hrace009::user-avatar/>
+                </div>
+            @else
+                <div class="auth-links">
+                    <a href="{{ route('login') }}" class="nav-link">Login</a>
+                    <a href="{{ route('register') }}" class="nav-link">Register</a>
+                </div>
+            @endauth
         </div>
     </nav>
     
