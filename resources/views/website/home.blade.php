@@ -918,8 +918,10 @@
     
     <!-- Server Status -->
     @php
-        $api = new \App\Models\Pwapi();
-        $onlineCount = $api->online ? ($api->getUsercount() + config('pw-config.fakeonline', 0)) : 0;
+        $api = new \hrace009\PerfectWorldAPI\API();
+        $point = new \App\Models\Point();
+        $onlinePlayer = $point->getOnlinePlayer();
+        $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
     @endphp
     <div class="server-status">
         <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
