@@ -116,7 +116,7 @@
         /* Sidebar */
         .sidebar {
             width: 280px;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(75, 0, 130, 0.2));
             backdrop-filter: blur(20px);
             border-right: 2px solid rgba(147, 112, 219, 0.4);
             padding: 20px;
@@ -159,7 +159,7 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: #b19cd9;
+            color: #e6d7f0;
             text-decoration: none;
             border-radius: 15px;
             transition: all 0.3s ease;
@@ -269,6 +269,27 @@
             border-color: #8a2be2;
             box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
         }
+        
+        /* Dropdown Menu Styling */
+        [x-cloak] { display: none !important; }
+        
+        /* Override dropdown styles for purple theme */
+        .bg-white.dark\\:bg-dark {
+            background: linear-gradient(135deg, rgba(26, 15, 46, 0.95), rgba(75, 0, 130, 0.9)) !important;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+        }
+        
+        /* Dropdown links */
+        .bg-white.dark\\:bg-dark a {
+            color: #e6d7f0 !important;
+            transition: all 0.3s ease;
+        }
+        
+        .bg-white.dark\\:bg-dark a:hover {
+            background: rgba(147, 112, 219, 0.2) !important;
+            color: #fff !important;
+        }
 
         /* Content Area */
         .content {
@@ -331,12 +352,13 @@
 
         /* News Section */
         .news-section {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
+            background: linear-gradient(135deg, rgba(26, 15, 46, 0.6), rgba(75, 0, 130, 0.2));
             backdrop-filter: blur(15px);
             border: 2px solid rgba(147, 112, 219, 0.3);
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
+            color: #e6d7f0;
         }
 
         .section-title {
@@ -344,6 +366,22 @@
             color: #9370db;
             margin-bottom: 25px;
             text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        }
+        
+        .news-section a {
+            color: #b19cd9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .news-section a:hover {
+            color: #9370db;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+        }
+        
+        .news-section p,
+        .news-section div {
+            color: #e6d7f0;
         }
 
         /* Widget Area */
