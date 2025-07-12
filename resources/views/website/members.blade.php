@@ -129,14 +129,10 @@
             flex-wrap: wrap;
         }
         
-        .user-avatar-nav {
-            position: relative;
-        }
-        
-        .auth-links {
+        .user-section {
             display: flex;
-            gap: 20px;
             align-items: center;
+            gap: 15px;
         }
 
         .nav-link {
@@ -457,6 +453,8 @@
             }
         }
     </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body>
     <div class="mystical-bg"></div>
@@ -493,16 +491,14 @@
                 <a href="{{ route('public.members') }}" class="nav-link active">Members</a>
             </div>
             
-            @auth
-                <div class="user-avatar-nav">
+            <div class="user-section">
+                @auth
                     <x-hrace009::user-avatar/>
-                </div>
-            @else
-                <div class="auth-links">
+                @else
                     <a href="{{ route('login') }}" class="nav-link">Login</a>
                     <a href="{{ route('register') }}" class="nav-link">Register</a>
-                </div>
-            @endauth
+                @endauth
+            </div>
         </div>
     </nav>
     
@@ -627,5 +623,6 @@
         // Initialize particles
         createParticles();
     </script>
+    @livewireScripts
 </body>
 </html>
