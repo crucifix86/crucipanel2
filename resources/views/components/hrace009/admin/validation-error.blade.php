@@ -1,4 +1,4 @@
-@if ($errors->any())
+@if (isset($errors) && $errors->any())
     <script type="text/javascript">
         function showMessageValidationError() {
             const Toast = Swal.mixin({
