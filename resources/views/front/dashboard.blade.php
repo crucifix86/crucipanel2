@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('general.menu.dashboard') }}</title>
+    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - Dashboard</title>
     
     @if( ! config('pw-config.logo') )
         <link rel="shortcut icon" href="{{ asset('img/logo/logo.png') }}"/>
@@ -409,6 +409,10 @@
     </style>
     
     <x-hrace009::front.top-script/>
+    
+    <!-- Alpine.js and Livewire for components -->
+    @livewireStyles
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body>
     <div class="mystical-bg"></div>
@@ -431,7 +435,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.dashboard') }}" class="nav-link {{ Route::is('app.dashboard') ? 'active' : '' }}">
                         <span class="nav-icon">🏠</span>
-                        {{ __('general.menu.dashboard') }}
+                        Dashboard
                     </a>
                 </li>
                 
@@ -439,7 +443,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.shop.index') }}" class="nav-link {{ Route::is('app.shop.*') ? 'active' : '' }}">
                         <span class="nav-icon">🛒</span>
-                        {{ __('general.menu.shop') }}
+                        Shop
                     </a>
                 </li>
                 @endif
@@ -448,7 +452,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.donate.history') }}" class="nav-link {{ Route::is('app.donate.*') ? 'active' : '' }}">
                         <span class="nav-icon">💎</span>
-                        {{ __('general.menu.donate') }}
+                        Donate
                     </a>
                 </li>
                 @endif
@@ -457,7 +461,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.vote.index') }}" class="nav-link {{ Route::is('app.vote.*') ? 'active' : '' }}">
                         <span class="nav-icon">⭐</span>
-                        {{ __('general.menu.vote') }}
+                        Vote
                     </a>
                 </li>
                 @endif
@@ -466,7 +470,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.voucher.index') }}" class="nav-link {{ Route::is('app.voucher.*') ? 'active' : '' }}">
                         <span class="nav-icon">🎟️</span>
-                        {{ __('general.menu.voucher') }}
+                        Voucher
                     </a>
                 </li>
                 @endif
@@ -475,7 +479,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.services.index') }}" class="nav-link {{ Route::is('app.services.*') ? 'active' : '' }}">
                         <span class="nav-icon">⚔️</span>
-                        {{ __('service.title') }}
+                        Services
                     </a>
                 </li>
                 @endif
@@ -484,7 +488,7 @@
                 <li class="nav-item">
                     <a href="{{ route('app.ranking.index') }}" class="nav-link {{ Route::is('app.ranking.*') ? 'active' : '' }}">
                         <span class="nav-icon">🏆</span>
-                        {{ __('general.menu.ranking') }}
+                        Rankings
                     </a>
                 </li>
                 @endif
@@ -492,7 +496,7 @@
                 <li class="nav-item">
                     <a href="{{ route('profile.show') }}" class="nav-link {{ Route::is('profile.*') ? 'active' : '' }}">
                         <span class="nav-icon">👤</span>
-                        {{ __('general.menu.profile') }}
+                        Profile
                     </a>
                 </li>
                 
@@ -500,7 +504,7 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">
                         <span class="nav-icon">⚙️</span>
-                        {{ __('general.menu.admin') }}
+                        Admin Panel
                     </a>
                 </li>
                 @endif
@@ -508,7 +512,7 @@
                 <li class="nav-item">
                     <a href="{{ route('HOME') }}" class="nav-link">
                         <span class="nav-icon">🌐</span>
-                        {{ __('general.menu.website') }}
+                        Website
                     </a>
                 </li>
                 
@@ -528,7 +532,7 @@
         <div class="main-content">
             <!-- Header -->
             <header class="header">
-                <h1 class="header-title">{{ __('general.menu.dashboard') }}</h1>
+                <h1 class="header-title">Dashboard</h1>
                 
                 <div class="user-info">
                     <x-hrace009::character-selector/>
@@ -610,5 +614,6 @@
     </script>
     
     <x-hrace009::front.bottom-script/>
+    @livewireScripts
 </body>
 </html>
