@@ -325,24 +325,65 @@
         /* Dropdown Menu Styling */
         [x-cloak] { display: none !important; }
         
-        /* Fix dropdown theme */
-        .absolute.right-0.w-48 {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(147, 112, 219, 0.2)) !important;
-            backdrop-filter: blur(20px) !important;
-            border: 2px solid rgba(147, 112, 219, 0.4) !important;
-            border-radius: 15px !important;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5) !important;
+        /* Force dropdown to appear above everything */
+        .user-info .relative {
+            z-index: 999 !important;
+        }
+        
+        .user-info [x-show] {
+            z-index: 9999 !important;
+            position: absolute !important;
+        }
+        
+        /* Override dropdown styles for purple theme */
+        .bg-white.dark\\:bg-dark {
+            background: linear-gradient(135deg, rgba(26, 15, 46, 0.95), rgba(75, 0, 130, 0.9)) !important;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            z-index: 9999 !important;
         }
         
         /* Dropdown links */
-        .block.px-4.py-2 {
-            color: #e6d7f0 !important;
-            transition: all 0.3s ease !important;
+        .bg-white.dark\\:bg-dark a {
+            color: #d8c8e8 !important;
+            transition: all 0.3s ease;
         }
         
-        .block.px-4.py-2:hover {
+        .bg-white.dark\\:bg-dark a:hover {
             background: rgba(147, 112, 219, 0.2) !important;
-            color: #d8c8e8 !important;
+            color: #e6d7f0 !important;
+        }
+        
+        /* Character selector styling */
+        .character-selector {
+            background: rgba(147, 112, 219, 0.2);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 8px 15px;
+            color: #e6d7f0;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .character-selector-label {
+            color: #b19cd9;
+            font-size: 0.85rem;
+            margin-right: 5px;
+        }
+        
+        .character-selector button {
+            background: transparent !important;
+            border: none !important;
+            color: #e6d7f0 !important;
+            padding: 0 !important;
+        }
+        
+        .character-selector:hover {
+            background: rgba(147, 112, 219, 0.3);
+            border-color: #9370db;
         }
 
         /* Fix icon sizes in forms */
@@ -508,7 +549,10 @@
         </div>
         
         <div class="user-info">
-            <x-hrace009::character-selector/>
+            <div class="character-selector">
+                <span class="character-selector-label">Character:</span>
+                <x-hrace009::character-selector/>
+            </div>
             
             <div class="balance-display">
                 <x-hrace009::balance/>

@@ -266,8 +266,23 @@
             padding: 8px 15px;
             color: #e6d7f0;
             font-size: 0.9rem;
-            cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .character-selector-label {
+            color: #b19cd9;
+            font-size: 0.85rem;
+            margin-right: 5px;
+        }
+        
+        .character-selector button {
+            background: transparent !important;
+            border: none !important;
+            color: #e6d7f0 !important;
+            padding: 0 !important;
         }
 
         .character-selector:hover {
@@ -589,7 +604,10 @@
                 </div>
                 
                 <div class="user-info">
-                    <x-hrace009::character-selector/>
+                    <div class="character-selector">
+                        <span class="character-selector-label">Character:</span>
+                        <x-hrace009::character-selector/>
+                    </div>
                     
                     <div class="balance-display">
                         <x-hrace009::balance/>
