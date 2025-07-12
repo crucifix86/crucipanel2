@@ -6,6 +6,7 @@
     <title>{{ $page->title }} - Haven Perfect World</title>
     <meta name="description" content="{{ $page->meta_description ?: $page->title }}">
     <meta name="keywords" content="{{ $page->meta_keywords ?: $page->title }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -101,10 +102,18 @@
         .container {
             position: relative;
             z-index: 3;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin-left: 260px;
+            margin-right: auto;
             padding: 20px;
             min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
         }
 
         .header {
@@ -135,30 +144,33 @@
 
         /* Login Box Container */
         .login-box-wrapper {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            width: 280px;
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 9998;
+            width: 220px;
+            transform: none;
+            will-change: auto;
         }
         
         /* Login Box */
         .login-box {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(147, 112, 219, 0.4);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
             padding: 0;
-            min-width: 280px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .login-box-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 10px 15px;
             border-bottom: 1px solid rgba(147, 112, 219, 0.3);
             cursor: pointer;
         }
@@ -166,7 +178,7 @@
         .login-box-header h3 {
             margin: 0;
             color: #9370db;
-            font-size: 1.2rem;
+            font-size: 1rem;
             text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
         
@@ -174,10 +186,10 @@
             background: none;
             border: none;
             color: #b19cd9;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: transform 0.3s ease;
-            padding: 5px;
+            padding: 3px;
         }
         
         .collapse-toggle:hover {
@@ -336,6 +348,72 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
+        /* Server Status */
+        .server-status {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 220px;
+            transform: none;
+            will-change: auto;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-indicator.online .status-dot {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+        
+        .status-indicator.offline .status-dot {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        .status-text {
+            color: #e6d7f0;
+            font-size: 0.95rem;
+        }
+        
+        .players-online {
+            color: #b19cd9;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .players-online i {
+            color: #9370db;
+            font-size: 0.9rem;
+        }
+
         /* Navigation Bar */
         .nav-bar {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
@@ -353,14 +431,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
         .nav-link {
             color: #b19cd9;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 30px;
             font-size: 1.1rem;
             font-weight: 600;
@@ -603,12 +681,27 @@
                 font-size: 3rem;
             }
             
+            .server-status {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                z-index: 10000;
+                width: auto;
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            
             .login-box-wrapper {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin: 20px auto;
-                max-width: 90%;
+                position: fixed;
+                top: 60px;
+                left: 10px;
+                width: calc(100% - 20px);
+                max-width: 300px;
+                z-index: 9998;
+            }
+            
+            .login-box {
+                font-size: 0.9rem;
             }
             
             .content-section {
@@ -637,8 +730,27 @@
     <div class="dragon-ornament dragon-left">🐉</div>
     <div class="dragon-ornament dragon-right">🐉</div>
     
-    <div class="container">
-        <!-- Login/User Box -->
+    @php
+        $api = new \hrace009\PerfectWorldAPI\API();
+        $point = new \App\Models\Point();
+        $onlinePlayer = $point->getOnlinePlayer();
+        $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
+    @endphp
+    
+    <!-- Server Status -->
+    <div class="server-status">
+        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
+            <span class="status-dot"></span>
+            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+        </div>
+        @if($api->online)
+            <div class="players-online">
+                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+            </div>
+        @endif
+    </div>
+    
+    <!-- Login/User Box -->
         <div class="login-box-wrapper">
             <div class="login-box collapsed" id="loginBox">
                 <div class="login-box-header" onclick="toggleLoginBox()">
@@ -655,6 +767,9 @@
                                 <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
                                 @if(Auth::user()->isAdministrator())
                                 <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                                @endif
+                                @if(Auth::user()->isGamemaster())
+                                <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
                                 @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -673,13 +788,15 @@
                         </form>
                         <div class="login-links">
                             <a href="{{ route('register') }}">Register</a>
-                            <a href="{{ route('password.request') }}">Forgot Password?</a>
+                            <a href="{{ route('password.request') }}">Forgot?</a>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
-        
+    </div>
+    
+    <div class="container">
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
             $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
