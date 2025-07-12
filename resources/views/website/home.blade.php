@@ -369,7 +369,6 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-    <style>
         /* Navigation Bar */
         .nav-bar {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
