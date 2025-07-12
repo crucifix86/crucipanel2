@@ -142,17 +142,3 @@
         </div>
     </x-slot>
 </x-hrace009.layouts.admin>
-
-@if(request()->get('saved') == 1)
-@push('scripts')
-<script>
-    // Refresh the page after a short delay to ensure config cache is updated
-    setTimeout(function() {
-        // Remove the saved parameter and reload
-        const url = new URL(window.location);
-        url.searchParams.delete('saved');
-        window.location.href = url.toString();
-    }, 2000); // 2 second delay to show the success message
-</script>
-@endpush
-@endif

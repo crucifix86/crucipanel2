@@ -41,6 +41,12 @@ class SystemController extends Controller
      */
     public function getSettings()
     {
+        // Force reload config to get fresh values
+        if (request()->get('saved') == 1) {
+            \Artisan::call('config:clear');
+            \Artisan::call('config:cache');
+        }
+        
         return view('admin.system.settings');
     }
 
