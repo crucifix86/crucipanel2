@@ -535,7 +535,7 @@
                             <div id="gm-chars-{{ $gm->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.8); border-radius: 10px; padding: 10px; text-align: left;">
                                 @foreach($gmCharacters as $character)
                                     <div style="padding: 5px 0; color: #b19cd9; font-size: 0.9rem; font-weight: 500;">
-                                        {{ $character['name'] ?? 'Unknown' }} (Lv.{{ $character['level'] ?? '?' }})
+                                        {{ $character['name'] ?? 'Unknown' }}
                                     </div>
                                 @endforeach
                             </div>
@@ -607,7 +607,7 @@
                                             <div id="chars-{{ $member->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.6); border-radius: 5px; padding: 10px;">
                                                 @foreach($characters as $character)
                                                     <div style="padding: 3px 0; color: #b19cd9; font-size: 0.85rem;">
-                                                        {{ $character['name'] ?? 'Unknown' }} (Lv.{{ $character['level'] ?? '?' }})
+                                                        {{ $character['name'] ?? 'Unknown' }}
                                                     </div>
                                                 @endforeach
                                             </div>
