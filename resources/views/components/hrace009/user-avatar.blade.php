@@ -15,12 +15,25 @@
         @endif
     </x-slot>
     <x-slot name="content">
+        <x-hrace009::drop-down-link href="{{ route('app.dashboard') }}">
+            {{ __('My Dashboard') }}
+        </x-hrace009::drop-down-link>
         <x-hrace009::drop-down-link href="{{ route('profile.show') }}">
             {{ __('general.dashboard.profile.header') }}
         </x-hrace009::drop-down-link>
         <x-hrace009::drop-down-link href="{{ route('app.donate.history') }}">
             {{ __('general.menu.donate.history') }}
         </x-hrace009::drop-down-link>
+        @if(Auth::user()->isAdministrator())
+            <x-hrace009::drop-down-link href="{{ route('admin.dashboard') }}">
+                {{ __('Admin Panel') }}
+            </x-hrace009::drop-down-link>
+        @endif
+        @if(Auth::user()->isGamemaster())
+            <x-hrace009::drop-down-link href="{{ route('gm.dashboard') }}">
+                {{ __('GM Panel') }}
+            </x-hrace009::drop-down-link>
+        @endif
         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
             <x-hrace009::drop-down-link href="{{ route('api-tokens.index') }}">
                 {{ __('API Tokens') }}
