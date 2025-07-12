@@ -101,10 +101,18 @@
         .container {
             position: relative;
             z-index: 3;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin-left: 260px;
+            margin-right: auto;
             padding: 20px;
             min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
         }
 
         .header {
@@ -478,14 +486,14 @@
             }
             
             .server-status {
-                position: fixed !important;
-                top: 10px !important;
-                left: 10px !important;
-                right: 10px !important;
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                right: 10px;
                 width: auto;
                 padding: 10px 15px;
                 font-size: 0.9rem;
-                transform: none !important;
+                transform: none;
             }
             
             .status-text {
@@ -497,13 +505,13 @@
             }
             
             .login-box-wrapper {
-                position: fixed !important;
-                top: 90px !important;
-                left: 10px !important;
-                right: 10px !important;
+                position: fixed;
+                top: 90px;
+                left: 10px;
+                right: 10px;
                 width: auto;
                 max-width: 300px;
-                transform: none !important;
+                transform: none;
             }
             
             .login-box {
@@ -543,10 +551,10 @@
 
         /* Server Status */
         .server-status {
-            position: fixed !important;
-            top: 20px !important;
-            left: 20px !important;
-            z-index: 9999 !important;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
@@ -554,8 +562,8 @@
             padding: 10px 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 220px;
-            transform: none !important;
-            will-change: auto !important;
+            transform: none;
+            will-change: auto;
         }
         
         .status-indicator {
@@ -609,13 +617,13 @@
         
         /* Login Box */
         .login-box-wrapper {
-            position: fixed !important;
-            top: 100px !important;
-            left: 20px !important;
-            z-index: 9998 !important;
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 9998;
             width: 220px;
-            transform: none !important;
-            will-change: auto !important;
+            transform: none;
+            will-change: auto;
         }
         
         .login-box {
