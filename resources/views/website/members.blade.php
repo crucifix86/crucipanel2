@@ -176,6 +176,68 @@
             gap: 30px;
             margin-bottom: 50px;
         }
+        
+        .members-list {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .members-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .members-table th {
+            text-align: left;
+            padding: 15px 10px;
+            border-bottom: 2px solid rgba(147, 112, 219, 0.3);
+            color: #b19cd9;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .members-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid rgba(147, 112, 219, 0.1);
+            color: #e6d7f0;
+        }
+        
+        .members-table tr:hover {
+            background: rgba(147, 112, 219, 0.1);
+        }
+        
+        .member-list-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 10px;
+            border: 2px solid rgba(147, 112, 219, 0.3);
+        }
+        
+        .member-list-name {
+            font-weight: 600;
+            color: #e6d7f0;
+        }
+        
+        .discord-list-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #7289da;
+            font-size: 0.9rem;
+        }
+        
+        .no-discord-list {
+            color: #666;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
 
         .member-card {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
@@ -291,6 +353,26 @@
                 font-size: 1rem;
                 padding: 8px 15px;
             }
+            
+            .members-list {
+                padding: 20px;
+                overflow-x: auto;
+            }
+            
+            .members-table {
+                min-width: 500px;
+            }
+            
+            .members-table th,
+            .members-table td {
+                padding: 10px 5px;
+                font-size: 0.9rem;
+            }
+            
+            .member-list-avatar {
+                width: 30px;
+                height: 30px;
+            }
         }
     </style>
 </head>
@@ -350,32 +432,60 @@
         @endif
         
         <div class="members-section">
-            <h2 class="section-title">Registered Players</h2>
-            <div class="members-grid">
-                @forelse($members as $member)
-                <div class="member-card">
-                    <img src="{{ $member->profile_photo_url }}" alt="{{ $member->truename ?? $member->name }}" class="member-avatar">
-                    <h3 class="member-name">{{ $member->truename ?? $member->name }}</h3>
-                    <span class="member-role role-member">Player</span>
-                    <div class="member-info">
-                        Member since {{ $member->created_at->format('M Y') }}
+            <h2 class="section-title">Registered Players ({{ $totalMembers ?? count($members) }})</h2>
+            <div class="members-list">
+                @if(count($members) > 0)
+                    <table class="members-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Member Since</th>
+                                <th>Discord</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($members as $member)
+                            <tr>
+                                <td>
+                                    <img src="{{ $member->profile_photo_url }}" alt="{{ $member->truename ?? $member->name }}" class="member-list-avatar">
+                                    <span class="member-list-name">{{ $member->truename ?? $member->name }}</span>
+                                </td>
+                                <td>{{ $member->created_at->format('M d, Y') }}</td>
+                                <td>
+                                    @if($member->discord_id)
+                                        <div class="discord-list-info">
+                                            <svg class="discord-icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                                            </svg>
+                                            {{ $member->discord_id }}
+                                        </div>
+                                    @else
+                                        <span class="no-discord-list">Not shared</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <div style="text-align: center; color: #b19cd9; padding: 40px;">
+                        No registered players yet. Be the first to join!
                     </div>
-                    @if($member->discord_id)
-                        <div class="discord-info">
-                            <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
-                            </svg>
-                            {{ $member->discord_id }}
-                        </div>
-                    @else
-                        <div class="no-discord">Discord not shared</div>
-                    @endif
-                </div>
-                @empty
-                <div style="grid-column: 1 / -1; text-align: center; color: #b19cd9;">
-                    No registered players yet. Be the first to join!
-                </div>
-                @endforelse
+                @endif
+                
+                @if(isset($totalPages) && $totalPages > 1)
+                    <div style="text-align: center; margin-top: 30px;">
+                        @if($page > 1)
+                            <a href="?page={{ $page - 1 }}" style="color: #9370db; text-decoration: none; margin: 0 10px;">← Previous</a>
+                        @endif
+                        
+                        <span style="color: #b19cd9; margin: 0 15px;">Page {{ $page }} of {{ $totalPages }}</span>
+                        
+                        @if($page < $totalPages)
+                            <a href="?page={{ $page + 1 }}" style="color: #9370db; text-decoration: none; margin: 0 10px;">Next →</a>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </div>

@@ -15,16 +15,25 @@ class PublicMembersController extends Controller
         
         // Separate GMs and regular members
         $gms = [];
-        $members = [];
+        $membersList = [];
         
         foreach ($users as $user) {
             if ($user->isGamemaster() || $user->isAdministrator()) {
                 $gms[] = $user;
             } else {
-                $members[] = $user;
+                $membersList[] = $user;
             }
         }
         
-        return view('website.members', compact('gms', 'members'));
+        // Paginate members manually for large lists
+        $page = request()->get('page', 1);
+        $perPage = 100; // Show 100 members per page
+        $offset = ($page - 1) * $perPage;
+        
+        $members = array_slice($membersList, $offset, $perPage);
+        $totalMembers = count($membersList);
+        $totalPages = ceil($totalMembers / $perPage);
+        
+        return view('website.members', compact('gms', 'members', 'totalMembers', 'totalPages', 'page'));
     }
 }
