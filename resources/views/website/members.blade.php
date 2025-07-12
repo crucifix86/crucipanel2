@@ -105,7 +105,7 @@
         }
 
         .nav-bar {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(20px);
             border-bottom: 2px solid rgba(147, 112, 219, 0.3);
             padding: 20px 40px;
