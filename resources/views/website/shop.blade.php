@@ -20,6 +20,8 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            transform: none !important;
+            will-change: auto !important;
         }
 
         .mystical-bg {
@@ -714,12 +716,14 @@
             }
             
             .server-status {
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                right: 10px;
+                position: fixed !important;
+                top: 10px !important;
+                left: 10px !important;
+                right: 10px !important;
                 padding: 10px 15px;
                 font-size: 0.9rem;
+                width: auto;
+                transform: none !important;
             }
             
             .status-text {
@@ -731,12 +735,13 @@
             }
             
             .login-box-wrapper {
-                position: fixed;
-                top: 90px;
-                left: 10px;
-                right: 10px;
+                position: fixed !important;
+                top: 90px !important;
+                left: 10px !important;
+                right: 10px !important;
                 width: auto;
                 max-width: 300px;
+                transform: none !important;
             }
             
             .login-box {
@@ -772,10 +777,10 @@
 
         /* Server Status */
         .server-status {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 100;
+            position: fixed !important;
+            top: 20px !important;
+            left: 20px !important;
+            z-index: 9999 !important;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
@@ -783,6 +788,8 @@
             padding: 10px 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 220px;
+            transform: none !important;
+            will-change: auto !important;
         }
         
         .status-indicator {
@@ -836,11 +843,13 @@
         
         /* Login Box */
         .login-box-wrapper {
-            position: fixed;
-            top: 100px;
-            left: 20px;
-            z-index: 100;
+            position: fixed !important;
+            top: 100px !important;
+            left: 20px !important;
+            z-index: 9998 !important;
             width: 220px;
+            transform: none !important;
+            will-change: auto !important;
         }
         
         .login-box {
@@ -1008,19 +1017,15 @@
     @livewireStyles
 </head>
 <body>
-    <div class="mystical-bg"></div>
-    <div class="floating-particles"></div>
-    
-    <div class="dragon-ornament dragon-left">🐉</div>
-    <div class="dragon-ornament dragon-right">🐉</div>
-    
-    <!-- Server Status -->
+    <!-- Server Status and Login Box must be outside any transformed containers -->
     @php
         $api = new \hrace009\PerfectWorldAPI\API();
         $point = new \App\Models\Point();
         $onlinePlayer = $point->getOnlinePlayer();
         $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
     @endphp
+    
+    <!-- Server Status -->
     <div class="server-status">
         <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
             <span class="status-dot"></span>
@@ -1077,6 +1082,12 @@
             </div>
         </div>
     </div>
+    
+    <div class="mystical-bg"></div>
+    <div class="floating-particles"></div>
+    
+    <div class="dragon-ornament dragon-left">🐉</div>
+    <div class="dragon-ornament dragon-right">🐉</div>
     
     <div class="container">
         
