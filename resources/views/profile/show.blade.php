@@ -104,7 +104,7 @@
             text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
         }
 
-        .back-button {
+        .home-button {
             background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
             border: 1px solid rgba(147, 112, 219, 0.4);
             border-radius: 10px;
@@ -118,11 +118,15 @@
             transition: all 0.3s ease;
         }
 
-        .back-button:hover {
+        .home-button:hover {
             background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
             border-color: #9370db;
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
+        }
+
+        .home-button i {
+            font-size: 1.1rem;
         }
 
         /* User Info */
@@ -320,6 +324,38 @@
 
         /* Dropdown Menu Styling */
         [x-cloak] { display: none !important; }
+        
+        /* Fix dropdown theme */
+        .absolute.right-0.w-48 {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(147, 112, 219, 0.2)) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 2px solid rgba(147, 112, 219, 0.4) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Dropdown links */
+        .block.px-4.py-2 {
+            color: #e6d7f0 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .block.px-4.py-2:hover {
+            background: rgba(147, 112, 219, 0.2) !important;
+            color: #d8c8e8 !important;
+        }
+
+        /* Fix icon sizes in forms */
+        svg {
+            max-width: 24px !important;
+            max-height: 24px !important;
+        }
+        
+        /* Fix large icons in browser sessions */
+        .h-8.w-8, .h-10.w-10, .h-12.w-12 {
+            height: 1.5rem !important;
+            width: 1.5rem !important;
+        }
 
         /* Override Tailwind/Livewire Styles */
         input[type="text"],
@@ -413,12 +449,12 @@
         }
 
         /* Links */
-        a:not(.back-button):not(.home-button) {
+        a:not(.home-button):not(.block) {
             color: #9370db !important;
             transition: all 0.3s ease !important;
         }
 
-        a:not(.back-button):not(.home-button):hover {
+        a:not(.home-button):not(.block):hover {
             color: #8a2be2 !important;
             text-shadow: 0 0 10px rgba(147, 112, 219, 0.6) !important;
         }
@@ -464,11 +500,11 @@
     
     <!-- Header -->
     <header class="header">
-        <div class="header-left">
-            <a href="{{ route('app.dashboard') }}" class="back-button">
-                <i class="fas fa-arrow-left"></i> Back to Dashboard
-            </a>
+        <div style="display: flex; align-items: center; gap: 20px;">
             <h1 class="header-title">{{ __('general.dashboard.profile.header') }}</h1>
+            <a href="{{ route('HOME') }}" class="home-button">
+                <i class="fas fa-home"></i> Home
+            </a>
         </div>
         
         <div class="user-info">
