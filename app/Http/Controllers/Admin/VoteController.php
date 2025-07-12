@@ -136,6 +136,14 @@ class VoteController extends Controller
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
-        return redirect()->back()->with('success', __('vote.edit.modify_success'));
+        // Simple redirect back with query parameter
+        $url = url()->previous();
+        if (strpos($url, '?') !== false) {
+            $url .= '&saved=1';
+        } else {
+            $url .= '?saved=1';
+        }
+        
+        return redirect($url);
     }
 }

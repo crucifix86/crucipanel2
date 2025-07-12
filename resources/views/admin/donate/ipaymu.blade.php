@@ -8,6 +8,18 @@
     <x-slot name="content">
         <div class="max-w-2xl mx-auto mt-6">
             <x-hrace009::admin.validation-error/>
+            
+            @if(request()->get('saved') == 1)
+                <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
+                    <span class="block sm:inline">✓ {{ __('admin.configSaved') }}</span>
+                </div>
+                <script>
+                    // Simple page refresh after 5 seconds
+                    setTimeout(function() {
+                        window.location.href = window.location.pathname;
+                    }, 5000);
+                </script>
+            @endif
             <form method="post" action="{{ route('admin.donate.ipaymu.post') }}">
                 {!! csrf_field() !!}
                 <div class="relative z-0 mb-6 w-full group">
