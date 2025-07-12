@@ -446,7 +446,7 @@
                 
                 @if( config('pw-config.system.apps.donate') )
                 <li class="nav-item">
-                    <a href="{{ route('app.donate.index') }}" class="nav-link {{ Route::is('app.donate.*') ? 'active' : '' }}">
+                    <a href="{{ route('app.donate.history') }}" class="nav-link {{ Route::is('app.donate.*') ? 'active' : '' }}">
                         <span class="nav-icon">💎</span>
                         {{ __('general.menu.donate') }}
                     </a>
@@ -473,7 +473,7 @@
                 
                 @if ( config('pw-config.system.apps.inGameService') )
                 <li class="nav-item">
-                    <a href="{{ route('app.service.index') }}" class="nav-link {{ Route::is('app.service.*') ? 'active' : '' }}">
+                    <a href="{{ route('app.services.index') }}" class="nav-link {{ Route::is('app.services.*') ? 'active' : '' }}">
                         <span class="nav-icon">⚔️</span>
                         {{ __('service.title') }}
                     </a>
@@ -482,7 +482,7 @@
                 
                 @if( config('pw-config.system.apps.ranking') )
                 <li class="nav-item">
-                    <a href="{{ route('app.ranking.player') }}" class="nav-link {{ Route::is('app.ranking.*') ? 'active' : '' }}">
+                    <a href="{{ route('app.ranking.index') }}" class="nav-link {{ Route::is('app.ranking.*') ? 'active' : '' }}">
                         <span class="nav-icon">🏆</span>
                         {{ __('general.menu.ranking') }}
                     </a>
