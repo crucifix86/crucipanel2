@@ -225,6 +225,31 @@
             text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
         }
 
+        .home-button {
+            background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: #e6d7f0;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
+            border-color: #9370db;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
+        }
+
+        .home-button i {
+            font-size: 1.1rem;
+        }
+
         /* User Info */
         .user-info {
             display: flex;
@@ -588,7 +613,12 @@
         <div class="main-content">
             <!-- Header -->
             <header class="header">
-                <h1 class="header-title">Dashboard</h1>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <h1 class="header-title">Dashboard</h1>
+                    <a href="{{ route('welcome') }}" class="home-button">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </div>
                 
                 <div class="user-info">
                     <x-hrace009::character-selector/>
