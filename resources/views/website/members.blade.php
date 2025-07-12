@@ -123,7 +123,9 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 10;
-            max-width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
             box-sizing: border-box;
         }
 
@@ -239,6 +241,9 @@
 
         .content-section {
             padding: 30px 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .page-title {
@@ -251,6 +256,9 @@
 
         .members-section {
             margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .section-title {
@@ -274,6 +282,9 @@
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .members-table {
@@ -431,6 +442,9 @@
             margin-top: 60px;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
             border-radius: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .footer-left {
@@ -696,6 +710,9 @@
             margin-bottom: 40px;
             padding: 40px 0;
             position: relative;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .logo-container {
@@ -991,7 +1008,7 @@
             <h2 class="section-title">Registered Players ({{ $totalMembers ?? count($members) }})</h2>
             
             <!-- Search Box -->
-            <div style="text-align: center; margin-bottom: 30px;">
+            <div style="text-align: center; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
                 <form method="GET" action="{{ route('public.members') }}" style="display: inline-block;">
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <input type="text" 
