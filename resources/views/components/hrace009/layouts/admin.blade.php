@@ -231,5 +231,6 @@
 @yield('footer')
 <x-hrace009::front.bottom-script/>
 <x-hrace009::flash-message/>
+@stack('scripts')
 </body>
 </html>

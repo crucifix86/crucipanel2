@@ -9,6 +9,11 @@
     <x-slot name="content">
         <div class="max-w-sm mx-auto mt-6 rounded-md dark:bg-darker bg-white p-4">
             <x-hrace009::admin.validation-error/>
+            @if(session('success'))
+                <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ session('success') }}</span>
+                </div>
+            @endif
             <form method="post" action="{{ route('admin.settings.post') }}" enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <div class="relative z-0 mb-6 w-full group">
