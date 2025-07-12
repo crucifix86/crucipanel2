@@ -246,7 +246,14 @@ class SystemController extends Controller
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
-        // Use query parameter instead of session flash
-        return redirect()->route('admin.settings', ['saved' => 1]);
+        // Simple redirect back with query parameter
+        $url = url()->previous();
+        if (strpos($url, '?') !== false) {
+            $url .= '&saved=1';
+        } else {
+            $url .= '?saved=1';
+        }
+        
+        return redirect($url);
     }
 }
