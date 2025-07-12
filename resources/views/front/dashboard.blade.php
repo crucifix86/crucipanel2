@@ -517,7 +517,7 @@
                         @csrf
                         <button type="submit" class="nav-link" style="width: 100%; border: none; background: none; cursor: pointer; text-align: left;">
                             <span class="nav-icon">🚪</span>
-                            {{ __('general.logout') }}
+                            Logout
                         </button>
                     </form>
                 </li>
@@ -548,17 +548,17 @@
                 <!-- Welcome Section -->
                 <div class="welcome-section">
                     <h2 class="welcome-title">
-                        {{ __('general.welcome') }}, {{ Auth::user()->truename ?? Auth::user()->name }}!
+                        Welcome, {{ Auth::user()->truename ?? Auth::user()->name }}!
                     </h2>
                     <p class="welcome-subtitle">
-                        {{ __('general.dashboard_subtitle', ['server' => config('pw-config.server_name')]) }}
+                        Embark on your journey in {{ config('pw-config.server_name') }}
                     </p>
                 </div>
                 
                 <div class="content-grid">
                     <!-- News Section -->
                     <div class="news-section">
-                        <h3 class="section-title">{{ __('general.latest_news') }}</h3>
+                        <h3 class="section-title">Latest News & Updates</h3>
                         <x-hrace009::front.news-view/>
                     </div>
                     
