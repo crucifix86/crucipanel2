@@ -102,8 +102,8 @@
         .container {
             position: relative;
             z-index: 3;
-            max-width: 1000px;
-            margin-left: 260px;
+            max-width: 900px;
+            margin-left: 280px;
             margin-right: auto;
             padding: 20px;
             min-height: 100vh;
