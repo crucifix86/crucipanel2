@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Members - {{ config('pw-config.server_name', 'Haven Perfect World') }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -113,19 +114,18 @@
             }
         }
 
-        .nav-bar {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
+        nav.nav-bar {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1)) !important;
+            background-color: transparent !important;
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(147, 112, 219, 0.3);
+            border: 2px solid rgba(147, 112, 219, 0.3) !important;
             border-radius: 20px;
-            padding: 15px 30px;
+            padding: 15px 20px;
             margin-bottom: 40px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 10;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 100%;
             box-sizing: border-box;
         }
 
@@ -133,16 +133,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
         .nav-link {
             color: #b19cd9;
             text-decoration: none;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
@@ -822,8 +822,6 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
     @livewireStyles
 </head>
 <body>
