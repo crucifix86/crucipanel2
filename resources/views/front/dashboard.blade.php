@@ -116,7 +116,7 @@
         /* Sidebar */
         .sidebar {
             width: 280px;
-            background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(75, 0, 130, 0.2));
+            background: linear-gradient(135deg, rgba(26, 15, 46, 0.9), rgba(42, 27, 61, 0.9));
             backdrop-filter: blur(20px);
             border-right: 2px solid rgba(147, 112, 219, 0.4);
             padding: 20px;
@@ -159,7 +159,7 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: #e6d7f0;
+            color: #b19cd9;
             text-decoration: none;
             border-radius: 15px;
             transition: all 0.3s ease;
@@ -184,13 +184,13 @@
 
         .nav-link:hover {
             background: rgba(147, 112, 219, 0.2);
-            color: #e6d7f0;
+            color: #d8c8e8;
             transform: translateX(5px);
         }
 
         .nav-link.active {
             background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
-            color: #fff;
+            color: #e6d7f0;
             border-left: 4px solid #9370db;
         }
 
@@ -282,13 +282,13 @@
         
         /* Dropdown links */
         .bg-white.dark\\:bg-dark a {
-            color: #e6d7f0 !important;
+            color: #d8c8e8 !important;
             transition: all 0.3s ease;
         }
         
         .bg-white.dark\\:bg-dark a:hover {
             background: rgba(147, 112, 219, 0.2) !important;
-            color: #fff !important;
+            color: #e6d7f0 !important;
         }
 
         /* Content Area */
@@ -369,7 +369,7 @@
         }
         
         .news-section a {
-            color: #b19cd9;
+            color: #c8b3e0;
             text-decoration: none;
             transition: color 0.3s ease;
         }
@@ -381,7 +381,7 @@
         
         .news-section p,
         .news-section div {
-            color: #e6d7f0;
+            color: #d8c8e8;
         }
 
         /* Widget Area */
