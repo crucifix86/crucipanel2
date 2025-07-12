@@ -99,8 +99,8 @@
         .container {
             position: relative;
             z-index: 3;
-            max-width: 1000px;
-            margin-left: 260px;
+            max-width: 900px;
+            margin-left: 280px;
             margin-right: auto;
             padding: 20px;
             min-height: 100vh;
@@ -238,42 +238,42 @@
         }
 
         .content-section {
-            padding: 50px 0;
+            padding: 30px 0;
         }
 
         .page-title {
             text-align: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: #9370db;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             text-shadow: 0 0 30px rgba(147, 112, 219, 0.8);
         }
 
         .members-section {
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
 
         .section-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #b19cd9;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-align: center;
             text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
         }
 
         .members-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         .members-list {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
             border: 1px solid rgba(147, 112, 219, 0.3);
             border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 50px;
+            padding: 20px;
+            margin-bottom: 30px;
         }
         
         .members-table {
@@ -340,7 +340,7 @@
             backdrop-filter: blur(15px);
             border: 2px solid rgba(147, 112, 219, 0.3);
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             transition: all 0.3s ease;
             text-align: center;
         }
@@ -352,18 +352,18 @@
         }
 
         .member-avatar {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 0 auto 10px;
             border: 3px solid #9370db;
             box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
         }
 
         .member-name {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #e6d7f0;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
         }
 
@@ -693,8 +693,8 @@
         
         .header {
             text-align: center;
-            margin-bottom: 60px;
-            padding: 60px 0;
+            margin-bottom: 40px;
+            padding: 40px 0;
             position: relative;
         }
 
@@ -704,7 +704,7 @@
         }
 
         .logo {
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             font-weight: 700;
             background: linear-gradient(45deg, #9370db, #8a2be2, #9370db, #4b0082);
             background-size: 300% 300%;
@@ -714,7 +714,7 @@
             animation: gradientShift 3s ease-in-out infinite;
             text-shadow: 0 0 50px rgba(147, 112, 219, 0.8);
             letter-spacing: 3px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         @keyframes gradientShift {
@@ -723,9 +723,9 @@
         }
 
         .tagline {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #b19cd9;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-style: italic;
             text-shadow: 0 0 15px rgba(177, 156, 217, 0.5);
         }
