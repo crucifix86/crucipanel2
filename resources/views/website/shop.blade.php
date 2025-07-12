@@ -191,14 +191,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
         .nav-link {
             color: #b19cd9;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 30px;
             font-size: 1.1rem;
             font-weight: 600;

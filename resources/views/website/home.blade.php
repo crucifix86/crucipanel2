@@ -99,10 +99,18 @@
         .container {
             position: relative;
             z-index: 3;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin-left: 260px;
+            margin-right: auto;
             padding: 20px;
             min-height: 100vh;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
         }
         
         .container-inner {
@@ -379,14 +387,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
         .nav-link {
             color: #b19cd9;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 30px;
             font-size: 1.1rem;
             font-weight: 600;
