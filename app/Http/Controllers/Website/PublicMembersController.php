@@ -20,14 +20,11 @@ class PublicMembersController extends Controller
         if ($search) {
             $usersQuery->where(function($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
-                      ->orWhere('truename', 'like', '%' . $search . '%')
-                      ->orWhereHas('players', function($q) use ($search) {
-                          $q->where('name', 'like', '%' . $search . '%');
-                      });
+                      ->orWhere('truename', 'like', '%' . $search . '%');
             });
         }
         
-        $users = $usersQuery->with('players')->orderBy('created_at', 'desc')->get();
+        $users = $usersQuery->orderBy('created_at', 'desc')->get();
         
         // Separate GMs and regular members
         $gms = [];

@@ -548,7 +548,7 @@
                         <input type="text" 
                                name="search" 
                                value="{{ $search ?? '' }}"
-                               placeholder="Search by username or character name..." 
+                               placeholder="Search by username..." 
                                style="background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 10px; padding: 10px 15px; color: #e6d7f0; font-size: 1rem; width: 300px;">
                         <button type="submit" style="background: linear-gradient(45deg, #9370db, #8a2be2); border: none; border-radius: 10px; padding: 10px 20px; color: white; font-weight: 600; cursor: pointer;">
                             Search
@@ -579,15 +579,18 @@
                                     <span class="member-list-name">{{ $member->truename ?? $member->name }}</span>
                                 </td>
                                 <td>
-                                    @if($member->players && $member->players->count() > 0)
+                                    @php
+                                        $characters = $member->roles();
+                                    @endphp
+                                    @if(count($characters) > 0)
                                         <div class="character-dropdown">
                                             <button onclick="toggleCharacters('chars-{{ $member->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 5px; padding: 5px 10px; color: #e6d7f0; cursor: pointer; font-size: 0.85rem;">
-                                                {{ $member->players->count() }} Characters ▼
+                                                {{ count($characters) }} Characters ▼
                                             </button>
                                             <div id="chars-{{ $member->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.6); border-radius: 5px; padding: 10px;">
-                                                @foreach($member->players as $character)
+                                                @foreach($characters as $character)
                                                     <div style="padding: 3px 0; color: #b19cd9; font-size: 0.85rem;">
-                                                        {{ $character->name }} (Lv.{{ $character->level }})
+                                                        {{ $character['name'] }} (Lv.{{ $character['level'] }})
                                                     </div>
                                                 @endforeach
                                             </div>
