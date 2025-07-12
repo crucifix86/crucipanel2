@@ -1023,7 +1023,7 @@
                         <input type="text" 
                                name="search" 
                                value="{{ $search ?? '' }}"
-                               placeholder="Search by username..." 
+                               placeholder="Search by username or character..." 
                                style="background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 10px; padding: 10px 15px; color: #e6d7f0; font-size: 1rem; width: 300px;">
                         <button type="submit" style="background: linear-gradient(45deg, #9370db, #8a2be2); border: none; border-radius: 10px; padding: 10px 20px; color: white; font-weight: 600; cursor: pointer;">
                             Search

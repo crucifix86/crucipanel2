@@ -26,16 +26,28 @@ class PublicMembersController extends Controller
         }
         
         // Get all users with their role (GM status)
-        $usersQuery = User::query();
+        $users = User::orderBy('created_at', 'desc')->get();
         
+        // If searching, filter users by username, truename, or character names
         if ($search) {
-            $usersQuery->where(function($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                      ->orWhere('truename', 'like', '%' . $search . '%');
+            $users = $users->filter(function($user) use ($search) {
+                // Check username and truename
+                if (stripos($user->name, $search) !== false || 
+                    stripos($user->truename ?? '', $search) !== false) {
+                    return true;
+                }
+                
+                // Check character names
+                $characters = $user->roles();
+                foreach ($characters as $character) {
+                    if (stripos($character['name'] ?? '', $search) !== false) {
+                        return true;
+                    }
+                }
+                
+                return false;
             });
         }
-        
-        $users = $usersQuery->orderBy('created_at', 'desc')->get();
         
         // Separate GMs and regular members
         $gms = [];
