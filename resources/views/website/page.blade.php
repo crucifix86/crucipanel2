@@ -149,7 +149,7 @@
             position: fixed;
             top: 100px;
             left: 20px;
-            z-index: 2;
+            z-index: 100;
             width: 220px;
         }
         
@@ -354,7 +354,7 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 2;
+            z-index: 100;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
