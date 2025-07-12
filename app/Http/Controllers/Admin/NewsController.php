@@ -180,8 +180,16 @@ class NewsController extends Controller
             'article_page' => 'required|numeric',
             'default_og_logo' => 'required|string'
         ]);
+        
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         Config::write('pw-config.news.page', $validate['article_page']);
         Config::write('pw-config.news.default_og_logo', $validate['default_og_logo']);
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 }

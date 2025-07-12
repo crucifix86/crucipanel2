@@ -40,7 +40,15 @@ class ChatController extends Controller
         $input = $request->validate([
             'log_path' => 'required|string'
         ]);
+        
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         Config::write('pw-config.chat_log_path', $input['log_path']);
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         $status = 'success';
         $message = __('admin.configSaved');
 

@@ -18,7 +18,7 @@ return [
     'header_logo' => 'img/logo/haven_perfect_world_logo.svg',
     'badge_logo' => 'img/logo/crucifix_logo.svg',
     'server_ip' => '127.0.0.1',
-    'server_name' => 'PW Panel',
+    'server_name' => 'Haven Perfect World',
     'gmwa' => '62879456123',
     'fakeonline' => '',
     'server_version' => '156',

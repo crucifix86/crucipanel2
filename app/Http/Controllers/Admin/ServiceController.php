@@ -119,9 +119,17 @@ class ServiceController extends Controller
     public function updateSettings(ServiceRequest $request)
     {
         $configs = $request->except('_token');
+        
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         foreach ($configs as $config => $value) {
             Config::write('pw-config.' . $config, $value);
         }
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         return redirect()->back()->with('success', __('service.config_success'));
     }
 }

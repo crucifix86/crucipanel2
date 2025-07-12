@@ -188,6 +188,9 @@ class SystemController extends Controller
      */
     public function saveApps(Request $request): RedirectResponse
     {
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         $apps = config('pw-config.system.apps');
         foreach (array_keys($apps) as $app) {
             if ($request->has($app) === true) {
@@ -196,6 +199,10 @@ class SystemController extends Controller
                 Config::write('pw-config.system.apps.' . $app, false);
             }
         }
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 
@@ -218,6 +225,9 @@ class SystemController extends Controller
             'fakeonline' => 'required|numeric',
         ]);
 
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+
         if ($request->hasFile('logo')) {
             $request->validate([
                 'logo' => [
@@ -236,8 +246,10 @@ class SystemController extends Controller
         }
         Config::write('app.name', $request->get('server_name'));
         Config::write('app.timezone', $request->get('datetimezone'));
-        Config::set('app.timezone', $request->get('datetimezone'));
-        Config::set('app.name', $request->get('server_name'));
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 }

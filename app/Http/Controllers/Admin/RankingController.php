@@ -41,9 +41,17 @@ class RankingController extends Controller
     public function postSettings(RankingRequest $request): RedirectResponse
     {
         $settings = $request->except('_token');
+        
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         foreach ($settings as $setting => $value) {
             Config::write('pw-config.' . $setting, $value);
         }
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 

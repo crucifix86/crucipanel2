@@ -180,7 +180,15 @@ class ShopController extends Controller
         $validate = $request->validate([
             'item_page' => 'required|numeric'
         ]);
+        
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         Config::write('pw-config.shop.page', $validate['item_page']);
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
+        
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
 

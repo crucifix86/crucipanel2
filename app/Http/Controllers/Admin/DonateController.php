@@ -36,6 +36,9 @@ class DonateController extends Controller
      */
     public function postPaymentwall(Request $request): RedirectResponse
     {
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         if ($request->has('status')) {
             Config::write('pw-config.payment.paymentwall.status', true);
         } else {
@@ -57,8 +60,9 @@ class DonateController extends Controller
                 Config::write('pw-config.payment.paymentwall.' . $config, $value);
             }
         }
-        // Clear config cache to ensure changes are visible immediately
-        \Artisan::call('config:clear');
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
@@ -126,6 +130,9 @@ class DonateController extends Controller
      */
     public function postBank(Request $request): RedirectResponse
     {
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         if ($request->has('status')) {
             Config::write('pw-config.payment.bank_transfer.status', true);
         } else {
@@ -162,8 +169,9 @@ class DonateController extends Controller
                 }
             }
         }
-        // Clear config cache to ensure changes are visible immediately
-        \Artisan::call('config:clear');
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
@@ -175,6 +183,9 @@ class DonateController extends Controller
 
     public function postPaypal(Request $request)
     {
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         if ($request->has('status')) {
             Config::write('pw-config.payment.paypal.status', true);
         } else {
@@ -213,8 +224,9 @@ class DonateController extends Controller
                 }
             }
         }
-        // Clear config cache to ensure changes are visible immediately
-        \Artisan::call('config:clear');
+        
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
@@ -226,6 +238,9 @@ class DonateController extends Controller
 
     public function postIpaymu(Request $request)
     {
+        // Clear config cache before writing
+        \Artisan::call('config:clear');
+        
         if ($request->has('status')) {
             Config::write('pw-config.payment.ipaymu.status', true);
         } else {
@@ -269,8 +284,8 @@ class DonateController extends Controller
             }
         }
 
-        // Clear config cache to ensure changes are visible immediately
-        \Artisan::call('config:clear');
+        // Re-cache config after writing
+        \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('admin.configSaved'));
     }
