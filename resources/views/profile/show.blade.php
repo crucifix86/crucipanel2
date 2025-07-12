@@ -691,7 +691,7 @@
                 Livewire.on('saved', () => {
                     setTimeout(function() {
                         window.location.reload();
-                    }, 2000);
+                    }, 5000);
                 });
             }
             
@@ -700,7 +700,7 @@
                 Livewire.on('saved', () => {
                     setTimeout(function() {
                         window.location.reload();
-                    }, 2000);
+                    }, 5000);
                 });
             });
         });
