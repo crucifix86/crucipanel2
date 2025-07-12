@@ -360,34 +360,36 @@
             position: absolute !important;
         }
         
-        /* Override dropdown styles for purple theme */
-        .bg-white.dark\\:bg-dark {
-            background: linear-gradient(135deg, rgba(26, 15, 46, 0.95), rgba(75, 0, 130, 0.9)) !important;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(147, 112, 219, 0.4);
-            z-index: 9999 !important;
+        /* Override dropdown styles - clean white/dark background */
+        div[x-show] {
+            background: #ffffff !important;
+            border: 1px solid #e5e7eb !important;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+            border-radius: 0.375rem !important;
+            padding: 0.25rem 0 !important;
         }
         
-        /* Dropdown links */
-        .bg-white.dark\\:bg-dark a,
-        .bg-white.dark\\:bg-dark button {
-            color: #d8c8e8 !important;
-            transition: all 0.3s ease;
+        /* Dropdown links - dark text on white */
+        div[x-show] a,
+        div[x-show] button {
             display: block !important;
+            padding: 0.5rem 1rem !important;
+            color: #1f2937 !important;
+            text-decoration: none !important;
+            transition: background-color 0.15s !important;
+            border: none !important;
             width: 100% !important;
             text-align: left !important;
-            padding: 0.5rem 1rem !important;
+            background: transparent !important;
+            font-size: 0.875rem !important;
+            line-height: 1.25rem !important;
+            font-family: system-ui, -apple-system, sans-serif !important;
         }
         
-        .bg-white.dark\\:bg-dark a:hover,
-        .bg-white.dark\\:bg-dark button:hover {
-            background: rgba(147, 112, 219, 0.2) !important;
-            color: #e6d7f0 !important;
-        }
-        
-        /* Fix dropdown menu positioning */
-        .absolute.right-0 {
-            right: 20px !important;
+        div[x-show] a:hover,
+        div[x-show] button:hover {
+            background-color: #f3f4f6 !important;
+            color: #111827 !important;
         }
         
         /* Character selector styling */
