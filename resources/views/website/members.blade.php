@@ -155,9 +155,10 @@
         }
 
         .nav-link.active {
-            color: #9370db;
-            background: rgba(147, 112, 219, 0.3);
+            color: #e6d7f0;
+            background: rgba(147, 112, 219, 0.5);
             box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
+            font-weight: 600;
         }
 
         /* Dropdown Styles */
@@ -268,17 +269,20 @@
             text-align: left;
             padding: 15px 10px;
             border-bottom: 2px solid rgba(147, 112, 219, 0.3);
-            color: #b19cd9;
+            color: #e6d7f0;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             letter-spacing: 1px;
+            background: rgba(147, 112, 219, 0.2);
         }
         
         .members-table td {
             padding: 15px 10px;
             border-bottom: 1px solid rgba(147, 112, 219, 0.1);
             color: #e6d7f0;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
         
         .members-table tr:hover {
@@ -536,12 +540,33 @@
         
         <div class="members-section">
             <h2 class="section-title">Registered Players ({{ $totalMembers ?? count($members) }})</h2>
+            
+            <!-- Search Box -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <form method="GET" action="{{ route('public.members') }}" style="display: inline-block;">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" 
+                               name="search" 
+                               value="{{ $search ?? '' }}"
+                               placeholder="Search by username or character name..." 
+                               style="background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 10px; padding: 10px 15px; color: #e6d7f0; font-size: 1rem; width: 300px;">
+                        <button type="submit" style="background: linear-gradient(45deg, #9370db, #8a2be2); border: none; border-radius: 10px; padding: 10px 20px; color: white; font-weight: 600; cursor: pointer;">
+                            Search
+                        </button>
+                        @if($search)
+                            <a href="{{ route('public.members') }}" style="color: #b19cd9; text-decoration: none; padding: 10px;">Clear</a>
+                        @endif
+                    </div>
+                </form>
+            </div>
+            
             <div class="members-list">
                 @if(count($members) > 0)
                     <table class="members-table">
                         <thead>
                             <tr>
                                 <th>Player</th>
+                                <th>Characters</th>
                                 <th>Member Since</th>
                                 <th>Discord</th>
                             </tr>
@@ -552,6 +577,24 @@
                                 <td>
                                     <img src="{{ $member->profile_photo_url }}" alt="{{ $member->truename ?? $member->name }}" class="member-list-avatar">
                                     <span class="member-list-name">{{ $member->truename ?? $member->name }}</span>
+                                </td>
+                                <td>
+                                    @if($member->players && $member->players->count() > 0)
+                                        <div class="character-dropdown">
+                                            <button onclick="toggleCharacters('chars-{{ $member->ID }}')" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 5px; padding: 5px 10px; color: #e6d7f0; cursor: pointer; font-size: 0.85rem;">
+                                                {{ $member->players->count() }} Characters ▼
+                                            </button>
+                                            <div id="chars-{{ $member->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.6); border-radius: 5px; padding: 10px;">
+                                                @foreach($member->players as $character)
+                                                    <div style="padding: 3px 0; color: #b19cd9; font-size: 0.85rem;">
+                                                        {{ $character->name }} (Lv.{{ $character->level }})
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @else
+                                        <span style="color: #666; font-size: 0.85rem;">No characters</span>
+                                    @endif
                                 </td>
                                 <td>{{ $member->created_at->format('M d, Y') }}</td>
                                 <td>
@@ -623,6 +666,16 @@
 
         // Initialize particles
         createParticles();
+        
+        // Toggle character dropdown
+        function toggleCharacters(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none' || element.style.display === '') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        }
     </script>
     @livewireScripts
 </body>

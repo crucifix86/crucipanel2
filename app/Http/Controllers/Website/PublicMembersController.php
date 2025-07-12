@@ -4,14 +4,30 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Player;
 use Illuminate\Http\Request;
 
 class PublicMembersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // Get search query
+        $search = $request->get('search');
+        
         // Get all users with their role (GM status)
-        $users = User::orderBy('created_at', 'desc')->get();
+        $usersQuery = User::query();
+        
+        if ($search) {
+            $usersQuery->where(function($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('truename', 'like', '%' . $search . '%')
+                      ->orWhereHas('players', function($q) use ($search) {
+                          $q->where('name', 'like', '%' . $search . '%');
+                      });
+            });
+        }
+        
+        $users = $usersQuery->with('players')->orderBy('created_at', 'desc')->get();
         
         // Separate GMs and regular members
         $gms = [];
@@ -34,6 +50,6 @@ class PublicMembersController extends Controller
         $totalMembers = count($membersList);
         $totalPages = ceil($totalMembers / $perPage);
         
-        return view('website.members', compact('gms', 'members', 'totalMembers', 'totalPages', 'page'));
+        return view('website.members', compact('gms', 'members', 'totalMembers', 'totalPages', 'page', 'search'));
     }
 }
