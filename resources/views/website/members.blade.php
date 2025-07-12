@@ -309,7 +309,7 @@
             <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
             <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
             @php
-                $pages = \App\Models\Page::where('enabled', 1)->orderBy('order')->get();
+                $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
             @endphp
             @foreach($pages as $page)
                 <a href="{{ route('page.show', ['slug' => $page->slug]) }}" class="nav-link">{{ $page->title }}</a>
