@@ -41,12 +41,10 @@ class ChatController extends Controller
             'log_path' => 'required|string'
         ]);
         
-        // Clear config cache before writing
-        \Artisan::call('config:clear');
-        
         Config::write('pw-config.chat_log_path', $input['log_path']);
         
-        // Re-cache config after writing
+        // Clear and re-cache config after all writes are complete
+        \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
         $status = 'success';

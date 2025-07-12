@@ -42,14 +42,12 @@ class RankingController extends Controller
     {
         $settings = $request->except('_token');
         
-        // Clear config cache before writing
-        \Artisan::call('config:clear');
-        
         foreach ($settings as $setting => $value) {
             Config::write('pw-config.' . $setting, $value);
         }
         
-        // Re-cache config after writing
+        // Clear and re-cache config after all writes are complete
+        \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('admin.configSaved'));

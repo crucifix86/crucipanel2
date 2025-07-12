@@ -120,14 +120,12 @@ class ServiceController extends Controller
     {
         $configs = $request->except('_token');
         
-        // Clear config cache before writing
-        \Artisan::call('config:clear');
-        
         foreach ($configs as $config => $value) {
             Config::write('pw-config.' . $config, $value);
         }
         
-        // Re-cache config after writing
+        // Clear and re-cache config after all writes are complete
+        \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('service.config_success'));

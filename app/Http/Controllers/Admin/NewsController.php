@@ -181,13 +181,11 @@ class NewsController extends Controller
             'default_og_logo' => 'required|string'
         ]);
         
-        // Clear config cache before writing
-        \Artisan::call('config:clear');
-        
         Config::write('pw-config.news.page', $validate['article_page']);
         Config::write('pw-config.news.default_og_logo', $validate['default_og_logo']);
         
-        // Re-cache config after writing
+        // Clear and re-cache config after all writes are complete
+        \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
         return redirect()->back()->with('success', __('admin.configSaved'));
