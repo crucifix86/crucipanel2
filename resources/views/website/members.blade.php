@@ -146,6 +146,66 @@
             box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
         }
 
+        /* Dropdown Styles */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 15px;
+            padding: 10px 0;
+            min-width: 200px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            z-index: 1000;
+        }
+
+        .nav-dropdown.active .dropdown-menu {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: #b19cd9;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(147, 112, 219, 0.2);
+            color: #e6d7f0;
+        }
+
         .content-section {
             padding: 50px 0;
         }
@@ -386,16 +446,27 @@
     <nav class="nav-bar">
         <div class="nav-links">
             <a href="{{ route('HOME') }}" class="nav-link">Home</a>
-            <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
             <a href="{{ route('public.shop') }}" class="nav-link">Shop</a>
             <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
+            <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
             <a href="{{ route('public.vote') }}" class="nav-link">Vote</a>
+            
             @php
                 $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
             @endphp
-            @foreach($pages as $page)
-                <a href="{{ route('page.show', ['slug' => $page->slug]) }}" class="nav-link">{{ $page->title }}</a>
-            @endforeach
+            @if($pages->count() > 0)
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
+                        Pages <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        @foreach($pages as $page)
+                            <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+            
             <a href="{{ route('public.members') }}" class="nav-link active">Members</a>
         </div>
     </nav>
