@@ -538,19 +538,38 @@
             text-shadow: 0 0 10px rgba(147, 112, 219, 0.6) !important;
         }
         
-        /* Fix avatar upload section */
-        .col-span-6.sm\\:col-span-4:has(img[alt]) {
+        /* Fix form section backgrounds to be transparent */
+        .bg-white.sm\\:p-6 {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+        
+        .bg-gray-50.text-right {
+            background: transparent !important;
+        }
+        
+        /* Fix grid layout for avatar section */
+        .grid.grid-cols-6 {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+        }
+        
+        /* Constrain avatar section */
+        .col-span-6 {
+            width: auto !important;
             max-width: fit-content !important;
         }
         
-        /* Success message styling */
-        .text-green-600 {
-            background: rgba(34, 197, 94, 0.1) !important;
-            border: 1px solid rgba(34, 197, 94, 0.3) !important;
-            padding: 8px 16px !important;
+        /* Success message styling - target action-message component */
+        [x-show="shown"] {
+            background: #10b981 !important;
+            color: white !important;
+            padding: 10px 20px !important;
             border-radius: 8px !important;
-            color: #86efac !important;
+            font-weight: 600 !important;
             display: inline-block !important;
+            margin-right: 1rem !important;
         }
         
         /* Footer */
@@ -619,6 +638,10 @@
 
     <!-- Main Content -->
     <div class="main-container">
+        <!-- Success Notification -->
+        <div id="success-notification" style="display: none; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; background: #10b981; color: white; padding: 15px 30px; border-radius: 10px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <i class="fas fa-check-circle"></i> Settings saved successfully! Refreshing page...
+        </div>
         @if (Laravel\Fortify\Features::canUpdateProfileInformation())
             <div class="profile-section">
                 @livewire('profile.update-profile-information-form')
@@ -686,22 +709,31 @@
         
         // Listen for Livewire saved event and refresh page
         document.addEventListener('DOMContentLoaded', function () {
+            function showSuccessAndRefresh() {
+                // Show notification
+                const notification = document.getElementById('success-notification');
+                if (notification) {
+                    notification.style.display = 'block';
+                }
+                
+                // Refresh after 5 seconds
+                setTimeout(function() {
+                    window.location.reload();
+                }, 5000);
+            }
+            
             // For Livewire v2
             if (typeof Livewire !== 'undefined') {
-                Livewire.on('saved', () => {
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 5000);
-                });
+                Livewire.on('saved', showSuccessAndRefresh);
+                
+                // Also listen for profile updated event
+                Livewire.on('profile-updated', showSuccessAndRefresh);
             }
             
             // For Livewire v3
             document.addEventListener('livewire:initialized', () => {
-                Livewire.on('saved', () => {
-                    setTimeout(function() {
-                        window.location.reload();
-                    }, 5000);
-                });
+                Livewire.on('saved', showSuccessAndRefresh);
+                Livewire.on('profile-updated', showSuccessAndRefresh);
             });
         });
     </script>
