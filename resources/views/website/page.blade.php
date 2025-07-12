@@ -121,6 +121,8 @@
             margin-bottom: 60px;
             padding: 60px 0;
             position: relative;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .logo-container {
@@ -147,10 +149,8 @@
             position: fixed;
             top: 100px;
             left: 20px;
-            z-index: 9998;
+            z-index: 2;
             width: 220px;
-            transform: none;
-            will-change: auto;
         }
         
         /* Login Box */
@@ -354,7 +354,7 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 9999;
+            z-index: 2;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
@@ -362,8 +362,6 @@
             padding: 10px 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             width: 220px;
-            transform: none;
-            will-change: auto;
         }
         
         .status-indicator {
@@ -426,6 +424,8 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 10;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .nav-links {
@@ -551,6 +551,8 @@
                 inset 0 1px 0 rgba(147, 112, 219, 0.2);
             position: relative;
             overflow: hidden;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
         .content-section::before {
@@ -854,6 +856,8 @@
                         </div>
                     </div>
                 @endif
+                
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
             </div>
             
         </nav>
