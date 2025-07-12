@@ -863,6 +863,9 @@
                                 @if(Auth::user()->isAdministrator())
                                 <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
                                 @endif
+                                @if(Auth::user()->isGamemaster())
+                                <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                                @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="login-button">Logout</button>
