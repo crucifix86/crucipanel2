@@ -840,7 +840,7 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 1000;
+            z-index: 100;  /* Reduced from 1000 to avoid blocking dropdowns */
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
@@ -899,11 +899,20 @@
         
         @media (max-width: 768px) {
             .server-status {
-                position: relative;
-                top: auto;
-                left: auto;
-                margin: 10px;
-                margin-bottom: 20px;
+                position: fixed;  /* Keep it fixed on mobile too */
+                top: 10px;
+                left: 10px;
+                right: 10px;  /* Make it responsive width on mobile */
+                padding: 10px 15px;  /* Smaller padding on mobile */
+                font-size: 0.9rem;  /* Slightly smaller text */
+            }
+            
+            .status-text {
+                font-size: 1rem;
+            }
+            
+            .players-online {
+                font-size: 0.85rem;
             }
         }
 
