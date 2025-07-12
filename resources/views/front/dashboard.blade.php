@@ -228,6 +228,8 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            position: relative;
+            z-index: 100;
         }
 
         .character-selector {

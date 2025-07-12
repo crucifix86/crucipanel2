@@ -1,4 +1,4 @@
-<div class="relative" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
+<div class="relative z-50" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
     <button @click="open = !open; $nextTick(() => { if(open){ $refs.userMenu.focus() } })"
             type="button"
             aria-haspopup="true"
@@ -17,7 +17,8 @@
          x-transition:leave-end="translate-y-1/2 opacity-0"
          @click.away="open = false"
          @keydown.escape="open = false"
-         class="absolute right-0 w-48 py-1 bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none z-50"
+         class="absolute right-0 w-48 py-1 bg-white rounded-md shadow-lg top-12 ring-1 ring-black ring-opacity-5 dark:bg-dark focus:outline-none"
+         style="z-index: 9999;"
          tabindex="-1"
          role="menu"
          aria-orientation="vertical"
