@@ -14,6 +14,12 @@
                 <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
                     <span class="block sm:inline">✓ {{ __('admin.configSaved') }}</span>
                 </div>
+                <script>
+                    // Simple page refresh after 2 seconds
+                    setTimeout(function() {
+                        window.location.href = window.location.pathname;
+                    }, 2000);
+                </script>
             @endif
             <form method="post" action="{{ route('admin.settings.post') }}" enctype="multipart/form-data">
                 {!! csrf_field() !!}
