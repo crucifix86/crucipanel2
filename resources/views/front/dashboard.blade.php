@@ -53,7 +53,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 2;
+            z-index: 1;
         }
 
         .particle {
@@ -108,7 +108,7 @@
 
         .dashboard-container {
             position: relative;
-            z-index: 3;
+            z-index: 10;
             display: flex;
             min-height: 100vh;
         }
@@ -275,11 +275,22 @@
         /* Dropdown Menu Styling */
         [x-cloak] { display: none !important; }
         
+        /* Force dropdown to appear above everything */
+        .user-info .relative {
+            z-index: 999 !important;
+        }
+        
+        .user-info [x-show] {
+            z-index: 9999 !important;
+            position: absolute !important;
+        }
+        
         /* Override dropdown styles for purple theme */
         .bg-white.dark\\:bg-dark {
             background: linear-gradient(135deg, rgba(26, 15, 46, 0.95), rgba(75, 0, 130, 0.9)) !important;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
+            z-index: 9999 !important;
         }
         
         /* Dropdown links */
