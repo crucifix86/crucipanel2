@@ -1059,6 +1059,8 @@
                         </div>
                     </div>
                 @endif
+                
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
             </div>
             
         </nav>

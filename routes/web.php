@@ -112,6 +112,12 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'public.vote',
         'uses' => 'App\Http\Controllers\Website\PublicVoteController@index'
     ]);
+
+    // Public Members Page
+    Route::get('members', [
+        'as' => 'public.members',
+        'uses' => 'App\Http\Controllers\Website\PublicMembersController@index'
+    ]);
 });
 
 /* App Page */
