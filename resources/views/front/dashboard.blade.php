@@ -615,7 +615,7 @@
             <header class="header">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <h1 class="header-title">Dashboard</h1>
-                    <a href="{{ route('welcome') }}" class="home-button">
+                    <a href="{{ route('HOME') }}" class="home-button">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </div>
