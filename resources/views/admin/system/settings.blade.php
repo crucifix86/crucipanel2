@@ -11,8 +11,8 @@
             <x-hrace009::admin.validation-error/>
             
             @if(request()->get('saved') == 1)
-                <div class="bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-300 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span class="block sm:inline">{{ __('admin.configSaved') }}</span>
+                <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
+                    <span class="block sm:inline">✓ {{ __('admin.configSaved') }}</span>
                 </div>
             @endif
             <form method="post" action="{{ route('admin.settings.post') }}" enctype="multipart/form-data">
@@ -142,3 +142,17 @@
         </div>
     </x-slot>
 </x-hrace009.layouts.admin>
+
+@if(request()->get('saved') == 1)
+@push('scripts')
+<script>
+    // Refresh the page after a short delay to ensure config cache is updated
+    setTimeout(function() {
+        // Remove the saved parameter and reload
+        const url = new URL(window.location);
+        url.searchParams.delete('saved');
+        window.location.href = url.toString();
+    }, 2000); // 2 second delay to show the success message
+</script>
+@endpush
+@endif
