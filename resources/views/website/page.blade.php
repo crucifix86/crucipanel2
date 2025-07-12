@@ -201,34 +201,34 @@
         }
         
         .login-box-content {
-            padding: 25px;
-            max-height: 500px;
+            padding: 15px;
+            max-height: 300px;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
         }
         
         .login-box.collapsed .login-box-content {
             max-height: 0;
-            padding: 0 25px;
+            padding: 0 15px;
         }
 
         .login-box-content h3 {
             color: #9370db;
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
             text-align: center;
             text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
 
         .login-form input {
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(147, 112, 219, 0.5);
-            border-radius: 10px;
+            border-radius: 8px;
             color: #e6d7f0;
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
             font-family: Arial, sans-serif;
         }
@@ -248,13 +248,13 @@
             background: linear-gradient(45deg, #9370db, #8a2be2);
             color: #fff;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .login-button:hover {
@@ -264,14 +264,14 @@
 
         .login-links {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .login-links a {
             color: #b19cd9;
             text-decoration: none;
-            font-size: 0.9rem;
-            margin: 0 10px;
+            font-size: 0.85rem;
+            margin: 0 8px;
             transition: color 0.3s ease;
         }
 
@@ -286,27 +286,28 @@
         }
 
         .user-name {
-            font-size: 1.3rem;
+            font-size: 0.95rem;
             color: #9370db;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: 600;
         }
 
         .user-links {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 5px;
         }
 
         .user-link {
             background: rgba(147, 112, 219, 0.2);
             border: 1px solid rgba(147, 112, 219, 0.4);
             color: #e6d7f0;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 6px 8px;
+            border-radius: 8px;
             text-decoration: none;
             text-align: center;
             transition: all 0.3s ease;
+            font-size: 0.85rem;
         }
 
         .user-link:hover {
@@ -751,47 +752,46 @@
     </div>
     
     <!-- Login/User Box -->
-        <div class="login-box-wrapper">
-            <div class="login-box collapsed" id="loginBox">
-                <div class="login-box-header" onclick="toggleLoginBox()">
-                    <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
-                    <button class="collapse-toggle">▼</button>
-                </div>
-                <div class="login-box-content">
-                    @if(Auth::check())
-                        <div class="user-info">
-                            <h3>Welcome Back!</h3>
-                            <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
-                            <div class="user-links">
-                                <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
-                                <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
-                                @if(Auth::user()->isAdministrator())
-                                <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
-                                @endif
-                                @if(Auth::user()->isGamemaster())
-                                <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
-                                @endif
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="login-button">Logout</button>
-                                </form>
-                            </div>
+    <div class="login-box-wrapper">
+        <div class="login-box collapsed" id="loginBox">
+            <div class="login-box-header" onclick="toggleLoginBox()">
+                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="login-box-content">
+                @if(Auth::check())
+                    <div class="user-info">
+                        <h3>Welcome Back!</h3>
+                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                        <div class="user-links">
+                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            @if(Auth::user()->isAdministrator())
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            @endif
+                            @if(Auth::user()->isGamemaster())
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="login-button">Logout</button>
+                            </form>
                         </div>
-                    @else
-                        <h3>Member Login</h3>
-                        <form method="POST" action="{{ route('login') }}" class="login-form">
-                            @csrf
-                            <input type="text" name="name" placeholder="Username" required autofocus>
-                            <input type="password" name="password" placeholder="Password" required>
-                            <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                            <button type="submit" class="login-button">Login</button>
-                        </form>
-                        <div class="login-links">
-                            <a href="{{ route('register') }}">Register</a>
-                            <a href="{{ route('password.request') }}">Forgot?</a>
-                        </div>
-                    @endif
-                </div>
+                    </div>
+                @else
+                    <h3>Member Login</h3>
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Username" required autofocus>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">Login</button>
+                    </form>
+                    <div class="login-links">
+                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('password.request') }}">Forgot?</a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
