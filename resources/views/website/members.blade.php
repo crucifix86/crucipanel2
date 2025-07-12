@@ -983,8 +983,17 @@
                             </button>
                             <div id="gm-chars-{{ $gm->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.8); border-radius: 10px; padding: 10px; text-align: left;">
                                 @foreach($gmCharacters as $character)
-                                    <div style="padding: 5px 0; color: #b19cd9; font-size: 0.9rem; font-weight: 500; font-family: Arial, sans-serif; text-transform: none;">
+                                    @php
+                                        $isOnline = isset($onlineCharacters[$character['id']]);
+                                    @endphp
+                                    <div style="padding: 5px 0; color: {{ $isOnline ? '#10b981' : '#b19cd9' }}; font-size: 0.9rem; font-weight: 500; font-family: Arial, sans-serif; text-transform: none;">
+                                        @if($isOnline)
+                                            <span style="color: #10b981; margin-right: 5px;">●</span>
+                                        @endif
                                         {{ $character['name'] ?? 'Unknown' }}
+                                        @if($isOnline)
+                                            <span style="color: #10b981; font-size: 0.8rem; margin-left: 5px;">(Online)</span>
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>
@@ -1055,8 +1064,17 @@
                                             </button>
                                             <div id="chars-{{ $member->ID }}" style="display: none; margin-top: 10px; background: rgba(26, 15, 46, 0.6); border-radius: 5px; padding: 10px;">
                                                 @foreach($characters as $character)
-                                                    <div style="padding: 3px 0; color: #b19cd9; font-size: 0.85rem; font-family: Arial, sans-serif; text-transform: none;">
+                                                    @php
+                                                        $isOnline = isset($onlineCharacters[$character['id']]);
+                                                    @endphp
+                                                    <div style="padding: 3px 0; color: {{ $isOnline ? '#10b981' : '#b19cd9' }}; font-size: 0.85rem; font-family: Arial, sans-serif; text-transform: none;">
+                                                        @if($isOnline)
+                                                            <span style="color: #10b981; margin-right: 5px;">●</span>
+                                                        @endif
                                                         {{ $character['name'] ?? 'Unknown' }}
+                                                        @if($isOnline)
+                                                            <span style="color: #10b981; font-size: 0.75rem; margin-left: 5px;">(Online)</span>
+                                                        @endif
                                                     </div>
                                                 @endforeach
                                             </div>

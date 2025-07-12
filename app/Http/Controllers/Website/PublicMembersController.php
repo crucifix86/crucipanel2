@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Player;
 use Illuminate\Http\Request;
+use hrace009\PerfectWorldAPI\API;
 
 class PublicMembersController extends Controller
 {
@@ -13,6 +14,16 @@ class PublicMembersController extends Controller
     {
         // Get search query
         $search = $request->get('search');
+        
+        // Get online characters list
+        $api = new API();
+        $onlineCharacters = [];
+        if ($api->online) {
+            $onlineList = $api->getOnlineList();
+            foreach ($onlineList as $player) {
+                $onlineCharacters[$player['roleid']] = true;
+            }
+        }
         
         // Get all users with their role (GM status)
         $usersQuery = User::query();
@@ -47,6 +58,6 @@ class PublicMembersController extends Controller
         $totalMembers = count($membersList);
         $totalPages = ceil($totalMembers / $perPage);
         
-        return view('website.members', compact('gms', 'members', 'totalMembers', 'totalPages', 'page', 'search'));
+        return view('website.members', compact('gms', 'members', 'totalMembers', 'totalPages', 'page', 'search', 'onlineCharacters'));
     }
 }
