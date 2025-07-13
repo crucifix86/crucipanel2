@@ -1186,10 +1186,13 @@
                     <div class="arena-body">
                         <p class="arena-description">Vote every {{ config('arena.time') }} hours on Arena Top 100</p>
                         @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
-                            <button onclick="voteArena()" class="vote-button arena-button">
-                                <span style="margin-right: 8px;">🗳️</span>
-                                Vote on Arena Top 100
-                            </button>
+                            <form id="vote-form-arena" action="{{ route('app.vote.arena.submit') }}" method="POST" target="_blank">
+                                @csrf
+                                <button type="button" onclick="submitVote('arena', 'Arena Top 100', {{ config('arena.reward') }}, '{{ config('arena.reward_type') }}')" class="vote-button arena-button">
+                                    <span style="margin-right: 8px;">🗳️</span>
+                                    Vote on Arena Top 100
+                                </button>
+                            </form>
                         @else
                             <div class="cooldown-timer" data-time="{{ $arena_info[Auth::user()->ID]['end_time'] ?? 0 }}">
                                 <span class="cooldown-icon">⏱️</span>
@@ -1222,7 +1225,10 @@
                         <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
                         @auth
                             @if(isset($vote_info[$site->id]) && $vote_info[$site->id]['status'])
-                                <button onclick="voteSite({{ $site->id }}, '{{ $site->name }}')" class="vote-button">Vote Now</button>
+                                <form id="vote-form-{{ $site->id }}" action="{{ route('app.vote.submit', $site->id) }}" method="POST" target="_blank">
+                                    @csrf
+                                    <button type="button" onclick="submitVote({{ $site->id }}, '{{ $site->name }}', {{ $site->reward_amount }}, '{{ $site->type }}')" class="vote-button">Vote Now</button>
+                                </form>
                             @else
                                 <div class="cooldown-timer" data-time="{{ $vote_info[$site->id]['end_time'] ?? 0 }}">
                                     <span class="cooldown-icon">⏱️</span>
@@ -1413,93 +1419,86 @@
         });
         
         // Vote functions
-        let votingInProgress = {};
         let originalBalance = {
             money: {{ Auth::check() ? Auth::user()->money : 0 }},
             bonuses: {{ Auth::check() ? Auth::user()->bonuses : 0 }}
         };
         
-        function voteSite(siteId, siteName) {
-            if (votingInProgress[siteId]) return;
-            
-            votingInProgress[siteId] = true;
-            
-            // Open vote site in new tab
-            window.open('/vote/redirect/' + siteId, '_blank');
-            
-            // Show voting notification
-            showNotification('info', `Opening ${siteName} in a new tab. Please complete the vote and return here.`);
-            
-            // Start checking for completion
-            checkVoteCompletion(siteId);
+        function submitVote(siteId, siteName, rewardAmount, rewardType) {
+            // Submit the form which will open in new tab
+            const form = document.getElementById('vote-form-' + siteId);
+            if (form) {
+                form.submit();
+                
+                // Show notification
+                showNotification('info', `Opening ${siteName} in a new tab. Complete the vote there!`);
+                
+                // Store expected reward
+                let expectedReward = {
+                    amount: rewardAmount,
+                    type: rewardType,
+                    siteName: siteName
+                };
+                sessionStorage.setItem('vote_pending', JSON.stringify(expectedReward));
+                
+                // Start checking for balance change
+                setTimeout(() => {
+                    checkForBalanceChange(expectedReward);
+                }, 5000);
+            }
         }
         
-        function voteArena() {
-            if (votingInProgress['arena']) return;
-            
-            votingInProgress['arena'] = true;
-            
-            // Open arena in new tab
-            window.open('/vote/arena/redirect', '_blank');
-            
-            // Show voting notification
-            showNotification('info', 'Opening Arena Top 100 in a new tab. Please complete the vote and return here.');
-            
-            // Start checking for completion
-            checkVoteCompletion('arena');
-        }
-        
-        function checkVoteCompletion(siteId) {
+        function checkForBalanceChange(expectedReward) {
             let checkCount = 0;
-            const maxChecks = 60; // Check for 5 minutes (60 * 5 seconds)
+            const maxChecks = 60; // Check for 5 minutes
             
             const checkInterval = setInterval(() => {
                 checkCount++;
                 
-                fetch('/api/vote/check-status/' + siteId)
+                // Fetch current user balance
+                fetch('/api/user/balance')
                     .then(response => response.json())
                     .then(data => {
-                        if (data.completed) {
+                        if (data.money > originalBalance.money || data.bonuses > originalBalance.bonuses) {
                             clearInterval(checkInterval);
-                            votingInProgress[siteId] = false;
+                            sessionStorage.removeItem('vote_pending');
                             
-                            // Show success notification with balance change
-                            const coinsAdded = data.new_balance.money - originalBalance.money;
-                            const bonusesAdded = data.new_balance.bonuses - originalBalance.bonuses;
+                            // Calculate what was added
+                            const coinsAdded = data.money - originalBalance.money;
+                            const bonusesAdded = data.bonuses - originalBalance.bonuses;
                             
-                            let message = `Vote successful! `;
+                            let message = `Vote successful on ${expectedReward.siteName}! `;
                             if (coinsAdded > 0) {
                                 message += `+${coinsAdded} ${data.currency_name} added! `;
                             }
                             if (bonusesAdded > 0) {
                                 message += `+${bonusesAdded} Bonus Points added! `;
                             }
-                            message += `(Old: ${originalBalance.money} → New: ${data.new_balance.money})`;
+                            message += `(Balance: ${originalBalance.money} → ${data.money})`;
                             
                             showNotification('success', message);
                             
                             // Update displayed balance
-                            updateBalanceDisplay(data.new_balance);
+                            updateBalanceDisplay(data);
                             
                             // Update original balance
-                            originalBalance = data.new_balance;
+                            originalBalance = {money: data.money, bonuses: data.bonuses};
                             
-                            // Refresh page after 3 seconds to update cooldowns
+                            // Refresh page after 3 seconds
                             setTimeout(() => {
                                 location.reload();
                             }, 3000);
                         }
                     })
                     .catch(error => {
-                        console.error('Error checking vote status:', error);
+                        console.error('Error checking balance:', error);
                     });
                 
                 if (checkCount >= maxChecks) {
                     clearInterval(checkInterval);
-                    votingInProgress[siteId] = false;
-                    showNotification('info', 'Vote check timed out. Please refresh the page if you completed the vote.');
+                    showNotification('info', 'Vote check timed out. Refresh the page to see if your balance updated.');
                 }
-            }, 5000); // Check every 5 seconds
+            }, 5000);
         }
         
         function updateBalanceDisplay(newBalance) {
@@ -1598,6 +1597,51 @@
             }
         `;
         document.head.appendChild(notificationStyle);
+        
+        // Check for pending vote when page regains focus
+        window.addEventListener('focus', function() {
+            const pendingVote = sessionStorage.getItem('vote_pending');
+            if (pendingVote) {
+                // Check balance immediately when returning to page
+                fetch('/api/user/balance')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.money > originalBalance.money || data.bonuses > originalBalance.bonuses) {
+                            const expectedReward = JSON.parse(pendingVote);
+                            sessionStorage.removeItem('vote_pending');
+                            
+                            // Calculate what was added
+                            const coinsAdded = data.money - originalBalance.money;
+                            const bonusesAdded = data.bonuses - originalBalance.bonuses;
+                            
+                            let message = `Vote successful on ${expectedReward.siteName}! `;
+                            if (coinsAdded > 0) {
+                                message += `+${coinsAdded} ${data.currency_name} added! `;
+                            }
+                            if (bonusesAdded > 0) {
+                                message += `+${bonusesAdded} Bonus Points added! `;
+                            }
+                            message += `(Balance: ${originalBalance.money} → ${data.money})`;
+                            
+                            showNotification('success', message);
+                            
+                            // Update displayed balance
+                            updateBalanceDisplay(data);
+                            
+                            // Update original balance
+                            originalBalance = {money: data.money, bonuses: data.bonuses};
+                            
+                            // Refresh page after 3 seconds
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking balance:', error);
+                    });
+            }
+        });
     </script>
 </body>
 </html>

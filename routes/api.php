@@ -56,4 +56,9 @@ Route::group(['middleware' => 'api'], static function () {
         'as' => 'api.vote.check',
         'uses' => 'App\Http\Controllers\Website\PublicVoteController@checkVoteStatus'
     ]);
+    
+    Route::get('user/balance', [
+        'as' => 'api.user.balance',
+        'uses' => 'App\Http\Controllers\Api\UserController@balance'
+    ]);
 });
