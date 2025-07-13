@@ -1248,7 +1248,7 @@ if (!function_exists('get_setting')) {
                     <div class="arena-body">
                         <p class="arena-description">Vote every {{ get_setting('arena.time') }} hours on Arena Top 100</p>
                         @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
-                            <form id="vote-form-arena" action="{{ route('app.vote.arena.submit') }}" method="POST" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ get_setting('arena.reward') }}, '{{ get_setting('arena.reward_type') }}');">
+                            <form id="vote-form-arena" action="{{ route('public.vote.arena.redirect') }}" method="GET" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ get_setting('arena.reward') }}, '{{ get_setting('arena.reward_type') }}');">
                                 @csrf
                                 <button type="submit" class="vote-button arena-button">
                                     <span style="margin-right: 8px;">🗳️</span>
