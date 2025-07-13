@@ -782,6 +782,29 @@
             0% { text-shadow: 0 0 20px rgba(147, 112, 219, 0.6); }
             100% { text-shadow: 0 0 40px rgba(147, 112, 219, 1), 0 0 60px rgba(138, 43, 226, 0.8); }
         }
+        
+        /* Tab styles */
+        .shop-tab {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(147, 112, 219, 0.2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .shop-tab:hover {
+            background: rgba(147, 112, 219, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
+        }
+        
+        .shop-tab.active {
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            box-shadow: 0 8px 30px rgba(147, 112, 219, 0.6);
+        }
 
         /* Server Status */
         .server-status {
@@ -1156,7 +1179,42 @@
         </nav>
 
         <div class="shop-section">
-            <h2 class="section-title">Item Shop</h2>
+            <h2 class="section-title">Mystical Shop</h2>
+            
+            <!-- Search Bar -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <form method="GET" action="{{ route('public.shop') }}" style="display: inline-block;">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" 
+                               name="search" 
+                               value="{{ $search ?? '' }}"
+                               placeholder="Search items, vouchers, or services..." 
+                               style="background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 10px; padding: 10px 15px; color: #e6d7f0; font-size: 1rem; width: 400px;">
+                        <button type="submit" style="background: linear-gradient(45deg, #9370db, #8a2be2); border: none; border-radius: 10px; padding: 10px 20px; color: white; font-weight: 600; cursor: pointer;">
+                            Search
+                        </button>
+                        @if($search)
+                            <a href="{{ route('public.shop') }}" style="color: #b19cd9; text-decoration: none; padding: 10px;">Clear</a>
+                        @endif
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Shop Tabs -->
+            <div class="shop-tabs" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
+                <a href="{{ route('public.shop', ['tab' => 'items']) }}" 
+                   class="shop-tab {{ $tab === 'items' ? 'active' : '' }}">
+                    <span style="margin-right: 8px;">📦</span> Items
+                </a>
+                <a href="{{ route('public.shop', ['tab' => 'vouchers']) }}" 
+                   class="shop-tab {{ $tab === 'vouchers' ? 'active' : '' }}">
+                    <span style="margin-right: 8px;">🎟️</span> Vouchers
+                </a>
+                <a href="{{ route('public.shop', ['tab' => 'services']) }}" 
+                   class="shop-tab {{ $tab === 'services' ? 'active' : '' }}">
+                    <span style="margin-right: 8px;">⚡</span> Services
+                </a>
+            </div>
             
             @auth
             <!-- User Info Bar -->
@@ -1219,18 +1277,21 @@
             </div>
             @endauth
             
-            <!-- Category Navigation -->
+            <!-- Category Navigation (only for items) -->
+            @if($tab === 'items')
             <div class="category-nav">
                 @foreach($categories as $category)
-                    <a href="{{ route('public.shop', ['mask' => $category['mask']]) }}" 
+                    <a href="{{ route('public.shop', ['tab' => 'items', 'mask' => $category['mask']]) }}" 
                        class="category-link {{ $currentMask == $category['mask'] && ($currentMask !== null || $category['mask'] === null) ? 'active' : '' }}">
                         <span class="category-icon">{{ $category['icon'] }}</span>
                         <span class="category-name">{{ $category['name'] }}</span>
                     </a>
                 @endforeach
             </div>
+            @endif
             
-            @if($items->count() > 0)
+            <!-- Display Items -->
+            @if($tab === 'items' && $items->count() > 0)
             <div class="shop-grid">
                 @foreach($items as $item)
                     <div class="shop-item">
@@ -1286,7 +1347,36 @@
                     </div>
                 @endforeach
             </div>
-            @else
+            
+            <!-- Pagination for items -->
+            @if($items->hasPages())
+            <div style="margin-top: 40px; text-align: center;">
+                <div style="display: inline-flex; gap: 10px; align-items: center;">
+                    @if($items->onFirstPage())
+                        <span style="padding: 8px 16px; color: #666; cursor: not-allowed;">← Previous</span>
+                    @else
+                        <a href="{{ $items->previousPageUrl() }}&tab=items{{ $currentMask !== null ? '&mask=' . $currentMask : '' }}" 
+                           style="padding: 8px 16px; background: rgba(147, 112, 219, 0.2); color: #dda0dd; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
+                            ← Previous
+                        </a>
+                    @endif
+                    
+                    <span style="color: #b19cd9; padding: 0 10px;">
+                        Page {{ $items->currentPage() }} of {{ $items->lastPage() }}
+                    </span>
+                    
+                    @if($items->hasMorePages())
+                        <a href="{{ $items->nextPageUrl() }}&tab=items{{ $currentMask !== null ? '&mask=' . $currentMask : '' }}" 
+                           style="padding: 8px 16px; background: rgba(147, 112, 219, 0.2); color: #dda0dd; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
+                            Next →
+                        </a>
+                    @else
+                        <span style="padding: 8px 16px; color: #666; cursor: not-allowed;">Next →</span>
+                    @endif
+                </div>
+            </div>
+            @endif
+            @elseif($tab === 'items')
             <div style="text-align: center; padding: 60px 20px;">
                 <span style="font-size: 4rem; display: block; margin-bottom: 20px;">📦</span>
                 <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Items Available</p>
@@ -1294,13 +1384,84 @@
             </div>
             @endif
             
+            <!-- Display Vouchers -->
+            @if($tab === 'vouchers')
+            <div style="text-align: center; padding: 40px 20px;">
+                <div style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1)); border: 2px solid rgba(147, 112, 219, 0.3); border-radius: 20px; padding: 30px; display: inline-block; max-width: 500px;">
+                    <h3 style="color: #9370db; font-size: 1.5rem; margin-bottom: 20px; text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);">
+                        <span style="margin-right: 10px;">🎟️</span>Redeem Voucher Code
+                    </h3>
+                    
+                    @auth
+                        <form action="{{ route('app.voucher.postRedem') }}" method="POST">
+                            @csrf
+                            <div style="margin-bottom: 20px;">
+                                <input type="text" 
+                                       name="code" 
+                                       placeholder="Enter voucher code" 
+                                       style="background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.5); border-radius: 10px; padding: 12px 20px; color: #e6d7f0; font-size: 1rem; width: 100%; font-family: Arial, sans-serif;"
+                                       required>
+                            </div>
+                            <button type="submit" style="background: linear-gradient(45deg, #9370db, #8a2be2); border: none; border-radius: 20px; padding: 12px 40px; color: white; font-weight: 600; cursor: pointer; font-size: 1.1rem; transition: all 0.3s ease;">
+                                Redeem Code
+                            </button>
+                        </form>
+                        
+                        <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 20px;">
+                            Enter your voucher code above to add {{ config('pw-config.currency_name', 'Coins') }} to your account
+                        </p>
+                    @else
+                        <p style="color: #b19cd9; font-size: 1rem;">Please <a href="{{ route('login') }}" style="color: #9370db; text-decoration: underline;">login</a> to redeem voucher codes</p>
+                    @endauth
+                </div>
+            </div>
+            @endif
+            
+            <!-- Display Services -->
+            @if($tab === 'services' && $services->count() > 0)
+            <div class="shop-grid">
+                @foreach($services as $service)
+                    @php
+                        $info = $serviceInfo[$service->key] ?? ['name' => ucfirst(str_replace('_', ' ', $service->key)), 'icon' => '⚡', 'description' => ''];
+                    @endphp
+                    <div class="shop-item">
+                        <div class="item-icon" style="font-size: 3rem;">{{ $info['icon'] }}</div>
+                        <h3 class="item-name">{{ $info['name'] }}</h3>
+                        <p class="item-description">{{ $info['description'] }}</p>
+                        
+                        <div class="item-price">
+                            @if($service->currency_type === 'virtual')
+                                {{ number_format($service->price) }} {{ config('pw-config.currency_name', 'Coins') }}
+                            @else
+                                {{ number_format($service->price) }} Gold
+                            @endif
+                        </div>
+                        
+                        @auth
+                            @if(Auth::user()->characterId())
+                                <a href="{{ route('app.services.index') }}" class="purchase-button" style="display: block; text-align: center; text-decoration: none; margin-top: 15px;">
+                                    Use Service
+                                </a>
+                            @else
+                                <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 15px;">Select a character to use service</p>
+                            @endif
+                        @else
+                            <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 15px;">Login to use services</p>
+                        @endauth
+                    </div>
+                @endforeach
+            </div>
+            @elseif($tab === 'services')
+            <div style="text-align: center; padding: 60px 20px;">
+                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">⚡</span>
+                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Services Available</p>
+                <p style="color: #b19cd9;">Check back later for character services!</p>
+            </div>
+            @endif
+            
             @guest
             <div class="login-notice">
-                <p>Please <a href="{{ route('login') }}">login</a> to purchase items</p>
-            </div>
-            @else
-            <div class="login-notice" style="color: #9370db;">
-                <p>Welcome {{ Auth::user()->truename ?? Auth::user()->name }}! Browse our mystical items.</p>
+                <p>Please <a href="{{ route('login') }}">login</a> to access the shop</p>
             </div>
             @endguest
         </div>

@@ -4,19 +4,66 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
+use App\Models\Voucher;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class PublicShopController extends Controller
 {
     public function index(Request $request)
     {
-        // Get shop items - check if filtering by mask
-        $mask = $request->get('mask', null);
+        // Get current tab (items, vouchers, services)
+        $tab = $request->get('tab', 'items');
         
-        if ($mask !== null) {
-            $items = Shop::where('mask', $mask)->orderBy('id', 'desc')->paginate(20);
-        } else {
-            $items = Shop::orderBy('id', 'desc')->paginate(20);
+        // Get search query
+        $search = $request->get('search', '');
+        
+        // Initialize variables
+        $items = collect();
+        $vouchers = collect();
+        $services = collect();
+        
+        // Get data based on active tab
+        if ($tab === 'items' || $search) {
+            // Get shop items - check if filtering by mask
+            $mask = $request->get('mask', null);
+            
+            $itemsQuery = Shop::query();
+            
+            if ($search) {
+                $itemsQuery->where(function($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                          ->orWhere('description', 'like', '%' . $search . '%');
+                });
+            }
+            
+            if ($mask !== null && !$search) {
+                $itemsQuery->where('mask', $mask);
+            }
+            
+            $items = $itemsQuery->orderBy('id', 'desc')->paginate(20);
+        }
+        
+        if ($tab === 'vouchers' || $search) {
+            // Get vouchers
+            $vouchersQuery = Voucher::query();
+            
+            if ($search) {
+                $vouchersQuery->where('code', 'like', '%' . $search . '%');
+            }
+            
+            $vouchers = $vouchersQuery->orderBy('id', 'desc')->get();
+        }
+        
+        if ($tab === 'services' || $search) {
+            // Get services
+            $servicesQuery = Service::where('enabled', 1);
+            
+            if ($search) {
+                $servicesQuery->where('key', 'like', '%' . $search . '%');
+            }
+            
+            $services = $servicesQuery->orderBy('price', 'asc')->get();
         }
         
         // Get mask categories for navigation
@@ -44,10 +91,29 @@ class PublicShopController extends Controller
             ['mask' => 0, 'name' => 'Other', 'icon' => '📦'],
         ];
 
+        // Service descriptions and icons
+        $serviceInfo = [
+            'broadcast' => ['name' => 'Server Broadcast', 'icon' => '📢', 'description' => 'Send a message to all players online'],
+            'virtual_to_cubi' => ['name' => 'Virtual to Cubi', 'icon' => '💎', 'description' => 'Convert virtual currency to Cubi gold'],
+            'cultivation_change' => ['name' => 'Cultivation Change', 'icon' => '🔮', 'description' => 'Change your cultivation path'],
+            'gold_to_virtual' => ['name' => 'Gold to Virtual', 'icon' => '💰', 'description' => 'Convert in-game gold to virtual currency'],
+            'level_up' => ['name' => 'Level Up', 'icon' => '⬆️', 'description' => 'Instantly level up your character'],
+            'max_meridian' => ['name' => 'Max Meridian', 'icon' => '✨', 'description' => 'Maximize your meridian cultivation'],
+            'reset_exp' => ['name' => 'Reset Experience', 'icon' => '🔄', 'description' => 'Reset your experience points'],
+            'reset_sp' => ['name' => 'Reset Spirit', 'icon' => '🔄', 'description' => 'Reset your spirit points'],
+            'reset_stash_password' => ['name' => 'Reset Stash Password', 'icon' => '🔓', 'description' => 'Reset your bank stash password'],
+            'teleport' => ['name' => 'Teleport Service', 'icon' => '🌟', 'description' => 'Teleport to any location instantly'],
+        ];
+
         return view('website.shop', [
             'items' => $items,
+            'vouchers' => $vouchers,
+            'services' => $services,
             'categories' => $categories,
-            'currentMask' => $mask
+            'currentMask' => $mask,
+            'tab' => $tab,
+            'search' => $search,
+            'serviceInfo' => $serviceInfo
         ]);
     }
 }
