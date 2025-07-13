@@ -36,6 +36,7 @@ use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Middleware\VoteActive;
 use App\Http\Middleware\VoucherActive;
+use App\Http\Middleware\RunScheduler;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
@@ -88,6 +89,7 @@ class Kernel extends HttpKernel
             SubstituteBindings::class,
             SetLanguage::class,
             EnsurePreLogin::class,
+            RunScheduler::class,
         ],
 
         'api' => [

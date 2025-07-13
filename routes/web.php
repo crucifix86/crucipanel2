@@ -668,6 +668,24 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
         }
     });
 
+    /* Scheduler Routes */
+    Route::group(['prefix' => 'scheduler'], static function () {
+        Route::get('/', [
+            'as' => 'admin.scheduler.index',
+            'uses' => 'App\Http\Controllers\Admin\SchedulerController@index'
+        ]);
+        
+        Route::post('update', [
+            'as' => 'admin.scheduler.update',
+            'uses' => 'App\Http\Controllers\Admin\SchedulerController@update'
+        ]);
+        
+        Route::post('run', [
+            'as' => 'admin.scheduler.run',
+            'uses' => 'App\Http\Controllers\Admin\SchedulerController@runNow'
+        ]);
+    });
+
     /* Page Management Routes */
     Route::group(['prefix' => 'pages'], static function () {
         Route::get('/', [
@@ -894,4 +912,15 @@ Route::group(['middleware' => config('jetstream.middleware', ['web'])], static f
         }
     });
 });
+
+// Schedule Runner Routes
+Route::get('/schedule/run', [
+    'as' => 'schedule.run',
+    'uses' => 'App\Http\Controllers\ScheduleRunnerController@run'
+]);
+
+Route::get('/schedule/status', [
+    'as' => 'schedule.status',
+    'uses' => 'App\Http\Controllers\ScheduleRunnerController@status'
+]);
 
