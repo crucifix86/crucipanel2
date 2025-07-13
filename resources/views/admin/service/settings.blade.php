@@ -55,6 +55,28 @@
                                        placeholder=" " required/>
                     <x-hrace009::label for="level_up_cap">{{ __('service.level_up_cap') }}</x-hrace009::label>
                 </div>
+                
+                <h2 class="mb-6">{{ __('service.virtual_to_cubi') ?? 'Virtual to Cubi Configuration' }}</h2>
+                <div class="relative z-0 mb-6 w-full group">
+                    <select id="cubi_transfer_method" name="cubi_transfer_method" 
+                            class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+                        <option value="transfer" {{ config('pw-config.cubi_transfer_method', 'transfer') == 'transfer' ? 'selected' : '' }}>
+                            Transfer Table (Default - uses pwp_transfer table)
+                        </option>
+                        <option value="direct" {{ config('pw-config.cubi_transfer_method') == 'direct' ? 'selected' : '' }}>
+                            Direct (uses usecash stored procedure)
+                        </option>
+                        <option value="auto" {{ config('pw-config.cubi_transfer_method') == 'auto' ? 'selected' : '' }}>
+                            Auto (tries both methods)
+                        </option>
+                    </select>
+                    <x-hrace009::label for="cubi_transfer_method">Cubi Transfer Method</x-hrace009::label>
+                </div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                    <p><strong>Transfer Table:</strong> Uses pwp_transfer table and requires cron job running 'php artisan pw:update-transfer'</p>
+                    <p><strong>Direct:</strong> Calls usecash stored procedure directly (immediate)</p>
+                    <p><strong>Auto:</strong> Tries transfer method first, then direct if it fails (best compatibility)</p>
+                </div>
                 <x-hrace009::button-with-popover class="w-auto" popover="{{ __('general.config_save_desc') }}">
                     {{ __('general.Save') }}
                 </x-hrace009::button-with-popover>
