@@ -38,7 +38,12 @@ class PublicVoteController extends Controller
             // Arena Top 100 cooldown calculation
             $arena_info = [];
             $arena_log = ArenaLogs::onCooldown($request, Auth::user()->ID);
-            if ($arena_log->exists()) {
+            
+            // Check if we should clear timer for testing
+            if (config('arena.test_mode_clear_timer')) {
+                \Log::info('Arena: Test mode - clearing timer for user ' . Auth::user()->ID . ' (public vote page)');
+                $arena_info[Auth::user()->ID]['status'] = TRUE;
+            } else if ($arena_log->exists()) {
                 $arena_log = $arena_log->first();
                 if (time() < $arena_log->created_at->getTimestamp() + (3600 * config('arena.time'))) {
                     $arena_info[Auth::user()->ID]['end_time'] = $arena_log->created_at->addHours(config('arena.time'))->getTimestamp() - Carbon::now()->getTimestamp();
@@ -107,11 +112,36 @@ class PublicVoteController extends Controller
             return redirect()->route('public.vote')->with('error', 'You must be logged in to vote.');
         }
         
+        // Check if we should bypass cooldown for testing
+        if (config('arena.test_mode_clear_timer')) {
+            \Log::info('Arena: Test mode - bypassing cooldown check for user ' . Auth::user()->ID . ' (public vote)');
+        }
+        
+        // Check if user has a completed vote in cooldown period (unless test mode)
+        if (!config('arena.test_mode_clear_timer') && ArenaLogs::recent($request, Auth::user()->ID)->exists()) {
+            return redirect()->route('public.vote')->with('error', __('vote.already_voted', ['site' => 'Arena Top 100']));
+        }
+        
+        // Create pending log
+        $recent = ArenaLogs::create([
+            'user_id' => Auth::user()->ID,
+            'ip_address' => $request->ip(),
+            'reward' => config('arena.reward'),
+            'status' => 1  // 1 = pending/not processed, 0 = completed
+        ]);
+        
         // Store arena vote attempt in session
         session(['vote_pending_arena' => time()]);
         
         // Generate arena callback URL
-        $callback_url = urlencode(base64_encode(route('api.arenatop100') . '?userid=' . Auth::user()->ID));
+        $callback_url = urlencode(base64_encode(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id));
+        
+        // If in test mode, simulate immediate callback
+        if (config('arena.test_mode')) {
+            \Log::info('Arena: Test mode - simulating immediate callback (public vote)');
+            // Redirect to our own callback URL to simulate Arena response
+            return redirect()->to(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id . '&voted=1&userip=' . $request->ip());
+        }
         
         // Redirect to arena
         return redirect()->to('https://www.arena-top100.com/index.php?a=in&u=' . config('arena.username') . '&callback=' . $callback_url);

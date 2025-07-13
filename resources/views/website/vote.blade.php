@@ -1133,6 +1133,23 @@ if (!function_exists('get_setting')) {
             <h2 class="section-title">Vote for Haven Perfect World</h2>
             <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
             
+            @if( config('arena.test_mode') || config('arena.test_mode_clear_timer') )
+            <div style="margin-bottom: 30px; padding: 20px; background: rgba(239, 68, 68, 0.2); border: 2px solid #ef4444; border-radius: 15px;">
+                <h3 style="color: #ef4444; font-size: 1.5rem; margin-bottom: 10px;">
+                    ⚠️ ARENA TEST MODE ACTIVE
+                </h3>
+                <p style="color: #fca5a5;">
+                    @if( config('arena.test_mode') )
+                        • Callbacks will always return successful vote<br>
+                    @endif
+                    @if( config('arena.test_mode_clear_timer') )
+                        • Vote cooldown timer is disabled<br>
+                    @endif
+                    <strong>Remember to disable test mode in production!</strong>
+                </p>
+            </div>
+            @endif
+            
             @auth
             <!-- User Info Bar -->
             <div class="user-info-bar">
