@@ -52,6 +52,6 @@ class VisitRewardController extends Controller
         \Artisan::call('config:cache');
         
         // Redirect with success parameter
-        return redirect()->route('admin.visit-reward.settings', ['saved' => 1]);
+        return redirect('/admin/visit-reward?saved=1');
     }
 }
