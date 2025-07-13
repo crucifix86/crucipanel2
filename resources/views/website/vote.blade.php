@@ -1233,10 +1233,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-            
-            
-            @if(!config('arena.status') || !Auth::check())
+            @else
             <div style="text-align: center; padding: 60px 20px; margin-top: 40px;">
                 <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
                 <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">Arena Top 100 Only</p>
