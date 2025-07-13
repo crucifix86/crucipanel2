@@ -45,6 +45,14 @@ class VoteController extends Controller
         $arena_info = [];
         $arena_log = ArenaLogs::onCooldown($request, Auth::user()->ID);
         
+        // Debug logging
+        \Log::info('Arena Vote Check', [
+            'user_id' => Auth::user()->ID,
+            'test_mode' => config('arena.test_mode'),
+            'test_mode_clear_timer' => config('arena.test_mode_clear_timer'),
+            'has_cooldown_log' => $arena_log->exists()
+        ]);
+        
         // Check if we should clear timer for testing
         if (config('arena.test_mode_clear_timer')) {
             \Log::info('Arena: Test mode - clearing timer for user ' . Auth::user()->ID);

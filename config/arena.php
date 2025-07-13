@@ -14,6 +14,6 @@ return [
     'time' => '1', // in hour
     
     // Testing mode - DISABLE IN PRODUCTION!
-    'test_mode' => false, // Set to true to always return successful vote
-    'test_mode_clear_timer' => false // Set to true to ignore cooldown
+    'test_mode' => true, // Set to true to always return successful vote
+    'test_mode_clear_timer' => true // Set to true to ignore cooldown
 ];
