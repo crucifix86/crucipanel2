@@ -110,7 +110,7 @@ class PublicShopController extends Controller
             'vouchers' => $vouchers,
             'services' => $services,
             'categories' => $categories,
-            'currentMask' => $mask,
+            'currentMask' => $mask ?? null,
             'tab' => $tab,
             'search' => $search,
             'serviceInfo' => $serviceInfo
