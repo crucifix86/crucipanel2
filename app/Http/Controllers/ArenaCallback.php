@@ -75,16 +75,16 @@ class ArenaCallback extends Controller
         if ($userid && $valid == 1) {
             \Log::info('Arena: Processing vote', ['userid' => $userid, 'logid' => $logid, 'valid' => $valid]);
             
-            $logs = ArenaLogs::current($request, $userid, $logid, $valid);
-            $reward = $logs->get()->count();
+            $logsQuery = ArenaLogs::current($request, $userid, $logid, $valid);
+            $logRecord = $logsQuery->first();
             
-            \Log::info('Arena: Found logs', ['count' => $reward]);
+            \Log::info('Arena: Found log record', ['found' => $logRecord ? 'yes' : 'no']);
 
-            if ($reward) {
+            if ($logRecord) {
                 $user = User::whereId($userid)->first();
                 \Log::info('Arena: User found', ['user_id' => $user->ID ?? 'not found', 'current_money' => $user->money ?? 0]);
                 
-                $logs->update([
+                $logRecord->update([
                     'status' => 0,
                     'ip_address' => $userip
                 ]);
@@ -111,7 +111,7 @@ class ArenaCallback extends Controller
                 }
                 
                 // Mark the log as rewarded so we can show notification
-                $logs->update([
+                $logRecord->update([
                     'rewarded_at' => now()
                 ]);
                 $result = 'OK';
