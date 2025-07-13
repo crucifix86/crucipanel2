@@ -147,20 +147,104 @@
                 </div>
             </form>
             
-            <!-- Manual Run Section -->
+            <!-- Tabs -->
             <div class="mt-8 pt-8 border-t border-gray-300 dark:border-gray-600">
-                <h3 class="text-lg font-semibold mb-4">Manual Run</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                    Click the button below to manually run all scheduled tasks immediately.
-                </p>
+                <div class="border-b border-gray-200 dark:border-gray-700">
+                    <nav class="-mb-px flex space-x-8">
+                        <button onclick="showTab('manual')" id="manual-tab" class="tab-button whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-blue-500 text-blue-600 dark:text-blue-400">
+                            Manual Run
+                        </button>
+                        <button onclick="showTab('log')" id="log-tab" class="tab-button whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300">
+                            Last Run Log
+                        </button>
+                    </nav>
+                </div>
                 
-                <form method="POST" action="{{ route('admin.scheduler.run') }}" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        Run All Tasks Now
-                    </button>
-                </form>
+                <!-- Manual Run Tab -->
+                <div id="manual-content" class="tab-content mt-6">
+                    <h3 class="text-lg font-semibold mb-4">Manual Run</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        Click the button below to manually run all scheduled tasks immediately.
+                    </p>
+                    
+                    <form method="POST" action="{{ route('admin.scheduler.run') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Run All Tasks Now
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Log Tab -->
+                <div id="log-content" class="tab-content mt-6" style="display: none;">
+                    <h3 class="text-lg font-semibold mb-4">Last Run Log</h3>
+                    
+                    @if($lastLog)
+                        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                            <div class="mb-4">
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Timestamp:</span>
+                                <span class="text-sm font-semibold ml-2">{{ $lastLog['timestamp'] }}</span>
+                                <span class="ml-4 text-sm text-gray-600 dark:text-gray-400">Type:</span>
+                                <span class="text-sm font-semibold ml-2 {{ $lastLog['type'] === 'manual' ? 'text-blue-600 dark:text-blue-400' : 'text-green-600 dark:text-green-400' }}">
+                                    {{ ucfirst($lastLog['type']) }}
+                                </span>
+                            </div>
+                            
+                            <h4 class="text-sm font-semibold mb-2">Task Results:</h4>
+                            
+                            @foreach($lastLog['tasks'] as $taskName => $taskData)
+                                <div class="mb-3 pl-4 border-l-2 {{ $taskData['status'] === 'success' ? 'border-green-500' : 'border-red-500' }}">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-sm font-medium">{{ ucfirst($taskName) }} Update</span>
+                                        <span class="text-xs px-2 py-1 rounded {{ $taskData['status'] === 'success' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
+                                            {{ strtoupper($taskData['status']) }}
+                                        </span>
+                                    </div>
+                                    
+                                    @if($taskData['status'] === 'failed' && isset($taskData['error']))
+                                        <div class="text-xs text-red-600 dark:text-red-400 mt-1">
+                                            Error: {{ $taskData['error'] }}
+                                        </div>
+                                    @endif
+                                    
+                                    @if(isset($taskData['output']) && !empty(trim($taskData['output'])))
+                                        <div class="text-xs text-gray-600 dark:text-gray-400 mt-1 font-mono">
+                                            Output: {{ $taskData['output'] }}
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-gray-600 dark:text-gray-400">
+                            No log data available. Run the scheduler manually or wait for an automatic run.
+                        </div>
+                    @endif
+                </div>
             </div>
+            
+            <script>
+                function showTab(tab) {
+                    // Hide all content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.style.display = 'none';
+                    });
+                    
+                    // Remove active state from all tabs
+                    document.querySelectorAll('.tab-button').forEach(button => {
+                        button.classList.remove('border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+                        button.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    });
+                    
+                    // Show selected content
+                    document.getElementById(tab + '-content').style.display = 'block';
+                    
+                    // Add active state to selected tab
+                    const activeTab = document.getElementById(tab + '-tab');
+                    activeTab.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
+                    activeTab.classList.add('border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+                }
+            </script>
             
         </div>
     </x-slot>

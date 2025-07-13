@@ -22,11 +22,15 @@ class SchedulerController extends Controller
         $scheduleKey = config('app.schedule_key', env('SCHEDULE_KEY'));
         $hasScheduleKey = !empty($scheduleKey) && $scheduleKey !== 'change-this-to-a-random-string' && $scheduleKey !== 'default-schedule-key-change-me';
         
+        // Get last log
+        $lastLog = Cache::get('schedule:last_log');
+        
         return view('admin.scheduler.index', [
             'enabled' => config('pw-config.scheduler.enabled', true),
             'running' => $isRunning,
             'lastRun' => $lastRun,
-            'hasScheduleKey' => $hasScheduleKey
+            'hasScheduleKey' => $hasScheduleKey,
+            'lastLog' => $lastLog
         ]);
     }
     
@@ -53,34 +57,50 @@ class SchedulerController extends Controller
         try {
             // Run all tasks immediately with output capture
             $output = [];
+            $log = [
+                'timestamp' => now()->toDateTimeString(),
+                'type' => 'manual',
+                'tasks' => []
+            ];
             
             try {
                 Artisan::call('pw:update-transfer');
                 $output[] = 'Transfer update: Success';
+                $log['tasks']['transfer'] = ['status' => 'success', 'output' => Artisan::output()];
             } catch (\Exception $e) {
                 $output[] = 'Transfer update: Failed - ' . $e->getMessage();
+                $log['tasks']['transfer'] = ['status' => 'failed', 'error' => $e->getMessage()];
             }
             
             try {
                 Artisan::call('pw:update-faction');
                 $output[] = 'Faction update: Success';
+                $log['tasks']['faction'] = ['status' => 'success', 'output' => Artisan::output()];
             } catch (\Exception $e) {
                 $output[] = 'Faction update: Failed - ' . $e->getMessage();
+                $log['tasks']['faction'] = ['status' => 'failed', 'error' => $e->getMessage()];
             }
             
             try {
                 Artisan::call('pw:update-players');
                 $output[] = 'Players update: Success';
+                $log['tasks']['players'] = ['status' => 'success', 'output' => Artisan::output()];
             } catch (\Exception $e) {
                 $output[] = 'Players update: Failed - ' . $e->getMessage();
+                $log['tasks']['players'] = ['status' => 'failed', 'error' => $e->getMessage()];
             }
             
             try {
                 Artisan::call('pw:update-territories');
                 $output[] = 'Territories update: Success';
+                $log['tasks']['territories'] = ['status' => 'success', 'output' => Artisan::output()];
             } catch (\Exception $e) {
                 $output[] = 'Territories update: Failed - ' . $e->getMessage();
+                $log['tasks']['territories'] = ['status' => 'failed', 'error' => $e->getMessage()];
             }
+            
+            // Save log
+            Cache::put('schedule:last_log', $log, 86400 * 7);
             
             // Update last run times
             $now = now();

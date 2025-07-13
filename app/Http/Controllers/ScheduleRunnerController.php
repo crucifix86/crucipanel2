@@ -58,19 +58,52 @@ class ScheduleRunnerController extends Controller
     {
         $lastRun = Cache::get('schedule:last_run', []);
         $now = now();
+        $log = [
+            'timestamp' => $now->toDateTimeString(),
+            'type' => 'automatic',
+            'tasks' => []
+        ];
         
         // Update transfers - every minute
         if (!isset($lastRun['transfer']) || $now->diffInMinutes($lastRun['transfer']) >= 1) {
-            Artisan::call('pw:update-transfer');
-            $lastRun['transfer'] = $now;
+            try {
+                Artisan::call('pw:update-transfer');
+                $log['tasks']['transfer'] = ['status' => 'success', 'output' => Artisan::output()];
+                $lastRun['transfer'] = $now;
+            } catch (\Exception $e) {
+                $log['tasks']['transfer'] = ['status' => 'failed', 'error' => $e->getMessage()];
+            }
         }
         
         // Update rankings - hourly
         if (!isset($lastRun['rankings']) || $now->diffInMinutes($lastRun['rankings']) >= 60) {
-            Artisan::call('pw:update-faction');
-            Artisan::call('pw:update-players');
-            Artisan::call('pw:update-territories');
+            try {
+                Artisan::call('pw:update-faction');
+                $log['tasks']['faction'] = ['status' => 'success', 'output' => Artisan::output()];
+            } catch (\Exception $e) {
+                $log['tasks']['faction'] = ['status' => 'failed', 'error' => $e->getMessage()];
+            }
+            
+            try {
+                Artisan::call('pw:update-players');
+                $log['tasks']['players'] = ['status' => 'success', 'output' => Artisan::output()];
+            } catch (\Exception $e) {
+                $log['tasks']['players'] = ['status' => 'failed', 'error' => $e->getMessage()];
+            }
+            
+            try {
+                Artisan::call('pw:update-territories');
+                $log['tasks']['territories'] = ['status' => 'success', 'output' => Artisan::output()];
+            } catch (\Exception $e) {
+                $log['tasks']['territories'] = ['status' => 'failed', 'error' => $e->getMessage()];
+            }
+            
             $lastRun['rankings'] = $now;
+        }
+        
+        // Save log (only keep last run)
+        if (!empty($log['tasks'])) {
+            Cache::put('schedule:last_log', $log, 86400 * 7); // Keep for 7 days
         }
         
         Cache::put('schedule:last_run', $lastRun, 86400); // Store for 24 hours
