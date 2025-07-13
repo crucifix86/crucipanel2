@@ -1181,6 +1181,23 @@
         <div class="shop-section">
             <h2 class="section-title">Mystical Shop</h2>
             
+            <!-- Success/Error Messages -->
+            @if(session('success'))
+            <div data-notification style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1)); border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 15px; padding: 15px 20px; margin-bottom: 30px; text-align: center; box-shadow: 0 5px 20px rgba(16, 185, 129, 0.3);">
+                <p style="color: #10b981; font-size: 1.1rem; margin: 0; font-weight: 600;">
+                    <span style="margin-right: 10px;">✓</span>{{ session('success') }}
+                </p>
+            </div>
+            @endif
+            
+            @if(session('error'))
+            <div data-notification style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1)); border: 2px solid rgba(239, 68, 68, 0.4); border-radius: 15px; padding: 15px 20px; margin-bottom: 30px; text-align: center; box-shadow: 0 5px 20px rgba(239, 68, 68, 0.3);">
+                <p style="color: #ef4444; font-size: 1.1rem; margin: 0; font-weight: 600;">
+                    <span style="margin-right: 10px;">✗</span>{{ session('error') }}
+                </p>
+            </div>
+            @endif
+            
             <!-- Search Bar -->
             <div style="text-align: center; margin-bottom: 30px;">
                 <form method="GET" action="{{ route('public.shop') }}" style="display: inline-block;">
@@ -1585,6 +1602,20 @@
                 }
             `;
             document.head.appendChild(fadeInUpStyle);
+        });
+        
+        // Auto-hide notifications after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const notifications = document.querySelectorAll('[data-notification]');
+            notifications.forEach(function(notification) {
+                setTimeout(function() {
+                    notification.style.transition = 'opacity 0.5s ease-out';
+                    notification.style.opacity = '0';
+                    setTimeout(function() {
+                        notification.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            });
         });
     </script>
     @livewireScripts
