@@ -44,6 +44,7 @@
     <div role="menu" x-show="open" class="mt-2 space-y-2 px-7" aria-label="{{ __('voucher.title') }}">
         <!-- active & hover classes 'text-gray-700 dark:text-light' -->
         <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
+        {{-- Hidden for now - may repurpose later
         <a
             href="{{ route('vote.create') }}"
             role="menuitem"
@@ -58,6 +59,7 @@
         >
             {{ __('vote.index.sidemenu') }}
         </a>
+        --}}
         <a
             href="{{ route('admin.vote.arena') }}"
             role="menuitem"
