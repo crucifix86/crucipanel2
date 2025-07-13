@@ -47,6 +47,12 @@ Route::group(['middleware' => 'api'], static function () {
         'uses' => 'App\Http\Controllers\ArenaCallback@incentive'
     ]);
     
+    // Test endpoint for Arena callbacks (no middleware, no database required)
+    Route::match(['get', 'post'], 'arena-test', [
+        'as' => 'api.arena.test',
+        'uses' => 'App\Http\Controllers\ArenaTestController@test'
+    ]);
+    
     Route::get('news/{slug}', [
         'as' => 'api.news.show',
         'uses' => 'App\Http\Controllers\Api\NewsController@show'

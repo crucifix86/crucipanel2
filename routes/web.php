@@ -689,6 +689,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'as' => 'admin.scheduler.generateKey',
             'uses' => 'App\Http\Controllers\Admin\SchedulerController@generateKey'
         ]);
+        
+        Route::post('test-arena', [
+            'as' => 'admin.scheduler.testArena',
+            'uses' => 'App\Http\Controllers\Admin\SchedulerController@testArenaCallback'
+        ]);
     });
 
     /* Page Management Routes */

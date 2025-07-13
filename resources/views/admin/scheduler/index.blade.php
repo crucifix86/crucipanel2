@@ -167,6 +167,9 @@
                         <button onclick="showTab('log')" id="log-tab" class="tab-button whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300">
                             Last Run Log
                         </button>
+                        <button onclick="showTab('arena')" id="arena-tab" class="tab-button whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300">
+                            Arena Callbacks
+                        </button>
                     </nav>
                 </div>
                 
@@ -242,6 +245,98 @@
                             No log data available. Run the scheduler manually or wait for an automatic run.
                         </div>
                     @endif
+                </div>
+                
+                <!-- Arena Callbacks Tab -->
+                <div id="arena-content" class="tab-content mt-6" style="display: none;">
+                    <h3 class="text-lg font-semibold mb-4">Arena Top 100 Callback Log</h3>
+                    
+                    <div class="bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-500 dark:border-blue-400 text-blue-900 dark:text-blue-100 px-4 py-3 rounded-lg mb-4" role="alert">
+                        <p class="text-sm">This shows recent Arena Top 100 vote callbacks received by your panel.</p>
+                        <p class="text-sm mt-1">Callback URL: <code class="bg-blue-100 dark:bg-blue-800 px-1 rounded">{{ url('/api/arenatop100') }}</code></p>
+                    </div>
+                    
+                    @php
+                        $arenaLogs = \Cache::get('arena:callback_logs', []);
+                        $arenaLogs = array_reverse($arenaLogs); // Show newest first
+                    @endphp
+                    
+                    @if(count($arenaLogs) > 0)
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-800">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Time</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User ID</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Log ID</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valid</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Result</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">IP</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                                    @foreach($arenaLogs as $log)
+                                        <tr>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm">
+                                                {{ \Carbon\Carbon::parse($log['timestamp'])->format('Y-m-d H:i:s') }}
+                                                <span class="text-xs text-gray-500 dark:text-gray-400 block">{{ \Carbon\Carbon::parse($log['timestamp'])->diffForHumans() }}</span>
+                                            </td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm">{{ $log['userid'] ?? 'N/A' }}</td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm">{{ $log['logid'] ?? 'N/A' }}</td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm">
+                                                @if(isset($log['valid']) && $log['valid'] == 1)
+                                                    <span class="px-2 py-1 text-xs rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">YES</span>
+                                                @else
+                                                    <span class="px-2 py-1 text-xs rounded bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">NO</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm">
+                                                @if($log['result'] === 'OK')
+                                                    <span class="text-green-600 dark:text-green-400">✓ {{ $log['result'] }}</span>
+                                                @else
+                                                    <span class="text-red-600 dark:text-red-400">{{ $log['result'] }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="px-4 py-3 whitespace-nowrap text-sm text-xs">{{ $log['userip'] ?? 'N/A' }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                            Showing last {{ count($arenaLogs) }} callbacks (maximum 50 stored)
+                        </div>
+                    @else
+                        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                            <p class="text-gray-600 dark:text-gray-400">No Arena callbacks received yet.</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">Make sure Arena Top 100 has the correct callback URL configured.</p>
+                        </div>
+                    @endif
+                    
+                    <div class="mt-6 pt-6 border-t border-gray-300 dark:border-gray-600">
+                        <h4 class="text-md font-semibold mb-3">Test Arena Callback</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Use this to test if Arena callbacks are reaching your server. This will simulate a callback from Arena Top 100.
+                        </p>
+                        
+                        <form method="POST" action="{{ route('admin.scheduler.testArena') }}" class="space-y-4">
+                            @csrf
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">User ID</label>
+                                    <input type="number" name="userid" value="1" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Log ID</label>
+                                    <input type="number" name="logid" value="1" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800">
+                                </div>
+                            </div>
+                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                Send Test Callback
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
             

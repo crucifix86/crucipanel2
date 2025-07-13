@@ -154,4 +154,41 @@ class SchedulerController extends Controller
                 ->with('error', 'Error generating key: ' . $e->getMessage());
         }
     }
+    
+    /**
+     * Test Arena callback
+     */
+    public function testArenaCallback(Request $request)
+    {
+        try {
+            // Validate input
+            $request->validate([
+                'userid' => 'required|integer|min:1',
+                'logid' => 'required|integer|min:1'
+            ]);
+            
+            // Create a test request to the Arena callback
+            $testData = [
+                'voted' => 1,
+                'userip' => $request->ip(),
+                'userid' => $request->userid,
+                'logid' => $request->logid,
+                'custom' => 'test_from_admin_panel'
+            ];
+            
+            // Call the Arena callback controller directly
+            $arenaController = new \App\Http\Controllers\ArenaCallback();
+            $mockRequest = new Request($testData);
+            $mockRequest->setMethod('POST');
+            
+            // Execute the callback
+            $result = $arenaController->incentive($mockRequest);
+            
+            return redirect()->route('admin.scheduler.index')
+                ->with('success', 'Test callback sent! Result: ' . $result . '<br>Check the Arena Callbacks tab to see the log entry.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.scheduler.index')
+                ->with('error', 'Error sending test callback: ' . $e->getMessage());
+        }
+    }
 }
