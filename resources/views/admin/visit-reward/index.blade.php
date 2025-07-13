@@ -27,7 +27,7 @@ if (!function_exists('get_setting')) {
                 </script>
             @endif
             
-            <form method="post" action="{{ route('admin.visit-reward.update') }}">
+            <form method="post" action="{{ url('/admin/visit-reward/update') }}">
                 @csrf
                 
                 <div class="relative z-0 mb-6 w-full group">
