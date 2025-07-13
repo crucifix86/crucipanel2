@@ -52,6 +52,28 @@
                 </div>
             </div>
             
+            <!-- Security Key Status -->
+            @if(!$hasScheduleKey)
+            <div class="bg-yellow-50 dark:bg-yellow-900/30 border-2 border-yellow-500 dark:border-yellow-400 text-yellow-900 dark:text-yellow-100 px-4 py-3 rounded-lg mb-6" role="alert">
+                <div class="flex items-start">
+                    <svg class="w-6 h-6 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <div>
+                        <h3 class="font-bold mb-1">Security Key Required</h3>
+                        <p class="text-sm">The scheduler needs a security key to prevent unauthorized access. Click the button below to generate one automatically.</p>
+                        
+                        <form method="POST" action="{{ route('admin.scheduler.generateKey') }}" class="mt-3">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                Generate Security Key
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @endif
+            
             <!-- Current Status -->
             <div class="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-6 mb-6">
                 <h3 class="text-lg font-semibold mb-4">Current Status</h3>
@@ -61,6 +83,13 @@
                         <p class="text-sm text-gray-600 dark:text-gray-400">Scheduler Status:</p>
                         <p class="text-lg font-semibold {{ $enabled ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
                             {{ $enabled ? 'ENABLED' : 'DISABLED' }}
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Security Key:</p>
+                        <p class="text-lg font-semibold {{ $hasScheduleKey ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                            {{ $hasScheduleKey ? 'CONFIGURED' : 'NOT SET' }}
                         </p>
                     </div>
                     
