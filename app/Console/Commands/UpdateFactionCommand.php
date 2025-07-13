@@ -57,7 +57,7 @@ class UpdateFactionCommand extends Command
             set_time_limit(0);
             do {
                 $raw_info = $api->getRaw('factioninfo', $handler);
-                if (isset($raw_info['Raw']) || count($raw_info['Raw']) > 1) {
+                if (isset($raw_info['Raw']) && is_array($raw_info['Raw']) && count($raw_info['Raw']) > 0) {
                     foreach ($raw_info['Raw'] as $i => $iValue) {
                         if (empty($iValue['key']) || empty($iValue['value'])) {
                             unset($raw_info['Raw'][$i]);
@@ -90,12 +90,22 @@ class UpdateFactionCommand extends Command
                         }
                         unset($id, $faction, $user_faction, $iValue['value']);
                     }
-                    $raw_count = count($raw_info['Raw']) - 1;
-                    $last_raw = $raw_info['Raw'][$raw_count];
-                    $last_key = $last_raw['key'];
-                    $new_key = hexdec($last_key) + 1;
-                    $handler = bin2hex(pack("N*", $new_key));
-                };
+                    $raw_count = count($raw_info['Raw']);
+                    if ($raw_count > 0) {
+                        $last_raw = $raw_info['Raw'][$raw_count - 1];
+                        if (isset($last_raw['key'])) {
+                            $last_key = $last_raw['key'];
+                            $new_key = hexdec($last_key) + 1;
+                            $handler = bin2hex(pack("N*", $new_key));
+                        } else {
+                            break; // Exit if no more data
+                        }
+                    } else {
+                        break; // Exit if no data
+                    }
+                } else {
+                    break; // Exit if no Raw data
+                }
             } while (TRUE);
         }
         return 0;

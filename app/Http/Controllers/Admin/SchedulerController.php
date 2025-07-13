@@ -51,11 +51,36 @@ class SchedulerController extends Controller
     public function runNow(Request $request)
     {
         try {
-            // Run all tasks immediately
-            Artisan::call('pw:update-transfer');
-            Artisan::call('pw:update-faction');
-            Artisan::call('pw:update-players');
-            Artisan::call('pw:update-territories');
+            // Run all tasks immediately with output capture
+            $output = [];
+            
+            try {
+                Artisan::call('pw:update-transfer');
+                $output[] = 'Transfer update: Success';
+            } catch (\Exception $e) {
+                $output[] = 'Transfer update: Failed - ' . $e->getMessage();
+            }
+            
+            try {
+                Artisan::call('pw:update-faction');
+                $output[] = 'Faction update: Success';
+            } catch (\Exception $e) {
+                $output[] = 'Faction update: Failed - ' . $e->getMessage();
+            }
+            
+            try {
+                Artisan::call('pw:update-players');
+                $output[] = 'Players update: Success';
+            } catch (\Exception $e) {
+                $output[] = 'Players update: Failed - ' . $e->getMessage();
+            }
+            
+            try {
+                Artisan::call('pw:update-territories');
+                $output[] = 'Territories update: Success';
+            } catch (\Exception $e) {
+                $output[] = 'Territories update: Failed - ' . $e->getMessage();
+            }
             
             // Update last run times
             $now = now();
@@ -64,8 +89,9 @@ class SchedulerController extends Controller
                 'rankings' => $now
             ], 86400);
             
+            $message = 'Scheduled tasks completed!<br><br>' . implode('<br>', $output);
             return redirect()->route('admin.scheduler.index')
-                ->with('success', 'All scheduled tasks have been run successfully!');
+                ->with('success', $message);
         } catch (\Exception $e) {
             return redirect()->route('admin.scheduler.index')
                 ->with('error', 'Error running tasks: ' . $e->getMessage());

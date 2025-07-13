@@ -22,7 +22,7 @@
             
             @if(session('success'))
                 <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
-                    <span class="block sm:inline">✓ {{ session('success') }}</span>
+                    <span class="block sm:inline">✓ {!! session('success') !!}</span>
                 </div>
             @endif
             
