@@ -106,6 +106,11 @@
                         <p class="text-lg font-semibold">
                             {{ isset($lastRun['transfer']) ? $lastRun['transfer']->diffForHumans() : 'Never' }}
                         </p>
+                        @if(isset($lastRun['transfer']) && $lastRun['transfer']->diffInMinutes(now()) > 5)
+                            <p class="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+                                ⚠️ Should run every minute
+                            </p>
+                        @endif
                     </div>
                     
                     <div>
@@ -113,6 +118,11 @@
                         <p class="text-lg font-semibold">
                             {{ isset($lastRun['rankings']) ? $lastRun['rankings']->diffForHumans() : 'Never' }}
                         </p>
+                        @if(isset($lastRun['rankings']) && $lastRun['rankings']->diffInHours(now()) > 2)
+                            <p class="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
+                                ⚠️ Should run every hour
+                            </p>
+                        @endif
                     </div>
                     @else
                     <div class="col-span-2">
@@ -184,6 +194,18 @@
                             <div class="mb-4">
                                 <span class="text-sm text-gray-600 dark:text-gray-400">Timestamp:</span>
                                 <span class="text-sm font-semibold ml-2">{{ $lastLog['timestamp'] }}</span>
+                                @php
+                                    $lastRunTime = \Carbon\Carbon::parse($lastLog['timestamp']);
+                                    $hoursSinceRun = $lastRunTime->diffInHours(now());
+                                @endphp
+                                <span class="text-sm text-gray-600 dark:text-gray-400 ml-2">({{ $lastRunTime->diffForHumans() }})</span>
+                                
+                                @if($hoursSinceRun > 24)
+                                    <span class="ml-2 text-xs px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded">
+                                        ⚠️ Over 24 hours ago
+                                    </span>
+                                @endif
+                                
                                 <span class="ml-4 text-sm text-gray-600 dark:text-gray-400">Type:</span>
                                 <span class="text-sm font-semibold ml-2 {{ $lastLog['type'] === 'manual' ? 'text-blue-600 dark:text-blue-400' : 'text-green-600 dark:text-green-400' }}">
                                     {{ ucfirst($lastLog['type']) }}
