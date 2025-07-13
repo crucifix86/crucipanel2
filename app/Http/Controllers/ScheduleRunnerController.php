@@ -15,10 +15,11 @@ class ScheduleRunnerController extends Controller
      */
     public function run(Request $request)
     {
-        // Security check - only allow from local requests or with valid key
-        $validKey = config('app.schedule_key', 'default-schedule-key-change-me');
+        // Security check - only allow with valid key
+        $validKey = config('app.schedule_key', env('SCHEDULE_KEY', 'default-schedule-key-change-me'));
         
-        if (!$request->isLocal() && $request->input('key') !== $validKey) {
+        // Always require a valid key (remove isLocal check which uses APP_URL)
+        if ($request->input('key') !== $validKey || $validKey === 'default-schedule-key-change-me') {
             abort(403, 'Unauthorized');
         }
         

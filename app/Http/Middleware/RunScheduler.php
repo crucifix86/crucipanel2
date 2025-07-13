@@ -43,7 +43,19 @@ class RunScheduler
         
         // Trigger scheduler via async HTTP request
         try {
-            $url = url('/schedule/run');
+            // Build URL using current request's domain
+            $request = request();
+            $scheme = $request->secure() ? 'https' : 'http';
+            $host = $request->getHost();
+            $port = $request->getPort();
+            
+            // Build base URL
+            $baseUrl = $scheme . '://' . $host;
+            if (($scheme === 'http' && $port !== 80) || ($scheme === 'https' && $port !== 443)) {
+                $baseUrl .= ':' . $port;
+            }
+            
+            $url = $baseUrl . '/schedule/run';
             $key = config('app.schedule_key', env('SCHEDULE_KEY', 'default-schedule-key-change-me'));
             
             // Use fire-and-forget approach to avoid blocking
@@ -52,6 +64,8 @@ class RunScheduler
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT_MS, 100); // 100ms timeout
             curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // For self-signed certs
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
             curl_exec($ch);
             curl_close($ch);
         } catch (\Exception $e) {

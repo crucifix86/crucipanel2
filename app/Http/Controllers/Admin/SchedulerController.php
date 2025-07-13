@@ -101,10 +101,10 @@ class SchedulerController extends Controller
             Artisan::call('config:clear');
             Artisan::call('config:cache');
             
-            return redirect()->route('admin.scheduler.index')
+            return redirect()->back()
                 ->with('success', 'Schedule key generated successfully! The scheduler is now secure.');
         } catch (\Exception $e) {
-            return redirect()->route('admin.scheduler.index')
+            return redirect()->back()
                 ->with('error', 'Error generating key: ' . $e->getMessage());
         }
     }
