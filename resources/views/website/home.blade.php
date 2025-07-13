@@ -1142,10 +1142,28 @@
     @endphp
     
     @if($visitRewardSettings && $visitRewardSettings->enabled && Auth::check())
+    @php
+        $user = Auth::user();
+        $lastClaim = \App\Models\VisitRewardLog::where('user_id', $user->ID)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        
+        $canClaim = true;
+        $secondsUntilNext = 0;
+        
+        if ($lastClaim) {
+            $nextClaimTime = $lastClaim->created_at->addHours($visitRewardSettings->cooldown_hours);
+            $canClaim = now()->gte($nextClaimTime);
+            $secondsUntilNext = $canClaim ? 0 : $nextClaimTime->diffInSeconds(now());
+        }
+    @endphp
     <!-- Visit Reward Widget -->
     <script>
-        window.isAuthenticated = true;
-        window.userId = {{ Auth::user()->ID }};
+        window.visitRewardData = {
+            canClaim: {{ $canClaim ? 'true' : 'false' }},
+            secondsUntilNext: {{ $secondsUntilNext }},
+            userId: {{ $user->ID }}
+        };
     </script>
     <div class="visit-reward-wrapper">
         <div class="visit-reward-box" id="visitRewardBox">
@@ -1510,60 +1528,28 @@
         let rewardCountdownInterval = null;
         
         function checkVisitRewardStatus() {
-            fetch('/api/visit-reward/status?user_id=' + window.userId, {
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Accept': 'application/json'
-                },
-                credentials: 'same-origin'
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Not authorized');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const claimBtn = document.getElementById('claimRewardBtn');
-                    const timerDiv = document.getElementById('rewardTimer');
-                    const countdownSpan = document.getElementById('rewardCountdown');
-                    
-                    if (!data.enabled) {
-                        claimBtn.textContent = 'Rewards Disabled';
-                        claimBtn.disabled = true;
-                        return;
-                    }
-                    
-                    if (data.can_claim) {
-                        claimBtn.textContent = 'Claim Reward';
-                        claimBtn.disabled = false;
-                        timerDiv.style.display = 'none';
-                        
-                        // Clear any existing countdown
-                        if (rewardCountdownInterval) {
-                            clearInterval(rewardCountdownInterval);
-                            rewardCountdownInterval = null;
-                        }
-                    } else {
-                        claimBtn.textContent = 'Already Claimed';
-                        claimBtn.disabled = true;
-                        timerDiv.style.display = 'block';
-                        
-                        // Start countdown
-                        startRewardCountdown(data.seconds_until_next);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking reward status:', error);
-                    const claimBtn = document.getElementById('claimRewardBtn');
-                    if (error.message === 'Not authorized') {
-                        claimBtn.textContent = 'Login Required';
-                    } else {
-                        claimBtn.textContent = 'Error';
-                    }
-                    claimBtn.disabled = true;
-                });
+            const claimBtn = document.getElementById('claimRewardBtn');
+            const timerDiv = document.getElementById('rewardTimer');
+            const countdownSpan = document.getElementById('rewardCountdown');
+            
+            if (window.visitRewardData.canClaim) {
+                claimBtn.textContent = 'Claim Reward';
+                claimBtn.disabled = false;
+                timerDiv.style.display = 'none';
+                
+                // Clear any existing countdown
+                if (rewardCountdownInterval) {
+                    clearInterval(rewardCountdownInterval);
+                    rewardCountdownInterval = null;
+                }
+            } else {
+                claimBtn.textContent = 'Already Claimed';
+                claimBtn.disabled = true;
+                timerDiv.style.display = 'block';
+                
+                // Start countdown
+                startRewardCountdown(window.visitRewardData.secondsUntilNext);
+            }
         }
         
         function startRewardCountdown(seconds) {
@@ -1618,17 +1604,14 @@
                     // Show success notification
                     showRewardNotification(data.reward_amount, data.reward_type);
                     
-                    // Update button state
-                    claimBtn.textContent = 'Claimed!';
-                    
-                    // Start countdown for next reward
+                    // Reload page after 2 seconds to update the widget state
                     setTimeout(() => {
-                        checkVisitRewardStatus();
+                        window.location.reload();
                     }, 2000);
                 } else {
                     claimBtn.textContent = data.error || 'Error';
                     setTimeout(() => {
-                        checkVisitRewardStatus();
+                        window.location.reload();
                     }, 2000);
                 }
             })
