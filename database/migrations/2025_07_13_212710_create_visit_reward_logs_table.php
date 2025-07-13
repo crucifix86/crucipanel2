@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
             
             $table->index(['user_id', 'created_at']);
-            $table->foreign('user_id')->references('ID')->on('pwp_users')->onDelete('cascade');
+            $table->foreign('user_id')->references('ID')->on('users')->onDelete('cascade');
         });
     }
 
