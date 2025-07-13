@@ -1094,13 +1094,13 @@
                                     📜
                                 @endif
                             </span>
-                            <h3 class="news-title"><a href="{{ route('show.article', $article->slug) }}">{{ $article->title }}</a></h3>
+                            <h3 class="news-title"><a href="javascript:void(0)" onclick="openNewsPopup('{{ $article->slug }}')">{{ $article->title }}</a></h3>
                             <div class="news-meta">
                                 <span class="news-date">📅 {{ $article->date( $article->created_at ) }}</span>
                                 <span class="news-category">{{ __('news.category.' . $article->category) }}</span>
                             </div>
                             <p class="news-description">{{ Str::limit($article->description, 150) }}</p>
-                            <a href="{{ route('show.article', $article->slug ) }}" class="read-more-btn">Read More</a>
+                            <a href="javascript:void(0)" onclick="openNewsPopup('{{ $article->slug }}')" class="read-more-btn">Read More</a>
                         </div>
                     @endforeach
                 @else
@@ -1147,6 +1147,18 @@
         </div>
     </div>
 
+    <!-- News Article Popup -->
+    <div id="newsPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; overflow-y: auto; padding: 20px;">
+        <div style="position: relative; max-width: 900px; margin: 50px auto; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); border: 2px solid rgba(147, 112, 219, 0.4); border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(147, 112, 219, 0.6); color: #e6d7f0;">
+            <button onclick="closeNewsPopup()" style="position: absolute; top: 20px; right: 20px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 50%; width: 40px; height: 40px; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease; z-index: 1; line-height: 1;">
+                ×
+            </button>
+            
+            <div id="newsContent" style="font-family: Arial, sans-serif;">
+                <!-- Article content will be loaded here -->
+            </div>
+        </div>
+    </div>
 
     <script>
         // Create floating mystical particles
@@ -1240,6 +1252,70 @@
             }
             // Otherwise it stays collapsed (default state or explicitly collapsed)
         });
+
+        // News popup functions
+        function openNewsPopup(slug) {
+            const popup = document.getElementById('newsPopup');
+            const content = document.getElementById('newsContent');
+            
+            // Show loading state
+            content.innerHTML = '<div style="text-align: center; padding: 40px;"><div style="font-size: 3rem; animation: spin 1s linear infinite;">⏳</div><p style="margin-top: 20px; color: #b19cd9;">Loading article...</p></div>';
+            
+            // Show popup
+            popup.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // Fetch article content
+            fetch('/api/news/' + slug)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        content.innerHTML = `
+                            <span class="news-icon" style="font-size: 3rem; display: block; text-align: center; margin-bottom: 20px;">
+                                ${data.article.category === 'update' ? '✨' : 
+                                  data.article.category === 'event' ? '🎆' : 
+                                  data.article.category === 'maintenance' ? '🔧' : '📜'}
+                            </span>
+                            <h1 style="font-size: 2.5rem; color: #9370db; text-align: center; margin-bottom: 20px; text-shadow: 0 0 20px rgba(147, 112, 219, 0.8);">${data.article.title}</h1>
+                            <div style="text-align: center; margin-bottom: 30px;">
+                                <span style="color: #b19cd9; margin-right: 20px;">📅 ${data.article.date}</span>
+                                <span style="background: rgba(147, 112, 219, 0.2); padding: 5px 15px; border-radius: 20px; color: #dda0dd;">${data.article.category}</span>
+                            </div>
+                            <div style="line-height: 1.8; font-size: 1.1rem;">${data.article.content}</div>
+                            ${data.article.author ? '<p style="text-align: right; margin-top: 30px; color: #b19cd9; font-style: italic;">— ' + data.article.author + '</p>' : ''}
+                        `;
+                    } else {
+                        content.innerHTML = '<div style="text-align: center; padding: 40px;"><p style="color: #ef4444;">Failed to load article</p></div>';
+                    }
+                })
+                .catch(error => {
+                    content.innerHTML = '<div style="text-align: center; padding: 40px;"><p style="color: #ef4444;">Error loading article</p></div>';
+                });
+        }
+        
+        function closeNewsPopup() {
+            const popup = document.getElementById('newsPopup');
+            popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('newsPopup');
+            if (event.target === popup) {
+                closeNewsPopup();
+            }
+        });
+        
+        // Add CSS animation for spinner
+        const spinnerStyle = document.createElement('style');
+        spinnerStyle.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(spinnerStyle);
     </script>
 </body>
 </html>

@@ -46,4 +46,9 @@ Route::group(['middleware' => 'api'], static function () {
         'middleware' => 'arena.active',
         'uses' => 'App\Http\Controllers\ArenaCallback@incentive'
     ]);
+    
+    Route::get('news/{slug}', [
+        'as' => 'api.news.show',
+        'uses' => 'App\Http\Controllers\Api\NewsController@show'
+    ]);
 });
