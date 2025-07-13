@@ -747,6 +747,98 @@
             color: #dda0dd;
             text-decoration: underline;
         }
+        
+        /* Arena Top 100 Styles */
+        .arena-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 
+                0 20px 60px rgba(255, 215, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .arena-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            animation: shimmerGold 4s ease-in-out infinite;
+        }
+        
+        @keyframes shimmerGold {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .arena-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .arena-title {
+            font-size: 2rem;
+            color: #ffd700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            margin: 0;
+        }
+        
+        .arena-reward {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        .reward-amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4a0e4e;
+            margin-right: 5px;
+        }
+        
+        .reward-type {
+            font-size: 1.1rem;
+            color: #4a0e4e;
+            font-weight: 600;
+        }
+        
+        .arena-body {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .arena-description {
+            color: #ffed4e;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 237, 78, 0.5);
+        }
+        
+        .arena-button {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: #4a0e4e;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 15px 40px;
+        }
+        
+        .arena-button:hover {
+            background: linear-gradient(45deg, #ffed4e, #ffd700);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
 
         .user-info {
             text-align: center;
@@ -892,8 +984,65 @@
             <h2 class="section-title">Vote for Haven Perfect World</h2>
             <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
             
+            <!-- Session Messages -->
+            @if(session('success'))
+            <div style="background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; padding: 15px 25px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+                <span style="color: #10b981; font-size: 1.1rem;">✓ {{ session('success') }}</span>
+            </div>
+            @endif
+            
+            @if(session('error'))
+            <div style="background: rgba(239, 68, 68, 0.2); border: 2px solid #ef4444; padding: 15px 25px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+                <span style="color: #ef4444; font-size: 1.1rem;">✗ {{ session('error') }}</span>
+            </div>
+            @endif
+            
+            <!-- Arena Top 100 Section -->
+            @if(config('arena.status') === true && Auth::check())
+            <div style="margin-bottom: 50px;">
+                <div class="arena-section">
+                    <div class="arena-header">
+                        <h3 class="arena-title">
+                            <span style="font-size: 2rem; margin-right: 10px;">🏆</span>
+                            Arena Top 100
+                        </h3>
+                        <div class="arena-reward">
+                            <span class="reward-amount">+{{ config('arena.reward') }}</span>
+                            <span class="reward-type">
+                                @if(config('arena.reward_type') === 'cubi')
+                                    Gold
+                                @elseif(config('arena.reward_type') === 'virtual')
+                                    {{ config('pw-config.currency_name', 'Coins') }}
+                                @else
+                                    Bonus Points
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+                    <div class="arena-body">
+                        <p class="arena-description">Vote every {{ config('arena.time') }} hours on Arena Top 100</p>
+                        @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
+                            <form action="{{ route('app.vote.arena.submit') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="vote-button arena-button">
+                                    <span style="margin-right: 8px;">🗳️</span>
+                                    Vote on Arena Top 100
+                                </button>
+                            </form>
+                        @else
+                            <div class="cooldown-timer" data-time="{{ $arena_info[Auth::user()->ID]['end_time'] ?? 0 }}">
+                                <span class="cooldown-icon">⏱️</span>
+                                <span class="cooldown-text">Please wait: <span class="time-remaining">--:--:--</span></span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+            
             
             @if($sites && $sites->count() > 0)
+            <h3 style="font-size: 1.8rem; color: #b19cd9; text-align: center; margin: 40px 0 30px; text-shadow: 0 0 20px rgba(177, 156, 217, 0.6);">Vote Sites</h3>
             <div class="vote-sites">
                 @foreach($sites as $site)
                     <div class="vote-site">
@@ -912,7 +1061,7 @@
                         <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
                         @auth
                             @if(isset($vote_info[$site->id]) && $vote_info[$site->id]['status'])
-                                <form action="{{ route('app.vote.check', $site->id) }}" method="POST">
+                                <form action="{{ route('app.vote.submit', $site->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="vote-button">Vote Now</button>
                                 </form>
@@ -929,11 +1078,13 @@
                 @endforeach
             </div>
             @else
-            <div style="text-align: center; padding: 60px 20px;">
-                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
-                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Vote Sites Available</p>
-                <p style="color: #b19cd9;">Check back later for voting opportunities!</p>
-            </div>
+                @if(!config('arena.status') || !Auth::check())
+                <div style="text-align: center; padding: 60px 20px;">
+                    <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
+                    <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Vote Sites Available</p>
+                    <p style="color: #b19cd9;">Check back later for voting opportunities!</p>
+                </div>
+                @endif
             @endif
             
             <div class="rewards-info">
