@@ -93,6 +93,12 @@ class VoteController extends Controller
                         'cash' => $site->reward_amount
                     ]);
                     break;
+
+                case 'bonuses':
+                    $user = Auth::user();
+                    $user->bonuses = $site->reward_amount + $user->bonuses;
+                    $user->save();
+                    break;
             }
             VoteLog::create([
                 'user_id' => Auth::user()->ID,
@@ -101,6 +107,14 @@ class VoteController extends Controller
                 'site_id' => $site->id
             ]);
             
+            // If this is an AJAX request from public vote page
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Vote rewards claimed successfully!'
+                ]);
+            }
+            
             // If this is from the public vote page, store in session
             if ($request->has('public_vote')) {
                 session(['vote_completed_' . $site->id => true]);
@@ -108,6 +122,14 @@ class VoteController extends Controller
             
             return redirect()->to($site->link);
         } else {
+            // If this is an AJAX request
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => __('vote.already_voted', ['site' => $site->name])
+                ]);
+            }
+            
             return redirect()->route('app.vote.index')->with('error', __('vote.already_voted', ['site' => $site->name]));
         }
     }
