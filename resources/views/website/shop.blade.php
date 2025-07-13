@@ -465,52 +465,30 @@
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
         }
 
-        /* Category Navigation */
-        .category-nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 40px;
-            justify-content: center;
-            position: relative;
-            z-index: 1;
+        /* Category Sidebar */
+        .category-sidebar-link:hover {
+            background: rgba(147, 112, 219, 0.3) !important;
+            transform: translateX(5px);
+            box-shadow: 0 3px 15px rgba(147, 112, 219, 0.4);
         }
-
-        .category-link {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 15px;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: #b19cd9;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+        
+        /* Custom scrollbar for category sidebar */
+        .category-sidebar-scroll::-webkit-scrollbar {
+            width: 6px;
         }
-
-        .category-link:hover {
-            background: rgba(147, 112, 219, 0.2);
-            border-color: #9370db;
-            color: #dda0dd;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.3);
+        
+        .category-sidebar-scroll::-webkit-scrollbar-track {
+            background: rgba(147, 112, 219, 0.1);
+            border-radius: 3px;
         }
-
-        .category-link.active {
-            background: linear-gradient(45deg, #9370db, #8a2be2);
-            border-color: #8a2be2;
-            color: #fff;
-            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.5);
+        
+        .category-sidebar-scroll::-webkit-scrollbar-thumb {
+            background: rgba(147, 112, 219, 0.4);
+            border-radius: 3px;
         }
-
-        .category-icon {
-            font-size: 1.2rem;
-        }
-
-        .category-name {
-            font-weight: 600;
+        
+        .category-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(147, 112, 219, 0.6);
         }
 
         /* User Info Bar */
@@ -1294,23 +1272,31 @@
             </div>
             @endauth
             
-            <!-- Category Navigation (only for items) -->
+            <!-- Items Layout with Sidebar -->
             @if($tab === 'items')
-            <div class="category-nav">
-                @foreach($categories as $category)
-                    <a href="{{ route('public.shop', ['tab' => 'items', 'mask' => $category['mask']]) }}" 
-                       class="category-link {{ $currentMask == $category['mask'] && ($currentMask !== null || $category['mask'] === null) ? 'active' : '' }}">
-                        <span class="category-icon">{{ $category['icon'] }}</span>
-                        <span class="category-name">{{ $category['name'] }}</span>
-                    </a>
-                @endforeach
-            </div>
-            @endif
-            
-            <!-- Display Items -->
-            @if($tab === 'items' && $items->count() > 0)
-            <div class="shop-grid">
-                @foreach($items as $item)
+            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                <!-- Category Sidebar -->
+                <div style="width: 250px; flex-shrink: 0;">
+                    <div style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1)); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 15px; padding: 20px;">
+                        <h3 style="color: #9370db; font-size: 1.2rem; margin-bottom: 15px; text-align: center; font-weight: 600;">Categories</h3>
+                        <div class="category-sidebar-scroll" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
+                            @foreach($categories as $category)
+                                <a href="{{ route('public.shop', ['tab' => 'items', 'mask' => $category['mask']]) }}" 
+                                   class="category-sidebar-link"
+                                   style="display: flex; align-items: center; padding: 12px 15px; margin-bottom: 5px; background: {{ $currentMask == $category['mask'] && ($currentMask !== null || $category['mask'] === null) ? 'linear-gradient(45deg, #9370db, #8a2be2)' : 'rgba(147, 112, 219, 0.1)' }}; border-radius: 10px; text-decoration: none; color: {{ $currentMask == $category['mask'] && ($currentMask !== null || $category['mask'] === null) ? '#fff' : '#b19cd9' }}; transition: all 0.3s ease;">
+                                    <span style="font-size: 1.2rem; margin-right: 10px;">{{ $category['icon'] }}</span>
+                                    <span style="font-size: 0.95rem; font-weight: 500;">{{ $category['name'] }}</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Items Display Area -->
+                <div style="flex-grow: 1;">
+                    @if($items->count() > 0)
+                    <div class="shop-grid">
+                        @foreach($items as $item)
                     <div class="shop-item">
                         @if($item->discount > 0)
                             <div class="discount-badge">-{{ $item->discount }}%</div>
@@ -1362,42 +1348,45 @@
                             @endif
                         @endauth
                     </div>
-                @endforeach
-            </div>
-            
-            <!-- Pagination for items -->
-            @if($items->hasPages())
-            <div style="margin-top: 40px; text-align: center;">
-                <div style="display: inline-flex; gap: 10px; align-items: center;">
-                    @if($items->onFirstPage())
-                        <span style="padding: 8px 16px; color: #666; cursor: not-allowed;">← Previous</span>
-                    @else
-                        <a href="{{ $items->previousPageUrl() }}&tab=items{{ $currentMask !== null ? '&mask=' . $currentMask : '' }}" 
-                           style="padding: 8px 16px; background: rgba(147, 112, 219, 0.2); color: #dda0dd; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
-                            ← Previous
-                        </a>
+                        @endforeach
+                    </div>
+                    
+                    <!-- Pagination for items -->
+                    @if($items->hasPages())
+                    <div style="margin-top: 40px; text-align: center;">
+                        <div style="display: inline-flex; gap: 10px; align-items: center;">
+                            @if($items->onFirstPage())
+                                <span style="padding: 8px 16px; color: #666; cursor: not-allowed;">← Previous</span>
+                            @else
+                                <a href="{{ $items->previousPageUrl() }}&tab=items{{ $currentMask !== null ? '&mask=' . $currentMask : '' }}" 
+                                   style="padding: 8px 16px; background: rgba(147, 112, 219, 0.2); color: #dda0dd; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
+                                    ← Previous
+                                </a>
+                            @endif
+                            
+                            <span style="color: #b19cd9; padding: 0 10px;">
+                                Page {{ $items->currentPage() }} of {{ $items->lastPage() }}
+                            </span>
+                            
+                            @if($items->hasMorePages())
+                                <a href="{{ $items->nextPageUrl() }}&tab=items{{ $currentMask !== null ? '&mask=' . $currentMask : '' }}" 
+                                   style="padding: 8px 16px; background: rgba(147, 112, 219, 0.2); color: #dda0dd; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
+                                    Next →
+                                </a>
+                            @else
+                                <span style="padding: 8px 16px; color: #666; cursor: not-allowed;">Next →</span>
+                            @endif
+                        </div>
+                    </div>
                     @endif
-                    
-                    <span style="color: #b19cd9; padding: 0 10px;">
-                        Page {{ $items->currentPage() }} of {{ $items->lastPage() }}
-                    </span>
-                    
-                    @if($items->hasMorePages())
-                        <a href="{{ $items->nextPageUrl() }}&tab=items{{ $currentMask !== null ? '&mask=' . $currentMask : '' }}" 
-                           style="padding: 8px 16px; background: rgba(147, 112, 219, 0.2); color: #dda0dd; text-decoration: none; border-radius: 8px; transition: all 0.3s;">
-                            Next →
-                        </a>
                     @else
-                        <span style="padding: 8px 16px; color: #666; cursor: not-allowed;">Next →</span>
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <span style="font-size: 4rem; display: block; margin-bottom: 20px;">📦</span>
+                        <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Items Available</p>
+                        <p style="color: #b19cd9;">Check back later for mystical items!</p>
+                    </div>
                     @endif
                 </div>
-            </div>
-            @endif
-            @elseif($tab === 'items')
-            <div style="text-align: center; padding: 60px 20px;">
-                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">📦</span>
-                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Items Available</p>
-                <p style="color: #b19cd9;">Check back later for mystical items!</p>
             </div>
             @endif
             
