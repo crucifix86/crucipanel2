@@ -65,6 +65,18 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Scheduler Security Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used to secure the automatic scheduler endpoint.
+    | It should be set to a random string in your .env file.
+    |
+    */
+    
+    'schedule_key' => env('SCHEDULE_KEY', 'default-schedule-key-change-me'),
 
     /*
     |--------------------------------------------------------------------------

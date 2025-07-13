@@ -18,9 +18,9 @@ class SchedulerController extends Controller
         $lastRun = Cache::get('schedule:last_run', []);
         $isRunning = Cache::has('schedule:running');
         
-        // Check if SCHEDULE_KEY exists
-        $scheduleKey = env('SCHEDULE_KEY');
-        $hasScheduleKey = !empty($scheduleKey) && $scheduleKey !== 'change-this-to-a-random-string';
+        // Check if SCHEDULE_KEY exists (use config, not env)
+        $scheduleKey = config('app.schedule_key', env('SCHEDULE_KEY'));
+        $hasScheduleKey = !empty($scheduleKey) && $scheduleKey !== 'change-this-to-a-random-string' && $scheduleKey !== 'default-schedule-key-change-me';
         
         return view('admin.scheduler.index', [
             'enabled' => config('pw-config.scheduler.enabled', true),
