@@ -39,8 +39,7 @@ class ServiceController extends Controller
         if (!method_exists($this, $service->key)) {
             return redirect()->back()->with('error', __('service.no_service', ['service' => __('service.ingame.' . $service->key . '.title')]));
         } else {
-            call_user_func_array([$this, $service->key], [$request, $service]);
-            return redirect()->back();
+            return call_user_func_array([$this, $service->key], [$request, $service]);
         }
     }
 
