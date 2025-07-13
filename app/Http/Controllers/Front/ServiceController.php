@@ -144,8 +144,12 @@ class ServiceController extends Controller
 
                     if (!$success && ($method === 'direct' || $method === 'auto')) {
                         // Try direct database method
+                        $directSuccess = false;
+                        $errorMessages = [];
+                        
+                        // Method 1: Try stored procedure
                         try {
-                            \DB::connection('pw')->select('call usecash(?,?,?,?,?,?,?,?)', [
+                            \DB::select('call usecash(?,?,?,?,?,?,?,?)', [
                                 $user->ID,
                                 1, // zone_id
                                 0, // sn
@@ -155,10 +159,58 @@ class ServiceController extends Controller
                                 1, // status
                                 \Carbon\Carbon::now()
                             ]);
-                            $success = true;
+                            $directSuccess = true;
                         } catch (\Exception $e) {
+                            $errorMessages[] = 'Stored procedure failed: ' . $e->getMessage();
+                        }
+                        
+                        // Method 2: Try direct table insert if stored procedure failed
+                        if (!$directSuccess) {
+                            try {
+                                // Check if usecashnow table exists
+                                $tableExists = \DB::select("SHOW TABLES LIKE 'usecashnow'");
+                                
+                                if (!empty($tableExists)) {
+                                    // Check if user already has record
+                                    $exists = \DB::table('usecashnow')
+                                        ->where('userid', $user->ID)
+                                        ->where('zoneid', 1)
+                                        ->exists();
+                                    
+                                    if (!$exists) {
+                                        \DB::table('usecashnow')->insert([
+                                            'userid' => $user->ID,
+                                            'zoneid' => 1,
+                                            'sn' => 0,
+                                            'aid' => 1,
+                                            'point' => 0,
+                                            'cash' => $request->quantity * 100,
+                                            'status' => 1,
+                                            'creatime' => \Carbon\Carbon::now()
+                                        ]);
+                                        $directSuccess = true;
+                                    } else {
+                                        // Update existing record
+                                        \DB::table('usecashnow')
+                                            ->where('userid', $user->ID)
+                                            ->where('zoneid', 1)
+                                            ->increment('cash', $request->quantity * 100);
+                                        $directSuccess = true;
+                                    }
+                                } else {
+                                    $errorMessages[] = 'usecashnow table not found';
+                                }
+                            } catch (\Exception $e) {
+                                $errorMessages[] = 'Direct table method failed: ' . $e->getMessage();
+                            }
+                        }
+                        
+                        if ($directSuccess) {
+                            $success = true;
+                        } else {
+                            \Log::error('Cubi transfer direct methods failed', $errorMessages);
                             if ($method === 'direct') {
-                                throw new \Exception('Direct database method failed. Please contact administrator.');
+                                throw new \Exception('All direct database methods failed. Errors: ' . implode('; ', $errorMessages));
                             }
                         }
                     }
