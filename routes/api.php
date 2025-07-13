@@ -51,4 +51,9 @@ Route::group(['middleware' => 'api'], static function () {
         'as' => 'api.news.show',
         'uses' => 'App\Http\Controllers\Api\NewsController@show'
     ]);
+    
+    Route::get('vote/check-status/{siteId}', [
+        'as' => 'api.vote.check',
+        'uses' => 'App\Http\Controllers\Website\PublicVoteController@checkVoteStatus'
+    ]);
 });

@@ -100,6 +100,12 @@ class VoteController extends Controller
                 'reward' => $site->reward_amount,
                 'site_id' => $site->id
             ]);
+            
+            // If this is from the public vote page, store in session
+            if ($request->has('public_vote')) {
+                session(['vote_completed_' . $site->id => true]);
+            }
+            
             return redirect()->to($site->link);
         } else {
             return redirect()->route('app.vote.index')->with('error', __('vote.already_voted', ['site' => $site->name]));

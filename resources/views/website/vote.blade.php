@@ -1186,13 +1186,10 @@
                     <div class="arena-body">
                         <p class="arena-description">Vote every {{ config('arena.time') }} hours on Arena Top 100</p>
                         @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
-                            <form action="{{ route('app.vote.arena.submit') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="vote-button arena-button">
-                                    <span style="margin-right: 8px;">🗳️</span>
-                                    Vote on Arena Top 100
-                                </button>
-                            </form>
+                            <button onclick="voteArena()" class="vote-button arena-button">
+                                <span style="margin-right: 8px;">🗳️</span>
+                                Vote on Arena Top 100
+                            </button>
                         @else
                             <div class="cooldown-timer" data-time="{{ $arena_info[Auth::user()->ID]['end_time'] ?? 0 }}">
                                 <span class="cooldown-icon">⏱️</span>
@@ -1225,10 +1222,7 @@
                         <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
                         @auth
                             @if(isset($vote_info[$site->id]) && $vote_info[$site->id]['status'])
-                                <form action="{{ route('app.vote.submit', $site->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="vote-button">Vote Now</button>
-                                </form>
+                                <button onclick="voteSite({{ $site->id }}, '{{ $site->name }}')" class="vote-button">Vote Now</button>
                             @else
                                 <div class="cooldown-timer" data-time="{{ $vote_info[$site->id]['end_time'] ?? 0 }}">
                                     <span class="cooldown-icon">⏱️</span>
@@ -1417,6 +1411,193 @@
             `;
             document.head.appendChild(fadeInUpStyle);
         });
+        
+        // Vote functions
+        let votingInProgress = {};
+        let originalBalance = {
+            money: {{ Auth::check() ? Auth::user()->money : 0 }},
+            bonuses: {{ Auth::check() ? Auth::user()->bonuses : 0 }}
+        };
+        
+        function voteSite(siteId, siteName) {
+            if (votingInProgress[siteId]) return;
+            
+            votingInProgress[siteId] = true;
+            
+            // Open vote site in new tab
+            window.open('/vote/redirect/' + siteId, '_blank');
+            
+            // Show voting notification
+            showNotification('info', `Opening ${siteName} in a new tab. Please complete the vote and return here.`);
+            
+            // Start checking for completion
+            checkVoteCompletion(siteId);
+        }
+        
+        function voteArena() {
+            if (votingInProgress['arena']) return;
+            
+            votingInProgress['arena'] = true;
+            
+            // Open arena in new tab
+            window.open('/vote/arena/redirect', '_blank');
+            
+            // Show voting notification
+            showNotification('info', 'Opening Arena Top 100 in a new tab. Please complete the vote and return here.');
+            
+            // Start checking for completion
+            checkVoteCompletion('arena');
+        }
+        
+        function checkVoteCompletion(siteId) {
+            let checkCount = 0;
+            const maxChecks = 60; // Check for 5 minutes (60 * 5 seconds)
+            
+            const checkInterval = setInterval(() => {
+                checkCount++;
+                
+                fetch('/api/vote/check-status/' + siteId)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.completed) {
+                            clearInterval(checkInterval);
+                            votingInProgress[siteId] = false;
+                            
+                            // Show success notification with balance change
+                            const coinsAdded = data.new_balance.money - originalBalance.money;
+                            const bonusesAdded = data.new_balance.bonuses - originalBalance.bonuses;
+                            
+                            let message = `Vote successful! `;
+                            if (coinsAdded > 0) {
+                                message += `+${coinsAdded} ${data.currency_name} added! `;
+                            }
+                            if (bonusesAdded > 0) {
+                                message += `+${bonusesAdded} Bonus Points added! `;
+                            }
+                            message += `(Old: ${originalBalance.money} → New: ${data.new_balance.money})`;
+                            
+                            showNotification('success', message);
+                            
+                            // Update displayed balance
+                            updateBalanceDisplay(data.new_balance);
+                            
+                            // Update original balance
+                            originalBalance = data.new_balance;
+                            
+                            // Refresh page after 3 seconds to update cooldowns
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking vote status:', error);
+                    });
+                
+                if (checkCount >= maxChecks) {
+                    clearInterval(checkInterval);
+                    votingInProgress[siteId] = false;
+                    showNotification('info', 'Vote check timed out. Please refresh the page if you completed the vote.');
+                }
+            }, 5000); // Check every 5 seconds
+        }
+        
+        function updateBalanceDisplay(newBalance) {
+            // Update money display
+            const moneyElements = document.querySelectorAll('.balance-value');
+            if (moneyElements[0]) {
+                moneyElements[0].textContent = new Intl.NumberFormat('en-US').format(newBalance.money);
+                // Add flash effect
+                moneyElements[0].style.animation = 'balanceFlash 1s ease-in-out';
+            }
+            
+            // Update bonuses display
+            if (moneyElements[1]) {
+                moneyElements[1].textContent = new Intl.NumberFormat('en-US').format(newBalance.bonuses);
+                // Add flash effect
+                moneyElements[1].style.animation = 'balanceFlash 1s ease-in-out';
+            }
+        }
+        
+        function showNotification(type, message) {
+            // Remove any existing notifications
+            const existingNotif = document.querySelector('.vote-notification');
+            if (existingNotif) {
+                existingNotif.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'vote-notification';
+            
+            let bgColor, borderColor, textColor, icon;
+            switch(type) {
+                case 'success':
+                    bgColor = 'rgba(16, 185, 129, 0.2)';
+                    borderColor = '#10b981';
+                    textColor = '#10b981';
+                    icon = '✓';
+                    break;
+                case 'info':
+                    bgColor = 'rgba(59, 130, 246, 0.2)';
+                    borderColor = '#3b82f6';
+                    textColor = '#3b82f6';
+                    icon = 'ℹ️';
+                    break;
+                default:
+                    bgColor = 'rgba(239, 68, 68, 0.2)';
+                    borderColor = '#ef4444';
+                    textColor = '#ef4444';
+                    icon = '✗';
+            }
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${bgColor};
+                border: 2px solid ${borderColor};
+                padding: 20px 30px;
+                border-radius: 15px;
+                z-index: 10000;
+                max-width: 400px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="font-size: 1.5rem;">${icon}</span>
+                    <span style="color: ${textColor}; font-size: 1.1rem; font-weight: 600;">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 10000);
+        }
+        
+        // Add animations
+        const notificationStyle = document.createElement('style');
+        notificationStyle.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            @keyframes balanceFlash {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.2); color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+            }
+        `;
+        document.head.appendChild(notificationStyle);
     </script>
 </body>
 </html>

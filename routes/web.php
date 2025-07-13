@@ -112,6 +112,16 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'public.vote',
         'uses' => 'App\Http\Controllers\Website\PublicVoteController@index'
     ]);
+    
+    Route::get('vote/redirect/{site}', [
+        'as' => 'public.vote.redirect',
+        'uses' => 'App\Http\Controllers\Website\PublicVoteController@redirectToSite'
+    ]);
+    
+    Route::get('vote/arena/redirect', [
+        'as' => 'public.vote.arena.redirect',
+        'uses' => 'App\Http\Controllers\Website\PublicVoteController@redirectToArena'
+    ]);
 
     // Public Members Page
     Route::get('members', [

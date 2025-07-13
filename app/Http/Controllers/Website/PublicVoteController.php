@@ -64,4 +64,84 @@ class PublicVoteController extends Controller
             'arena_info' => $arena_info
         ]);
     }
+    
+    public function redirectToSite(Request $request, VoteSite $site)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('public.vote')->with('error', 'You must be logged in to vote.');
+        }
+        
+        // Store vote attempt in session
+        session(['vote_pending_' . $site->id => time()]);
+        
+        // Redirect to the voting site
+        return redirect()->to($site->link);
+    }
+    
+    public function redirectToArena(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('public.vote')->with('error', 'You must be logged in to vote.');
+        }
+        
+        // Store arena vote attempt in session
+        session(['vote_pending_arena' => time()]);
+        
+        // Generate arena callback URL
+        $callback_url = urlencode(base64_encode(route('api.arenatop100') . '?userid=' . Auth::user()->ID));
+        
+        // Redirect to arena
+        return redirect()->to('https://www.arena-top100.com/index.php?a=in&u=' . config('arena.username') . '&callback=' . $callback_url);
+    }
+    
+    public function checkVoteStatus(Request $request, $siteId)
+    {
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+        $user = Auth::user();
+        $completed = false;
+        
+        if ($siteId === 'arena') {
+            // Check if arena vote was completed
+            $pendingTime = session('vote_pending_arena', 0);
+            if ($pendingTime > 0) {
+                $recentLog = ArenaLogs::where('user_id', $user->ID)
+                    ->where('created_at', '>', Carbon::createFromTimestamp($pendingTime))
+                    ->first();
+                    
+                if ($recentLog) {
+                    $completed = true;
+                    session()->forget('vote_pending_arena');
+                }
+            }
+        } else {
+            // Check if regular vote was completed
+            $pendingTime = session('vote_pending_' . $siteId, 0);
+            if ($pendingTime > 0) {
+                $recentLog = VoteLog::where('user_id', $user->ID)
+                    ->where('site_id', $siteId)
+                    ->where('created_at', '>', Carbon::createFromTimestamp($pendingTime))
+                    ->first();
+                    
+                if ($recentLog) {
+                    $completed = true;
+                    session()->forget('vote_pending_' . $siteId);
+                }
+            }
+        }
+        
+        // Get updated balance
+        $user->refresh();
+        
+        return response()->json([
+            'completed' => $completed,
+            'new_balance' => [
+                'money' => $user->money,
+                'bonuses' => $user->bonuses
+            ],
+            'currency_name' => config('pw-config.currency_name', 'Coins')
+        ]);
+    }
 }
