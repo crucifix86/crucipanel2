@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Haven Perfect World - Vote</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -20,6 +21,8 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            transform: none !important;
+            will-change: auto !important;
         }
 
         .mystical-bg {
@@ -99,10 +102,18 @@
         .container {
             position: relative;
             z-index: 3;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin-left: 260px;
+            margin-right: auto;
             padding: 20px;
             min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
         }
 
         .header {
@@ -181,14 +192,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
         .nav-link {
             color: #b19cd9;
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 30px;
             font-size: 1.1rem;
             font-weight: 600;
@@ -578,12 +589,9 @@
                 font-size: 3rem;
             }
             
+            .server-status,
             .login-box-wrapper {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin: 20px auto;
-                max-width: 90%;
+                display: none;
             }
             
             .vote-section {
@@ -613,32 +621,100 @@
             100% { text-shadow: 0 0 40px rgba(147, 112, 219, 1), 0 0 60px rgba(138, 43, 226, 0.8); }
         }
 
-        /* Login Box Container */
-        .login-box-wrapper {
-            position: absolute;
+        /* Server Status */
+        .server-status {
+            position: fixed;
             top: 20px;
-            right: 20px;
-            z-index: 100;
-            width: 280px;
+            left: 20px;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 220px;
+            transform: none;
+            will-change: auto;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-indicator.online .status-dot {
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+        }
+        
+        .status-indicator.offline .status-dot {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        .status-text {
+            color: #e6d7f0;
+            font-size: 0.95rem;
+        }
+        
+        .players-online {
+            color: #b19cd9;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .players-online i {
+            color: #9370db;
+            font-size: 0.9rem;
         }
         
         /* Login Box */
+        .login-box-wrapper {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 9998;
+            width: 220px;
+            transform: none;
+            will-change: auto;
+        }
+        
         .login-box {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(147, 112, 219, 0.4);
-            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
             padding: 0;
-            min-width: 280px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .login-box-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 10px 15px;
             border-bottom: 1px solid rgba(147, 112, 219, 0.3);
             cursor: pointer;
         }
@@ -646,7 +722,7 @@
         .login-box-header h3 {
             margin: 0;
             color: #9370db;
-            font-size: 1.2rem;
+            font-size: 1rem;
             text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
         
@@ -654,10 +730,10 @@
             background: none;
             border: none;
             color: #b19cd9;
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: transform 0.3s ease;
-            padding: 5px;
+            padding: 3px;
         }
         
         .collapse-toggle:hover {
@@ -669,34 +745,34 @@
         }
         
         .login-box-content {
-            padding: 25px;
-            max-height: 500px;
+            padding: 15px;
+            max-height: 300px;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
         }
         
         .login-box.collapsed .login-box-content {
             max-height: 0;
-            padding: 0 25px;
+            padding: 0 15px;
         }
 
         .login-box-content h3 {
             color: #9370db;
-            font-size: 1.4rem;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
             text-align: center;
             text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
 
         .login-form input {
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(147, 112, 219, 0.5);
-            border-radius: 10px;
+            border-radius: 8px;
             color: #e6d7f0;
-            font-size: 1rem;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
             font-family: Arial, sans-serif;
         }
@@ -716,13 +792,13 @@
             background: linear-gradient(45deg, #9370db, #8a2be2);
             color: #fff;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .login-button:hover {
@@ -732,14 +808,14 @@
 
         .login-links {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         .login-links a {
             color: #b19cd9;
             text-decoration: none;
-            font-size: 0.9rem;
-            margin: 0 10px;
+            font-size: 0.85rem;
+            margin: 0 8px;
             transition: color 0.3s ease;
         }
 
@@ -883,10 +959,30 @@
     <div class="dragon-ornament dragon-left">🐉</div>
     <div class="dragon-ornament dragon-right">🐉</div>
     
-    <div class="container">
-        <!-- Login/User Box -->
-        <div class="login-box-wrapper">
-            <div class="login-box collapsed" id="loginBox">
+    <!-- Server Status and Login Box must be outside any transformed containers -->
+    @php
+        $api = new \hrace009\PerfectWorldAPI\API();
+        $point = new \App\Models\Point();
+        $onlinePlayer = $point->getOnlinePlayer();
+        $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
+    @endphp
+    
+    <!-- Server Status -->
+    <div class="server-status">
+        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
+            <span class="status-dot"></span>
+            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+        </div>
+        @if($api->online)
+            <div class="players-online">
+                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+            </div>
+        @endif
+    </div>
+    
+    <!-- Login/User Box -->
+    <div class="login-box-wrapper">
+        <div class="login-box collapsed" id="loginBox">
                 <div class="login-box-header" onclick="toggleLoginBox()">
                     <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
                     <button class="collapse-toggle">▼</button>
@@ -925,7 +1021,9 @@
                 </div>
             </div>
         </div>
-        
+    </div>
+    
+    <div class="container">
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
             $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
