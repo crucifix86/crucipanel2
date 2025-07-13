@@ -136,12 +136,13 @@ class VoteController extends Controller
 
     public function arenaSubmit(Request $request)
     {
+        // Check if user has a completed vote in cooldown period
         if (!ArenaLogs::recent($request, Auth::user()->ID)->exists()) {
             $recent = ArenaLogs::create([
                 'user_id' => Auth::user()->ID,
                 'ip_address' => $request->ip(),
                 'reward' => config('arena.reward'),
-                'status' => 2  // 2 = pending, 1 = not processed, 0 = completed
+                'status' => 1  // 1 = pending/not processed, 0 = completed
             ]);
             $callback_url = urlencode(base64_encode(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id));
             return redirect()->to('https://www.arena-top100.com/index.php?a=in&u=' . config('arena.username') . '&callback=' . $callback_url);
