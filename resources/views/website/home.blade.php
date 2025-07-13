@@ -816,8 +816,7 @@
             padding: 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
-            max-height: 400px;
-            overflow-y: auto;
+            overflow: hidden;
         }
         
         .visit-reward-header {
@@ -838,7 +837,7 @@
         }
         
         .visit-reward-content {
-            padding: 15px;
+            padding: 10px 15px;
             text-align: center;
         }
         
@@ -851,8 +850,8 @@
         }
         
         .reward-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
             display: block;
             animation: bounce 2s ease-in-out infinite;
         }
@@ -871,8 +870,8 @@
         
         .reward-description {
             color: #ffed4e;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
         }
         
         .reward-amount {
@@ -880,9 +879,9 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .claim-button {
@@ -1152,7 +1151,6 @@
             </div>
             <div class="visit-reward-content">
                 <span class="reward-icon">🎁</span>
-                <h4 class="reward-title">{{ $visitRewardSettings->title }}</h4>
                 @if($visitRewardSettings->description)
                     <p class="reward-description">{{ $visitRewardSettings->description }}</p>
                 @endif

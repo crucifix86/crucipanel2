@@ -134,6 +134,17 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'public.members',
         'uses' => 'App\Http\Controllers\Website\PublicMembersController@index'
     ]);
+    
+    // Visit Reward API Routes (need web middleware for auth)
+    Route::get('api/visit-reward/status', [
+        'as' => 'api.visit-reward.status',
+        'uses' => 'App\Http\Controllers\VisitRewardController@status'
+    ]);
+    
+    Route::post('api/visit-reward/claim', [
+        'as' => 'api.visit-reward.claim',
+        'uses' => 'App\Http\Controllers\VisitRewardController@claim'
+    ]);
 });
 
 /* App Page */
