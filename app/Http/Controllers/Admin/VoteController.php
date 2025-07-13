@@ -20,6 +20,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use App\Facades\LocalSettings;
 
 class VoteController extends Controller
 {
@@ -114,21 +115,24 @@ class VoteController extends Controller
 
     public function postArena(Request $request)
     {
-        if ($request->has('status')) {
-            Config::write('arena.status', true);
-        } else {
-            Config::write('arena.status', false);
-        }
+        $status = $request->has('status');
+        
+        // Save to both config and local settings
+        Config::write('arena.status', $status);
+        LocalSettings::set('arena.status', $status);
 
-        if (config('arena.status') === true) {
+        if ($status) {
             $configs = $request->validate([
                 'username' => 'string|required',
                 'reward' => 'numeric|required',
                 'reward_type' => 'required',
                 'time' => 'numeric|required'
             ]);
+            
+            // Save each config to both systems
             foreach ($configs as $config => $value) {
                 Config::write('arena.' . $config, $value);
+                LocalSettings::set('arena.' . $config, $value);
             }
         }
         

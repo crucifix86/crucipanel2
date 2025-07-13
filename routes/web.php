@@ -401,6 +401,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'as' => 'admin.email.test',
             'uses' => 'App\Http\Controllers\Admin\SystemController@testEmailSettings'
         ]);
+        
+        Route::get('local-settings', [
+            'as' => 'admin.local-settings.index',
+            'uses' => 'App\Http\Controllers\Admin\LocalSettingsController@index'
+        ]);
+        
+        Route::get('local-settings/export', [
+            'as' => 'admin.local-settings.export',
+            'uses' => 'App\Http\Controllers\Admin\LocalSettingsController@export'
+        ]);
+        
+        Route::post('local-settings/import', [
+            'as' => 'admin.local-settings.import',
+            'uses' => 'App\Http\Controllers\Admin\LocalSettingsController@import'
+        ]);
+        
+        Route::get('local-settings/clear', [
+            'as' => 'admin.local-settings.clear',
+            'uses' => 'App\Http\Controllers\Admin\LocalSettingsController@clear'
+        ]);
 
     });
 

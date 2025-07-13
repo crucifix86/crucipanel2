@@ -206,6 +206,7 @@ return [
         App\Providers\Hrace009Validation::class,
         App\Providers\HashServiceProvider::class,
         App\Providers\MailConfigServiceProvider::class,
+        App\Providers\LocalSettingsServiceProvider::class,
         hrace009\PerfectWorldAPI\ServiceProvider::class,
         hrace009\ConfigWriter\ServiceProvider::class,
     ],

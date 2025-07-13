@@ -99,5 +99,13 @@
         >
             Automatic Scheduler
         </a>
+        
+        <a
+            href="{{ route('admin.local-settings.index') }}"
+            role="menuitem"
+            class="block p-2 text-sm text-gray-{{ request()->routeIs('admin.local-settings.*') ? '700' : '400' }} transition-colors duration-200 rounded-md dark:{{ request()->routeIs('admin.local-settings.*') ? 'text-light' : 'text-gray-400' }} dark:hover:text-light hover:text-gray-700"
+        >
+            Local Settings Backup
+        </a>
     </div>
 </div>

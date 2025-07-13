@@ -44,7 +44,8 @@
         "files": [
             "app/Http/Helper/CaptchaGenerator.php",
             "app/Http/Helper/RandomStringGenerator.php",
-            "app/Http/Helper/TimeMaker.php"
+            "app/Http/Helper/TimeMaker.php",
+            "app/Helpers/settings.php"
         ]
     },
     "autoload-dev": {

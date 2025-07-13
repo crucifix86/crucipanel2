@@ -1200,7 +1200,7 @@
             @endif
             
             <!-- Arena Top 100 Section -->
-            @if(config('arena.status') === true && Auth::check())
+            @if(get_setting('arena.status') === true && Auth::check())
             <div style="margin-bottom: 50px;">
                 <div class="arena-section">
                     <div class="arena-header">
@@ -1209,11 +1209,11 @@
                             Arena Top 100
                         </h3>
                         <div class="arena-reward">
-                            <span class="reward-amount">+{{ config('arena.reward') }}</span>
+                            <span class="reward-amount">+{{ get_setting('arena.reward') }}</span>
                             <span class="reward-type">
-                                @if(config('arena.reward_type') === 'cubi')
+                                @if(get_setting('arena.reward_type') === 'cubi')
                                     Gold
-                                @elseif(config('arena.reward_type') === 'virtual')
+                                @elseif(get_setting('arena.reward_type') === 'virtual')
                                     {{ config('pw-config.currency_name', 'Coins') }}
                                 @else
                                     Bonus Points
@@ -1222,9 +1222,9 @@
                         </div>
                     </div>
                     <div class="arena-body">
-                        <p class="arena-description">Vote every {{ config('arena.time') }} hours on Arena Top 100</p>
+                        <p class="arena-description">Vote every {{ get_setting('arena.time') }} hours on Arena Top 100</p>
                         @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
-                            <form id="vote-form-arena" action="{{ route('app.vote.arena.submit') }}" method="POST" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ config('arena.reward') }}, '{{ config('arena.reward_type') }}')">
+                            <form id="vote-form-arena" action="{{ route('app.vote.arena.submit') }}" method="POST" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ get_setting('arena.reward') }}, '{{ get_setting('arena.reward_type') }}')">
                                 @csrf
                                 <button type="submit" class="vote-button arena-button">
                                     <span style="margin-right: 8px;">🗳️</span>
