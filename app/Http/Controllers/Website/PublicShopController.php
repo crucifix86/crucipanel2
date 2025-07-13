@@ -105,6 +105,12 @@ class PublicShopController extends Controller
             'teleport' => ['icon' => '🌟'],
         ];
 
+        // Get voucher logs for authenticated users
+        $voucherLogs = collect();
+        if (auth()->check() && ($tab === 'vouchers' || $search)) {
+            $voucherLogs = auth()->user()->voucher_logs()->with('voucher')->orderBy('created_at', 'desc')->get();
+        }
+        
         return view('website.shop', [
             'items' => $items,
             'vouchers' => $vouchers,
@@ -113,7 +119,8 @@ class PublicShopController extends Controller
             'currentMask' => $mask ?? null,
             'tab' => $tab,
             'search' => $search,
-            'serviceInfo' => $serviceInfo
+            'serviceInfo' => $serviceInfo,
+            'voucherLogs' => $voucherLogs
         ]);
     }
 }

@@ -1416,11 +1416,63 @@
                         <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 20px;">
                             Enter your voucher code above to add {{ config('pw-config.currency_name', 'Coins') }} to your account
                         </p>
+                        
+                        @if($voucherLogs->count() > 0)
+                        <button onclick="toggleVoucherHistory()" style="background: rgba(147, 112, 219, 0.2); border: 1px solid rgba(147, 112, 219, 0.4); border-radius: 15px; padding: 8px 20px; color: #b19cd9; font-weight: 500; cursor: pointer; font-size: 0.9rem; margin-top: 15px; transition: all 0.3s ease;">
+                            <span style="margin-right: 5px;">📋</span> View Redemption History
+                        </button>
+                        @endif
                     @else
                         <p style="color: #b19cd9; font-size: 1rem;">Please <a href="{{ route('login') }}" style="color: #9370db; text-decoration: underline;">login</a> to redeem voucher codes</p>
                     @endauth
                 </div>
             </div>
+            
+            <!-- Voucher History Popup -->
+            @auth
+            @if($voucherLogs->count() > 0)
+            <div id="voucherHistoryPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; overflow-y: auto;">
+                <div style="position: relative; max-width: 800px; margin: 50px auto; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); border: 2px solid rgba(147, 112, 219, 0.4); border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(147, 112, 219, 0.6);">
+                    <button onclick="toggleVoucherHistory()" style="position: absolute; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 50%; width: 40px; height: 40px; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease;">
+                        ×
+                    </button>
+                    
+                    <h2 style="color: #9370db; font-size: 1.8rem; margin-bottom: 25px; text-align: center; text-shadow: 0 0 20px rgba(147, 112, 219, 0.8);">
+                        <span style="margin-right: 10px;">📋</span>Voucher Redemption History
+                    </h2>
+                    
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid rgba(147, 112, 219, 0.4);">
+                                    <th style="padding: 12px; text-align: left; color: #9370db; font-weight: 600;">Voucher Code</th>
+                                    <th style="padding: 12px; text-align: center; color: #9370db; font-weight: 600;">Amount</th>
+                                    <th style="padding: 12px; text-align: right; color: #9370db; font-weight: 600;">Redeemed Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($voucherLogs as $log)
+                                <tr style="border-bottom: 1px solid rgba(147, 112, 219, 0.2);">
+                                    <td style="padding: 12px; color: #e6d7f0;">{{ $log->voucher->code ?? 'N/A' }}</td>
+                                    <td style="padding: 12px; text-align: center; color: #10b981; font-weight: 600;">
+                                        +{{ number_format($log->voucher->amount ?? 0) }} {{ config('pw-config.currency_name', 'Coins') }}
+                                    </td>
+                                    <td style="padding: 12px; text-align: right; color: #b19cd9;">
+                                        {{ $log->created_at->format('M d, Y h:i A') }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <p style="text-align: center; color: #b19cd9; font-size: 0.9rem; margin-top: 20px;">
+                        Total Vouchers Redeemed: {{ $voucherLogs->count() }}
+                    </p>
+                </div>
+            </div>
+            @endif
+            @endauth
             @endif
             
             <!-- Display Services -->
@@ -1632,6 +1684,27 @@
                     }, 500);
                 }, 5000);
             });
+        });
+        
+        // Toggle voucher history popup
+        function toggleVoucherHistory() {
+            const popup = document.getElementById('voucherHistoryPopup');
+            if (popup) {
+                popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+                if (popup.style.display === 'block') {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const popup = document.getElementById('voucherHistoryPopup');
+            if (popup && event.target === popup) {
+                toggleVoucherHistory();
+            }
         });
     </script>
     @livewireScripts
