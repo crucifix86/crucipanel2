@@ -36,7 +36,7 @@ if (!function_exists('get_setting')) {
                             <input type="checkbox" id="enabled" name="enabled"
                                    value="{{ $settings->enabled ?? false }}"
                                    @if( $settings->enabled ?? false ) checked @endif
-                                @popper(Enable or disable visit rewards)
+                                :popover="'Enable or disable visit rewards'"
                             />
                             <div class="state p-info">
                                 <label for="enabled">
@@ -55,7 +55,7 @@ if (!function_exists('get_setting')) {
                 <div class="relative z-0 mb-6 w-full group">
                     <x-hrace009::input-with-popover id="title" name="title"
                                                     value="{{ $settings->title ?? 'Daily Visit Reward' }}"
-                                                    placeholder=" " :popover="Title shown to users"
+                                                    placeholder=" " :popover="'Title shown to users'"
                                                     required/>
                     <x-hrace009::label for="title">Reward Title</x-hrace009::label>
                 </div>
@@ -63,21 +63,21 @@ if (!function_exists('get_setting')) {
                 <div class="relative z-0 mb-6 w-full group">
                     <x-hrace009::input-with-popover id="description" name="description"
                                                     value="{{ $settings->description ?? 'Claim your daily reward for visiting!' }}"
-                                                    placeholder=" " :popover="Description shown to users"/>
+                                                    placeholder=" " :popover="'Description shown to users'"/>
                     <x-hrace009::label for="description">Description</x-hrace009::label>
                 </div>
                 
                 <div class="relative z-0 mb-6 w-full group">
                     <x-hrace009::input-with-popover id="reward_amount" name="reward_amount"
                                                     value="{{ $settings->reward_amount ?? 10 }}"
-                                                    placeholder=" " :popover="Amount of reward to give"
+                                                    placeholder=" " :popover="'Amount of reward to give'"
                                                     type="number" min="1" required/>
                     <x-hrace009::label for="reward_amount">Reward Amount</x-hrace009::label>
                 </div>
                 
                 <div class="relative z-0 mb-6 w-full group">
                     <x-hrace009::select-with-popover id="reward_type" name="reward_type" required
-                                                     :popover="Type of reward to give">
+                                                     :popover="'Type of reward to give'">
                         <option class="dark:text-gray-500" value=""> - </option>
                         <option class="dark:text-gray-500" value="bonuses" 
                             {{ ($settings->reward_type ?? 'virtual') === 'bonuses' ? 'selected' : null }}>
@@ -98,7 +98,7 @@ if (!function_exists('get_setting')) {
                 <div class="relative z-0 mb-6 w-full group">
                     <x-hrace009::input-with-popover id="cooldown_hours" name="cooldown_hours"
                                                     value="{{ $settings->cooldown_hours ?? 24 }}"
-                                                    placeholder=" " :popover="Hours between claims (e.g., 24 for daily)"
+                                                    placeholder=" " :popover="'Hours between claims (e.g., 24 for daily)'"
                                                     type="number" min="1" required/>
                     <x-hrace009::label for="cooldown_hours">Cooldown (Hours)</x-hrace009::label>
                 </div>
