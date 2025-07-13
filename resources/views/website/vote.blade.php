@@ -1182,9 +1182,19 @@
                     @endif
                     has been added to your account!
                 </span>
+                @php
+                    $rewardText = '';
+                    if($arenaSuccess['reward_type'] == 'virtual') {
+                        $rewardText = config('pw-config.currency_name', 'Coins');
+                    } elseif($arenaSuccess['reward_type'] == 'cubi') {
+                        $rewardText = 'Gold';
+                    } else {
+                        $rewardText = 'Bonus Points';
+                    }
+                @endphp
                 <script>
                     // Show immediate notification as well
-                    showNotification('success', 'Arena Top 100 confirmed your vote! +{{ $arenaSuccess['reward_amount'] }} @if($arenaSuccess['reward_type'] == 'virtual'){{ config('pw-config.currency_name', 'Coins') }}@elseif($arenaSuccess['reward_type'] == 'cubi')Gold@else Bonus Points@endif added!');
+                    showNotification('success', 'Arena Top 100 confirmed your vote! +{{ $arenaSuccess['reward_amount'] }} {{ $rewardText }} added!');
                 </script>
             </div>
             @endif
