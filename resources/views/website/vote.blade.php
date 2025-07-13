@@ -824,6 +824,50 @@
             text-decoration: underline;
         }
         
+        /* User Info Bar */
+        .user-info-bar {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .user-balance {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .balance-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-icon {
+            font-size: 1.3rem;
+        }
+
+        .balance-label {
+            color: #b19cd9;
+            font-weight: 600;
+        }
+
+        .balance-value {
+            color: #ffd700;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+        
         /* Arena Top 100 Styles */
         .arena-section {
             background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
@@ -1081,6 +1125,28 @@
         <div class="vote-section">
             <h2 class="section-title">Vote for Haven Perfect World</h2>
             <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
+            
+            @auth
+            <!-- User Info Bar -->
+            <div class="user-info-bar">
+                <div class="user-balance">
+                    <div class="balance-item">
+                        <span class="balance-icon">💰</span>
+                        <span class="balance-label">{{ config('pw-config.currency_name', 'Coins') }}:</span>
+                        <span class="balance-value">{{ number_format(Auth::user()->money, 0, '', '.') }}</span>
+                    </div>
+                    <div class="balance-item">
+                        <span class="balance-icon">⭐</span>
+                        <span class="balance-label">Bonus Points:</span>
+                        <span class="balance-value">{{ number_format(Auth::user()->bonuses, 0, '', '.') }}</span>
+                    </div>
+                </div>
+                
+                <div style="color: #b19cd9; font-style: italic;">
+                    Vote to earn rewards and see your balance increase!
+                </div>
+            </div>
+            @endauth
             
             <!-- Session Messages -->
             @if(session('success'))
