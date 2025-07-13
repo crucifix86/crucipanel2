@@ -23,6 +23,21 @@
             transform: none !important;
             will-change: auto !important;
         }
+        
+        /* Ensure body maintains dark theme when popup is open */
+        body.popup-open {
+            overflow: hidden;
+        }
+        
+        /* Popup specific styles to prevent theme issues */
+        #voucherHistoryPopup {
+            font-family: 'Cinzel', serif !important;
+            color: #e6d7f0 !important;
+        }
+        
+        #voucherHistoryPopup * {
+            color: inherit;
+        }
 
         .mystical-bg {
             position: fixed;
@@ -1431,9 +1446,9 @@
             <!-- Voucher History Popup -->
             @auth
             @if($voucherLogs->count() > 0)
-            <div id="voucherHistoryPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; overflow-y: auto; padding: 20px;">
-                <div style="position: relative; max-width: 800px; margin: 30px auto; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); border: 2px solid rgba(147, 112, 219, 0.4); border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(147, 112, 219, 0.6);">
-                    <button onclick="toggleVoucherHistory()" style="position: absolute; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 50%; width: 40px; height: 40px; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease; z-index: 1;">
+            <div id="voucherHistoryPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; overflow-y: auto; padding: 20px; color: #e6d7f0;">
+                <div style="position: relative; max-width: 800px; margin: 50px auto 50px auto; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); border: 2px solid rgba(147, 112, 219, 0.4); border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(147, 112, 219, 0.6); color: #e6d7f0;">
+                    <button onclick="toggleVoucherHistory()" style="position: absolute; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 50%; width: 40px; height: 40px; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease; z-index: 1; line-height: 1;">
                         ×
                     </button>
                     
@@ -1690,21 +1705,19 @@
         function toggleVoucherHistory() {
             const popup = document.getElementById('voucherHistoryPopup');
             if (popup) {
-                popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
-                if (popup.style.display === 'block') {
-                    // Scroll to top when opening popup
+                if (popup.style.display === 'none' || !popup.style.display) {
+                    popup.style.display = 'block';
+                    document.body.classList.add('popup-open');
+                    // Scroll popup to top to ensure content is visible
                     popup.scrollTop = 0;
-                    // Keep body scrollable but prevent scroll behind popup
-                    document.body.style.position = 'fixed';
-                    document.body.style.top = `-${window.scrollY}px`;
-                    document.body.style.width = '100%';
+                    // Ensure popup is visible in viewport
+                    const popupContent = popup.querySelector('div');
+                    if (popupContent) {
+                        popupContent.scrollIntoView({ behavior: 'instant', block: 'center' });
+                    }
                 } else {
-                    // Restore scroll position when closing
-                    const scrollY = document.body.style.top;
-                    document.body.style.position = '';
-                    document.body.style.top = '';
-                    document.body.style.width = '';
-                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+                    popup.style.display = 'none';
+                    document.body.classList.remove('popup-open');
                 }
             }
         }
