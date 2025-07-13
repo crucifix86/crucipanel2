@@ -33,10 +33,21 @@ class VoteRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'link' => 'required|url',
+            'link' => [
+                'required',
+                'url',
+                'regex:/^https?:\/\/(www\.)?arena-top100\.com\/.*$/'
+            ],
             'type' => 'required',
             'reward_amount' => 'required|numeric|min:1',
             'hour_limit' => 'required|numeric|min:1'
+        ];
+    }
+    
+    public function messages()
+    {
+        return [
+            'link.regex' => 'Only Arena Top 100 links are supported. The URL must be from arena-top100.com'
         ];
     }
 }

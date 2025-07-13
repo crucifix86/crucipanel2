@@ -1161,6 +1161,34 @@
             </div>
             @endif
             
+            <!-- Arena Vote Success Notification -->
+            @if(isset($arena_vote_success) && $arena_vote_success)
+            @php
+                $arenaSuccess = $arena_vote_success;
+            @endphp
+            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(147, 112, 219, 0.2)); border: 2px solid #10b981; padding: 20px 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">
+                <span style="font-size: 2rem; display: block; margin-bottom: 10px;">🎉</span>
+                <span style="color: #10b981; font-size: 1.3rem; font-weight: 600; display: block; margin-bottom: 10px;">
+                    Arena Top 100 Vote Confirmed!
+                </span>
+                <span style="color: #e6d7f0; font-size: 1.1rem;">
+                    +{{ $arenaSuccess['reward_amount'] }} 
+                    @if($arenaSuccess['reward_type'] == 'virtual')
+                        {{ config('pw-config.currency_name', 'Coins') }}
+                    @elseif($arenaSuccess['reward_type'] == 'cubi')
+                        Gold
+                    @else
+                        Bonus Points
+                    @endif
+                    has been added to your account!
+                </span>
+                <script>
+                    // Show immediate notification as well
+                    showNotification('success', 'Arena Top 100 confirmed your vote! +{{ $arenaSuccess['reward_amount'] }} @if($arenaSuccess['reward_type'] == 'virtual'){{ config('pw-config.currency_name', 'Coins') }}@elseif($arenaSuccess['reward_type'] == 'cubi')Gold@else Bonus Points@endif added!');
+                </script>
+            </div>
+            @endif
+            
             <!-- Arena Top 100 Section -->
             @if(config('arena.status') === true && Auth::check())
             <div style="margin-bottom: 50px;">
@@ -1208,53 +1236,12 @@
             @endif
             
             
-            @if($sites && $sites->count() > 0)
-            <h3 style="font-size: 1.8rem; color: #b19cd9; text-align: center; margin: 40px 0 30px; text-shadow: 0 0 20px rgba(177, 156, 217, 0.6);">Vote Sites</h3>
-            <div class="vote-sites">
-                @foreach($sites as $site)
-                    <div class="vote-site">
-                        <span class="site-icon">🗳️</span>
-                        <h3 class="site-name">{{ $site->name }}</h3>
-                        <div class="site-reward">
-                            +{{ $site->reward_amount }} 
-                            @if($site->type == 'virtual')
-                                {{ config('pw-config.currency_name', 'Points') }}
-                            @elseif($site->type == 'cubi')
-                                Gold
-                            @else
-                                Bonus Points
-                            @endif
-                        </div>
-                        <p class="site-cooldown">Vote every {{ $site->hour_limit }} hours</p>
-                        @auth
-                            @if(isset($vote_info[$site->id]) && $vote_info[$site->id]['status'])
-                                <form id="vote-form-{{ $site->id }}" action="{{ $site->link }}" method="GET" target="_blank" onsubmit="return handleVoteSubmit('{{ $site->name }}', {{ $site->id }}, {{ $site->reward_amount }}, '{{ $site->type }}')">
-                                    @csrf
-                                    <button type="submit" class="vote-button">Vote Now</button>
-                                </form>
-                                <button class="vote-button check-vote-btn" id="check-vote-{{ $site->id }}" style="background: linear-gradient(45deg, #28a745, #20c997); margin-top: 10px; display: none;" onclick="checkVoteStatus({{ $site->id }})">
-                                    ✓ Claim Rewards
-                                </button>
-                            @else
-                                <div class="cooldown-timer" data-time="{{ $vote_info[$site->id]['end_time'] ?? 0 }}">
-                                    <span class="cooldown-icon">⏱️</span>
-                                    <span class="cooldown-text">Please wait: <span class="time-remaining">--:--:--</span></span>
-                                </div>
-                            @endif
-                        @else
-                            <span class="method-status">Login Required</span>
-                        @endauth
-                    </div>
-                @endforeach
+            @if(!config('arena.status') || !Auth::check())
+            <div style="text-align: center; padding: 60px 20px; margin-top: 40px;">
+                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
+                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">Arena Top 100 Only</p>
+                <p style="color: #b19cd9;">We use Arena Top 100's verified voting system to ensure fair rewards!</p>
             </div>
-            @else
-                @if(!config('arena.status') || !Auth::check())
-                <div style="text-align: center; padding: 60px 20px;">
-                    <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
-                    <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Vote Sites Available</p>
-                    <p style="color: #b19cd9;">Check back later for voting opportunities!</p>
-                </div>
-                @endif
             @endif
             
             <div class="rewards-info">
@@ -1426,100 +1413,15 @@
         
         // Vote functions
         function handleVoteSubmit(siteName, siteId, rewardAmount, rewardType) {
-            // Store voting info
-            sessionStorage.setItem(`voting_for_${siteId}`, JSON.stringify({
-                siteName: siteName,
-                siteId: siteId,
-                rewardAmount: rewardAmount,
-                rewardType: rewardType,
-                startTime: Date.now()
-            }));
-            
-            // Show notification
-            showNotification('info', `Opening vote page for ${siteName}. Complete your vote then click "Claim Rewards" when you return!`);
-            
-            // Show check button after a delay
-            setTimeout(() => {
-                const voteCard = document.querySelector(`#vote-form-${siteId}`).closest('.vote-site');
-                const existingBtn = voteCard.querySelector('.check-vote-btn');
-                if (!existingBtn) {
-                    const checkBtn = document.createElement('button');
-                    checkBtn.className = 'vote-button check-vote-btn';
-                    checkBtn.style.cssText = 'background: linear-gradient(45deg, #28a745, #20c997); margin-top: 10px;';
-                    checkBtn.innerHTML = '✓ Claim Rewards';
-                    checkBtn.onclick = () => checkVoteStatus(siteId);
-                    voteCard.appendChild(checkBtn);
-                }
-            }, 2000);
-            
-            return true;
-        }
-        
-        function checkVoteStatus(siteId) {
-            const voteInfo = JSON.parse(sessionStorage.getItem(`voting_for_${siteId}`));
-            if (!voteInfo) {
-                showNotification('error', 'No pending vote found.');
-                return;
+            // For Arena Top 100
+            if (siteId === 'arena') {
+                showNotification('info', `Opening Arena Top 100 voting page. Complete your vote and your rewards will be automatically applied when Arena confirms your vote!`);
+                return true;
             }
             
-            // Check if enough time passed (at least 15 seconds)
-            const timePassed = (Date.now() - voteInfo.startTime) / 1000;
-            if (timePassed < 15) {
-                showNotification('warning', `Please complete your vote first! (${Math.ceil(15 - timePassed)}s remaining)`);
-                return;
-            }
-            
-            const checkBtn = event.target;
-            checkBtn.disabled = true;
-            checkBtn.innerHTML = '⏳ Processing...';
-            
-            // Submit vote to server
-            fetch(`{{ route('app.vote.submit', '') }}/${siteId}`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ public_vote: true })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    const currentMoney = {{ Auth::check() ? Auth::user()->money : 0 }};
-                    const currentBonuses = {{ Auth::check() ? Auth::user()->bonuses : 0 }};
-                    
-                    let message = `Vote rewards claimed for ${voteInfo.siteName}! `;
-                    if (voteInfo.rewardType === 'virtual') {
-                        const newMoney = currentMoney + voteInfo.rewardAmount;
-                        message += `+${voteInfo.rewardAmount} {{ config('pw-config.currency_name', 'Coins') }} added! `;
-                        message += `(Balance: ${currentMoney} → ${newMoney})`;
-                    } else if (voteInfo.rewardType === 'bonuses') {
-                        const newBonuses = currentBonuses + voteInfo.rewardAmount;
-                        message += `+${voteInfo.rewardAmount} Bonus Points added! `;
-                        message += `(Balance: ${currentBonuses} → ${newBonuses})`;
-                    }
-                    
-                    showNotification('success', message);
-                    sessionStorage.removeItem(`voting_for_${siteId}`);
-                    
-                    // Reload after 2 seconds
-                    setTimeout(() => location.reload(), 2000);
-                } else {
-                    showNotification('error', data.message || 'Failed to claim rewards.');
-                    checkBtn.disabled = false;
-                    checkBtn.innerHTML = '✓ Claim Rewards';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showNotification('error', 'Error claiming rewards. Please try again.');
-                checkBtn.disabled = false;
-                checkBtn.innerHTML = '✓ Claim Rewards';
-            });
+            // This shouldn't happen anymore but just in case
+            showNotification('error', 'Only Arena Top 100 voting is supported.');
+            return false;
         }
         
         function updateBalanceDisplay(newBalance) {

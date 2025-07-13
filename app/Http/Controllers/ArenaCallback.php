@@ -35,7 +35,7 @@ class ArenaCallback extends Controller
                 ]);
 
                 switch (config('arena.reward_type')) {
-                    case 'bonusess':
+                    case 'bonuses':  // Fixed typo from 'bonusess'
                         $user->bonuses = $user->bonuses + config('arena.reward');
                         $user->save();
                         break;
@@ -51,6 +51,11 @@ class ArenaCallback extends Controller
                         ]);
                         break;
                 }
+                
+                // Mark the log as rewarded so we can show notification
+                $logs->update([
+                    'rewarded_at' => now()
+                ]);
                 $result = 'OK';
             } else {
                 $result = 'No record found';

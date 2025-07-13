@@ -57,11 +57,34 @@ class PublicVoteController extends Controller
             $arena_info = [];
         }
 
+        // Check for recently rewarded arena votes
+        $arenaVoteSuccess = null;
+        if (Auth::check()) {
+            $recentReward = ArenaLogs::where('user_id', Auth::user()->ID)
+                ->whereNotNull('rewarded_at')
+                ->where('rewarded_at', '>', Carbon::now()->subMinutes(5))
+                ->where('status', 0)
+                ->first();
+                
+            if ($recentReward) {
+                $arenaVoteSuccess = [
+                    'reward_amount' => config('arena.reward'),
+                    'reward_type' => config('arena.reward_type'),
+                    'timestamp' => $recentReward->rewarded_at
+                ];
+                
+                // Mark as seen by setting status to -1
+                $recentReward->status = -1;
+                $recentReward->save();
+            }
+        }
+
         return view('website.vote', [
             'sites' => $sites,
             'vote_info' => $vote_info,
             'arena' => new ArenaLogs(),
-            'arena_info' => $arena_info
+            'arena_info' => $arena_info,
+            'arena_vote_success' => $arenaVoteSuccess
         ]);
     }
     
