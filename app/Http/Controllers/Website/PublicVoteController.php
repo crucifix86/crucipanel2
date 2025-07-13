@@ -139,8 +139,21 @@ class PublicVoteController extends Controller
         // If in test mode, simulate immediate callback
         if (config('arena.test_mode')) {
             \Log::info('Arena: Test mode - simulating immediate callback (public vote)');
-            // Redirect to our own callback URL to simulate Arena response
-            return redirect()->to(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id . '&voted=1&userip=' . $request->ip());
+            
+            // Simulate the callback directly without redirect
+            $callbackController = new \App\Http\Controllers\ArenaCallback();
+            $fakeRequest = new \Illuminate\Http\Request([
+                'voted' => 1,
+                'userip' => $request->ip(),
+                'userid' => Auth::user()->ID,
+                'logid' => $recent->id
+            ]);
+            
+            // Process the simulated callback
+            $callbackController->incentive($fakeRequest);
+            
+            // Return to vote page with success message
+            return redirect()->route('public.vote')->with('success', 'Arena Top 100 vote simulated successfully! Check your balance.');
         }
         
         // Redirect to arena
