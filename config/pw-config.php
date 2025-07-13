@@ -39,6 +39,7 @@ return [
             'inGameService' => true,
             'ranking' => true,
             'vote' => true,
+            'visitReward' => true,
             'captcha' => false
         ],
     ],

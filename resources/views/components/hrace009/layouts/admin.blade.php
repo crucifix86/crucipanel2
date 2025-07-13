@@ -119,6 +119,9 @@
             @if( config('pw-config.system.apps.vote') )
                 <x-hrace009::admin.vote-link/>
             @endif
+            @if( config('pw-config.system.apps.visitReward') )
+                <x-hrace009::admin.visit-reward-link/>
+            @endif
             @if( config('pw-config.system.apps.inGameService') )
                 <x-hrace009::admin.service-link/>
             @endif
@@ -196,6 +199,9 @@
                         @endif
                         @if( config('pw-config.system.apps.vote') )
                             <x-hrace009::admin.vote-link/>
+                        @endif
+                        @if( config('pw-config.system.apps.visitReward') )
+                            <x-hrace009::admin.visit-reward-link/>
                         @endif
                         @if( config('pw-config.system.apps.inGameService') )
                             <x-hrace009::admin.service-link/>

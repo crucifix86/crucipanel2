@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Haven Perfect World</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
@@ -798,15 +799,139 @@
             text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
 
+        /* Visit Reward Widget */
+        .visit-reward-wrapper {
+            position: fixed;
+            top: 320px;
+            left: 20px;
+            z-index: 100;
+            width: 220px;
+        }
+        
+        .visit-reward-box {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(255, 215, 0, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .visit-reward-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            cursor: pointer;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .visit-reward-header h3 {
+            margin: 0;
+            color: #ffd700;
+            font-size: 1rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+        
+        .visit-reward-content {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .visit-reward-box.collapsed .visit-reward-content {
+            display: none;
+        }
+        
+        .visit-reward-box.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .reward-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .reward-title {
+            color: #ffd700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .reward-description {
+            color: #ffed4e;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .reward-amount {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .claim-button {
+            width: 100%;
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: #4a0e4e;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .claim-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+        }
+        
+        .claim-button:disabled {
+            background: linear-gradient(45deg, #6c757d, #495057);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .reward-timer {
+            color: #ffed4e;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .countdown-display {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .logo {
                 font-size: 3rem;
             }
             
-            .login-box-wrapper {
+            .login-box-wrapper,
+            .visit-reward-wrapper {
                 position: relative;
                 top: auto;
-                right: auto;
+                left: auto;
                 margin: 20px auto;
                 max-width: 90%;
             }
@@ -1012,6 +1137,45 @@
             </div>
         </div>
     </div>
+    
+    @php
+        $visitRewardSettings = \App\Models\VisitRewardSetting::first();
+    @endphp
+    
+    @if($visitRewardSettings && $visitRewardSettings->enabled && Auth::check())
+    <!-- Visit Reward Widget -->
+    <div class="visit-reward-wrapper">
+        <div class="visit-reward-box" id="visitRewardBox">
+            <div class="visit-reward-header" onclick="toggleVisitRewardBox()">
+                <h3>{{ $visitRewardSettings->title }}</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="visit-reward-content">
+                <span class="reward-icon">🎁</span>
+                <h4 class="reward-title">{{ $visitRewardSettings->title }}</h4>
+                @if($visitRewardSettings->description)
+                    <p class="reward-description">{{ $visitRewardSettings->description }}</p>
+                @endif
+                <div class="reward-amount">
+                    +{{ $visitRewardSettings->reward_amount }}
+                    @if($visitRewardSettings->reward_type == 'virtual')
+                        {{ config('pw-config.currency_name', 'Coins') }}
+                    @elseif($visitRewardSettings->reward_type == 'cubi')
+                        Gold
+                    @else
+                        Bonus Points
+                    @endif
+                </div>
+                <button class="claim-button" id="claimRewardBtn" onclick="claimVisitReward()" disabled>
+                    Loading...
+                </button>
+                <div class="reward-timer" id="rewardTimer" style="display: none;">
+                    Next reward in: <span class="countdown-display" id="rewardCountdown">--:--:--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     
     <div class="container">
         
@@ -1316,6 +1480,203 @@
             }
         `;
         document.head.appendChild(spinnerStyle);
+        
+        // Visit Reward Functions
+        function toggleVisitRewardBox() {
+            const rewardBox = document.getElementById('visitRewardBox');
+            rewardBox.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = rewardBox.classList.contains('collapsed');
+            localStorage.setItem('visitRewardBoxCollapsed', isCollapsed);
+        }
+        
+        // Restore visit reward box state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const rewardBox = document.getElementById('visitRewardBox');
+            if (rewardBox) {
+                const savedState = localStorage.getItem('visitRewardBoxCollapsed');
+                if (savedState === 'true') {
+                    rewardBox.classList.add('collapsed');
+                }
+                
+                // Check reward status
+                checkVisitRewardStatus();
+            }
+        });
+        
+        let rewardCountdownInterval = null;
+        
+        function checkVisitRewardStatus() {
+            fetch('/api/visit-reward/status')
+                .then(response => response.json())
+                .then(data => {
+                    const claimBtn = document.getElementById('claimRewardBtn');
+                    const timerDiv = document.getElementById('rewardTimer');
+                    const countdownSpan = document.getElementById('rewardCountdown');
+                    
+                    if (!data.enabled) {
+                        claimBtn.textContent = 'Rewards Disabled';
+                        claimBtn.disabled = true;
+                        return;
+                    }
+                    
+                    if (data.can_claim) {
+                        claimBtn.textContent = 'Claim Reward';
+                        claimBtn.disabled = false;
+                        timerDiv.style.display = 'none';
+                        
+                        // Clear any existing countdown
+                        if (rewardCountdownInterval) {
+                            clearInterval(rewardCountdownInterval);
+                            rewardCountdownInterval = null;
+                        }
+                    } else {
+                        claimBtn.textContent = 'Already Claimed';
+                        claimBtn.disabled = true;
+                        timerDiv.style.display = 'block';
+                        
+                        // Start countdown
+                        startRewardCountdown(data.seconds_until_next);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking reward status:', error);
+                    const claimBtn = document.getElementById('claimRewardBtn');
+                    claimBtn.textContent = 'Error';
+                    claimBtn.disabled = true;
+                });
+        }
+        
+        function startRewardCountdown(seconds) {
+            const countdownSpan = document.getElementById('rewardCountdown');
+            let remainingSeconds = seconds;
+            
+            // Clear any existing countdown
+            if (rewardCountdownInterval) {
+                clearInterval(rewardCountdownInterval);
+            }
+            
+            function updateCountdown() {
+                if (remainingSeconds <= 0) {
+                    clearInterval(rewardCountdownInterval);
+                    checkVisitRewardStatus(); // Recheck status when timer expires
+                    return;
+                }
+                
+                const hours = Math.floor(remainingSeconds / 3600);
+                const minutes = Math.floor((remainingSeconds % 3600) / 60);
+                const seconds = remainingSeconds % 60;
+                
+                countdownSpan.textContent = 
+                    String(hours).padStart(2, '0') + ':' +
+                    String(minutes).padStart(2, '0') + ':' +
+                    String(seconds).padStart(2, '0');
+                
+                remainingSeconds--;
+            }
+            
+            updateCountdown(); // Initial update
+            rewardCountdownInterval = setInterval(updateCountdown, 1000);
+        }
+        
+        function claimVisitReward() {
+            const claimBtn = document.getElementById('claimRewardBtn');
+            claimBtn.disabled = true;
+            claimBtn.textContent = 'Claiming...';
+            
+            fetch('/api/visit-reward/claim', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success notification
+                    showRewardNotification(data.reward_amount, data.reward_type);
+                    
+                    // Update button state
+                    claimBtn.textContent = 'Claimed!';
+                    
+                    // Start countdown for next reward
+                    setTimeout(() => {
+                        checkVisitRewardStatus();
+                    }, 2000);
+                } else {
+                    claimBtn.textContent = data.error || 'Error';
+                    setTimeout(() => {
+                        checkVisitRewardStatus();
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error claiming reward:', error);
+                claimBtn.textContent = 'Error';
+                setTimeout(() => {
+                    checkVisitRewardStatus();
+                }, 2000);
+            });
+        }
+        
+        function showRewardNotification(amount, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(255, 215, 0, 0.3));
+                border: 2px solid #ffd700;
+                padding: 30px 50px;
+                border-radius: 20px;
+                z-index: 10000;
+                text-align: center;
+                box-shadow: 0 20px 60px rgba(255, 215, 0, 0.6);
+                animation: rewardPop 0.5s ease-out;
+            `;
+            
+            let rewardText = amount + ' ';
+            if (type === 'virtual') {
+                rewardText += '{{ config('pw-config.currency_name', 'Coins') }}';
+            } else if (type === 'cubi') {
+                rewardText += 'Gold';
+            } else {
+                rewardText += 'Bonus Points';
+            }
+            
+            notification.innerHTML = `
+                <div style="font-size: 3rem; margin-bottom: 10px;">🎁</div>
+                <div style="color: #ffd700; font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">Reward Claimed!</div>
+                <div style="color: #ffed4e; font-size: 1.2rem;">+${rewardText}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after animation
+            setTimeout(() => {
+                notification.style.animation = 'rewardFade 0.5s ease-out';
+                setTimeout(() => notification.remove(), 500);
+            }, 2000);
+        }
+        
+        // Add animation styles
+        const rewardAnimationStyle = document.createElement('style');
+        rewardAnimationStyle.textContent = `
+            @keyframes rewardPop {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+                50% { transform: translate(-50%, -50%) scale(1.1); }
+                100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            }
+            @keyframes rewardFade {
+                0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(rewardAnimationStyle);
     </script>
 </body>
 </html>

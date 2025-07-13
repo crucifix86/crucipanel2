@@ -570,6 +570,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
         ]);
     });
     Route::resource('vote', VoteController::class)->parameter('vote', 'site')->middleware('vote');
+    
+    /* Visit Reward Routes */
+    Route::group(['prefix' => 'visit-reward'], static function () {
+        Route::get('/', [
+            'as' => 'admin.visit-reward.settings',
+            'uses' => 'App\Http\Controllers\Admin\VisitRewardController@index'
+        ]);
+        
+        Route::post('update', [
+            'as' => 'admin.visit-reward.update',
+            'uses' => 'App\Http\Controllers\Admin\VisitRewardController@update'
+        ]);
+    });
 
     Route::group(['prefix' => 'service', 'middleware' => 'service'], static function () {
         Route::get('settings', [

@@ -67,4 +67,14 @@ Route::group(['middleware' => 'api'], static function () {
         'as' => 'api.user.balance',
         'uses' => 'App\Http\Controllers\Api\UserController@balance'
     ]);
+    
+    Route::get('visit-reward/status', [
+        'as' => 'api.visit-reward.status',
+        'uses' => 'App\Http\Controllers\VisitRewardController@status'
+    ]);
+    
+    Route::post('visit-reward/claim', [
+        'as' => 'api.visit-reward.claim',
+        'uses' => 'App\Http\Controllers\VisitRewardController@claim'
+    ]);
 });
