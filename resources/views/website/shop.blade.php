@@ -1443,8 +1443,18 @@
                     @endphp
                     <div class="shop-item">
                         <div class="item-icon" style="font-size: 3rem;">{{ $info['icon'] }}</div>
-                        <h3 class="item-name">{{ $info['name'] }}</h3>
-                        <p class="item-description">{{ $info['description'] }}</p>
+                        <h3 class="item-name">{{ __('service.ingame.' . $service->key . '.title') }}</h3>
+                        <p class="item-description">{{ __('service.ingame.' . $service->key . '.description') }}</p>
+                        
+                        <!-- Requirements -->
+                        <div style="margin-top: 10px; margin-bottom: 15px; font-size: 0.85rem; color: #b19cd9;">
+                            <strong>{{ __('service.requirements') }}</strong>
+                            <ul style="list-style: disc; margin-left: 20px; margin-top: 5px;">
+                                @foreach(__('service.ingame.' . $service->key . '.requirements') as $requirement)
+                                    <li style="color: #9370db;">{{ __('service.' . $requirement) }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                         
                         <div class="item-price">
                             @if($service->currency_type === 'virtual')

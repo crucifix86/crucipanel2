@@ -91,18 +91,18 @@ class PublicShopController extends Controller
             ['mask' => 0, 'name' => 'Other', 'icon' => '📦'],
         ];
 
-        // Service descriptions and icons
+        // Service icons
         $serviceInfo = [
-            'broadcast' => ['name' => 'Server Broadcast', 'icon' => '📢', 'description' => 'Send a message to all players online'],
-            'virtual_to_cubi' => ['name' => 'Virtual to Cubi', 'icon' => '💎', 'description' => 'Convert virtual currency to Cubi gold'],
-            'cultivation_change' => ['name' => 'Cultivation Change', 'icon' => '🔮', 'description' => 'Change your cultivation path'],
-            'gold_to_virtual' => ['name' => 'Gold to Virtual', 'icon' => '💰', 'description' => 'Convert in-game gold to virtual currency'],
-            'level_up' => ['name' => 'Level Up', 'icon' => '⬆️', 'description' => 'Instantly level up your character'],
-            'max_meridian' => ['name' => 'Max Meridian', 'icon' => '✨', 'description' => 'Maximize your meridian cultivation'],
-            'reset_exp' => ['name' => 'Reset Experience', 'icon' => '🔄', 'description' => 'Reset your experience points'],
-            'reset_sp' => ['name' => 'Reset Spirit', 'icon' => '🔄', 'description' => 'Reset your spirit points'],
-            'reset_stash_password' => ['name' => 'Reset Stash Password', 'icon' => '🔓', 'description' => 'Reset your bank stash password'],
-            'teleport' => ['name' => 'Teleport Service', 'icon' => '🌟', 'description' => 'Teleport to any location instantly'],
+            'broadcast' => ['icon' => '📢'],
+            'virtual_to_cubi' => ['icon' => '💎'],
+            'cultivation_change' => ['icon' => '🔮'],
+            'gold_to_virtual' => ['icon' => '💰'],
+            'level_up' => ['icon' => '⬆️'],
+            'max_meridian' => ['icon' => '✨'],
+            'reset_exp' => ['icon' => '🔄'],
+            'reset_sp' => ['icon' => '🔄'],
+            'reset_stash_password' => ['icon' => '🔓'],
+            'teleport' => ['icon' => '🌟'],
         ];
 
         return view('website.shop', [
