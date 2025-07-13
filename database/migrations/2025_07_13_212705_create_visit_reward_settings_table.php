@@ -11,7 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Set charset to match users table
+        Schema::connection('mysql')->getConnection()->statement('SET NAMES utf8');
+        
         Schema::create('visit_reward_settings', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_general_ci';
+            
             $table->id();
             $table->boolean('enabled')->default(false);
             $table->integer('reward_amount')->default(10);
