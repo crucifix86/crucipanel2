@@ -1143,6 +1143,10 @@
     
     @if($visitRewardSettings && $visitRewardSettings->enabled && Auth::check())
     <!-- Visit Reward Widget -->
+    <script>
+        window.isAuthenticated = true;
+        window.userId = {{ Auth::user()->ID }};
+    </script>
     <div class="visit-reward-wrapper">
         <div class="visit-reward-box" id="visitRewardBox">
             <div class="visit-reward-header" onclick="toggleVisitRewardBox()">
@@ -1506,7 +1510,7 @@
         let rewardCountdownInterval = null;
         
         function checkVisitRewardStatus() {
-            fetch('/api/visit-reward/status', {
+            fetch('/api/visit-reward/status?user_id=' + window.userId, {
                 method: 'GET',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -1605,6 +1609,7 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
+                body: JSON.stringify({ user_id: window.userId }),
                 credentials: 'same-origin'
             })
             .then(response => response.json())

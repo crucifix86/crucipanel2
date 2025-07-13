@@ -145,6 +145,12 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'api.visit-reward.claim',
         'uses' => 'App\Http\Controllers\VisitRewardController@claim'
     ]);
+    
+    // Test auth route
+    Route::get('api/test-auth', [
+        'as' => 'api.test-auth',
+        'uses' => 'App\Http\Controllers\TestAuthController@checkAuth'
+    ]);
 });
 
 /* App Page */

@@ -11,12 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class VisitRewardController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function claim(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        
         $settings = VisitRewardSetting::first();
         
         if (!$settings || !$settings->enabled) {
@@ -86,7 +92,18 @@ class VisitRewardController extends Controller
     
     public function status(Request $request)
     {
-        if (!Auth::check()) {
+        // Try to get user from Auth first
+        $user = Auth::user();
+        
+        // If no auth user but user_id is provided, use that (only for status check)
+        if (!$user && $request->has('user_id')) {
+            $user = \App\Models\User::find($request->user_id);
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+        }
+        
+        if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         
@@ -95,8 +112,6 @@ class VisitRewardController extends Controller
         if (!$settings || !$settings->enabled) {
             return response()->json(['enabled' => false], 200);
         }
-        
-        $user = Auth::user();
         $lastClaim = VisitRewardLog::lastClaim($user->ID);
         
         if (!$lastClaim) {
