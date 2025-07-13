@@ -36,6 +36,7 @@ class ArenaLogs extends Model
         return $query
             ->where('user_id', $user_id)
             //->where('ip_address', $request->ip())
+            ->where('status', 0)  // Only count completed votes, not pending
             ->where('created_at', '>=', Carbon::now()->subHours(config('arena.time')));
     }
 
@@ -44,6 +45,7 @@ class ArenaLogs extends Model
         return $query
             ->where('user_id', $user_id)
             //->where('ip_address', $request->ip())
+            ->where('status', 0)  // Only check cooldown for completed votes
             ->orderBy('created_at', 'desc')
             ->take(1);
     }
