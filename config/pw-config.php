@@ -29,6 +29,7 @@ return [
     'version' => '1.0',
     'ignoreRoles' => '1024,1040',
     'ignoreFaction' => '16,60',
+    'cubi_transfer_method' => 'transfer', // Options: 'transfer' (uses pwp_transfer table), 'direct' (uses usecash directly), 'auto' (tries both)
     'system' => [
         'apps' => [
             'news' => true,

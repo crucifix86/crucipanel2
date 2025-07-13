@@ -109,23 +109,81 @@ class ServiceController extends Controller
 
         if ($user->money >= ($request->quantity * $service->price)) {
             if (!$this->checkOnline($role)) {
-                $user->money = $user->money - ($request->quantity * $service->price);
-                $user->save();
+                try {
+                    // Deduct money from user
+                    $user->money = $user->money - ($request->quantity * $service->price);
+                    $user->save();
 
-                ServiceLog::create([
-                    'userid' => $user->ID,
-                    'key' => $service->key,
-                    'currency_type' => $service->currency_type,
-                    'price' => ($request->quantity * $service->price)
-                ]);
+                    // Log the service transaction
+                    ServiceLog::create([
+                        'userid' => $user->ID,
+                        'key' => $service->key,
+                        'currency_type' => $service->currency_type,
+                        'price' => ($request->quantity * $service->price)
+                    ]);
 
-                Transfer::create([
-                    'user_id' => $user->ID,
-                    'zone_id' => 1,
-                    'cash' => $request->quantity * 100
-                ]);
-                $type = 'success';
-                $note = __('service.ingame.' . $service->key . '.complete');
+                    // Handle cubi based on configured method
+                    $method = config('pw-config.cubi_transfer_method', 'transfer');
+                    $success = false;
+
+                    if ($method === 'transfer' || $method === 'auto') {
+                        // Try transfer table method
+                        try {
+                            Transfer::create([
+                                'user_id' => $user->ID,
+                                'zone_id' => 1,
+                                'cash' => $request->quantity * 100
+                            ]);
+                            $success = true;
+                        } catch (\Exception $e) {
+                            if ($method === 'transfer') {
+                                throw new \Exception('Transfer table method failed. Please contact administrator.');
+                            }
+                        }
+                    }
+
+                    if (!$success && ($method === 'direct' || $method === 'auto')) {
+                        // Try direct database method
+                        try {
+                            \DB::connection('pw')->select('call usecash(?,?,?,?,?,?,?,?)', [
+                                $user->ID,
+                                1, // zone_id
+                                0, // sn
+                                1, // aid
+                                0, // point
+                                $request->quantity * 100, // cash
+                                1, // status
+                                \Carbon\Carbon::now()
+                            ]);
+                            $success = true;
+                        } catch (\Exception $e) {
+                            if ($method === 'direct') {
+                                throw new \Exception('Direct database method failed. Please contact administrator.');
+                            }
+                        }
+                    }
+
+                    if (!$success) {
+                        // Both methods failed, refund the user
+                        $user->money = $user->money + ($request->quantity * $service->price);
+                        $user->save();
+                        
+                        // Remove the service log
+                        ServiceLog::where('userid', $user->ID)
+                            ->where('key', $service->key)
+                            ->orderBy('id', 'desc')
+                            ->first()
+                            ->delete();
+                        
+                        throw new \Exception('Unable to add cubi. Both transfer methods failed.');
+                    }
+                    
+                    $type = 'success';
+                    $note = __('service.ingame.' . $service->key . '.complete');
+                } catch (\Exception $e) {
+                    $type = 'error';
+                    $note = $e->getMessage();
+                }
             } else {
                 $type = 'error';
                 $note = __('service.must_logout');
