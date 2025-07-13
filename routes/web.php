@@ -68,6 +68,12 @@ Route::group(['middleware' => 'web'], static function () {
         'as' => 'api.check-pin',
         'uses' => 'App\Http\Controllers\Api\CheckPinController@checkPin'
     ])->withoutMiddleware(VerifyCsrfToken::class);
+    
+    // API endpoint to check Arena vote status
+    Route::get('/api/check-arena-vote-status', [
+        'as' => 'api.check-arena-vote-status',
+        'uses' => 'App\Http\Controllers\Api\CheckArenaVoteStatusController@checkStatus'
+    ]);
 
     Route::get('news/{slug}', [
         'as' => 'show.article',

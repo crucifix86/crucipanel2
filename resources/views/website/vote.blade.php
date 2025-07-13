@@ -1423,12 +1423,62 @@
             // For Arena Top 100
             if (siteId === 'arena') {
                 showNotification('info', `Opening Arena Top 100 voting page. Complete your vote and your rewards will be automatically applied when Arena confirms your vote!`);
+                
+                // Start checking for vote completion
+                startVoteStatusCheck();
+                
                 return true;
             }
             
             // This shouldn't happen anymore but just in case
             showNotification('error', 'Only Arena Top 100 voting is supported.');
             return false;
+        }
+        
+        // Check vote status periodically
+        let voteCheckInterval = null;
+        function startVoteStatusCheck() {
+            // Clear any existing interval
+            if (voteCheckInterval) {
+                clearInterval(voteCheckInterval);
+            }
+            
+            // Check every 3 seconds
+            voteCheckInterval = setInterval(() => {
+                fetch('/api/check-arena-vote-status')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.completed) {
+                            // Vote completed!
+                            clearInterval(voteCheckInterval);
+                            voteCheckInterval = null;
+                            
+                            // Show success notification
+                            showNotification('success', `Vote confirmed! +${data.reward_amount} ${data.reward_type} added!`);
+                            
+                            // Update balance display
+                            if (data.new_balance) {
+                                updateBalanceDisplay(data.new_balance);
+                            }
+                            
+                            // Reload page after 2 seconds to update timers
+                            setTimeout(() => {
+                                location.reload();
+                            }, 2000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking vote status:', error);
+                    });
+            }, 3000);
+            
+            // Stop checking after 2 minutes
+            setTimeout(() => {
+                if (voteCheckInterval) {
+                    clearInterval(voteCheckInterval);
+                    voteCheckInterval = null;
+                }
+            }, 120000);
         }
         
         function updateBalanceDisplay(newBalance) {
