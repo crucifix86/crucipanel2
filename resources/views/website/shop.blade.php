@@ -1431,9 +1431,9 @@
             <!-- Voucher History Popup -->
             @auth
             @if($voucherLogs->count() > 0)
-            <div id="voucherHistoryPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; overflow-y: auto;">
-                <div style="position: relative; max-width: 800px; margin: 50px auto; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); border: 2px solid rgba(147, 112, 219, 0.4); border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(147, 112, 219, 0.6);">
-                    <button onclick="toggleVoucherHistory()" style="position: absolute; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 50%; width: 40px; height: 40px; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease;">
+            <div id="voucherHistoryPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; overflow-y: auto; padding: 20px;">
+                <div style="position: relative; max-width: 800px; margin: 30px auto; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); border: 2px solid rgba(147, 112, 219, 0.4); border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(147, 112, 219, 0.6);">
+                    <button onclick="toggleVoucherHistory()" style="position: absolute; top: 15px; right: 15px; background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 50%; width: 40px; height: 40px; color: #ef4444; font-size: 1.5rem; cursor: pointer; transition: all 0.3s ease; z-index: 1;">
                         ×
                     </button>
                     
@@ -1441,9 +1441,9 @@
                         <span style="margin-right: 10px;">📋</span>Voucher Redemption History
                     </h2>
                     
-                    <div style="overflow-x: auto;">
+                    <div style="overflow-x: auto; max-height: 400px; overflow-y: auto;">
                         <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
+                            <thead style="position: sticky; top: 0; background: linear-gradient(135deg, #1a0f2e, #2a1b3d); z-index: 1;">
                                 <tr style="border-bottom: 2px solid rgba(147, 112, 219, 0.4);">
                                     <th style="padding: 12px; text-align: left; color: #9370db; font-weight: 600;">Voucher Code</th>
                                     <th style="padding: 12px; text-align: center; color: #9370db; font-weight: 600;">Amount</th>
@@ -1692,9 +1692,19 @@
             if (popup) {
                 popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
                 if (popup.style.display === 'block') {
-                    document.body.style.overflow = 'hidden';
+                    // Scroll to top when opening popup
+                    popup.scrollTop = 0;
+                    // Keep body scrollable but prevent scroll behind popup
+                    document.body.style.position = 'fixed';
+                    document.body.style.top = `-${window.scrollY}px`;
+                    document.body.style.width = '100%';
                 } else {
-                    document.body.style.overflow = 'auto';
+                    // Restore scroll position when closing
+                    const scrollY = document.body.style.top;
+                    document.body.style.position = '';
+                    document.body.style.top = '';
+                    document.body.style.width = '';
+                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
                 }
             }
         }
