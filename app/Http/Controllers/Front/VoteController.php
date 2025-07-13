@@ -137,13 +137,12 @@ class VoteController extends Controller
     public function arenaSubmit(Request $request)
     {
         if (!ArenaLogs::recent($request, Auth::user()->ID)->exists()) {
-            ArenaLogs::create([
+            $recent = ArenaLogs::create([
                 'user_id' => Auth::user()->ID,
                 'ip_address' => $request->ip(),
                 'reward' => config('arena.reward'),
                 'status' => 2  // 2 = pending, 1 = not processed, 0 = completed
             ]);
-            $recent = ArenaLogs::recent($request, Auth::user()->ID)->first();
             $callback_url = urlencode(base64_encode(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id));
             return redirect()->to('https://www.arena-top100.com/index.php?a=in&u=' . config('arena.username') . '&callback=' . $callback_url);
         } else {
