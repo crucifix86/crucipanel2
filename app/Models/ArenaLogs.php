@@ -20,7 +20,7 @@ class ArenaLogs extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'ip_address', 'reward', 'status'];
+    protected $fillable = ['user_id', 'ip_address', 'reward', 'status', 'rewarded_at'];
 
     public function scopeCurrent($query, Request $request, $user_id, $logid, $valid)
     {

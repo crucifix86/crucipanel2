@@ -122,6 +122,34 @@ class ArenaCallback extends Controller
         } else {
             $result = 'Already Voted';
             \Log::warning('Arena: Invalid vote or already voted', ['userid' => $userid, 'valid' => $valid]);
+            
+            // If Arena says already voted, we should still update our timer
+            // This handles cases where previous callbacks failed
+            if ($userid && $valid == 0) {
+                // Check if we have a pending log for this user
+                $pendingLog = ArenaLogs::where('user_id', $userid)
+                    ->where('status', 1) // Pending status
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+                    
+                if ($pendingLog) {
+                    // Update it to completed so timer shows correctly
+                    $pendingLog->update([
+                        'status' => 0,
+                        'ip_address' => $userip
+                    ]);
+                    \Log::info('Arena: Updated pending log to show cooldown', ['userid' => $userid]);
+                } else {
+                    // Create a completed log to sync with Arena's cooldown
+                    ArenaLogs::create([
+                        'user_id' => $userid,
+                        'ip_address' => $userip,
+                        'reward' => 0, // No reward since they already voted
+                        'status' => 0  // Mark as completed to show timer
+                    ]);
+                    \Log::info('Arena: Created cooldown log to sync with Arena', ['userid' => $userid]);
+                }
+            }
         }
         
         // Update callback log with result
