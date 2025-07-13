@@ -134,6 +134,25 @@ class VoteController extends Controller
                 Config::write('arena.' . $config, $value);
                 LocalSettings::set('arena.' . $config, $value);
             }
+            
+            // Handle test mode settings
+            $testMode = $request->has('test_mode');
+            $testModeClearTimer = $request->has('test_mode_clear_timer');
+            
+            Config::write('arena.test_mode', $testMode);
+            LocalSettings::set('arena.test_mode', $testMode);
+            
+            Config::write('arena.test_mode_clear_timer', $testModeClearTimer);
+            LocalSettings::set('arena.test_mode_clear_timer', $testModeClearTimer);
+            
+            // Log test mode status
+            if ($testMode || $testModeClearTimer) {
+                \Log::warning('Arena Test Mode Enabled', [
+                    'test_mode' => $testMode,
+                    'test_mode_clear_timer' => $testModeClearTimer,
+                    'enabled_by' => auth()->user()->name ?? 'Unknown'
+                ]);
+            }
         }
         
         // Clear and re-cache config after all writes are complete

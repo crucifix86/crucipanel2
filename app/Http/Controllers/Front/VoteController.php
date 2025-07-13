@@ -44,7 +44,12 @@ class VoteController extends Controller
 
         $arena_info = [];
         $arena_log = ArenaLogs::onCooldown($request, Auth::user()->ID);
-        if ($arena_log->exists()) {
+        
+        // Check if we should clear timer for testing
+        if (config('arena.test_mode_clear_timer')) {
+            \Log::info('Arena: Test mode - clearing timer for user ' . Auth::user()->ID);
+            $arena_info[Auth::user()->ID]['status'] = TRUE;
+        } else if ($arena_log->exists()) {
             $arena_log = $arena_log->first();
             if (time() < $arena_log->created_at->getTimestamp() + (3600 * config('arena.time'))) {
                 $arena_info[Auth::user()->ID]['end_time'] = $arena_log->created_at->addHours(config('arena.time'))->getTimestamp() - Carbon::now()->getTimestamp();
@@ -136,8 +141,13 @@ class VoteController extends Controller
 
     public function arenaSubmit(Request $request)
     {
+        // Check if we should bypass cooldown for testing
+        if (config('arena.test_mode_clear_timer')) {
+            \Log::info('Arena: Test mode - bypassing cooldown check for user ' . Auth::user()->ID);
+        }
+        
         // Check if user has a completed vote in cooldown period
-        if (!ArenaLogs::recent($request, Auth::user()->ID)->exists()) {
+        if (config('arena.test_mode_clear_timer') || !ArenaLogs::recent($request, Auth::user()->ID)->exists()) {
             $recent = ArenaLogs::create([
                 'user_id' => Auth::user()->ID,
                 'ip_address' => $request->ip(),
@@ -145,9 +155,35 @@ class VoteController extends Controller
                 'status' => 1  // 1 = pending/not processed, 0 = completed
             ]);
             $callback_url = urlencode(base64_encode(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id));
+            
+            // If in test mode, simulate immediate callback
+            if (config('arena.test_mode')) {
+                \Log::info('Arena: Test mode - simulating immediate callback');
+                // Redirect to our own callback URL to simulate Arena response
+                return redirect()->to(route('api.arenatop100') . '?userid=' . Auth::user()->ID . '&logid=' . $recent->id . '&voted=1&userip=' . $request->ip());
+            }
+            
             return redirect()->to('https://www.arena-top100.com/index.php?a=in&u=' . config('arena.username') . '&callback=' . $callback_url);
         } else {
             return redirect()->route('app.vote.index')->with('error', __('vote.already_voted', ['site' => 'Arena Top 100']));
         }
+    }
+    
+    public function clearArenaLogs(Request $request)
+    {
+        // Only allow in test mode and for admins
+        if (!config('arena.test_mode_clear_timer') || !auth()->user()->permission || !auth()->user()->permission->is_admin) {
+            return redirect()->route('app.vote.index')->with('error', 'Not authorized');
+        }
+        
+        // Clear all Arena logs for the current user
+        ArenaLogs::where('user_id', Auth::user()->ID)->delete();
+        
+        \Log::info('Arena: Cleared all logs for testing', [
+            'user_id' => Auth::user()->ID,
+            'cleared_by' => auth()->user()->name
+        ]);
+        
+        return redirect()->route('app.vote.index')->with('success', 'Arena logs cleared for testing');
     }
 }

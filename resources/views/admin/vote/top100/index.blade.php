@@ -92,6 +92,64 @@ if (!function_exists('get_setting')) {
                                                         placeholder=" " :popover="__('vote.arena.time_desc')" required/>
                         <x-hrace009::label for="time">{{ __('vote.arena.time') }}</x-hrace009::label>
                     </div>
+                    
+                    <!-- Test Mode Section -->
+                    <div class="mt-8 p-4 bg-red-50 dark:bg-red-900/20 border-2 border-red-300 dark:border-red-600 rounded-lg">
+                        <h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-4">
+                            ⚠️ Testing Mode - DISABLE IN PRODUCTION!
+                        </h3>
+                        
+                        <div class="relative z-0 mb-6 w-full group">
+                            <div id="test_mode_switch" class="flex ml-12">
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" id="test_mode" name="test_mode"
+                                           value="{{ get_setting('arena.test_mode', false) }}"
+                                           @if( get_setting('arena.test_mode', false) === true ) checked @endif
+                                        @popper(Always return successful vote in callbacks - for testing only!)
+                                    />
+                                    <div class="state p-danger">
+                                        <label for="test_mode">
+                                            @if( get_setting('arena.test_mode', false) === true )
+                                                {{ __('donate.on') }}
+                                            @else
+                                                {{ __('donate.off') }}
+                                            @endif
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <x-hrace009::label for="test_mode_switch">Force Successful Votes</x-hrace009::label>
+                        </div>
+                        
+                        <div class="relative z-0 mb-6 w-full group">
+                            <div id="test_mode_clear_timer_switch" class="flex ml-12">
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" id="test_mode_clear_timer" name="test_mode_clear_timer"
+                                           value="{{ get_setting('arena.test_mode_clear_timer', false) }}"
+                                           @if( get_setting('arena.test_mode_clear_timer', false) === true ) checked @endif
+                                        @popper(Bypass cooldown timer - allows unlimited voting for testing!)
+                                    />
+                                    <div class="state p-danger">
+                                        <label for="test_mode_clear_timer">
+                                            @if( get_setting('arena.test_mode_clear_timer', false) === true )
+                                                {{ __('donate.on') }}
+                                            @else
+                                                {{ __('donate.off') }}
+                                            @endif
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <x-hrace009::label for="test_mode_clear_timer_switch">Clear Vote Timer</x-hrace009::label>
+                        </div>
+                        
+                        <p class="text-sm text-red-700 dark:text-red-300 mt-2">
+                            <strong>Warning:</strong> These options are for testing only. They will:
+                            <br>• Allow users to vote unlimited times
+                            <br>• Always give rewards regardless of actual Arena vote
+                            <br>• Simulate immediate callbacks without visiting Arena
+                        </p>
+                    </div>
                 @endif
                 <x-hrace009::button-with-popover class="w-auto" popover="{{ __('general.config_save_desc') }}">
                     {{ __('general.Save') }}

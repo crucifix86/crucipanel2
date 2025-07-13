@@ -60,6 +60,11 @@ class ArenaCallback extends Controller
             array_shift($logs);
         }
         
+        // Check if we're in test mode
+        if (config('arena.test_mode')) {
+            \Log::warning('Arena: TEST MODE ACTIVE - Always returning successful vote');
+        }
+        
         $request->validate([
             'voted' => 'integer|required',
             'userip' => 'ip|required',
@@ -71,6 +76,12 @@ class ArenaCallback extends Controller
         $userid = $request->get('userid');
         $logid = $request->get('logid');
         $custom = $request->get('custom');
+        
+        // Override vote status if in test mode
+        if (config('arena.test_mode')) {
+            $valid = 1; // Force successful vote
+            \Log::info('Arena: Test mode - forcing valid = 1');
+        }
 
         if ($userid && $valid == 1) {
             \Log::info('Arena: Processing vote', ['userid' => $userid, 'logid' => $logid, 'valid' => $valid]);

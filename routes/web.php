@@ -260,6 +260,11 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified
                 'as' => 'app.vote.arena.submit',
                 'uses' => 'App\Http\Controllers\Front\VoteController@arenaSubmit'
             ]);
+            
+            Route::post('clear-logs', [
+                'as' => 'app.vote.arena.clearLogs',
+                'uses' => 'App\Http\Controllers\Front\VoteController@clearArenaLogs'
+            ]);
         });
     });
 

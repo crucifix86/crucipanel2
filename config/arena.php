@@ -11,5 +11,9 @@ return [
     'username' => 'hrace009',
     'reward' => '10',
     'reward_type' => 'virtual', //type virtual or cubi
-    'time' => '1' // in hour
+    'time' => '1', // in hour
+    
+    // Testing mode - DISABLE IN PRODUCTION!
+    'test_mode' => env('ARENA_TEST_MODE', false), // Set to true to always return successful vote
+    'test_mode_clear_timer' => env('ARENA_TEST_CLEAR_TIMER', false) // Set to true to ignore cooldown
 ];

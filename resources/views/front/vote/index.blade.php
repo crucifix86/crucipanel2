@@ -7,6 +7,32 @@
     </x-slot>
 
     <x-slot name="content">
+        @if( config('arena.test_mode') || config('arena.test_mode_clear_timer') )
+            <div class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border-2 border-red-300 dark:border-red-600 rounded-lg">
+                <h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
+                    ⚠️ ARENA TEST MODE ACTIVE
+                </h3>
+                <p class="text-sm text-red-700 dark:text-red-300">
+                    @if( config('arena.test_mode') )
+                        • Callbacks will always return successful vote<br>
+                    @endif
+                    @if( config('arena.test_mode_clear_timer') )
+                        • Vote cooldown timer is disabled<br>
+                    @endif
+                    <strong>Remember to disable test mode in production!</strong>
+                </p>
+                @if( auth()->user()->permission && auth()->user()->permission->is_admin )
+                    <div class="mt-3">
+                        <form action="{{ route('app.vote.arena.clearLogs') }}" method="post" class="inline">
+                            {{ csrf_field() }}
+                            <button type="submit" class="px-3 py-1 text-sm bg-red-600 hover:bg-red-700 text-white rounded">
+                                Clear My Arena Logs (Testing)
+                            </button>
+                        </form>
+                    </div>
+                @endif
+            </div>
+        @endif
         @if( config('arena.status') === true )
             <div class="mb-4">
                 <div
