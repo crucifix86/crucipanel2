@@ -802,7 +802,7 @@
         /* Visit Reward Widget */
         .visit-reward-wrapper {
             position: fixed;
-            top: 320px;
+            top: 420px;
             left: 20px;
             z-index: 100;
             width: 220px;
@@ -1509,7 +1509,12 @@
         
         function checkVisitRewardStatus() {
             fetch('/api/visit-reward/status')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Not authorized');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     const claimBtn = document.getElementById('claimRewardBtn');
                     const timerDiv = document.getElementById('rewardTimer');
@@ -1543,7 +1548,11 @@
                 .catch(error => {
                     console.error('Error checking reward status:', error);
                     const claimBtn = document.getElementById('claimRewardBtn');
-                    claimBtn.textContent = 'Error';
+                    if (error.message === 'Not authorized') {
+                        claimBtn.textContent = 'Login Required';
+                    } else {
+                        claimBtn.textContent = 'Error';
+                    }
                     claimBtn.disabled = true;
                 });
         }
