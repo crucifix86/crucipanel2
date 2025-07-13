@@ -1506,7 +1506,14 @@
         let rewardCountdownInterval = null;
         
         function checkVisitRewardStatus() {
-            fetch('/api/visit-reward/status')
+            fetch('/api/visit-reward/status', {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
+            })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Not authorized');
@@ -1597,7 +1604,8 @@
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+                },
+                credentials: 'same-origin'
             })
             .then(response => response.json())
             .then(data => {
