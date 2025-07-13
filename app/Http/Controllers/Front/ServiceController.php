@@ -147,18 +147,9 @@ class ServiceController extends Controller
                         $directSuccess = false;
                         $errorMessages = [];
                         
-                        // Method 1: Try stored procedure
+                        // Method 1: Try stored procedure (matching JSP implementation)
                         try {
-                            \DB::select('call usecash(?,?,?,?,?,?,?,?)', [
-                                $user->ID,
-                                1, // zone_id
-                                0, // sn
-                                1, // aid
-                                0, // point
-                                $request->quantity * 100, // cash
-                                1, // status
-                                \Carbon\Carbon::now()
-                            ]);
+                            \DB::statement("call usecash('{$user->ID}', 1, 0, 1, 0, '" . ($request->quantity * 100) . "', 1, @error)");
                             $directSuccess = true;
                         } catch (\Exception $e) {
                             $errorMessages[] = 'Stored procedure failed: ' . $e->getMessage();
