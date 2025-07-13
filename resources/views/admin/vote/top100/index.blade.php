@@ -1,3 +1,10 @@
+@php
+if (!function_exists('get_setting')) {
+    function get_setting($key, $default = null) {
+        return config($key, $default);
+    }
+}
+@endphp
 @section('title', ' - ' . __('vote.arena.title'))
 <x-hrace009.layouts.admin>
     <x-slot name="header">
