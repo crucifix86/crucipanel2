@@ -1456,9 +1456,26 @@
                         
                         @auth
                             @if(Auth::user()->characterId())
-                                <a href="{{ route('app.services.index') }}" class="purchase-button" style="display: block; text-align: center; text-decoration: none; margin-top: 15px;">
-                                    Use Service
-                                </a>
+                                <form action="{{ route('app.services.post', $service->key) }}" method="POST" style="margin-top: 15px;">
+                                    @csrf
+                                    @php
+                                        $inputConfig = __('service.ingame.' . $service->key . '.input');
+                                    @endphp
+                                    
+                                    @if(is_array($inputConfig))
+                                        <div style="margin-bottom: 15px;">
+                                            <input type="{{ $inputConfig['type'] ?? 'text' }}" 
+                                                   name="{{ $inputConfig['name'] }}" 
+                                                   placeholder="{{ __('service.' . $inputConfig['placeholder']) }}"
+                                                   style="width: 100%; background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.5); border-radius: 8px; padding: 10px; color: #e6d7f0; font-size: 0.95rem; font-family: Arial, sans-serif;"
+                                                   required>
+                                        </div>
+                                    @endif
+                                    
+                                    <button type="submit" class="purchase-button">
+                                        Use Service
+                                    </button>
+                                </form>
                             @else
                                 <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 15px;">Select a character to use service</p>
                             @endif
