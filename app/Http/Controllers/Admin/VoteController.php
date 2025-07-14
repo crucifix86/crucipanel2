@@ -154,6 +154,14 @@ class VoteController extends Controller
                     'enabled_by' => auth()->user()->name ?? 'Unknown'
                 ]);
             }
+            
+            // Handle vote security settings
+            $securitySettings = VoteSecuritySetting::getSettings();
+            $securitySettings->update([
+                'ip_limit_enabled' => $request->has('ip_limit_enabled'),
+                'max_votes_per_ip_daily' => $request->input('max_votes_per_ip_daily', 2),
+                'bypass_in_test_mode' => $request->has('bypass_in_test_mode')
+            ]);
         }
         
         // Clear and re-cache config after all writes are complete

@@ -150,6 +150,62 @@ if (!function_exists('get_setting')) {
                             <br>• Simulate immediate callbacks without visiting Arena
                         </p>
                     </div>
+                    
+                    <!-- Vote Security Settings Section -->
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-300 dark:border-blue-600 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-4">
+                            🛡️ Vote Security Settings
+                        </h3>
+                        
+                        <div class="relative z-0 mb-6 w-full group">
+                            <div id="ip_limit_enabled_switch" class="flex ml-12">
+                                <div class="pretty p-switch">
+                                    <input type="checkbox" id="ip_limit_enabled" name="ip_limit_enabled"
+                                           value="1"
+                                           @if( \App\Models\VoteSecuritySetting::getSettings()->ip_limit_enabled ) checked @endif
+                                        @popper(Enable IP-based vote limiting to prevent abuse)
+                                    />
+                                    <div class="state p-info">
+                                        <label for="ip_limit_enabled">
+                                            {{ \App\Models\VoteSecuritySetting::getSettings()->ip_limit_enabled ? __('donate.on') : __('donate.off') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <x-hrace009::label for="ip_limit_enabled_switch">Enable IP Limits</x-hrace009::label>
+                        </div>
+                        
+                        <div class="relative z-0 mb-6 w-full group">
+                            <x-hrace009::input-with-popover id="max_votes_per_ip_daily" name="max_votes_per_ip_daily"
+                                                            type="number" min="1" max="100"
+                                                            value="{{ \App\Models\VoteSecuritySetting::getSettings()->max_votes_per_ip_daily }}"
+                                                            placeholder=" " :popover="'Maximum votes allowed per IP address per day (recommended: 2)'"
+                                                            required/>
+                            <x-hrace009::label for="max_votes_per_ip_daily">Max Votes Per IP Daily</x-hrace009::label>
+                        </div>
+                        
+                        <div class="relative z-0 mb-6 w-full group">
+                            <div id="bypass_in_test_mode_switch" class="flex ml-12">
+                                <div class="pretty p-switch">
+                                    <input type="checkbox" id="bypass_in_test_mode" name="bypass_in_test_mode"
+                                           value="1"
+                                           @if( \App\Models\VoteSecuritySetting::getSettings()->bypass_in_test_mode ) checked @endif
+                                        @popper(Bypass all security checks when test mode is enabled above)
+                                    />
+                                    <div class="state p-info">
+                                        <label for="bypass_in_test_mode">
+                                            {{ \App\Models\VoteSecuritySetting::getSettings()->bypass_in_test_mode ? __('donate.on') : __('donate.off') }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <x-hrace009::label for="bypass_in_test_mode_switch">Bypass Security in Test Mode</x-hrace009::label>
+                        </div>
+                        
+                        <p class="text-sm text-blue-700 dark:text-blue-300 mt-2">
+                            <strong>Note:</strong> IP limits help prevent vote abuse by limiting how many times a single IP can vote per day.
+                        </p>
+                    </div>
                 @endif
                 <x-hrace009::button-with-popover class="w-auto" popover="{{ __('general.config_save_desc') }}">
                     {{ __('general.Save') }}

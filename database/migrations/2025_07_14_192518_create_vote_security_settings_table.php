@@ -38,10 +38,10 @@ return new class extends Migration
             'ip_limit_enabled' => true,
             'max_votes_per_ip_daily' => 2,
             'max_votes_per_ip_per_site' => 1,
-            'account_restrictions_enabled' => true,
+            'account_restrictions_enabled' => false,  // Disabled by default
             'min_account_age_days' => 7,
             'min_character_level' => 0,
-            'require_email_verified' => true,
+            'require_email_verified' => false,  // Disabled by default
             'bypass_in_test_mode' => true,
             'created_at' => now(),
             'updated_at' => now()
