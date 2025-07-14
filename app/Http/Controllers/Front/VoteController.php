@@ -15,6 +15,8 @@ use App\Models\ArenaLogs;
 use App\Models\Transfer;
 use App\Models\VoteLog;
 use App\Models\VoteSite;
+use App\Models\VoteSecuritySetting;
+use App\Models\Player;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -91,6 +93,78 @@ class VoteController extends Controller
 
     public function postSubmit(Request $request, VoteSite $site)
     {
+        $settings = VoteSecuritySetting::getSettings();
+        $bypass = VoteSecuritySetting::shouldBypass();
+        
+        // Check IP limits (unless in test mode)
+        if (!$bypass) {
+            // Check daily IP limit
+            if (VoteLog::ipReachedDailyLimit($request->ip())) {
+                $message = 'Daily vote limit reached for this IP address. Maximum ' . $settings->max_votes_per_ip_daily . ' votes per day allowed.';
+                
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json(['success' => false, 'message' => $message]);
+                }
+                return redirect()->route('app.vote.index')->with('error', $message);
+            }
+            
+            // Check per-site IP limit
+            if (VoteLog::ipReachedSiteLimit($request->ip(), $site->id)) {
+                $message = 'Vote limit reached for this site from your IP address today.';
+                
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json(['success' => false, 'message' => $message]);
+                }
+                return redirect()->route('app.vote.index')->with('error', $message);
+            }
+            
+            // Check account restrictions
+            if ($settings->account_restrictions_enabled) {
+                $user = Auth::user();
+                
+                // Check email verification
+                if ($settings->require_email_verified && !$user->hasVerifiedEmail()) {
+                    $message = 'Email verification required to vote. Please verify your email address.';
+                    
+                    if ($request->ajax() || $request->wantsJson()) {
+                        return response()->json(['success' => false, 'message' => $message]);
+                    }
+                    return redirect()->route('app.vote.index')->with('error', $message);
+                }
+                
+                // Check account age
+                if ($settings->min_account_age_days > 0) {
+                    $accountAge = Carbon::parse($user->created_at)->diffInDays(Carbon::now());
+                    if ($accountAge < $settings->min_account_age_days) {
+                        $message = 'Account must be at least ' . $settings->min_account_age_days . ' days old to vote. Your account is ' . $accountAge . ' days old.';
+                        
+                        if ($request->ajax() || $request->wantsJson()) {
+                            return response()->json(['success' => false, 'message' => $message]);
+                        }
+                        return redirect()->route('app.vote.index')->with('error', $message);
+                    }
+                }
+                
+                // Check character level (if implemented)
+                if ($settings->min_character_level > 0) {
+                    // Get highest level character for this account
+                    $highestLevel = Player::where('userid', $user->ID)
+                        ->where('level', '>=', $settings->min_character_level)
+                        ->exists();
+                    
+                    if (!$highestLevel) {
+                        $message = 'You need at least one character of level ' . $settings->min_character_level . ' or higher to vote.';
+                        
+                        if ($request->ajax() || $request->wantsJson()) {
+                            return response()->json(['success' => false, 'message' => $message]);
+                        }
+                        return redirect()->route('app.vote.index')->with('error', $message);
+                    }
+                }
+            }
+        }
+        
+        // Original voting logic continues here
         if (!VoteLog::recent($request, $site)->exists()) {
             switch ($site->type) {
                 case 'virtual':
@@ -149,9 +223,50 @@ class VoteController extends Controller
 
     public function arenaSubmit(Request $request)
     {
+        $settings = VoteSecuritySetting::getSettings();
+        $bypass = VoteSecuritySetting::shouldBypass();
+        
         // Check if we should bypass cooldown for testing
         if (config('arena.test_mode_clear_timer')) {
             \Log::info('Arena: Test mode - bypassing cooldown check for user ' . Auth::user()->ID);
+        }
+        
+        // Check IP limits for Arena voting (unless in test mode)
+        if (!$bypass) {
+            // Check daily IP limit (Arena counts towards daily limit)
+            if (VoteLog::ipReachedDailyLimit($request->ip())) {
+                $message = 'Daily vote limit reached for this IP address. Maximum ' . $settings->max_votes_per_ip_daily . ' votes per day allowed.';
+                return redirect()->route('app.vote.index')->with('error', $message);
+            }
+            
+            // Check account restrictions
+            if ($settings->account_restrictions_enabled) {
+                $user = Auth::user();
+                
+                // Check email verification
+                if ($settings->require_email_verified && !$user->hasVerifiedEmail()) {
+                    return redirect()->route('app.vote.index')->with('error', 'Email verification required to vote. Please verify your email address.');
+                }
+                
+                // Check account age
+                if ($settings->min_account_age_days > 0) {
+                    $accountAge = Carbon::parse($user->created_at)->diffInDays(Carbon::now());
+                    if ($accountAge < $settings->min_account_age_days) {
+                        return redirect()->route('app.vote.index')->with('error', 'Account must be at least ' . $settings->min_account_age_days . ' days old to vote.');
+                    }
+                }
+                
+                // Check character level
+                if ($settings->min_character_level > 0) {
+                    $highestLevel = Player::where('userid', $user->ID)
+                        ->where('level', '>=', $settings->min_character_level)
+                        ->exists();
+                    
+                    if (!$highestLevel) {
+                        return redirect()->route('app.vote.index')->with('error', 'You need at least one character of level ' . $settings->min_character_level . ' or higher to vote.');
+                    }
+                }
+            }
         }
         
         // Check if user has a completed vote in cooldown period

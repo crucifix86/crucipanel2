@@ -3,6 +3,11 @@
     <x-slot name="header">
         <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
             <h1 class="text-2xl font-semibold">{{ __('vote.index.header') }}</h1>
+            <div class="flex space-x-2">
+                <a href="{{ route('admin.vote.security') }}" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600">
+                    <i class="fas fa-shield-alt mr-2"></i>Security Settings
+                </a>
+            </div>
         </div>
     </x-slot>
     <x-slot name="content">

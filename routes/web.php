@@ -585,6 +585,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
             'as' => 'admin.vote.arena.submit',
             'uses' => 'App\Http\Controllers\Admin\VoteController@postArena',
         ]);
+        Route::get('security', [
+            'as' => 'admin.vote.security',
+            'uses' => 'App\Http\Controllers\Admin\VoteController@getSecurity'
+        ]);
+        Route::post('security', [
+            'as' => 'admin.vote.security.post',
+            'uses' => 'App\Http\Controllers\Admin\VoteController@postSecurity',
+        ]);
     });
     Route::resource('vote', VoteController::class)->parameter('vote', 'site')->middleware('vote');
     

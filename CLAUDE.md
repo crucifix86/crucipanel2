@@ -2,10 +2,17 @@
 
 ## Important Project Information
 
+### SAFETY VERSION: v2.1.258
+- **Voting function working perfectly as of this version**
+- Always revert to this version if voting breaks after changes
+- This is our stable baseline version
+
 ### Development Environment
-- **This project is NOT installed locally** - it runs on a VPS
-- All testing must be done on the VPS, not locally
-- The VPS is a Contabo server
+- **Two environments are now available:**
+  - **Production**: VPS (Contabo server) - live version
+  - **Local Testing**: http://localhost:8000 - for testing migrations, features, and changes before pushing to git
+- Database credentials for local: user: admin, pass: vTzllyedTYjL4, database: pw
+- Always test locally first, then push to git, then deploy to VPS
 
 ### Git Configuration
 - GitHub username: **crucifix86**

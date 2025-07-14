@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoteRequest;
 use App\Models\VoteSite;
+use App\Models\VoteSecuritySetting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -158,6 +159,52 @@ class VoteController extends Controller
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
+        
+        // Simple redirect back with query parameter
+        $url = url()->previous();
+        if (strpos($url, '?') !== false) {
+            $url .= '&saved=1';
+        } else {
+            $url .= '?saved=1';
+        }
+        
+        return redirect($url);
+    }
+    
+    /**
+     * Show vote security settings page
+     */
+    public function getSecurity()
+    {
+        $settings = VoteSecuritySetting::getSettings();
+        return view('admin.vote.security', compact('settings'));
+    }
+    
+    /**
+     * Update vote security settings
+     */
+    public function postSecurity(Request $request)
+    {
+        $settings = VoteSecuritySetting::getSettings();
+        
+        $validated = $request->validate([
+            'ip_limit_enabled' => 'boolean',
+            'max_votes_per_ip_daily' => 'required|integer|min:1|max:100',
+            'max_votes_per_ip_per_site' => 'required|integer|min:1|max:10',
+            'account_restrictions_enabled' => 'boolean',
+            'min_account_age_days' => 'required|integer|min:0|max:365',
+            'min_character_level' => 'required|integer|min:0|max:150',
+            'require_email_verified' => 'boolean',
+            'bypass_in_test_mode' => 'boolean'
+        ]);
+        
+        // Convert checkboxes
+        $validated['ip_limit_enabled'] = $request->has('ip_limit_enabled');
+        $validated['account_restrictions_enabled'] = $request->has('account_restrictions_enabled');
+        $validated['require_email_verified'] = $request->has('require_email_verified');
+        $validated['bypass_in_test_mode'] = $request->has('bypass_in_test_mode');
+        
+        $settings->update($validated);
         
         // Simple redirect back with query parameter
         $url = url()->previous();

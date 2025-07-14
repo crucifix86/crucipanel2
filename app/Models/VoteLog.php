@@ -50,4 +50,55 @@ class VoteLog extends Model
             ->orderBy('created_at', 'desc')
             ->take(1);
     }
+
+    /**
+     * Count votes from a specific IP today
+     */
+    public function scopeFromIpToday($query, $ip)
+    {
+        return $query
+            ->where('ip_address', $ip)
+            ->whereDate('created_at', Carbon::today());
+    }
+
+    /**
+     * Count votes from a specific IP for a specific site today
+     */
+    public function scopeFromIpForSiteToday($query, $ip, $siteId)
+    {
+        return $query
+            ->where('ip_address', $ip)
+            ->where('site_id', $siteId)
+            ->whereDate('created_at', Carbon::today());
+    }
+
+    /**
+     * Check if IP has reached daily limit
+     */
+    public static function ipReachedDailyLimit($ip)
+    {
+        $settings = VoteSecuritySetting::getSettings();
+        
+        if (!$settings->ip_limit_enabled || VoteSecuritySetting::shouldBypass()) {
+            return false;
+        }
+
+        $votesToday = static::fromIpToday($ip)->count();
+        return $votesToday >= $settings->max_votes_per_ip_daily;
+    }
+
+    /**
+     * Check if IP has reached limit for specific site
+     */
+    public static function ipReachedSiteLimit($ip, $siteId)
+    {
+        $settings = VoteSecuritySetting::getSettings();
+        
+        if (!$settings->ip_limit_enabled || VoteSecuritySetting::shouldBypass()) {
+            return false;
+        }
+
+        $votesForSite = static::fromIpForSiteToday($ip, $siteId)->count();
+        return $votesForSite >= $settings->max_votes_per_ip_per_site;
+    }
 }
