@@ -143,56 +143,33 @@ class ServiceController extends Controller
                     }
 
                     if (!$success && ($method === 'direct' || $method === 'auto')) {
-                        // Try direct database method
+                        // Optimized direct database method - single query approach
                         $directSuccess = false;
                         $errorMessages = [];
                         
-                        // Method 1: Try stored procedure (matching JSP implementation)
+                        // Try the most efficient method first - direct INSERT ... ON DUPLICATE KEY UPDATE
                         try {
-                            \DB::statement("call usecash('{$user->ID}', 1, 0, 1, 0, '" . ($request->quantity * 100) . "', 1, @error)");
+                            $cashAmount = $request->quantity * 100;
+                            $now = \Carbon\Carbon::now();
+                            
+                            // This single query handles both insert and update cases
+                            $affected = \DB::statement("
+                                INSERT INTO usecashnow (userid, zoneid, sn, aid, point, cash, status, creatime) 
+                                VALUES (?, 1, 0, 1, 0, ?, 1, ?)
+                                ON DUPLICATE KEY UPDATE 
+                                cash = cash + VALUES(cash)
+                            ", [$user->ID, $cashAmount, $now]);
+                            
                             $directSuccess = true;
                         } catch (\Exception $e) {
-                            $errorMessages[] = 'Stored procedure failed: ' . $e->getMessage();
-                        }
-                        
-                        // Method 2: Try direct table insert if stored procedure failed
-                        if (!$directSuccess) {
+                            $errorMessages[] = 'Optimized insert/update failed: ' . $e->getMessage();
+                            
+                            // Fallback to stored procedure only if the optimized method fails
                             try {
-                                // Check if usecashnow table exists
-                                $tableExists = \DB::select("SHOW TABLES LIKE 'usecashnow'");
-                                
-                                if (!empty($tableExists)) {
-                                    // Check if user already has record
-                                    $exists = \DB::table('usecashnow')
-                                        ->where('userid', $user->ID)
-                                        ->where('zoneid', 1)
-                                        ->exists();
-                                    
-                                    if (!$exists) {
-                                        \DB::table('usecashnow')->insert([
-                                            'userid' => $user->ID,
-                                            'zoneid' => 1,
-                                            'sn' => 0,
-                                            'aid' => 1,
-                                            'point' => 0,
-                                            'cash' => $request->quantity * 100,
-                                            'status' => 1,
-                                            'creatime' => \Carbon\Carbon::now()
-                                        ]);
-                                        $directSuccess = true;
-                                    } else {
-                                        // Update existing record
-                                        \DB::table('usecashnow')
-                                            ->where('userid', $user->ID)
-                                            ->where('zoneid', 1)
-                                            ->increment('cash', $request->quantity * 100);
-                                        $directSuccess = true;
-                                    }
-                                } else {
-                                    $errorMessages[] = 'usecashnow table not found';
-                                }
-                            } catch (\Exception $e) {
-                                $errorMessages[] = 'Direct table method failed: ' . $e->getMessage();
+                                \DB::statement("call usecash('{$user->ID}', 1, 0, 1, 0, '" . ($request->quantity * 100) . "', 1, @error)");
+                                $directSuccess = true;
+                            } catch (\Exception $e2) {
+                                $errorMessages[] = 'Stored procedure failed: ' . $e2->getMessage();
                             }
                         }
                         
