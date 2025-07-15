@@ -4,182 +4,143 @@
 
 @section('styles')
     <style>
-        /* Shop specific styles */
-        .shop-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+        /* Shop page specific overrides */
+        .container {
+            max-width: 1000px;
         }
-        
-        .shop-tab {
-            padding: 12px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 2px solid var(--border-color);
-            background: var(--surface-color);
-            color: var(--text-color);
-        }
-        
-        .shop-tab:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        .shop-tab.active {
-            background: var(--button-gradient);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        .user-info-bar {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .user-balance {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-        
+
+        /* Additional shop-specific styles not in theme */
         .balance-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .balance-icon {
+            font-size: 1.3rem;
+        }
+
+        .balance-label {
+            color: #b19cd9;
+            font-weight: 600;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            color: #b19cd9;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #dc3545);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .bonus-button {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .bonus-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+        }
+
+        .selected-character, .no-character {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
-        .balance-icon {
-            font-size: 1.5rem;
+
+        .char-icon {
+            font-size: 1.3rem;
         }
-        
-        .balance-label {
-            font-size: 0.9rem;
-            color: var(--accent-color);
-        }
-        
-        .balance-value {
-            font-size: 1.2rem;
+
+        .char-label {
+            color: #b19cd9;
             font-weight: 600;
-            color: var(--primary-color);
         }
-        
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .shop-item {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .shop-item:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .item-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--primary-color);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-        
-        .item-name {
+
+        .char-name {
+            color: #dda0dd;
+            font-weight: 700;
             font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 10px;
         }
-        
-        .item-description {
-            color: var(--accent-color);
+
+        .change-char, .select-char {
+            color: #9370db;
+            text-decoration: none;
+            padding: 5px 15px;
+            border: 1px solid rgba(147, 112, 219, 0.5);
+            border-radius: 15px;
+            transition: all 0.3s ease;
             font-size: 0.9rem;
-            margin-bottom: 15px;
         }
-        
-        .item-price {
+
+        .change-char:hover, .select-char:hover {
+            background: rgba(147, 112, 219, 0.2);
+            border-color: #9370db;
+            color: #dda0dd;
+        }
+
+        .warning {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .char-dropdown h4 {
+            color: #9370db;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .char-option .char-name {
+            font-weight: 600;
+        }
+
+        .no-chars {
+            color: #b19cd9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .user-balance {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .user-info-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
         }
-        
-        .price-value {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-        
-        .buy-button {
-            width: 100%;
-            padding: 10px;
-            background: var(--button-gradient);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .buy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--particle-shadow);
-        }
-        
-        .buy-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .character-select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, 0.4);
-            color: var(--text-color);
-            margin-bottom: 10px;
-        }
-        
-        .no-items {
-            text-align: center;
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            margin: 50px 0;
-        }
-        
+
         @media (max-width: 768px) {
-            .shop-tabs {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
             .user-balance {
                 flex-direction: column;
                 gap: 15px;
-            }
-            
-            .shop-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -266,9 +227,8 @@
         </div>
     </nav>
 
-    <!-- Shop Content -->
-    <div class="content-section">
-        <h2 class="page-title" style="position: relative; z-index: 1; color: var(--primary-color); text-align: center; margin-bottom: 30px;">{{ __('site.shop.title') }}</h2>
+    <div class="shop-section">
+        <h2 class="section-title">Mystical Shop</h2>
         
         <!-- Shop Tabs -->
         <div class="shop-tabs">
@@ -292,26 +252,57 @@
                 <div class="user-balance">
                     <div class="balance-item">
                         <span class="balance-icon">💰</span>
-                        <div>
-                            <div class="balance-label">{{ __('site.shop.balance.gold') }}</div>
-                            <div class="balance-value">{{ number_format(Auth::user()->money ?? 0) }}</div>
-                        </div>
+                        <span class="balance-label">{{ __('site.shop.balance.coins', ['name' => config('pw-config.currency_name', 'Coins')]) }}</span>
+                        <span class="balance-value">{{ number_format(Auth::user()->money, 0, '', '.') }}</span>
                     </div>
                     <div class="balance-item">
-                        <span class="balance-icon">🎖️</span>
-                        <div>
-                            <div class="balance-label">{{ __('site.shop.balance.bonus') }}</div>
-                            <div class="balance-value">{{ number_format(Auth::user()->bonuses ?? 0) }}</div>
-                        </div>
+                        <span class="balance-icon">⭐</span>
+                        <span class="balance-label">{{ __('site.shop.balance.bonus_points') }}</span>
+                        <span class="balance-value">{{ number_format(Auth::user()->bonuses, 0, '', '.') }}</span>
                     </div>
                 </div>
-            </div>
-        @else
-            <div class="user-info-bar">
-                <div style="text-align: center; color: var(--accent-color);">
-                    <i class="fas fa-lock" style="margin-right: 10px;"></i>
-                    {{ __('site.shop.login_required') }}
-                    <a href="{{ route('login') }}" style="color: var(--primary-color); margin-left: 10px;">{{ __('site.login.login_button') }}</a>
+                
+                <div class="character-selector">
+                    @if(Auth::user()->characterId())
+                        <div class="selected-character">
+                            <span class="char-icon">👤</span>
+                            <span class="char-label">{{ __('site.shop.character.label') }}</span>
+                            <span class="char-name">{{ Auth::user()->characterName() }}</span>
+                            <a href="#" class="change-char" onclick="toggleCharSelect(event)">{{ __('site.shop.character.change') }}</a>
+                        </div>
+                    @else
+                        <div class="no-character">
+                            <span class="char-icon">⚠️</span>
+                            <span class="warning">{{ __('site.shop.character.no_character') }}</span>
+                            <a href="#" class="select-char" onclick="toggleCharSelect(event)">{{ __('site.shop.character.select') }}</a>
+                        </div>
+                    @endif
+                    
+                    <!-- Character Selection Dropdown -->
+                    <div class="char-dropdown" id="charDropdown" style="display: none;">
+                        <h4>{{ __('site.shop.character.select') }}</h4>
+                        @php
+                            $api = new \hrace009\PerfectWorldAPI\API;
+                        @endphp
+                        
+                        @if($api->online)
+                            @php
+                                $roles = Auth::user()->roles();
+                            @endphp
+                            
+                            @if(count($roles) > 0)
+                                @foreach($roles as $role)
+                                    <a href="{{ url('character/select/' . $role['id']) }}" class="char-option">
+                                        <span class="char-name">{{ $role['name'] }}</span>
+                                    </a>
+                                @endforeach
+                            @else
+                                <p class="no-chars">{{ __('site.shop.character.no_characters') }}</p>
+                            @endif
+                        @else
+                            <p class="no-chars">{{ __('site.shop.character.server_offline') }}</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         @endauth
@@ -324,40 +315,64 @@
                 @endphp
                 @forelse($items as $item)
                     <div class="shop-item">
+                        @if($item->discount > 0)
+                            <div class="discount-badge">-{{ $item->discount }}%</div>
+                        @endif
+                        
                         <div class="item-icon">
-                            📦
+                            @if($item->mask == 2)
+                                👘
+                            @elseif($item->mask == 4)
+                                👗
+                            @elseif($item->mask == 8)
+                                🐴
+                            @elseif($item->mask == 131072)
+                                ⚔️
+                            @else
+                                📦
+                            @endif
                         </div>
-                        <div class="item-name">{{ $item->name }}</div>
-                        <div class="item-description">{{ $item->description }}</div>
+                        
+                        <h3 class="item-name">{{ $item->name }}</h3>
+                        <p class="item-description">{{ Str::limit($item->description, 80) }}</p>
+                        
                         <div class="item-price">
-                            <span class="price-value">{{ number_format($item->price) }} {{ config('pw-config.currency_name', 'Points') }}</span>
+                            @if($item->discount > 0)
+                                <div class="original-price" style="text-decoration: line-through; color: #b19cd9; font-size: 0.9rem;">
+                                    {{ number_format($item->price) }} {{ config('pw-config.currency_name', 'Points') }}
+                                </div>
+                                {{ number_format($item->price * (1 - $item->discount/100)) }} {{ config('pw-config.currency_name', 'Points') }}
+                            @else
+                                {{ number_format($item->price) }} {{ config('pw-config.currency_name', 'Points') }}
+                            @endif
                         </div>
+                        
                         @auth
                             @if(Auth::user()->characterId())
-                                <form action="{{ route('app.shop.purchase.post', $item->id) }}" method="POST">
+                                <form action="{{ route('app.shop.purchase.post', $item->id) }}" method="POST" style="margin-top: 15px;">
                                     @csrf
-                                    <button type="submit" class="buy-button">
-                                        {{ __('site.shop.buy_now') }}
-                                    </button>
+                                    <button type="submit" class="purchase-button">{{ __('site.shop.items.purchase') }}</button>
                                 </form>
                             @else
-                                <p style="color: var(--accent-color); font-size: 0.9rem; text-align: center;">
-                                    {{ __('site.shop.select_character') }}
-                                </p>
+                                <p style="color: #b19cd9; font-size: 0.9rem; margin-top: 15px;">{{ __('site.shop.character.select_to_purchase') }}</p>
                             @endif
-                        @else
-                            <button class="buy-button" disabled>
-                                {{ __('site.shop.login_required') }}
-                            </button>
                         @endauth
                     </div>
                 @empty
-                    <div class="no-items">
-                        {{ __('site.shop.no_items') }}
+                    <div style="text-align: center; padding: 60px 20px;">
+                        <span style="font-size: 4rem; display: block; margin-bottom: 20px;">📦</span>
+                        <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">{{ __('site.shop.items.no_items') }}</p>
+                        <p style="color: #b19cd9;">{{ __('site.shop.items.check_back') }}</p>
                     </div>
                 @endforelse
             @endif
         </div>
+        
+        @guest
+        <div style="text-align: center; color: #b19cd9; font-size: 1.1rem; margin-top: 20px;">
+            <p>Please <a href="{{ route('login') }}" style="color: #9370db; text-decoration: none; font-weight: 600;">login</a> to access the shop</p>
+        </div>
+        @endguest
     </div>
 
     @php
@@ -389,7 +404,20 @@
 
 @section('scripts')
     <script>
-        // Shop page ready
-        console.log('Shop page loaded');
+        // Toggle character dropdown
+        function toggleCharSelect(event) {
+            event.preventDefault();
+            const dropdown = document.getElementById('charDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('charDropdown');
+            const selector = document.querySelector('.character-selector');
+            if (dropdown && !selector.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
     </script>
 @endsection
