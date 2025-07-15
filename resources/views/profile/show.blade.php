@@ -111,54 +111,65 @@
         .server-status {
             position: fixed;
             top: 20px;
-            right: 280px;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            left: 20px;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 220px;
+            transform: none;
+            will-change: auto;
         }
-
+        
         .status-indicator {
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 25px;
-            padding: 8px 20px;
+            margin-bottom: 5px;
         }
-
+        
         .status-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
-
+        
+        .status-text {
+            color: #e6d7f0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
         .status-indicator.online .status-dot {
             background-color: #10b981;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
         }
-
+        
         .status-indicator.offline .status-dot {
             background-color: #ef4444;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
         }
-
+        
         @keyframes pulse {
-            0% { opacity: 1; }
+            0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
-            100% { opacity: 1; }
         }
-
+        
         .players-online {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 25px;
-            padding: 8px 20px;
             color: #b19cd9;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .players-online i {
+            color: #9370db;
         }
 
         /* Login Box */
@@ -166,138 +177,167 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 1000;
+            z-index: 9999;
+            width: 220px;
         }
-
+        
         .login-box {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(147, 112, 219, 0.4);
-            border-radius: 20px;
-            width: 250px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
+            max-height: 400px;
+            overflow-y: auto;
         }
-
+        
         .login-box-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(147, 112, 219, 0.3);
-            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(147, 112, 219, 0.3);
+            cursor: pointer;
         }
-
+        
         .login-box-header h3 {
             color: #9370db;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin: 0;
+            font-weight: 600;
+            text-transform: uppercase;
         }
-
+        
         .collapse-toggle {
             background: none;
             border: none;
             color: #9370db;
-            font-size: 1rem;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: transform 0.3s ease;
         }
-
+        
         .login-box.collapsed .collapse-toggle {
             transform: rotate(180deg);
         }
-
+        
         .login-box-content {
-            padding: 20px;
-            max-height: 400px;
+            padding: 15px;
+            max-height: 350px;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
+        
         .login-box.collapsed .login-box-content {
             max-height: 0;
-            padding: 0 20px;
+            padding: 0 15px;
         }
 
+        .login-box-content h3 {
+            color: #9370db;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .user-name {
+            color: #9370db;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
         .login-form input {
-            width: 100%;
-            background: rgba(26, 15, 46, 0.6);
+            background: rgba(26, 15, 46, 0.8);
             border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 10px;
-            padding: 10px 15px;
-            margin-bottom: 10px;
+            border-radius: 5px;
+            padding: 8px 12px;
             color: #e6d7f0;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
-
+        
+        .login-form input:focus {
+            outline: none;
+            border-color: #9370db;
+            box-shadow: 0 0 10px rgba(147, 112, 219, 0.3);
+        }
+        
         .login-form input::placeholder {
             color: #7a6b87;
         }
-
+        
         .login-button {
-            width: 100%;
             background: linear-gradient(45deg, #9370db, #8a2be2);
             border: none;
-            border-radius: 10px;
-            padding: 12px;
+            border-radius: 5px;
+            padding: 10px;
             color: white;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
         }
-
+        
         .login-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.5);
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.5);
         }
-
+        
         .login-links {
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(147, 112, 219, 0.2);
         }
-
+        
         .login-links a {
             color: #b19cd9;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
-
+        
         .login-links a:hover {
             color: #9370db;
             text-shadow: 0 0 10px rgba(147, 112, 219, 0.6);
         }
-
-        .user-name {
-            color: #9370db;
-            font-size: 1.2rem;
-            margin: 10px 0;
-        }
-
+        
         .user-links {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 8px;
         }
-
+        
         .user-link {
             background: rgba(147, 112, 219, 0.1);
             border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 5px;
+            padding: 8px 12px;
             text-align: center;
             color: #e6d7f0;
             text-decoration: none;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-
+        
         .user-link:hover {
             background: rgba(147, 112, 219, 0.2);
             border-color: #9370db;
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
 
         /* Nav Bar */
@@ -1162,26 +1202,60 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 20px;
+            .server-status {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                width: auto;
+                transform: none;
             }
-
-            .header-title {
-                font-size: 1.5rem;
+            
+            .status-text {
+                font-size: 1rem;
             }
-
-            .main-container {
-                padding: 20px 10px;
+            
+            .players-online {
+                font-size: 0.85rem;
             }
-
+            
+            .login-box-wrapper {
+                position: fixed;
+                top: 60px;
+                right: 10px;
+                left: 10px;
+                width: auto;
+            }
+            
+            .login-box {
+                width: 100%;
+            }
+            
             .profile-section {
-                padding: 20px;
+                padding: 30px 20px;
+            }
+            
+            .nav-bar {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .nav-link {
+                font-size: 1rem;
+                padding: 8px 15px;
             }
 
-            .character-grid {
+            .profile-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar {
+                position: static;
             }
         }
     </style>
