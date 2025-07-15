@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('site.rankings.title') }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
+@extends('layouts.mystical')
+
+@section('title', config('pw-config.server_name', 'Haven Perfect World') . ' - ' . __('site.rankings.title'))
+
+@section('styles')
+@parent
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
         * {
@@ -845,146 +844,12 @@
             border-color: #9370db;
             transform: translateY(-2px);
         }
-    </style>
-    @livewireStyles
-</head>
-<body>
-    <!-- Server Status and Login Box must be outside any transformed containers -->
-    @php
-        $api = new \hrace009\PerfectWorldAPI\API();
-        $point = new \App\Models\Point();
-        $onlinePlayer = $point->getOnlinePlayer();
-        $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
-    @endphp
-    
-    <!-- Server Status -->
-    <div class="server-status">
-        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
-            <span class="status-dot"></span>
-            <span class="status-text">{{ $api->online ? __('site.server.online') : __('site.server.offline') }}</span>
-        </div>
-        @if($api->online)
-            <div class="players-online">
-                <i class="fas fa-users"></i> {{ trans_choice('site.server.players_online', $onlineCount, ['count' => $onlineCount]) }}
-            </div>
-        @endif
-    </div>
-    
-    <!-- Language Selector -->
-    @include('partials.language-selector')
-    
-    <!-- Login/User Box -->
-    <div class="login-box-wrapper">
-        <div class="login-box collapsed" id="loginBox">
-            <div class="login-box-header" onclick="toggleLoginBox()">
-                <h3>@if(Auth::check()) {{ __('site.login.account') }} @else {{ __('site.login.member_login') }} @endif</h3>
-                <button class="collapse-toggle">▼</button>
-            </div>
-            <div class="login-box-content">
-                @if(Auth::check())
-                    <div class="user-info">
-                        <h3>{{ __('site.login.welcome_back') }}</h3>
-                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
-                        <div class="user-links">
-                            @if(config('pw-config.player_dashboard_enabled', true))
-                            <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
-                            @endif
-                            <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
-                            @if(Auth::user()->isAdministrator())
-                            <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
-                            @endif
-                            @if(Auth::user()->isGamemaster())
-                            <a href="{{ route('gm.dashboard') }}" class="user-link">{{ __('site.user_menu.gm_panel') }}</a>
-                            @endif
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="login-button">{{ __('site.login.logout') }}</button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <h3>{{ __('site.login.member_login') }}</h3>
-                    <form method="POST" action="{{ route('login') }}" class="login-form">
-                        @csrf
-                        <input type="text" name="name" placeholder="{{ __('site.login.username') }}" required autofocus>
-                        <input type="password" name="password" placeholder="{{ __('site.login.password') }}" required>
-                        <input type="password" name="pin" placeholder="{{ __('site.login.pin') }}" id="pin-field" style="display: none;">
-                        <button type="submit" class="login-button">{{ __('site.login.login_button') }}</button>
-                    </form>
-                    <div class="login-links">
-                        <a href="{{ route('register') }}">{{ __('site.login.register') }}</a>
-                        <a href="{{ route('password.request') }}">{{ __('site.rankings.forgot') }}</a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-    
-    <div class="mystical-bg"></div>
-    <div class="floating-particles"></div>
-    
-    <div class="dragon-ornament dragon-left">🐉</div>
-    <div class="dragon-ornament dragon-right">🐉</div>
-    
-    <div class="container">
-        
-        @php
-            $headerSettings = \App\Models\HeaderSetting::first();
-            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
-    <h1 class="logo">Haven Perfect World</h1>
-    <p class="tagline">Embark on the Path of Immortals</p>
-</div>';
-            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
-        @endphp
-        
-        <div class="header header-{{ $headerAlignment }}">
-            <div class="mystical-border"></div>
-            <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
-                {!! $headerContent !!}
-            </a>
-        </div>
+</style>
+@endsection
 
-        <nav class="nav-bar">
-            <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">{{ __('site.nav.home') }}</a>
-                
-                @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">{{ __('site.nav.shop') }}</a>
-                @endif
-                
-                @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">{{ __('site.nav.donate') }}</a>
-                @endif
-                
-                @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">{{ __('site.nav.rankings') }}</a>
-                @endif
-                
-                @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">{{ __('site.nav.vote') }}</a>
-                @endif
-                
-                @php
-                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
-                @endphp
-                @if($pages->count() > 0)
-                    <div class="nav-dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                            {{ __('site.nav.pages') }} <span class="dropdown-arrow">▼</span>
-                        </a>
-                        <div class="dropdown-menu">
-                            @foreach($pages as $page)
-                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-                
-                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
-            </div>
-        </nav>
-
-        <div class="rankings-container">
+@section('content')
+<div class="content-section">
+    <div class="rankings-container">
             <!-- Top Players Section -->
             <div class="ranking-section">
                 <h2 class="section-title">{{ __('site.rankings.top_players') }}</h2>
@@ -1068,127 +933,6 @@
                 @endforeach
             </div>
         </div>
+</div>
+@endsection
 
-        @php
-            $footerSettings = \App\Models\FooterSetting::first();
-            $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
-            $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Legends are forged in battle</p>';
-            $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
-            $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
-        @endphp
-        <div class="footer footer-{{ $footerAlignment }}">
-            <div class="footer-container">
-                <div class="footer-content-section">
-                    {!! $footerContent !!}
-                    <p class="footer-text">{!! $footerCopyright !!}</p>
-                </div>
-                
-                @if($socialLinks->count() > 0)
-                <div class="social-links">
-                    @foreach($socialLinks as $link)
-                        <a href="{{ $link->url }}" class="social-link" target="_blank" rel="noopener noreferrer" title="{{ $link->platform }}">
-                            <i class="{{ $link->icon }}"></i>
-                        </a>
-                    @endforeach
-                </div>
-                @endif
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Create floating mystical particles
-        function createParticles() {
-            const particlesContainer = document.querySelector('.floating-particles');
-            const numberOfParticles = 60;
-
-            for (let i = 0; i < numberOfParticles; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = 100 + '%';
-                particle.style.animationDelay = Math.random() * 8 + 's';
-                particle.style.animationDuration = (Math.random() * 6 + 6) + 's';
-                
-                // Random purple colors for particles
-                const colors = ['#9370db', '#8a2be2', '#4b0082', '#6a5acd'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                particle.style.background = `linear-gradient(45deg, ${color}, ${color}aa)`;
-                particle.style.boxShadow = `0 0 10px ${color}`;
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        // Initialize particles
-        createParticles();
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdowns = document.querySelectorAll('.nav-dropdown');
-            dropdowns.forEach(dropdown => {
-                if (!dropdown.contains(event.target)) {
-                    dropdown.classList.remove('active');
-                }
-            });
-        });
-
-        // Simple PIN check
-        const usernameInput = document.querySelector('input[name="name"]');
-        const pinField = document.getElementById('pin-field');
-        
-        if (usernameInput) {
-            usernameInput.addEventListener('blur', function() {
-                if (this.value.length > 2) {
-                    // For simplicity, show PIN field for all users
-                    // In production, you'd check via API
-                    pinField.style.display = 'block';
-                }
-            });
-        }
-
-        // Login box collapse functionality
-        function toggleLoginBox() {
-            const loginBox = document.getElementById('loginBox');
-            loginBox.classList.toggle('collapsed');
-            
-            // Save state to localStorage
-            const isCollapsed = loginBox.classList.contains('collapsed');
-            localStorage.setItem('loginBoxCollapsed', isCollapsed);
-        }
-
-        // Restore login box state on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginBox = document.getElementById('loginBox');
-            const savedState = localStorage.getItem('loginBoxCollapsed');
-            
-            // If user has never interacted with it, keep it collapsed (default)
-            // If user has explicitly expanded it, respect their choice
-            if (savedState === 'false') {
-                loginBox.classList.remove('collapsed');
-            }
-            // Otherwise it stays collapsed (default state or explicitly collapsed)
-        });
-
-        // Add page entrance animation
-        window.addEventListener('load', function() {
-            document.querySelector('.container').style.animation = 'fadeInUp 1.5s ease-out';
-            const fadeInUpStyle = document.createElement('style');
-            fadeInUpStyle.textContent = `
-                @keyframes fadeInUp {
-                    0% {
-                        opacity: 0;
-                        transform: translateY(50px);
-                    }
-                    100% {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `;
-            document.head.appendChild(fadeInUpStyle);
-        });
-    </script>
-    @livewireScripts
-</body>
-</html>
