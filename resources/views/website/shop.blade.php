@@ -320,7 +320,7 @@
         <div class="shop-grid">
             @if($tab === 'items')
                 @php
-                    $items = \App\Models\Shop::where('active', true)->where('type', 'item')->get();
+                    $items = \App\Models\Shop::orderBy('id', 'desc')->limit(20)->get();
                 @endphp
                 @forelse($items as $item)
                     <div class="shop-item">
@@ -330,18 +330,21 @@
                         <div class="item-name">{{ $item->name }}</div>
                         <div class="item-description">{{ $item->description }}</div>
                         <div class="item-price">
-                            <span class="price-value">{{ number_format($item->price) }} {{ $item->currency }}</span>
+                            <span class="price-value">{{ number_format($item->price) }} {{ config('pw-config.currency_name', 'Points') }}</span>
                         </div>
                         @auth
-                            <select class="character-select" id="character-{{ $item->id }}">
-                                <option value="">{{ __('site.shop.select_character') }}</option>
-                                @foreach(Auth::user()->characters ?? [] as $character)
-                                    <option value="{{ $character->id }}">{{ $character->name }}</option>
-                                @endforeach
-                            </select>
-                            <button class="buy-button" onclick="buyItem({{ $item->id }})">
-                                {{ __('site.shop.buy_now') }}
-                            </button>
+                            @if(Auth::user()->characterId())
+                                <form action="{{ route('app.shop.purchase.post', $item->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="buy-button">
+                                        {{ __('site.shop.buy_now') }}
+                                    </button>
+                                </form>
+                            @else
+                                <p style="color: var(--accent-color); font-size: 0.9rem; text-align: center;">
+                                    {{ __('site.shop.select_character') }}
+                                </p>
+                            @endif
                         @else
                             <button class="buy-button" disabled>
                                 {{ __('site.shop.login_required') }}
@@ -386,17 +389,7 @@
 
 @section('scripts')
     <script>
-        function buyItem(itemId) {
-            const characterSelect = document.getElementById('character-' + itemId);
-            const characterId = characterSelect.value;
-            
-            if (!characterId) {
-                alert('{{ __("site.shop.select_character") }}');
-                return;
-            }
-            
-            // Add your buy item logic here
-            console.log('Buying item', itemId, 'for character', characterId);
-        }
+        // Shop page ready
+        console.log('Shop page loaded');
     </script>
 @endsection
