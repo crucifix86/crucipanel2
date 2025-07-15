@@ -189,4 +189,59 @@ return [
             'error' => '✗ :message',
         ],
     ],
+    
+    // Donate Page
+    'donate' => [
+        'title' => 'Support Haven Perfect World',
+        'subtitle' => 'Your donations help keep the server running and improve the gaming experience for everyone',
+        
+        // Payment Methods
+        'methods' => [
+            'paypal' => [
+                'name' => 'PayPal',
+                'description' => 'Fast and secure payment processing with instant :currency delivery',
+                'button' => 'Donate via PayPal',
+            ],
+            'bank' => [
+                'name' => 'Bank Transfer',
+                'description' => 'Direct bank transfer with manual verification (1-2 business days)',
+                'button' => 'Donate via Bank',
+                'available_banks' => 'Available Banks:',
+            ],
+            'paymentwall' => [
+                'name' => 'Paymentwall',
+                'description' => 'Multiple payment options including mobile and prepaid cards',
+                'button' => 'Donate via Paymentwall',
+            ],
+            'ipaymu' => [
+                'name' => 'iPaymu',
+                'description' => 'Indonesian payment gateway with local bank support',
+                'button' => 'Donate via iPaymu',
+            ],
+            'login_required' => 'Login Required',
+            'no_methods' => 'No Payment Methods Configured',
+            'contact_admin' => 'Please contact an administrator to enable donation methods.',
+        ],
+        
+        // Payment Details
+        'details' => [
+            'rate' => 'Rate:',
+            'minimum' => 'Minimum:',
+            'bonus' => '🎉 Bonus:',
+            'double_active' => 'Double :currency Active!',
+        ],
+        
+        // Benefits Section
+        'benefits' => [
+            'title' => 'Donation Benefits',
+            'points' => ':currency Points',
+            'rewards' => 'Bonus Rewards',
+            'instant' => 'Instant Delivery',
+            'secure' => 'Secure Payment',
+        ],
+        
+        // Login Notice
+        'login_notice' => 'Please login to make a donation',
+        'welcome_donor' => 'Welcome :name! Thank you for supporting our realm.',
+    ],
 ];

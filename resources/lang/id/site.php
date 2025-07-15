@@ -189,4 +189,59 @@ return [
             'error' => '✗ :message',
         ],
     ],
+    
+    // Donate Page
+    'donate' => [
+        'title' => 'Dukung Haven Perfect World',
+        'subtitle' => 'Donasi Anda membantu menjaga server tetap berjalan dan meningkatkan pengalaman bermain untuk semua orang',
+        
+        // Payment Methods
+        'methods' => [
+            'paypal' => [
+                'name' => 'PayPal',
+                'description' => 'Pemrosesan pembayaran cepat dan aman dengan pengiriman :currency instan',
+                'button' => 'Donasi via PayPal',
+            ],
+            'bank' => [
+                'name' => 'Transfer Bank',
+                'description' => 'Transfer bank langsung dengan verifikasi manual (1-2 hari kerja)',
+                'button' => 'Donasi via Bank',
+                'available_banks' => 'Bank Tersedia:',
+            ],
+            'paymentwall' => [
+                'name' => 'Paymentwall',
+                'description' => 'Berbagai pilihan pembayaran termasuk kartu mobile dan prabayar',
+                'button' => 'Donasi via Paymentwall',
+            ],
+            'ipaymu' => [
+                'name' => 'iPaymu',
+                'description' => 'Gateway pembayaran Indonesia dengan dukungan bank lokal',
+                'button' => 'Donasi via iPaymu',
+            ],
+            'login_required' => 'Login Diperlukan',
+            'no_methods' => 'Tidak Ada Metode Pembayaran Dikonfigurasi',
+            'contact_admin' => 'Silakan hubungi administrator untuk mengaktifkan metode donasi.',
+        ],
+        
+        // Payment Details
+        'details' => [
+            'rate' => 'Kurs:',
+            'minimum' => 'Minimum:',
+            'bonus' => '🎉 Bonus:',
+            'double_active' => 'Double :currency Aktif!',
+        ],
+        
+        // Benefits Section
+        'benefits' => [
+            'title' => 'Manfaat Donasi',
+            'points' => ':currency Poin',
+            'rewards' => 'Hadiah Bonus',
+            'instant' => 'Pengiriman Instan',
+            'secure' => 'Pembayaran Aman',
+        ],
+        
+        // Login Notice
+        'login_notice' => 'Silakan login untuk melakukan donasi',
+        'welcome_donor' => 'Selamat datang :name! Terima kasih telah mendukung realm kami.',
+    ],
 ];

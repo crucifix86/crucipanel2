@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haven Perfect World - Donate</title>
+    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('site.nav.donate') }}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -924,11 +924,11 @@
     <div class="server-status">
         <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
             <span class="status-dot"></span>
-            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+            <span class="status-text">{{ $api->online ? __('site.server.online') : __('site.server.offline') }}</span>
         </div>
         @if($api->online)
             <div class="players-online">
-                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+                <i class="fas fa-users"></i> {{ trans_choice('site.server.players_online', $onlineCount, ['count' => $onlineCount]) }}
             </div>
         @endif
     </div>
@@ -937,48 +937,51 @@
     <div class="login-box-wrapper">
         <div class="login-box collapsed" id="loginBox">
             <div class="login-box-header" onclick="toggleLoginBox()">
-                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <h3>@if(Auth::check()) {{ __('site.login.account') }} @else {{ __('site.login.member_login') }} @endif</h3>
                 <button class="collapse-toggle">▼</button>
             </div>
             <div class="login-box-content">
                 @if(Auth::check())
                     <div class="user-info">
-                        <h3>Welcome Back!</h3>
+                        <h3>{{ __('site.login.welcome_back') }}</h3>
                         <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
                         <div class="user-links">
                             @if(config('pw-config.player_dashboard_enabled', true))
-                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
                             @endif
-                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
                             @if(Auth::user()->isAdministrator())
-                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
                             @endif
                             @if(Auth::user()->isGamemaster())
-                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">{{ __('site.user_menu.gm_panel') }}</a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="login-button">Logout</button>
+                                <button type="submit" class="login-button">{{ __('site.login.logout') }}</button>
                             </form>
                         </div>
                     </div>
                 @else
-                    <h3>Member Login</h3>
+                    <h3>{{ __('site.login.member_login') }}</h3>
                     <form method="POST" action="{{ route('login') }}" class="login-form">
                         @csrf
-                        <input type="text" name="name" placeholder="Username" required autofocus>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                        <button type="submit" class="login-button">Login</button>
+                        <input type="text" name="name" placeholder="{{ __('site.login.username') }}" required autofocus>
+                        <input type="password" name="password" placeholder="{{ __('site.login.password') }}" required>
+                        <input type="password" name="pin" placeholder="{{ __('site.login.pin') }}" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">{{ __('site.login.login_button') }}</button>
                     </form>
                     <div class="login-links">
-                        <a href="{{ route('register') }}">Register</a>
-                        <a href="{{ route('password.request') }}">Forgot?</a>
+                        <a href="{{ route('register') }}">{{ __('site.login.register') }}</a>
+                        <a href="{{ route('password.request') }}">{{ __('site.login.forgot_password') }}</a>
                     </div>
                 @endif
             </div>
         </div>
     </div>
+    
+    <!-- Language Selector -->
+    @include('partials.language-selector')
     
     <div class="mystical-bg"></div>
     <div class="floating-particles"></div>
@@ -1006,22 +1009,22 @@
 
         <nav class="nav-bar">
             <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
+                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">{{ __('site.nav.home') }}</a>
                 
                 @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">{{ __('site.nav.shop') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">{{ __('site.nav.donate') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">{{ __('site.nav.rankings') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">{{ __('site.nav.vote') }}</a>
                 @endif
                 
                 @php
@@ -1030,7 +1033,7 @@
                 @if($pages->count() > 0)
                     <div class="nav-dropdown">
                         <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                            Pages <span class="dropdown-arrow">▼</span>
+                            {{ __('site.nav.pages') }} <span class="dropdown-arrow">▼</span>
                         </a>
                         <div class="dropdown-menu">
                             @foreach($pages as $page)
@@ -1040,40 +1043,40 @@
                     </div>
                 @endif
                 
-                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
             </div>
         </nav>
 
         <div class="donate-section">
-            <h2 class="section-title">Support Haven Perfect World</h2>
-            <p class="section-subtitle">Your donations help keep the server running and improve the gaming experience for everyone</p>
+            <h2 class="section-title">{{ __('site.donate.title') }}</h2>
+            <p class="section-subtitle">{{ __('site.donate.subtitle') }}</p>
             
             <div class="donation-methods">
                 @if($paypalConfig['enabled'])
                 <div class="donation-method">
                     <span class="method-icon">💳</span>
-                    <h3 class="method-name">PayPal</h3>
-                    <p class="method-description">Fast and secure payment processing with instant {{ $currency }} delivery</p>
+                    <h3 class="method-name">{{ __('site.donate.methods.paypal.name') }}</h3>
+                    <p class="method-description">{{ __('site.donate.methods.paypal.description', ['currency' => $currency]) }}</p>
                     <div class="payment-details">
                         <div class="detail-item">
-                            <span class="detail-label">Rate:</span>
+                            <span class="detail-label">{{ __('site.donate.details.rate') }}</span>
                             <span class="detail-value">{{ $paypalConfig['currency'] }} {{ number_format($paypalConfig['rate'], 2) }} = 1 {{ $currency }}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Minimum:</span>
+                            <span class="detail-label">{{ __('site.donate.details.minimum') }}</span>
                             <span class="detail-value">{{ $paypalConfig['currency'] }} {{ number_format($paypalConfig['minimum'], 2) }}</span>
                         </div>
                         @if($paypalConfig['double'])
                         <div class="detail-item bonus">
-                            <span class="detail-label">🎉 Bonus:</span>
-                            <span class="detail-value">Double {{ $currency }} Active!</span>
+                            <span class="detail-label">{{ __('site.donate.details.bonus') }}</span>
+                            <span class="detail-value">{{ __('site.donate.details.double_active', ['currency' => $currency]) }}</span>
                         </div>
                         @endif
                     </div>
                     @auth
-                        <a href="{{ route('app.donate.paypal') }}" class="donate-button">Donate via PayPal</a>
+                        <a href="{{ route('app.donate.paypal') }}" class="donate-button">{{ __('site.donate.methods.paypal.button') }}</a>
                     @else
-                        <span class="method-status">Login Required</span>
+                        <span class="method-status">{{ __('site.donate.methods.login_required') }}</span>
                     @endauth
                 </div>
                 @endif
@@ -1081,26 +1084,26 @@
                 @if($bankConfig['enabled'])
                 <div class="donation-method">
                     <span class="method-icon">🏦</span>
-                    <h3 class="method-name">Bank Transfer</h3>
-                    <p class="method-description">Direct bank transfer with manual verification (1-2 business days)</p>
+                    <h3 class="method-name">{{ __('site.donate.methods.bank.name') }}</h3>
+                    <p class="method-description">{{ __('site.donate.methods.bank.description') }}</p>
                     <div class="payment-details">
                         <div class="detail-item">
-                            <span class="detail-label">Rate:</span>
+                            <span class="detail-label">{{ __('site.donate.details.rate') }}</span>
                             <span class="detail-value">{{ $bankConfig['currency'] ?? 'IDR' }} {{ number_format($bankConfig['rate'], 0) }} = 1 {{ $currency }}</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Minimum:</span>
+                            <span class="detail-label">{{ __('site.donate.details.minimum') }}</span>
                             <span class="detail-value">{{ $bankConfig['minimum'] }} {{ $currency }}</span>
                         </div>
                         @if($bankConfig['double'])
                         <div class="detail-item bonus">
-                            <span class="detail-label">🎉 Bonus:</span>
-                            <span class="detail-value">Double {{ $currency }} Active!</span>
+                            <span class="detail-label">{{ __('site.donate.details.bonus') }}</span>
+                            <span class="detail-value">{{ __('site.donate.details.double_active', ['currency' => $currency]) }}</span>
                         </div>
                         @endif
                         @if(count($bankConfig['banks']) > 0)
                         <div class="bank-accounts">
-                            <p class="bank-title">Available Banks:</p>
+                            <p class="bank-title">{{ __('site.donate.methods.bank.available_banks') }}</p>
                             @foreach($bankConfig['banks'] as $bank)
                                 <div class="bank-info">{{ $bank['name'] }}</div>
                             @endforeach
@@ -1108,9 +1111,9 @@
                         @endif
                     </div>
                     @auth
-                        <a href="{{ route('app.donate.bank') }}" class="donate-button">Donate via Bank</a>
+                        <a href="{{ route('app.donate.bank') }}" class="donate-button">{{ __('site.donate.methods.bank.button') }}</a>
                     @else
-                        <span class="method-status">Login Required</span>
+                        <span class="method-status">{{ __('site.donate.methods.login_required') }}</span>
                     @endauth
                 </div>
                 @endif
@@ -1118,12 +1121,12 @@
                 @if($paymentwallEnabled)
                 <div class="donation-method">
                     <span class="method-icon">🌐</span>
-                    <h3 class="method-name">Paymentwall</h3>
-                    <p class="method-description">Multiple payment options including mobile and prepaid cards</p>
+                    <h3 class="method-name">{{ __('site.donate.methods.paymentwall.name') }}</h3>
+                    <p class="method-description">{{ __('site.donate.methods.paymentwall.description') }}</p>
                     @auth
-                        <a href="{{ route('app.donate.paymentwall') }}" class="donate-button">Donate via Paymentwall</a>
+                        <a href="{{ route('app.donate.paymentwall') }}" class="donate-button">{{ __('site.donate.methods.paymentwall.button') }}</a>
                     @else
-                        <span class="method-status">Login Required</span>
+                        <span class="method-status">{{ __('site.donate.methods.login_required') }}</span>
                     @endauth
                 </div>
                 @endif
@@ -1131,12 +1134,12 @@
                 @if($ipaymuEnabled)
                 <div class="donation-method">
                     <span class="method-icon">📱</span>
-                    <h3 class="method-name">iPaymu</h3>
-                    <p class="method-description">Indonesian payment gateway with local bank support</p>
+                    <h3 class="method-name">{{ __('site.donate.methods.ipaymu.name') }}</h3>
+                    <p class="method-description">{{ __('site.donate.methods.ipaymu.description') }}</p>
                     @auth
-                        <a href="{{ route('app.donate.ipaymu') }}" class="donate-button">Donate via iPaymu</a>
+                        <a href="{{ route('app.donate.ipaymu') }}" class="donate-button">{{ __('site.donate.methods.ipaymu.button') }}</a>
                     @else
-                        <span class="method-status">Login Required</span>
+                        <span class="method-status">{{ __('site.donate.methods.login_required') }}</span>
                     @endauth
                 </div>
                 @endif
@@ -1144,41 +1147,41 @@
                 @if(!$paypalConfig['enabled'] && !$bankConfig['enabled'] && !$paymentwallEnabled && !$ipaymuEnabled)
                 <div style="text-align: center; padding: 60px 20px;">
                     <span style="font-size: 4rem; display: block; margin-bottom: 20px;">💳</span>
-                    <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">No Payment Methods Configured</p>
-                    <p style="color: #b19cd9;">Please contact an administrator to enable donation methods.</p>
+                    <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">{{ __('site.donate.methods.no_methods') }}</p>
+                    <p style="color: #b19cd9;">{{ __('site.donate.methods.contact_admin') }}</p>
                 </div>
                 @endif
             </div>
             
             <div class="benefits-section">
-                <h3 class="benefits-title">Donation Benefits</h3>
+                <h3 class="benefits-title">{{ __('site.donate.benefits.title') }}</h3>
                 <div class="benefits-list">
                     <div class="benefit-item">
                         <span class="benefit-icon">💎</span>
-                        <p class="benefit-text">{{ $currency }} Points</p>
+                        <p class="benefit-text">{{ __('site.donate.benefits.points', ['currency' => $currency]) }}</p>
                     </div>
                     <div class="benefit-item">
                         <span class="benefit-icon">🎁</span>
-                        <p class="benefit-text">Bonus Rewards</p>
+                        <p class="benefit-text">{{ __('site.donate.benefits.rewards') }}</p>
                     </div>
                     <div class="benefit-item">
                         <span class="benefit-icon">⚡</span>
-                        <p class="benefit-text">Instant Delivery</p>
+                        <p class="benefit-text">{{ __('site.donate.benefits.instant') }}</p>
                     </div>
                     <div class="benefit-item">
                         <span class="benefit-icon">🛡️</span>
-                        <p class="benefit-text">Secure Payment</p>
+                        <p class="benefit-text">{{ __('site.donate.benefits.secure') }}</p>
                     </div>
                 </div>
             </div>
             
             @guest
             <div class="login-notice">
-                <p>Please <a href="{{ route('login') }}">login</a> to make a donation</p>
+                <p>{{ __('site.donate.login_notice') }}</p>
             </div>
             @else
             <div class="login-notice" style="color: #9370db;">
-                <p>Welcome {{ Auth::user()->truename ?? Auth::user()->name }}! Thank you for supporting our realm.</p>
+                <p>{{ __('site.donate.welcome_donor', ['name' => Auth::user()->truename ?? Auth::user()->name]) }}</p>
             </div>
             @endguest
         </div>
