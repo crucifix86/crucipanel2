@@ -32,13 +32,21 @@ class SetLanguage
     public function handle(Request $request, Closure $next)
     {
         if ($request->has('language')) {
+            // Store in session for all users
+            session(['locale' => $request->language]);
+            
+            // If authenticated, save to database
             if (Auth::user()) {
                 Auth::user()->language = $request->language;
                 Auth::user()->save();
             }
             App::setLocale($request->language);
-        } elseif (Auth::user()) {
+        } elseif (Auth::user() && Auth::user()->language) {
             App::setLocale(Auth::user()->language);
+        } elseif (session()->has('locale')) {
+            App::setLocale(session('locale'));
+        } else {
+            App::setLocale(config('app.locale', 'en'));
         }
         return $next($request);
     }

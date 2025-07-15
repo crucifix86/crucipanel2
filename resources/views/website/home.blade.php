@@ -761,6 +761,7 @@
             font-weight: 600;
         }
 
+
         /* Footer */
         .footer {
             padding: 40px 0;
@@ -1062,6 +1063,7 @@
             .login-box {
                 width: 100%;
             }
+            
         }
 
     </style>
@@ -1091,6 +1093,9 @@
             </div>
         @endif
     </div>
+    
+    <!-- Language Selector -->
+    @include('partials.language-selector')
     
     <!-- Login/User Box -->
     <div class="login-box-wrapper">

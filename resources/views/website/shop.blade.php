@@ -1109,6 +1109,9 @@
         </div>
     </div>
     
+    <!-- Language Selector -->
+    @include('partials.language-selector')
+    
     <div class="mystical-bg"></div>
     <div class="floating-particles"></div>
     
