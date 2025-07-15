@@ -1174,9 +1174,9 @@
         window.visitRewardTranslations = {
             checkIn: "{{ __('site.visit_reward.check_in') }}",
             claimed: "{{ __('site.visit_reward.claimed') }}",
-            claiming: "{{ __('site.visit_reward.claiming', 'Claiming...') }}",
-            error: "{{ __('site.visit_reward.error', 'Error') }}",
-            rewardClaimed: "{{ __('site.visit_reward.reward_claimed', 'Reward Claimed!') }}"
+            claiming: "{{ __('site.visit_reward.claiming') }}",
+            error: "{{ __('site.visit_reward.error') }}",
+            rewardClaimed: "{{ __('site.visit_reward.reward_claimed') }}"
         };
     </script>
     <div class="visit-reward-wrapper">
