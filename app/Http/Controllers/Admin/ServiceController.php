@@ -123,7 +123,11 @@ class ServiceController extends Controller
         
         foreach ($configs as $config => $value) {
             Config::write('pw-config.' . $config, $value);
-            LocalSettings::set('pw-config.' . $config, $value);
+            try {
+                LocalSettings::set('pw-config.' . $config, $value);
+            } catch (\Exception $e) {
+                \Log::error("Failed to save service setting {$config}: " . $e->getMessage());
+            }
         }
         
         // Clear and re-cache config after all writes are complete

@@ -183,7 +183,11 @@ class ShopController extends Controller
         ]);
         
         Config::write('pw-config.shop.page', $validate['item_page']);
-        LocalSettings::set('pw-config.shop.page', $validate['item_page']);
+        try {
+            LocalSettings::set('pw-config.shop.page', $validate['item_page']);
+        } catch (\Exception $e) {
+            \Log::error('Failed to save shop page setting: ' . $e->getMessage());
+        }
         
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');

@@ -193,7 +193,11 @@ class SystemController extends Controller
         foreach (array_keys($apps) as $app) {
             $value = $request->has($app);
             Config::write('pw-config.system.apps.' . $app, $value);
-            LocalSettings::set('pw-config.system.apps.' . $app, $value);
+            try {
+                LocalSettings::set('pw-config.system.apps.' . $app, $value ? 'true' : 'false');
+            } catch (\Exception $e) {
+                \Log::error("Failed to save app setting {$app}: " . $e->getMessage());
+            }
         }
         
         // Clear and re-cache config to apply changes
@@ -250,24 +254,22 @@ class SystemController extends Controller
         \Artisan::call('config:cache');
         
         // THEN save to LocalSettings after cache is rebuilt
-        // Temporarily disable to test
-        /*
-        try {
-            foreach ($validate as $settings => $value) {
+        // Save settings one at a time to avoid issues
+        foreach ($validate as $settings => $value) {
+            try {
                 LocalSettings::set('pw-config.' . $settings, $value);
+            } catch (\Exception $e) {
+                \Log::error("Failed to save pw-config.{$settings}: " . $e->getMessage());
             }
+        }
+        
+        try {
             LocalSettings::set('app.name', $request->get('server_name'));
             LocalSettings::set('app.timezone', $request->get('datetimezone'));
-            LocalSettings::set('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
-            
-            if ($request->hasFile('logo') && isset($logo)) {
-                LocalSettings::set('pw-config.logo', $logo);
-            }
+            LocalSettings::set('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled') ? 'true' : 'false');
         } catch (\Exception $e) {
-            \Log::error('LocalSettings save error: ' . $e->getMessage());
-            \Log::error($e->getTraceAsString());
+            \Log::error('Failed to save app settings: ' . $e->getMessage());
         }
-        */
         
         // Simple redirect back with query parameter
         $url = url()->previous();
