@@ -29,6 +29,7 @@
             color: #e6d7f0;
             min-height: 100vh;
             position: relative;
+            overflow-x: hidden;
         }
 
         .mystical-bg {
@@ -43,6 +44,32 @@
                 radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(75, 0, 130, 0.12) 0%, transparent 50%),
                 radial-gradient(circle at 50% 50%, rgba(148, 0, 211, 0.08) 0%, transparent 50%);
+        }
+
+        /* Dragon Ornaments */
+        .dragon-ornament {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            opacity: 0.1;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cpath d='M200 50c-50 0-100 50-100 100s50 100 100 100 100-50 100-100-50-100-100-100zm0 20c40 0 80 40 80 80s-40 80-80 80-80-40-80-80 40-80 80-80z' fill='%239370db' /%3E%3Cpath d='M150 100c-20 0-40 20-40 40s20 40 40 40 40-20 40-40-20-40-40-40zm100 0c-20 0-40 20-40 40s20 40 40 40 40-20 40-40-20-40-40-40z' fill='%238a2be2' /%3E%3Cpath d='M200 150c-30 0-60 30-60 60s30 60 60 60 60-30 60-60-30-60-60-60z' fill='%239370db' opacity='0.5' /%3E%3C/svg%3E") no-repeat center;
+            animation: float-ornament 20s infinite ease-in-out;
+        }
+
+        .dragon-ornament.left {
+            left: -50px;
+            top: 20%;
+        }
+
+        .dragon-ornament.right {
+            right: -50px;
+            top: 60%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float-ornament {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
         }
 
         .floating-particles {
@@ -84,48 +111,81 @@
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
             backdrop-filter: blur(20px);
             border-bottom: 2px solid rgba(147, 112, 219, 0.3);
-            padding: 20px 60px 20px 40px; /* More padding on right to move content left */
+            padding: 25px 60px;
+            position: relative;
+            z-index: 1000;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            z-index: 1000;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 30px;
         }
 
         .header-title {
-            font-size: 2rem;
-            color: #9370db;
-            text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(147, 112, 219, 0.8);
+            letter-spacing: 2px;
         }
 
-        .home-button {
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-button {
             background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
-            border: 1px solid rgba(147, 112, 219, 0.4);
-            border-radius: 10px;
-            padding: 10px 20px;
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 15px;
+            padding: 12px 25px;
             color: #e6d7f0;
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .home-button:hover {
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(147, 112, 219, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button:hover {
             background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
             border-color: #9370db;
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
         }
 
-        .home-button i {
+        .nav-button i {
             font-size: 1.1rem;
         }
 
@@ -191,126 +251,368 @@
         .main-container {
             position: relative;
             z-index: 10;
-            max-width: 7xl;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
+        }
+
+        /* Page Title with ornament */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #9370db, #8a2be2, #9370db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(147, 112, 219, 0.8);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .page-subtitle {
+            color: #b19cd9;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .ornamental-divider {
+            width: 300px;
+            height: 2px;
+            margin: 30px auto;
+            background: linear-gradient(90deg, transparent, #9370db, #8a2be2, #9370db, transparent);
+            position: relative;
+        }
+
+        .ornamental-divider::before,
+        .ornamental-divider::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9370db;
+            font-size: 1.2rem;
+        }
+
+        .ornamental-divider::before {
+            left: -20px;
+        }
+
+        .ornamental-divider::after {
+            right: -20px;
+        }
+
+        /* Profile Grid Layout */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Profile Sidebar */
+        .profile-sidebar {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.15));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            position: sticky;
+            top: 30px;
+            height: fit-content;
+        }
+
+        .profile-avatar-section {
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar-wrapper {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            position: relative;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            padding: 4px;
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.5);
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #1a0f2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-username {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #9370db;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+        }
+
+        .profile-email {
+            color: #b19cd9;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .profile-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: rgba(147, 112, 219, 0.1);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(147, 112, 219, 0.2);
+            transform: translateX(5px);
+        }
+
+        .stat-label {
+            color: #b19cd9;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            color: #e6d7f0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Profile Content Area */
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
         /* Profile Sections */
         .profile-section {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.1));
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.15));
+            backdrop-filter: blur(20px);
             border: 2px solid rgba(147, 112, 219, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-section::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #9370db, #8a2be2, #9370db);
+            border-radius: 25px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-section:hover::before {
+            opacity: 0.3;
         }
 
         .profile-section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(147, 112, 219, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(147, 112, 219, 0.4);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(147, 112, 219, 0.2);
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.4);
         }
 
         .section-title {
-            font-size: 1.5rem;
-            color: #9370db;
-            margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e6d7f0;
+            text-shadow: 0 0 20px rgba(147, 112, 219, 0.5);
         }
 
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(147, 112, 219, 0.5), transparent);
-            margin: 40px 0;
+        .section-description {
+            color: #b19cd9;
+            font-size: 0.95rem;
+            margin-top: 5px;
         }
 
         /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         .form-label {
             display: block;
-            color: #b19cd9;
-            margin-bottom: 8px;
+            color: #e6d7f0;
+            margin-bottom: 10px;
             font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .form-input {
             width: 100%;
-            background: rgba(26, 15, 46, 0.6);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 10px;
-            padding: 12px 15px;
+            background: rgba(26, 15, 46, 0.8);
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 15px;
+            padding: 15px 20px;
             color: #e6d7f0;
             font-size: 1rem;
             transition: all 0.3s ease;
+            font-family: inherit;
         }
 
         .form-input:focus {
             outline: none;
             border-color: #9370db;
-            box-shadow: 0 0 15px rgba(147, 112, 219, 0.4);
+            background: rgba(26, 15, 46, 0.9);
+            box-shadow: 0 0 0 4px rgba(147, 112, 219, 0.2),
+                        0 0 20px rgba(147, 112, 219, 0.4);
+        }
+
+        .form-input::placeholder {
+            color: #7a6b87;
+        }
+
+        /* Fancy Buttons */
+        .btn {
+            border: none;
+            border-radius: 15px;
+            padding: 15px 35px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
             background: linear-gradient(45deg, #9370db, #8a2be2);
-            border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
             color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
         }
 
         .btn-secondary {
             background: transparent;
-            border: 2px solid rgba(147, 112, 219, 0.5);
-            border-radius: 10px;
-            padding: 12px 30px;
+            border: 2px solid #9370db;
             color: #9370db;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
-            background: rgba(147, 112, 219, 0.1);
-            border-color: #9370db;
-            transform: translateY(-2px);
+            background: rgba(147, 112, 219, 0.2);
+            border-color: #8a2be2;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.3);
         }
 
         .btn-danger {
             background: linear-gradient(45deg, #dc2626, #b91c1c);
-            border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
             color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(220, 38, 38, 0.4);
         }
 
         .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.6);
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(147, 112, 219, 0.2);
+            justify-content: flex-end;
         }
 
         /* Character List */
@@ -611,67 +913,180 @@
     <div class="mystical-bg"></div>
     <div class="floating-particles"></div>
     
+    <!-- Dragon Ornaments -->
+    <div class="dragon-ornament left"></div>
+    <div class="dragon-ornament right"></div>
+
     <!-- Header -->
     <header class="header">
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <h1 class="header-title">{{ __('general.dashboard.profile.header') }}</h1>
-            <a href="{{ route('HOME') }}" class="home-button">
-                <i class="fas fa-home"></i> Home
-            </a>
-        </div>
-        
-        <div class="user-info">
-            <div class="character-selector">
-                <span class="character-selector-label">Character:</span>
-                <x-hrace009::character-selector/>
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="header-title">PROFILE CENTER</h1>
             </div>
             
-            <div class="balance-display">
-                <x-hrace009::balance/>
-            </div>
-            
-            <div class="user-avatar">
-                <x-hrace009::user-avatar/>
+            <div class="user-info">
+                <div class="character-selector">
+                    <span class="character-selector-label">Character:</span>
+                    <x-hrace009::character-selector/>
+                </div>
+                
+                <div class="balance-display">
+                    <x-hrace009::balance/>
+                </div>
+                
+                <div class="nav-buttons">
+                    <a href="{{ route('HOME') }}" class="nav-button">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    @if(Auth::user()->isAdministrator())
+                    <a href="{{ route('admin.dashboard') }}" class="nav-button">
+                        <i class="fas fa-crown"></i> Admin
+                    </a>
+                    @endif
+                </div>
+                
+                <div class="user-avatar">
+                    <x-hrace009::user-avatar/>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">My Account</h1>
+            <p class="page-subtitle">Manage your profile settings and preferences</p>
+            <div class="ornamental-divider"></div>
+        </div>
+
         <!-- Success Notification -->
-        <div id="success-notification" style="display: none; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; background: #10b981; color: white; padding: 15px 30px; border-radius: 10px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <div id="success-notification" style="display: none; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; background: linear-gradient(45deg, #10b981, #059669); color: white; padding: 20px 40px; border-radius: 15px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
             <i class="fas fa-check-circle"></i> Settings saved successfully! Refreshing page...
         </div>
-        @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-            <div class="profile-section">
-                @livewire('profile.update-profile-information-form')
-            </div>
-        @endif
 
-        @if ( $api->online )
-            <div class="profile-section">
-                <h2 class="section-title">{{ __('My Characters') }}</h2>
-                @livewire('profile.list-character')
-            </div>
-        @endif
+        <!-- Profile Grid Layout -->
+        <div class="profile-grid">
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <div class="profile-avatar-section">
+                    <div class="profile-avatar-wrapper">
+                        <div class="profile-avatar">
+                            @if (Auth::user()->profile_photo_path)
+                                <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
+                            @else
+                                <i class="fas fa-user" style="font-size: 3rem; color: #9370db;"></i>
+                            @endif
+                        </div>
+                    </div>
+                    <h2 class="profile-username">{{ Auth::user()->truename ?? Auth::user()->name }}</h2>
+                    <p class="profile-email">{{ Auth::user()->email }}</p>
+                </div>
 
-        @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
-            <div class="profile-section">
-                @livewire('profile.update-password-form')
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Member Since</div>
+                        <div class="stat-value">{{ Auth::user()->created_at->format('M d, Y') }}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Account Status</div>
+                        <div class="stat-value">{{ Auth::user()->email_verified_at ? 'Verified' : 'Unverified' }}</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Last Login</div>
+                        <div class="stat-value">{{ Auth::user()->updated_at->diffForHumans() }}</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="profile-section">
-                @livewire('profile.pin-settings')
-            </div>
-        @endif
+            <!-- Content Area -->
+            <div class="profile-content">
+                @if (Laravel\Fortify\Features::canUpdateProfileInformation())
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-user-edit"></i>
+                            </div>
+                            <div>
+                                <h3 class="section-title">Profile Information</h3>
+                                <p class="section-description">Update your account's profile information and email address</p>
+                            </div>
+                        </div>
+                        @livewire('profile.update-profile-information-form')
+                    </div>
+                @endif
 
-        <div class="profile-section">
-            @livewire('profile.logout-from-other-browser')
+                @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div>
+                                <h3 class="section-title">Update Password</h3>
+                                <p class="section-description">Ensure your account is using a long, random password to stay secure</p>
+                            </div>
+                        </div>
+                        @livewire('profile.update-password-form')
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <div>
+                                <h3 class="section-title">PIN Settings</h3>
+                                <p class="section-description">Manage your account PIN for additional security</p>
+                            </div>
+                        </div>
+                        @livewire('profile.pin-settings')
+                    </div>
+                @endif
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">Browser Sessions</h3>
+                            <p class="section-description">Manage and log out your active sessions on other browsers and devices</p>
+                        </div>
+                    </div>
+                    @livewire('profile.logout-from-other-browser')
+                </div>
+
+                @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
+                    <div class="profile-section">
+                        <div class="section-header">
+                            <div class="section-icon" style="background: linear-gradient(45deg, #dc2626, #b91c1c);">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div>
+                                <h3 class="section-title">Delete Account</h3>
+                                <p class="section-description">Permanently delete your account</p>
+                            </div>
+                        </div>
+                        @livewire('profile.delete-user-form')
+                    </div>
+                @endif
+            </div>
         </div>
 
-        @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
-            <div class="profile-section">
-                @livewire('profile.delete-user-form')
+        @if ( $api->online )
+            <div class="profile-section" style="margin-top: 40px;">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h3 class="section-title">My Characters</h3>
+                        <p class="section-description">View and manage your in-game characters</p>
+                    </div>
+                </div>
+                @livewire('profile.list-character')
             </div>
         @endif
     </div>
