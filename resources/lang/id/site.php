@@ -47,6 +47,7 @@ return [
     // Visit Reward
     'visit_reward' => [
         'title' => 'Hadiah Harian',
+        'description' => 'Dapatkan hadiah untuk kunjungan',
         'gold' => 'Emas',
         'bonus_points' => 'Poin Bonus',
         'loading' => 'Memuat...',
@@ -78,6 +79,26 @@ return [
             'spirit' => 'Rate SP',
             'drop' => 'Rate Drop',
             'coins' => 'Rate Koin',
+        ],
+    ],
+    
+    // Server Features
+    'features' => [
+        'exp_rate' => [
+            'title' => 'Rate EXP',
+            'value' => '5x Pengalaman · 3x Spirit',
+        ],
+        'max_level' => [
+            'title' => 'Level Maksimal',
+            'value' => 'Level 105 · Kelahiran Kembali x2',
+        ],
+        'server_version' => [
+            'title' => 'Versi Server',
+            'value' => 'Perfect World v1.4.6',
+        ],
+        'pvp_mode' => [
+            'title' => 'Mode PvP',
+            'value' => 'PK Seimbang · Perang Wilayah',
         ],
     ],
 ];

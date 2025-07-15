@@ -1187,9 +1187,7 @@
             </div>
             <div class="visit-reward-content">
                 <span class="reward-icon">🎁</span>
-                @if($visitRewardSettings->description)
-                    <p class="reward-description">{{ $visitRewardSettings->description }}</p>
-                @endif
+                <p class="reward-description">{{ __('site.visit_reward.description') }}</p>
                 <div class="reward-amount">
                     +{{ $visitRewardSettings->reward_amount }}
                     @if($visitRewardSettings->reward_type == 'virtual')
@@ -1314,22 +1312,22 @@
             <div class="feature-card">
                 <div class="feature-icon">🌟</div>
                 <div class="feature-title">{{ __('site.footer.rates.exp') }}</div>
-                <div class="feature-value">5x {{ __('site.footer.rates.exp') }} · 3x {{ __('site.footer.rates.spirit') }}</div>
+                <div class="feature-value">{{ __('site.features.exp_rate.value') }}</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚖️</div>
-                <div class="feature-title">Max Level</div>
-                <div class="feature-value">Level 105 · Rebirth x2</div>
+                <div class="feature-title">{{ __('site.features.max_level.title') }}</div>
+                <div class="feature-value">{{ __('site.features.max_level.value') }}</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🏛️</div>
-                <div class="feature-title">Server Version</div>
-                <div class="feature-value">Perfect World v1.4.6</div>
+                <div class="feature-title">{{ __('site.features.server_version.title') }}</div>
+                <div class="feature-value">{{ __('site.features.server_version.value') }}</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚔️</div>
-                <div class="feature-title">PvP Mode</div>
-                <div class="feature-value">Balanced PK · Territory Wars</div>
+                <div class="feature-title">{{ __('site.features.pvp_mode.title') }}</div>
+                <div class="feature-value">{{ __('site.features.pvp_mode.value') }}</div>
             </div>
         </div>
 

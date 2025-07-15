@@ -47,6 +47,7 @@ return [
     // Visit Reward
     'visit_reward' => [
         'title' => 'Daily Rewards',
+        'description' => 'Get rewards for visiting',
         'gold' => 'Gold',
         'bonus_points' => 'Bonus Points',
         'loading' => 'Loading...',
@@ -78,6 +79,26 @@ return [
             'spirit' => 'SP Rate',
             'drop' => 'Drop Rate',
             'coins' => 'Coins Rate',
+        ],
+    ],
+    
+    // Server Features
+    'features' => [
+        'exp_rate' => [
+            'title' => 'EXP Rate',
+            'value' => '5x Experience · 3x Spirit',
+        ],
+        'max_level' => [
+            'title' => 'Max Level',
+            'value' => 'Level 105 · Rebirth x2',
+        ],
+        'server_version' => [
+            'title' => 'Server Version',
+            'value' => 'Perfect World v1.4.6',
+        ],
+        'pvp_mode' => [
+            'title' => 'PvP Mode',
+            'value' => 'Balanced PK · Territory Wars',
         ],
     ],
 ];
