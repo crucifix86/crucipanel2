@@ -328,4 +328,36 @@ return [
             'error_checking' => 'Error memeriksa status vote:',
         ],
     ],
+    
+    // Members Page
+    'members' => [
+        'title' => 'Anggota',
+        'community_members' => 'Anggota Komunitas',
+        'staff_members' => 'Anggota Staf',
+        'administrator' => 'Administrator',
+        'game_master' => 'Game Master',
+        'member_since' => 'Anggota sejak :date',
+        'characters' => ':count Karakter',
+        'online' => 'Online',
+        'unknown' => 'Tidak Diketahui',
+        'registered_players' => 'Pemain Terdaftar (:count)',
+        'search_placeholder' => 'Cari berdasarkan username atau karakter...',
+        'search_button' => 'Cari',
+        'clear' => 'Hapus',
+        'table' => [
+            'player' => 'Pemain',
+            'characters' => 'Karakter',
+            'member_since' => 'Anggota Sejak',
+            'discord' => 'Discord',
+        ],
+        'no_characters' => 'Tidak ada karakter',
+        'not_shared' => 'Tidak dibagikan',
+        'no_players' => 'Belum ada pemain terdaftar. Jadilah yang pertama untuk bergabung!',
+        'pagination' => [
+            'previous' => '← Sebelumnya',
+            'next' => 'Berikutnya →',
+            'page_of' => 'Halaman :current dari :total',
+        ],
+        'forgot' => 'Lupa?',
+    ],
 ];

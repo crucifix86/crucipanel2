@@ -328,4 +328,36 @@ return [
             'error_checking' => 'Error checking vote status:',
         ],
     ],
+    
+    // Members Page
+    'members' => [
+        'title' => 'Members',
+        'community_members' => 'Community Members',
+        'staff_members' => 'Staff Members',
+        'administrator' => 'Administrator',
+        'game_master' => 'Game Master',
+        'member_since' => 'Member since :date',
+        'characters' => ':count Characters',
+        'online' => 'Online',
+        'unknown' => 'Unknown',
+        'registered_players' => 'Registered Players (:count)',
+        'search_placeholder' => 'Search by username or character...',
+        'search_button' => 'Search',
+        'clear' => 'Clear',
+        'table' => [
+            'player' => 'Player',
+            'characters' => 'Characters',
+            'member_since' => 'Member Since',
+            'discord' => 'Discord',
+        ],
+        'no_characters' => 'No characters',
+        'not_shared' => 'Not shared',
+        'no_players' => 'No registered players yet. Be the first to join!',
+        'pagination' => [
+            'previous' => '← Previous',
+            'next' => 'Next →',
+            'page_of' => 'Page :current of :total',
+        ],
+        'forgot' => 'Forgot?',
+    ],
 ];
