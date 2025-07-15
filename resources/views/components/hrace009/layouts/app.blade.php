@@ -233,7 +233,7 @@
                 </div>
             </div>
         </main>
-        <x-hrace009::footer/>
+        <x-hrace009::portal.footer/>
     </div>
     <!-- Panels -->
     <x-hrace009::settings-panel/>

@@ -710,6 +710,50 @@
             color: #b19cd9;
             margin-bottom: 20px;
         }
+        
+        /* Social Links */
+        .social-links {
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-left .social-links {
+            justify-content: flex-start;
+        }
+        
+        .footer-right .social-links {
+            justify-content: flex-end;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 50%;
+            color: #b19cd9;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-link:hover {
+            background: rgba(147, 112, 219, 0.4);
+            border-color: #9370db;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.4);
+        }
+        
+        .social-link i {
+            font-size: 1.2rem;
+        }
 
         @media (max-width: 768px) {
             .logo {
@@ -1576,9 +1620,21 @@
             $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Enhance your journey with mystical items</p>';
             $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
             $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
+            $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
         @endphp
         <div class="footer footer-{{ $footerAlignment }}">
             {!! $footerContent !!}
+            
+            @if($socialLinks->count() > 0)
+            <div class="social-links">
+                @foreach($socialLinks as $link)
+                <a href="{{ $link->url }}" target="_blank" class="social-link" title="{{ $link->platform }}">
+                    <i class="{{ $link->icon }}"></i>
+                </a>
+                @endforeach
+            </div>
+            @endif
+            
             <p class="footer-text">{!! $footerCopyright !!}</p>
         </div>
     </div>

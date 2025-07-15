@@ -471,6 +471,35 @@
             margin-bottom: 20px;
         }
 
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .social-link {
+            color: #b19cd9;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(147, 112, 219, 0.1);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+        }
+
+        .social-link:hover {
+            color: #fff;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(147, 112, 219, 0.5);
+        }
+
         /* Server Status */
         .server-status {
             position: fixed;
@@ -1128,12 +1157,22 @@
         </div>
         @php
             $footerSettings = \App\Models\FooterSetting::first();
+            $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
             $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Begin your journey through the realms of endless cultivation</p>';
             $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
             $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
         @endphp
         <div class="footer footer-{{ $footerAlignment }}">
             {!! $footerContent !!}
+            @if($socialLinks->count() > 0)
+            <div class="social-links">
+                @foreach($socialLinks as $link)
+                <a href="{{ $link->url }}" target="_blank" class="social-link" title="{{ $link->platform }}">
+                    <i class="{{ $link->icon }}"></i>
+                </a>
+                @endforeach
+            </div>
+            @endif
             <p class="footer-text">{!! $footerCopyright !!}</p>
         </div>
     </div>
