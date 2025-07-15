@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('site.members.title') }} - {{ config('pw-config.server_name', 'Haven Perfect World') }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+@extends('layouts.mystical')
+
+@section('title', __('site.members.title') . ' - ' . config('pw-config.server_name', 'Haven Perfect World'))
+
+@section('styles')
+@parent
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -853,142 +852,10 @@
             }
         }
     </style>
-    @livewireStyles
-</head>
-<body>
-    <div class="mystical-bg"></div>
-    <div class="floating-particles"></div>
-    
-    <div class="dragon-ornament dragon-left">🐉</div>
-    <div class="dragon-ornament dragon-right">🐉</div>
-    
-    @php
-        $api = new \hrace009\PerfectWorldAPI\API();
-        $point = new \App\Models\Point();
-        $onlinePlayer = $point->getOnlinePlayer();
-        $onlineCount = $api->online ? ($onlinePlayer >= 100 ? $onlinePlayer + config('pw-config.fakeonline', 0) : $onlinePlayer) : 0;
-    @endphp
-    
-    <!-- Language Selector -->
-    @include('partials.language-selector')
-    
-    <!-- Server Status -->
-    <div class="server-status">
-        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
-            <span class="status-dot"></span>
-            <span class="status-text">{{ $api->online ? __('site.server.online') : __('site.server.offline') }}</span>
-        </div>
-        @if($api->online)
-            <div class="players-online">
-                <i class="fas fa-users"></i> {{ trans_choice('site.server.players_online', $onlineCount, ['count' => $onlineCount]) }}
-            </div>
-        @endif
-    </div>
-    
-    <!-- Login/User Box -->
-    <div class="login-box-wrapper">
-        <div class="login-box collapsed" id="loginBox">
-            <div class="login-box-header" onclick="toggleLoginBox()">
-                <h3>@if(Auth::check()) {{ __('site.login.account') }} @else {{ __('site.login.member_login') }} @endif</h3>
-                <button class="collapse-toggle">▼</button>
-            </div>
-            <div class="login-box-content">
-                @if(Auth::check())
-                    <div class="user-info">
-                        <h3>{{ __('site.login.welcome_back') }}</h3>
-                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
-                        <div class="user-links">
-                            @if(config('pw-config.player_dashboard_enabled', true))
-                            <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
-                            @endif
-                            <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
-                            @if(Auth::user()->isAdministrator())
-                            <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
-                            @endif
-                            @if(Auth::user()->isGamemaster())
-                            <a href="{{ route('gm.dashboard') }}" class="user-link">{{ __('site.user_menu.gm_panel') }}</a>
-                            @endif
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="login-button">{{ __('site.login.logout') }}</button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <h3>{{ __('site.login.member_login') }}</h3>
-                    <form method="POST" action="{{ route('login') }}" class="login-form">
-                        @csrf
-                        <input type="text" name="name" placeholder="{{ __('site.login.username') }}" required autofocus>
-                        <input type="password" name="password" placeholder="{{ __('site.login.password') }}" required>
-                        <input type="password" name="pin" placeholder="{{ __('site.login.pin') }}" id="pin-field" style="display: none;">
-                        <button type="submit" class="login-button">{{ __('site.login.login_button') }}</button>
-                    </form>
-                    <div class="login-links">
-                        <a href="{{ route('register') }}">{{ __('site.login.register') }}</a>
-                        <a href="{{ route('password.request') }}">{{ __('site.members.forgot') }}</a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-    
-    <div class="container">
-        
-        @php
-            $headerSettings = \App\Models\HeaderSetting::first();
-            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
-    <h1 class="logo">Haven Perfect World</h1>
-    <p class="tagline">Embark on the Path of Immortals</p>
-</div>';
-            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
-        @endphp
-        
-        <div class="header header-{{ $headerAlignment }}">
-            <div class="mystical-border"></div>
-            <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
-                {!! $headerContent !!}
-            </a>
-        </div>
+@endsection
 
-        <nav class="nav-bar">
-            <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">{{ __('site.nav.home') }}</a>
-                
-                @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">{{ __('site.nav.shop') }}</a>
-                @endif
-                
-                @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">{{ __('site.nav.donate') }}</a>
-                @endif
-                
-                @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">{{ __('site.nav.rankings') }}</a>
-                @endif
-                
-                @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">{{ __('site.nav.vote') }}</a>
-                @endif
-                
-                @php
-                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
-                @endphp
-                @if($pages->count() > 0)
-                    <div class="nav-dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                            {{ __('site.nav.pages') }} <span class="dropdown-arrow">▼</span>
-                        </a>
-                        <div class="dropdown-menu">
-                            @foreach($pages as $page)
-                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-                
-                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
-            </div>
-        </nav>
+@section('content')
+@livewire('init')
         
         <div class="content-section">
         <h1 class="page-title">{{ __('site.members.community_members') }}</h1>
@@ -1155,27 +1022,10 @@
                 @endif
             </div>
         </div>
-        @php
-            $footerSettings = \App\Models\FooterSetting::first();
-            $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
-            $footerContent = $footerSettings ? $footerSettings->content : '<p class="footer-text">Begin your journey through the realms of endless cultivation</p>';
-            $footerCopyright = $footerSettings ? $footerSettings->copyright : '&copy; ' . date('Y') . ' Haven Perfect World. All rights reserved.';
-            $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
-        @endphp
-        <div class="footer footer-{{ $footerAlignment }}">
-            {!! $footerContent !!}
-            @if($socialLinks->count() > 0)
-            <div class="social-links">
-                @foreach($socialLinks as $link)
-                <a href="{{ $link->url }}" target="_blank" class="social-link" title="{{ $link->platform }}">
-                    <i class="{{ $link->icon }}"></i>
-                </a>
-                @endforeach
-            </div>
-            @endif
-            <p class="footer-text">{!! $footerCopyright !!}</p>
-        </div>
-    </div>
+@endsection
+
+@section('scripts')
+@parent
     
     <script>
         // Create floating particles
@@ -1260,6 +1110,5 @@
             });
         }
     </script>
-    @livewireScripts
-</body>
-</html>
+@livewireScripts
+@endsection
