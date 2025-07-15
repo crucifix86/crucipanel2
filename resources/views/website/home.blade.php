@@ -70,6 +70,9 @@
         </div>
     </div>
     
+    <!-- Language Selector -->
+    @include('partials.language-selector')
+    
     @php
         $headerSettings = \App\Models\HeaderSetting::first();
         $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
@@ -130,8 +133,6 @@
             
             <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
         </div>
-        
-        @livewire('hrace009::language-selector')
     </nav>
 
     <!-- Main Content -->

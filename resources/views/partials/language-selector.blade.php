@@ -14,9 +14,9 @@
         top: 20px;
         right: 20px;
         z-index: 100;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), var(--surface-color));
         backdrop-filter: blur(15px);
-        border: 1px solid rgba(147, 112, 219, 0.4);
+        border: 1px solid var(--border-color);
         border-radius: 10px;
         padding: 8px 12px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -28,9 +28,9 @@
 
     .language-selector select {
         background: rgba(0, 0, 0, 0.4);
-        border: 1px solid rgba(147, 112, 219, 0.5);
+        border: 1px solid var(--border-color);
         border-radius: 8px;
-        color: #e6d7f0;
+        color: var(--text-color);
         padding: 5px 10px;
         font-size: 0.9rem;
         cursor: pointer;
@@ -40,23 +40,23 @@
     }
 
     .language-selector select:hover {
-        border-color: #9370db;
-        box-shadow: 0 0 10px rgba(147, 112, 219, 0.4);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 10px var(--particle-shadow);
     }
 
     .language-selector select:focus {
         outline: none;
-        border-color: #9370db;
-        box-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 15px var(--particle-shadow);
     }
 
     .language-selector select option {
         background: #1a0f2e;
-        color: #e6d7f0;
+        color: var(--text-color);
     }
 
     .language-icon {
-        color: #9370db;
+        color: var(--primary-color);
         font-size: 1.2rem;
     }
 
