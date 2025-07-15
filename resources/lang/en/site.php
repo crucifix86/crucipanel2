@@ -360,4 +360,52 @@ return [
         ],
         'forgot' => 'Forgot?',
     ],
+    
+    // Profile Page
+    'profile' => [
+        'title' => 'Profile',
+        'page_title' => 'My Account',
+        'page_subtitle' => 'Manage your profile settings and preferences',
+        'success_message' => 'Settings saved successfully! Refreshing page...',
+        
+        // Sidebar
+        'sidebar' => [
+            'member_since' => 'Member Since',
+            'account_status' => 'Account Status',
+            'status_active' => 'Active',
+            'last_login' => 'Last Login',
+        ],
+        
+        // Sections
+        'sections' => [
+            'profile_info' => [
+                'title' => 'Profile Information',
+                'description' => 'Update your account\'s profile information and email address',
+            ],
+            'language' => [
+                'title' => 'Language Preference',
+                'description' => 'Choose your preferred language for the interface',
+            ],
+            'password' => [
+                'title' => 'Update Password',
+                'description' => 'Ensure your account is using a long, random password to stay secure',
+            ],
+            'pin' => [
+                'title' => 'PIN Settings',
+                'description' => 'Manage your account PIN for additional security',
+            ],
+            'sessions' => [
+                'title' => 'Browser Sessions',
+                'description' => 'Manage and log out your active sessions on other browsers and devices',
+            ],
+            'delete_account' => [
+                'title' => 'Delete Account',
+                'description' => 'Permanently delete your account',
+            ],
+            'characters' => [
+                'title' => 'My Characters',
+                'description' => 'View and manage your in-game characters',
+            ],
+        ],
+    ],
 ];

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('general.dashboard.profile.header') }}</title>
+    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('site.profile.title') }}</title>
     
     @if( ! config('pw-config.logo') )
         <link rel="shortcut icon" href="{{ asset('img/logo/logo.png') }}"/>
@@ -1397,20 +1397,20 @@
                 
                 <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
                 
-                <a href="{{ route('profile.show') }}" class="nav-link active">Profile</a>
+                <a href="{{ route('profile.show') }}" class="nav-link active">{{ __('site.profile.title') }}</a>
             </div>
         </nav>
 
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-title">My Account</h1>
-            <p class="page-subtitle">Manage your profile settings and preferences</p>
+            <h1 class="page-title">{{ __('site.profile.page_title') }}</h1>
+            <p class="page-subtitle">{{ __('site.profile.page_subtitle') }}</p>
             <div class="ornamental-divider"></div>
         </div>
 
         <!-- Success Notification -->
         <div id="success-notification" style="display: none; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; background: linear-gradient(45deg, #10b981, #059669); color: white; padding: 20px 40px; border-radius: 15px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-            <i class="fas fa-check-circle"></i> Settings saved successfully! Refreshing page...
+            <i class="fas fa-check-circle"></i> {{ __('site.profile.success_message') }}
         </div>
 
         <!-- Profile Grid Layout -->
@@ -1433,15 +1433,15 @@
 
                 <div class="profile-stats">
                     <div class="stat-item">
-                        <div class="stat-label">Member Since</div>
+                        <div class="stat-label">{{ __('site.profile.sidebar.member_since') }}</div>
                         <div class="stat-value">{{ Auth::user()->created_at->format('M d, Y') }}</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-label">Account Status</div>
-                        <div class="stat-value">Active</div>
+                        <div class="stat-label">{{ __('site.profile.sidebar.account_status') }}</div>
+                        <div class="stat-value">{{ __('site.profile.sidebar.status_active') }}</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-label">Last Login</div>
+                        <div class="stat-label">{{ __('site.profile.sidebar.last_login') }}</div>
                         <div class="stat-value">{{ Auth::user()->updated_at->diffForHumans() }}</div>
                     </div>
                 </div>
@@ -1456,8 +1456,8 @@
                                 <i class="fas fa-user-edit"></i>
                             </div>
                             <div>
-                                <h3 class="section-title">Profile Information</h3>
-                                <p class="section-description">Update your account's profile information and email address</p>
+                                <h3 class="section-title">{{ __('site.profile.sections.profile_info.title') }}</h3>
+                                <p class="section-description">{{ __('site.profile.sections.profile_info.description') }}</p>
                             </div>
                         </div>
                         @livewire('profile.update-profile-information-form')
@@ -1470,8 +1470,8 @@
                             <i class="fas fa-globe"></i>
                         </div>
                         <div>
-                            <h3 class="section-title">Language Preference</h3>
-                            <p class="section-description">Choose your preferred language for the interface</p>
+                            <h3 class="section-title">{{ __('site.profile.sections.language.title') }}</h3>
+                            <p class="section-description">{{ __('site.profile.sections.language.description') }}</p>
                         </div>
                     </div>
                     @livewire('profile.language-preference')
@@ -1484,8 +1484,8 @@
                                 <i class="fas fa-lock"></i>
                             </div>
                             <div>
-                                <h3 class="section-title">Update Password</h3>
-                                <p class="section-description">Ensure your account is using a long, random password to stay secure</p>
+                                <h3 class="section-title">{{ __('site.profile.sections.password.title') }}</h3>
+                                <p class="section-description">{{ __('site.profile.sections.password.description') }}</p>
                             </div>
                         </div>
                         @livewire('profile.update-password-form')
@@ -1497,8 +1497,8 @@
                                 <i class="fas fa-key"></i>
                             </div>
                             <div>
-                                <h3 class="section-title">PIN Settings</h3>
-                                <p class="section-description">Manage your account PIN for additional security</p>
+                                <h3 class="section-title">{{ __('site.profile.sections.pin.title') }}</h3>
+                                <p class="section-description">{{ __('site.profile.sections.pin.description') }}</p>
                             </div>
                         </div>
                         @livewire('profile.pin-settings')
@@ -1511,8 +1511,8 @@
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <div>
-                            <h3 class="section-title">Browser Sessions</h3>
-                            <p class="section-description">Manage and log out your active sessions on other browsers and devices</p>
+                            <h3 class="section-title">{{ __('site.profile.sections.sessions.title') }}</h3>
+                            <p class="section-description">{{ __('site.profile.sections.sessions.description') }}</p>
                         </div>
                     </div>
                     @livewire('profile.logout-from-other-browser')
@@ -1525,8 +1525,8 @@
                                 <i class="fas fa-exclamation-triangle"></i>
                             </div>
                             <div>
-                                <h3 class="section-title">Delete Account</h3>
-                                <p class="section-description">Permanently delete your account</p>
+                                <h3 class="section-title">{{ __('site.profile.sections.delete_account.title') }}</h3>
+                                <p class="section-description">{{ __('site.profile.sections.delete_account.description') }}</p>
                             </div>
                         </div>
                         @livewire('profile.delete-user-form')
@@ -1542,8 +1542,8 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div>
-                        <h3 class="section-title">My Characters</h3>
-                        <p class="section-description">View and manage your in-game characters</p>
+                        <h3 class="section-title">{{ __('site.profile.sections.characters.title') }}</h3>
+                        <p class="section-description">{{ __('site.profile.sections.characters.description') }}</p>
                     </div>
                 </div>
                 @livewire('profile.list-character')

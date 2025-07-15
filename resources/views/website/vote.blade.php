@@ -1131,6 +1131,8 @@ if (!function_exists('get_setting')) {
                         </div>
                     </div>
                 @endif
+                
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
             </div>
         </nav>
 

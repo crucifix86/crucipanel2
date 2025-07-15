@@ -360,4 +360,52 @@ return [
         ],
         'forgot' => 'Lupa?',
     ],
+    
+    // Profile Page
+    'profile' => [
+        'title' => 'Profil',
+        'page_title' => 'Akun Saya',
+        'page_subtitle' => 'Kelola pengaturan dan preferensi profil Anda',
+        'success_message' => 'Pengaturan berhasil disimpan! Memuat ulang halaman...',
+        
+        // Sidebar
+        'sidebar' => [
+            'member_since' => 'Anggota Sejak',
+            'account_status' => 'Status Akun',
+            'status_active' => 'Aktif',
+            'last_login' => 'Login Terakhir',
+        ],
+        
+        // Sections
+        'sections' => [
+            'profile_info' => [
+                'title' => 'Informasi Profil',
+                'description' => 'Perbarui informasi profil dan alamat email akun Anda',
+            ],
+            'language' => [
+                'title' => 'Preferensi Bahasa',
+                'description' => 'Pilih bahasa yang Anda inginkan untuk antarmuka',
+            ],
+            'password' => [
+                'title' => 'Perbarui Kata Sandi',
+                'description' => 'Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk tetap aman',
+            ],
+            'pin' => [
+                'title' => 'Pengaturan PIN',
+                'description' => 'Kelola PIN akun Anda untuk keamanan tambahan',
+            ],
+            'sessions' => [
+                'title' => 'Sesi Browser',
+                'description' => 'Kelola dan keluar dari sesi aktif Anda di browser dan perangkat lain',
+            ],
+            'delete_account' => [
+                'title' => 'Hapus Akun',
+                'description' => 'Hapus akun Anda secara permanen',
+            ],
+            'characters' => [
+                'title' => 'Karakter Saya',
+                'description' => 'Lihat dan kelola karakter dalam game Anda',
+            ],
+        ],
+    ],
 ];
