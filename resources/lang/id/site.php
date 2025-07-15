@@ -101,4 +101,92 @@ return [
             'value' => 'PK Seimbang · Perang Wilayah',
         ],
     ],
+    
+    // Shop Page
+    'shop' => [
+        'title' => 'Toko Mistik',
+        'search_placeholder' => 'Cari item, voucher, atau layanan...',
+        'search_button' => 'Cari',
+        'clear' => 'Hapus',
+        
+        // Tabs
+        'tabs' => [
+            'items' => 'Item',
+            'vouchers' => 'Voucher', 
+            'services' => 'Layanan',
+        ],
+        
+        // User Balance
+        'balance' => [
+            'coins' => ':name:', // Will be replaced with currency name
+            'bonus_points' => 'Poin Bonus:',
+        ],
+        
+        // Character Selection
+        'character' => [
+            'label' => 'Karakter:',
+            'change' => 'Ganti',
+            'no_character' => 'Tidak ada karakter terpilih',
+            'select' => 'Pilih Karakter',
+            'select_to_purchase' => 'Pilih karakter untuk membeli',
+            'select_to_use' => 'Pilih karakter untuk menggunakan layanan',
+            'no_characters' => 'Tidak ada karakter ditemukan',
+            'server_offline' => 'Server sedang offline',
+        ],
+        
+        // Categories
+        'categories' => [
+            'title' => 'Kategori',
+        ],
+        
+        // Items
+        'items' => [
+            'no_items' => 'Tidak Ada Item Tersedia',
+            'check_back' => 'Periksa kembali nanti untuk item mistik!',
+            'purchase' => 'Beli',
+            'buy_with_bonus' => 'Beli dengan :points Poin Bonus',
+            'original_price' => 'Harga Asli',
+            'discount_badge' => '-:discount%',
+        ],
+        
+        // Vouchers
+        'vouchers' => [
+            'redeem_title' => 'Tukar Kode Voucher',
+            'code_placeholder' => 'Masukkan kode voucher',
+            'redeem_button' => 'Tukar Kode',
+            'description' => 'Masukkan kode voucher di atas untuk menambah :currency ke akun Anda',
+            'history_button' => 'Lihat Riwayat Penukaran',
+            'history_title' => 'Riwayat Penukaran Voucher',
+            'history_code' => 'Kode Voucher',
+            'history_amount' => 'Jumlah',
+            'history_date' => 'Tanggal Ditukar',
+            'total_redeemed' => 'Total Voucher Ditukar: :count',
+            'login_required' => 'Silakan masuk untuk menukar kode voucher',
+        ],
+        
+        // Services
+        'services' => [
+            'no_services' => 'Tidak Ada Layanan Tersedia',
+            'check_back' => 'Periksa kembali nanti untuk layanan karakter!',
+            'use_button' => 'Gunakan Layanan',
+            'requirements' => 'Persyaratan',
+            'login_required' => 'Masuk untuk menggunakan layanan',
+        ],
+        
+        // Pagination
+        'pagination' => [
+            'previous' => '← Sebelumnya',
+            'next' => 'Berikutnya →',
+            'page_of' => 'Halaman :current dari :total',
+        ],
+        
+        // Login Notice
+        'login_notice' => 'Silakan masuk untuk mengakses toko',
+        
+        // Notifications
+        'notifications' => [
+            'success' => '✓ :message',
+            'error' => '✗ :message',
+        ],
+    ],
 ];
