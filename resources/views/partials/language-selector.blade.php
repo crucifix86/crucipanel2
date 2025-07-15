@@ -1,7 +1,7 @@
 <!-- Language Selector -->
 <div class="language-selector">
     <i class="fas fa-globe language-icon"></i>
-    <label for="language-select">{{ __('Language') }}:</label>
+    <label for="language-select">{{ __('site.language') }}:</label>
     <select id="language-select" onchange="changeLanguage(this.value)">
         <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
         <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>Indonesian</option>

@@ -66,8 +66,6 @@ Route::group(['middleware' => 'web'], static function () {
             if (auth()->check()) {
                 auth()->user()->update(['language' => $language]);
             }
-            
-            app()->setLocale($language);
         }
         
         return redirect()->back();
