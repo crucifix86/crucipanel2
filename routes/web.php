@@ -58,6 +58,21 @@ use Laravel\Jetstream\Jetstream;
 */
 
 Route::group(['middleware' => 'web'], static function () {
+    // Language Switching Route
+    Route::get('/set-language/{language}', function ($language) {
+        if (in_array($language, ['en', 'id'])) {
+            session(['locale' => $language]);
+            
+            if (auth()->check()) {
+                auth()->user()->update(['language' => $language]);
+            }
+            
+            app()->setLocale($language);
+        }
+        
+        return redirect()->back();
+    })->name('set.language');
+    
     Route::get('/', [
         'as' => 'HOME',
         'uses' => 'App\Http\Controllers\Website\Home@index'

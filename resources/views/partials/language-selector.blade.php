@@ -90,6 +90,6 @@
 
 <script>
     function changeLanguage(lang) {
-        window.location.href = window.location.pathname + '?language=' + lang;
+        window.location.href = '{{ url("/set-language") }}/' + lang;
     }
 </script>
