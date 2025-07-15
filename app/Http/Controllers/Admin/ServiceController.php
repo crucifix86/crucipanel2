@@ -11,7 +11,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Traits\SavesConfigSettings;
 use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
 use Illuminate\Contracts\Foundation\Application;
@@ -24,7 +23,6 @@ use Illuminate\Support\Facades\Config;
 
 class ServiceController extends Controller
 {
-    use SavesConfigSettings;
     /**
      * Display a listing of the resource.
      *
@@ -122,14 +120,9 @@ class ServiceController extends Controller
     {
         $configs = $request->except('_token');
         
-        // Prepare settings with pw-config prefix
-        $settings = [];
         foreach ($configs as $config => $value) {
-            $settings['pw-config.' . $config] = $value;
+            Config::write('pw-config.' . $config, $value);
         }
-        
-        // Write all settings at once
-        $this->writeConfigMany($settings);
         
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');

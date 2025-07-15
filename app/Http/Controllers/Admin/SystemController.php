@@ -11,7 +11,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Traits\SavesConfigSettings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -22,7 +21,6 @@ use Illuminate\Validation\Rule;
 
 class SystemController extends Controller
 {
-    use SavesConfigSettings;
     /**
      * Show apps page
      *
@@ -191,13 +189,13 @@ class SystemController extends Controller
     public function saveApps(Request $request): RedirectResponse
     {
         $apps = config('pw-config.system.apps');
-        $appSettings = [];
         foreach (array_keys($apps) as $app) {
-            $appSettings['pw-config.system.apps.' . $app] = $request->has($app);
+            if ($request->has($app) === true) {
+                Config::write('pw-config.system.apps.' . $app, true);
+            } else {
+                Config::write('pw-config.system.apps.' . $app, false);
+            }
         }
-        
-        // Write all app settings at once
-        $this->writeConfigMany($appSettings);
         
         // Clear and re-cache config to apply changes
         \Artisan::call('config:clear');
@@ -234,21 +232,18 @@ class SystemController extends Controller
                 ]
             ]);
             $logo = $request->file('logo')->getClientOriginalName();
-            $this->writeConfig('pw-config.logo', $logo);
+            Config::write('pw-config.logo', $logo);
             $request->file('logo')->storeAs('logo', $logo, config('filesystems.default'));
         }
 
-        // Prepare all settings for batch save
-        $configSettings = [];
         foreach ($validate as $settings => $value) {
-            $configSettings['pw-config.' . $settings] = $value;
+            Config::write('pw-config.' . $settings, $value);
         }
-        $configSettings['app.name'] = $request->get('server_name');
-        $configSettings['app.timezone'] = $request->get('datetimezone');
-        $configSettings['pw-config.player_dashboard_enabled'] = $request->has('player_dashboard_enabled');
+        Config::write('app.name', $request->get('server_name'));
+        Config::write('app.timezone', $request->get('datetimezone'));
         
-        // Write all settings at once
-        $this->writeConfigMany($configSettings);
+        // Handle player dashboard toggle
+        Config::write('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
         
         // Clear and re-cache config to apply changes
         \Artisan::call('config:clear');

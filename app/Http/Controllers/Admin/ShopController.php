@@ -11,7 +11,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Traits\SavesConfigSettings;
 use App\Http\Requests\ShopRequest;
 use App\Models\Shop;
 use Illuminate\Contracts\Foundation\Application;
@@ -25,7 +24,6 @@ use Illuminate\Support\Facades\Config;
 
 class ShopController extends Controller
 {
-    use SavesConfigSettings;
     /**
      * Display a listing of the resource.
      *
@@ -183,7 +181,7 @@ class ShopController extends Controller
             'item_page' => 'required|numeric'
         ]);
         
-        $this->writeConfig('pw-config.shop.page', $validate['item_page']);
+        Config::write('pw-config.shop.page', $validate['item_page']);
         
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');
