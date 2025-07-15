@@ -11,7 +11,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Facades\LocalSettings;
 use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
 use Illuminate\Contracts\Foundation\Application;
@@ -121,14 +120,19 @@ class ServiceController extends Controller
     {
         $configs = $request->except('_token');
         
+        $serviceSettings = [];
         foreach ($configs as $config => $value) {
             Config::write('pw-config.' . $config, $value);
-            try {
-                LocalSettings::set('pw-config.' . $config, $value);
-            } catch (\Exception $e) {
-                \Log::error("Failed to save service setting {$config}: " . $e->getMessage());
-            }
+            $serviceSettings[$config] = $value;
         }
+        
+        // Save to JSON file
+        $settingsPath = storage_path('app/panel-settings.json');
+        $existingSettings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        foreach ($serviceSettings as $key => $val) {
+            $existingSettings['pw-config'][$key] = $val;
+        }
+        file_put_contents($settingsPath, json_encode($existingSettings, JSON_PRETTY_PRINT));
         
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');

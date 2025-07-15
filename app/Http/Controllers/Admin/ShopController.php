@@ -11,7 +11,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Facades\LocalSettings;
 use App\Http\Requests\ShopRequest;
 use App\Models\Shop;
 use Illuminate\Contracts\Foundation\Application;
@@ -183,11 +182,12 @@ class ShopController extends Controller
         ]);
         
         Config::write('pw-config.shop.page', $validate['item_page']);
-        try {
-            LocalSettings::set('pw-config.shop.page', $validate['item_page']);
-        } catch (\Exception $e) {
-            \Log::error('Failed to save shop page setting: ' . $e->getMessage());
-        }
+        
+        // Save to JSON file
+        $settingsPath = storage_path('app/panel-settings.json');
+        $existingSettings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        $existingSettings['pw-config']['shop']['page'] = $validate['item_page'];
+        file_put_contents($settingsPath, json_encode($existingSettings, JSON_PRETTY_PRINT));
         
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');

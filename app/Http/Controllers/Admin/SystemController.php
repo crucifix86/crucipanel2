@@ -11,7 +11,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Facades\LocalSettings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -190,15 +189,18 @@ class SystemController extends Controller
     public function saveApps(Request $request): RedirectResponse
     {
         $apps = config('pw-config.system.apps');
+        $appSettings = [];
         foreach (array_keys($apps) as $app) {
             $value = $request->has($app);
             Config::write('pw-config.system.apps.' . $app, $value);
-            try {
-                LocalSettings::set('pw-config.system.apps.' . $app, $value ? 'true' : 'false');
-            } catch (\Exception $e) {
-                \Log::error("Failed to save app setting {$app}: " . $e->getMessage());
-            }
+            $appSettings[$app] = $value;
         }
+        
+        // Save app settings to JSON file
+        $settingsPath = storage_path('app/panel-settings.json');
+        $existingSettings = file_exists($settingsPath) ? json_decode(file_get_contents($settingsPath), true) : [];
+        $existingSettings['pw-config']['system']['apps'] = $appSettings;
+        file_put_contents($settingsPath, json_encode($existingSettings, JSON_PRETTY_PRINT));
         
         // Clear and re-cache config to apply changes
         \Artisan::call('config:clear');
@@ -253,23 +255,24 @@ class SystemController extends Controller
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
         
-        // THEN save to LocalSettings after cache is rebuilt
-        // Save settings one at a time to avoid issues
-        foreach ($validate as $settings => $value) {
-            try {
-                LocalSettings::set('pw-config.' . $settings, $value);
-            } catch (\Exception $e) {
-                \Log::error("Failed to save pw-config.{$settings}: " . $e->getMessage());
-            }
+        // Save settings to a simple JSON file instead
+        $settings = [
+            'pw-config' => array_merge($validate, [
+                'player_dashboard_enabled' => $request->has('player_dashboard_enabled')
+            ]),
+            'app' => [
+                'name' => $request->get('server_name'),
+                'timezone' => $request->get('datetimezone')
+            ]
+        ];
+        
+        if ($request->hasFile('logo') && isset($logo)) {
+            $settings['pw-config']['logo'] = $logo;
         }
         
-        try {
-            LocalSettings::set('app.name', $request->get('server_name'));
-            LocalSettings::set('app.timezone', $request->get('datetimezone'));
-            LocalSettings::set('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled') ? 'true' : 'false');
-        } catch (\Exception $e) {
-            \Log::error('Failed to save app settings: ' . $e->getMessage());
-        }
+        // Save to a simple JSON file
+        $settingsPath = storage_path('app/panel-settings.json');
+        file_put_contents($settingsPath, json_encode($settings, JSON_PRETTY_PRINT));
         
         // Simple redirect back with query parameter
         $url = url()->previous();
