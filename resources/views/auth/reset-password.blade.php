@@ -353,17 +353,17 @@
                 <input type="hidden" name="email" value="{{ $request->email }}">
 
                 <div class="form-group">
-                    <label for="password" class="form-label">New Password</label>
+                    <label for="password" class="form-label">{{ __('auth.new_password') }}</label>
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
                            name="password" required autocomplete="new-password" autofocus 
-                           placeholder="Enter your new password">
+                           placeholder="{{ __('auth.enter_new_password') }}">
                 </div>
 
                 <div class="form-group">
-                    <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                    <label for="password_confirmation" class="form-label">{{ __('auth.confirm_new_password') }}</label>
                     <input id="password_confirmation" type="password" class="form-control" 
                            name="password_confirmation" required autocomplete="new-password"
-                           placeholder="Confirm your new password">
+                           placeholder="{{ __('auth.confirm_your_password') }}">
                 </div>
 
                 @php
@@ -375,15 +375,15 @@
                 
                 @if ($showPinFields)
                     <div class="form-group">
-                        <label for="pin" class="form-label">New PIN</label>
+                        <label for="pin" class="form-label">{{ __('auth.new_pin') }}</label>
                         <input id="pin" type="password" class="form-control @error('pin') is-invalid @enderror" 
-                               name="pin" required placeholder="Enter your new PIN">
+                               name="pin" required placeholder="{{ __('auth.enter_new_pin') }}">
                     </div>
 
                     <div class="form-group">
-                        <label for="pin_confirmation" class="form-label">Confirm New PIN</label>
+                        <label for="pin_confirmation" class="form-label">{{ __('auth.confirm_new_pin') }}</label>
                         <input id="pin_confirmation" type="password" class="form-control" 
-                               name="pin_confirmation" required placeholder="Confirm your new PIN">
+                               name="pin_confirmation" required placeholder="{{ __('auth.confirm_your_pin') }}">
                     </div>
                 @endif
 
@@ -400,7 +400,7 @@
 
             <div class="back-to-login">
                 <a href="{{ route('login') }}" class="form-link">
-                    <i class="fas fa-arrow-left mr-2"></i>Back to Login
+                    <i class="fas fa-arrow-left mr-2"></i>{{ __('auth.back_to_login') }}
                 </a>
             </div>
         </div>

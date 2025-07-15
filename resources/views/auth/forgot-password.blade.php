@@ -451,7 +451,7 @@
         <div class="mystical-border"></div>
         
         <div class="header">
-            <p class="tagline">Restore Your Path</p>
+            <p class="tagline">{{ __('auth.restore_path') }}</p>
         </div>
 
         <div class="info-text">
@@ -479,7 +479,7 @@
 
             <div class="form-group">
                 <label for="email">{{ __('auth.form.email') }}</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email address" 
+                <input type="email" id="email" name="email" placeholder="{{ __('auth.enter_email') }}" 
                        value="{{ old('email') }}" required autofocus autocomplete="email">
                 <div class="input-icon">✉️</div>
             </div>
@@ -501,7 +501,7 @@
             </button>
             
             <div class="back-link">
-                <p><a href="{{ route('login') }}">Back to Login</a></p>
+                <p><a href="{{ route('login') }}">{{ __('auth.back_to_login') }}</a></p>
             </div>
         </form>
     </div>

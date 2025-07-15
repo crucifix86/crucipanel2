@@ -474,7 +474,7 @@
         <div class="mystical-border"></div>
         
         <div class="header">
-            <p class="tagline">Welcome to Haven Perfect World</p>
+            <p class="tagline">{{ __('auth.welcome_realm') }}</p>
         </div>
 
         <form class="login-form" method="POST" action="{{ route('login') }}" id="loginForm">

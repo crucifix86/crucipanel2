@@ -492,7 +492,7 @@
         <div class="mystical-border"></div>
         
         <div class="header">
-            <p class="tagline">Create Your Legend</p>
+            <p class="tagline">{{ __('auth.create_legend') }}</p>
         </div>
 
         <form class="register-form" method="POST" action="{{ route('register') }}" id="registerForm">
@@ -574,7 +574,7 @@
             </button>
             
             <div class="login-link">
-                <p>Already have an account? <a href="{{ route('login') }}">Login here</a></p>
+                <p>{{ __('auth.already_account') }} <a href="{{ route('login') }}">{{ __('auth.login_here') }}</a></p>
             </div>
         </form>
     </div>
