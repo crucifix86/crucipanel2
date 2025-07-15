@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 if (!function_exists('getThemeVariables')) {
     function getThemeVariables($theme = null)
     {
