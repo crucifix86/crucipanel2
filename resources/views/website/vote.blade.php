@@ -1451,7 +1451,7 @@ if (!function_exists('get_setting')) {
         function handleVoteSubmit(siteName, siteId, rewardAmount, rewardType) {
             // For Arena Top 100
             if (siteId === 'arena') {
-                showNotification('info', `{{ __('site.vote.arena.opening_message') }}`);
+                showNotification('info', '{{ __('site.vote.arena.opening_message') }}');
                 
                 // Start checking for vote completion
                 startVoteStatusCheck();
@@ -1483,7 +1483,9 @@ if (!function_exists('get_setting')) {
                             voteCheckInterval = null;
                             
                             // Show success notification
-                            showNotification('success', `{{ __('site.vote.js.vote_confirmed', ['amount' => '${data.reward_amount}', 'type' => '${data.reward_type}']) }}`);
+                            let message = '{{ __('site.vote.js.vote_confirmed') }}';
+                            message = message.replace(':amount', data.reward_amount).replace(':type', data.reward_type);
+                            showNotification('success', message);
                             
                             // Update balance display
                             if (data.new_balance) {
