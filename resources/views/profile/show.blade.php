@@ -1361,22 +1361,22 @@
 
         <nav class="nav-bar">
             <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
+                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">{{ __('site.nav.home') }}</a>
                 
                 @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">{{ __('site.nav.shop') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">{{ __('site.nav.donate') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">{{ __('site.nav.rankings') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">{{ __('site.nav.vote') }}</a>
                 @endif
                 
                 @php
@@ -1385,7 +1385,7 @@
                 @if($pages->count() > 0)
                     <div class="nav-dropdown">
                         <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                            Pages <span class="dropdown-arrow">▼</span>
+                            {{ __('site.nav.pages') }} <span class="dropdown-arrow">▼</span>
                         </a>
                         <div class="dropdown-menu">
                             @foreach($pages as $page)
@@ -1395,7 +1395,7 @@
                     </div>
                 @endif
                 
-                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
                 
                 <a href="{{ route('profile.show') }}" class="nav-link active">{{ __('site.profile.title') }}</a>
             </div>
