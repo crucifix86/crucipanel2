@@ -244,10 +244,6 @@
                     <div class="stat-label">{{ __('site.profile.sidebar.account_status') }}</div>
                     <div class="stat-value">{{ __('site.profile.sidebar.status_active') }}</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-label">{{ __('site.profile.sidebar.last_login') }}</div>
-                    <div class="stat-value">{{ Auth::user()->current_team_id ? 'Recent' : 'N/A' }}</div>
-                </div>
             </div>
         </div>
         
@@ -281,18 +277,20 @@
                 @livewire('profile.language-preference')
             </div>
             
-            <div class="profile-section">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="fas fa-palette"></i>
+            @if ( $api->online )
+                <div class="profile-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">{{ __('site.profile.sections.characters.title') }}</h3>
+                            <p class="section-description">{{ __('site.profile.sections.characters.description') }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="section-title">{{ __('site.profile.sections.theme.title') }}</h3>
-                        <p class="section-description">{{ __('site.profile.sections.theme.description') }}</p>
-                    </div>
+                    @livewire('profile.list-character')
                 </div>
-                @livewire('profile.theme-preference')
-            </div>
+            @endif
             
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="profile-section">
@@ -352,20 +350,6 @@
         </div>
     </div>
     
-    @if ( $api->online )
-        <div class="profile-section" style="margin-top: 40px;">
-            <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div>
-                    <h3 class="section-title">{{ __('site.profile.sections.characters.title') }}</h3>
-                    <p class="section-description">{{ __('site.profile.sections.characters.description') }}</p>
-                </div>
-            </div>
-            @livewire('profile.list-character')
-        </div>
-    @endif
 @endsection
 
 @section('scripts')
