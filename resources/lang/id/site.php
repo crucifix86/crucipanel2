@@ -244,4 +244,34 @@ return [
         'login_notice' => 'Silakan login untuk melakukan donasi',
         'welcome_donor' => 'Selamat datang :name! Terima kasih telah mendukung realm kami.',
     ],
+    
+    // Rankings Page
+    'rankings' => [
+        'title' => 'Peringkat',
+        'top_players' => 'Pemain Teratas',
+        'top_factions' => 'Faksi Teratas',
+        'pvp_champions' => 'Juara PvP',
+        'no_players' => 'Tidak ada pemain ditemukan. Silakan perbarui peringkat di panel admin.',
+        'level' => 'Lv.',
+        'members' => 'Anggota:',
+        'kills' => 'Bunuh',
+        'forgot' => 'Lupa?',
+        
+        // Classes
+        'classes' => [
+            0 => 'Blademaster',
+            1 => 'Wizard',
+            2 => 'Psychic',
+            3 => 'Venomancer',
+            4 => 'Barbarian',
+            5 => 'Assassin',
+            6 => 'Archer',
+            7 => 'Cleric',
+            8 => 'Seeker',
+            9 => 'Mystic',
+            10 => 'Duskblade',
+            11 => 'Stormbringer',
+            'unknown' => 'Tidak Diketahui',
+        ],
+    ],
 ];

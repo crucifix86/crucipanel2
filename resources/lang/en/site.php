@@ -244,4 +244,34 @@ return [
         'login_notice' => 'Please login to make a donation',
         'welcome_donor' => 'Welcome :name! Thank you for supporting our realm.',
     ],
+    
+    // Rankings Page
+    'rankings' => [
+        'title' => 'Rankings',
+        'top_players' => 'Top Players',
+        'top_factions' => 'Top Factions',
+        'pvp_champions' => 'PvP Champions',
+        'no_players' => 'No players found. Please update rankings in admin panel.',
+        'level' => 'Lv.',
+        'members' => 'Members:',
+        'kills' => 'Kills',
+        'forgot' => 'Forgot?',
+        
+        // Classes
+        'classes' => [
+            0 => 'Blademaster',
+            1 => 'Wizard',
+            2 => 'Psychic',
+            3 => 'Venomancer',
+            4 => 'Barbarian',
+            5 => 'Assassin',
+            6 => 'Archer',
+            7 => 'Cleric',
+            8 => 'Seeker',
+            9 => 'Mystic',
+            10 => 'Duskblade',
+            11 => 'Stormbringer',
+            'unknown' => 'Unknown',
+        ],
+    ],
 ];

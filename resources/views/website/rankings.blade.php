@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haven Perfect World - Rankings</title>
+    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('site.rankings.title') }}</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -803,56 +803,59 @@
     <div class="server-status">
         <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
             <span class="status-dot"></span>
-            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+            <span class="status-text">{{ $api->online ? __('site.server.online') : __('site.server.offline') }}</span>
         </div>
         @if($api->online)
             <div class="players-online">
-                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+                <i class="fas fa-users"></i> {{ trans_choice('site.server.players_online', $onlineCount, ['count' => $onlineCount]) }}
             </div>
         @endif
     </div>
+    
+    <!-- Language Selector -->
+    @include('partials.language-selector')
     
     <!-- Login/User Box -->
     <div class="login-box-wrapper">
         <div class="login-box collapsed" id="loginBox">
             <div class="login-box-header" onclick="toggleLoginBox()">
-                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <h3>@if(Auth::check()) {{ __('site.login.account') }} @else {{ __('site.login.member_login') }} @endif</h3>
                 <button class="collapse-toggle">▼</button>
             </div>
             <div class="login-box-content">
                 @if(Auth::check())
                     <div class="user-info">
-                        <h3>Welcome Back!</h3>
+                        <h3>{{ __('site.login.welcome_back') }}</h3>
                         <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
                         <div class="user-links">
                             @if(config('pw-config.player_dashboard_enabled', true))
-                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
                             @endif
-                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
                             @if(Auth::user()->isAdministrator())
-                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
                             @endif
                             @if(Auth::user()->isGamemaster())
-                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">{{ __('site.user_menu.gm_panel') }}</a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="login-button">Logout</button>
+                                <button type="submit" class="login-button">{{ __('site.login.logout') }}</button>
                             </form>
                         </div>
                     </div>
                 @else
-                    <h3>Member Login</h3>
+                    <h3>{{ __('site.login.member_login') }}</h3>
                     <form method="POST" action="{{ route('login') }}" class="login-form">
                         @csrf
-                        <input type="text" name="name" placeholder="Username" required autofocus>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                        <button type="submit" class="login-button">Login</button>
+                        <input type="text" name="name" placeholder="{{ __('site.login.username') }}" required autofocus>
+                        <input type="password" name="password" placeholder="{{ __('site.login.password') }}" required>
+                        <input type="password" name="pin" placeholder="{{ __('site.login.pin') }}" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">{{ __('site.login.login_button') }}</button>
                     </form>
                     <div class="login-links">
-                        <a href="{{ route('register') }}">Register</a>
-                        <a href="{{ route('password.request') }}">Forgot?</a>
+                        <a href="{{ route('register') }}">{{ __('site.login.register') }}</a>
+                        <a href="{{ route('password.request') }}">{{ __('site.rankings.forgot') }}</a>
                     </div>
                 @endif
             </div>
@@ -885,22 +888,22 @@
 
         <nav class="nav-bar">
             <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
+                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">{{ __('site.nav.home') }}</a>
                 
                 @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">{{ __('site.nav.shop') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">{{ __('site.nav.donate') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">{{ __('site.nav.rankings') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">{{ __('site.nav.vote') }}</a>
                 @endif
                 
                 @php
@@ -909,7 +912,7 @@
                 @if($pages->count() > 0)
                     <div class="nav-dropdown">
                         <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                            Pages <span class="dropdown-arrow">▼</span>
+                            {{ __('site.nav.pages') }} <span class="dropdown-arrow">▼</span>
                         </a>
                         <div class="dropdown-menu">
                             @foreach($pages as $page)
@@ -919,19 +922,19 @@
                     </div>
                 @endif
                 
-                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
             </div>
         </nav>
 
         <div class="rankings-container">
             <!-- Top Players Section -->
             <div class="ranking-section">
-                <h2 class="section-title">Top Players</h2>
+                <h2 class="section-title">{{ __('site.rankings.top_players') }}</h2>
                 <!-- Debug: {{ $topPlayers->count() }} players found -->
                 <div class="ranking-table">
                     @if($topPlayers->count() == 0)
                         <div style="text-align: center; padding: 40px; color: #b19cd9;">
-                            No players found. Please update rankings in admin panel.
+                            {{ __('site.rankings.no_players') }}
                         </div>
                     @endif
                     @foreach($topPlayers as $index => $player)
@@ -942,28 +945,11 @@
                             <div class="player-info">
                                 <div class="player-name">{{ $player->name }}</div>
                                 <div class="player-details">
-                                    @php
-                                        $classes = [
-                                            0 => 'Blademaster',
-                                            1 => 'Wizard',
-                                            2 => 'Psychic',
-                                            3 => 'Venomancer',
-                                            4 => 'Barbarian',
-                                            5 => 'Assassin',
-                                            6 => 'Archer',
-                                            7 => 'Cleric',
-                                            8 => 'Seeker',
-                                            9 => 'Mystic',
-                                            10 => 'Duskblade',
-                                            11 => 'Stormbringer'
-                                        ];
-                                        $className = $classes[$player->cls] ?? 'Unknown';
-                                    @endphp
-                                    {{ $className }}
+                                    {{ __('site.rankings.classes.' . $player->cls, __('site.rankings.classes.unknown')) }}
                                 </div>
                             </div>
                             <div class="player-level">
-                                Lv. {{ $player->level }}
+                                {{ __('site.rankings.level') }} {{ $player->level }}
                             </div>
                         </div>
                     @endforeach
@@ -972,7 +958,7 @@
 
             <!-- Top Factions Section -->
             <div class="ranking-section">
-                <h2 class="section-title">Top Factions</h2>
+                <h2 class="section-title">{{ __('site.rankings.top_factions') }}</h2>
                 <div class="ranking-table">
                     @foreach($topFactions as $index => $faction)
                         <div class="ranking-row">
@@ -982,11 +968,11 @@
                             <div class="player-info">
                                 <div class="player-name">{{ $faction->name }}</div>
                                 <div class="player-details">
-                                    Members: {{ $faction->members->count() }}
+                                    {{ __('site.rankings.members') }} {{ $faction->members->count() }}
                                 </div>
                             </div>
                             <div class="player-level">
-                                Lv. {{ $faction->level }}
+                                {{ __('site.rankings.level') }} {{ $faction->level }}
                             </div>
                         </div>
                     @endforeach
@@ -996,7 +982,7 @@
 
         <!-- PvP Rankings Section -->
         <div class="content-section" style="margin-top: 40px;">
-            <h2 class="section-title" style="color: #ff6b6b; text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);">PvP Champions</h2>
+            <h2 class="section-title" style="color: #ff6b6b; text-shadow: 0 0 30px rgba(255, 107, 107, 0.8);">{{ __('site.rankings.pvp_champions') }}</h2>
             <div class="ranking-table">
                 @foreach($topPvPPlayers as $index => $player)
                     <div class="ranking-row">
@@ -1006,28 +992,11 @@
                         <div class="player-info">
                             <div class="player-name">{{ $player->name }}</div>
                             <div class="player-details">
-                                @php
-                                    $classes = [
-                                        0 => 'Blademaster',
-                                        1 => 'Wizard',
-                                        2 => 'Psychic',
-                                        3 => 'Venomancer',
-                                        4 => 'Barbarian',
-                                        5 => 'Assassin',
-                                        6 => 'Archer',
-                                        7 => 'Cleric',
-                                        8 => 'Seeker',
-                                        9 => 'Mystic',
-                                        10 => 'Duskblade',
-                                        11 => 'Stormbringer'
-                                    ];
-                                    $className = $classes[$player->cls] ?? 'Unknown';
-                                @endphp
-                                {{ $className }} - Level {{ $player->level }}
+                                {{ __('site.rankings.classes.' . $player->cls, __('site.rankings.classes.unknown')) }} - {{ __('site.rankings.level') }} {{ $player->level }}
                             </div>
                         </div>
                         <div class="player-level" style="background: linear-gradient(45deg, #ff6b6b, #dc3545); min-width: 100px;">
-                            {{ $player->pk_count }} Kills
+                            {{ $player->pk_count }} {{ __('site.rankings.kills') }}
                         </div>
                     </div>
                 @endforeach
