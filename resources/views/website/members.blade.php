@@ -855,7 +855,6 @@
 @endsection
 
 @section('content')
-@livewire('init')
         
         <div class="content-section">
         <h1 class="page-title">{{ __('site.members.community_members') }}</h1>
