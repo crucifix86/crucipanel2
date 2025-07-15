@@ -34,6 +34,7 @@ class EnsurePreLogin
             'public.shop',  // Add public shop route
             'public.donate',  // Add public donate route
             'public.vote',  // Add public vote route
+            'set.language',  // Add language switching route
         ];
 
         // Skip for any POST request to login route (both named and unnamed)

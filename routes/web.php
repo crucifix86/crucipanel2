@@ -61,14 +61,22 @@ Route::group(['middleware' => 'web'], static function () {
     // Language Switching Route
     Route::get('/set-language/{language}', function ($language) {
         if (in_array($language, ['en', 'id'])) {
+            // Set the session locale
             session(['locale' => $language]);
             
+            // Force session save
+            session()->save();
+            
+            // Also set the app locale immediately
+            app()->setLocale($language);
+            
+            // If user is authenticated, save preference to database
             if (auth()->check()) {
                 auth()->user()->update(['language' => $language]);
             }
         }
         
-        return redirect()->back();
+        return redirect()->back()->with('locale_changed', true);
     })->name('set.language');
     
     Route::get('/', [

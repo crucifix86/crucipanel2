@@ -31,7 +31,16 @@ class SetLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->has('language')) {
+        // First priority: Check if user is authenticated and has language preference
+        if (Auth::check() && Auth::user()->language) {
+            App::setLocale(Auth::user()->language);
+        }
+        // Second priority: Check session for language preference (for guest users)
+        elseif (session()->has('locale')) {
+            App::setLocale(session('locale'));
+        }
+        // Third priority: Check if language parameter is in request
+        elseif ($request->has('language')) {
             $language = $request->get('language');
             
             // Validate language is supported
@@ -47,11 +56,9 @@ class SetLanguage
                 
                 App::setLocale($language);
             }
-        } elseif (Auth::user() && Auth::user()->language) {
-            App::setLocale(Auth::user()->language);
-        } elseif (session()->has('locale')) {
-            App::setLocale(session('locale'));
-        } else {
+        }
+        // Default: Use application default locale
+        else {
             App::setLocale(config('app.locale', 'en'));
         }
         
