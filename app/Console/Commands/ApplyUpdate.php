@@ -117,6 +117,15 @@ class ApplyUpdate extends Command
                     }
                 }
                 
+                // Restore settings from JSON file
+                $this->info('Restoring saved settings...');
+                try {
+                    Artisan::call('settings:restore');
+                    $this->info('Settings restored successfully!');
+                } catch (\Exception $e) {
+                    $this->warn('Failed to restore settings: ' . $e->getMessage());
+                }
+                
                 // Rebuild caches
                 $this->info('Rebuilding caches...');
                 Artisan::call('config:cache');

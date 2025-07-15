@@ -221,6 +221,7 @@ class UpdateController extends Controller
                "rsync -av --exclude='.env' --exclude='storage/' --exclude='vendor/' --exclude='node_modules/' storage/app/updates/crucipanel2-*/ ./\n" .
                "php artisan migrate --force\n" .
                "php artisan optimize:clear\n" .
+               "php artisan settings:restore\n" .
                "php artisan config:cache\n" .
                "php artisan route:cache\n" .
                "php artisan up\n" .
