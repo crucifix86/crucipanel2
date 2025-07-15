@@ -485,6 +485,9 @@
     <div class="dragon-ornament dragon-left">🐉</div>
     <div class="dragon-ornament dragon-right">🐉</div>
     
+    <!-- Language Selector -->
+    @include('partials.language-selector')
+    
     <div class="register-container">
         <div class="mystical-border"></div>
         

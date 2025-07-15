@@ -444,6 +444,9 @@
     <div class="phoenix-ornament phoenix-left">🦅</div>
     <div class="phoenix-ornament phoenix-right">🦅</div>
     
+    <!-- Language Selector -->
+    @include('partials.language-selector')
+    
     <div class="reset-container">
         <div class="mystical-border"></div>
         

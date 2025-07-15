@@ -324,6 +324,9 @@
     </style>
 </head>
 <body>
+    <!-- Language Selector -->
+    @include('partials.language-selector')
+    
     <div class="login-container">
         <div class="login-card">
             <div class="logo-section">
