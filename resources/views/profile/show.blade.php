@@ -14,6 +14,7 @@
         <link rel="shortcut icon" href="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}"/>
     @endif
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -106,154 +107,424 @@
             }
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(147, 112, 219, 0.3);
-            padding: 25px 60px;
-            position: relative;
-            z-index: 1000;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        /* Server Status */
+        .server-status {
+            position: fixed;
+            top: 20px;
+            right: 280px;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 25px;
+            padding: 8px 20px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.online .status-dot {
+            background-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+        }
+
+        .status-indicator.offline .status-dot {
+            background-color: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .players-online {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 25px;
+            padding: 8px 20px;
+            color: #b19cd9;
+        }
+
+        /* Login Box */
+        .login-box-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .login-box {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.4);
+            border-radius: 20px;
+            width: 250px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .login-box-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(147, 112, 219, 0.3);
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 30px;
+        .login-box-header h3 {
+            color: #9370db;
+            font-size: 1.1rem;
+            margin: 0;
         }
 
-        .header-title {
-            font-size: 2.5rem;
-            font-weight: 700;
+        .collapse-toggle {
+            background: none;
+            border: none;
+            color: #9370db;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .login-box.collapsed .collapse-toggle {
+            transform: rotate(180deg);
+        }
+
+        .login-box-content {
+            padding: 20px;
+            max-height: 400px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .login-box.collapsed .login-box-content {
+            max-height: 0;
+            padding: 0 20px;
+        }
+
+        .login-form input {
+            width: 100%;
+            background: rgba(26, 15, 46, 0.6);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            color: #e6d7f0;
+            font-size: 0.9rem;
+        }
+
+        .login-form input::placeholder {
+            color: #7a6b87;
+        }
+
+        .login-button {
+            width: 100%;
             background: linear-gradient(45deg, #9370db, #8a2be2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(147, 112, 219, 0.8);
-            letter-spacing: 2px;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
-        .nav-buttons {
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.5);
+        }
+
+        .login-links {
             display: flex;
-            gap: 15px;
+            justify-content: space-between;
+            margin-top: 15px;
         }
 
-        .nav-button {
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
-            border: 2px solid rgba(147, 112, 219, 0.4);
-            border-radius: 15px;
-            padding: 12px 25px;
+        .login-links a {
+            color: #b19cd9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-links a:hover {
+            color: #9370db;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.6);
+        }
+
+        .user-name {
+            color: #9370db;
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .user-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .user-link {
+            background: rgba(147, 112, 219, 0.1);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
             color: #e6d7f0;
             text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
             transition: all 0.3s ease;
+        }
+
+        .user-link:hover {
+            background: rgba(147, 112, 219, 0.2);
+            border-color: #9370db;
+            transform: translateX(5px);
+        }
+
+        /* Nav Bar */
+        .nav-bar {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 20px;
+            padding: 15px 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #b19cd9;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #9370db, #8a2be2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #9370db;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.8);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Nav Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 112, 219, 0.4);
+            border-radius: 15px;
+            padding: 10px 0;
+            margin-top: 10px;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: #b19cd9;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            color: #fff;
+            background: rgba(147, 112, 219, 0.3);
+            padding-left: 25px;
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 3;
+            max-width: 1000px;
+            margin-left: 260px;
+            margin-right: auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin-left: 0;
+                max-width: 100%;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #9370db, #8a2be2, #9370db, #4b0082);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientFlow 8s ease infinite;
+            text-shadow: 0 0 60px rgba(147, 112, 219, 0.6);
+            margin-bottom: 20px;
+            display: block;
+            line-height: 1;
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .tagline {
+            color: #b19cd9;
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(147, 112, 219, 0.5);
+        }
+
+        .mystical-border {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            border: 3px solid transparent;
+            border-image: linear-gradient(45deg, transparent, #9370db, #8a2be2, #9370db, transparent) 1;
+            pointer-events: none;
+            animation: borderRotate 10s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .header-center {
+            text-align: center;
+        }
+
+        .header-left {
+            text-align: left;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        /* Profile Section Styling */
+        .profile-section {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(147, 112, 219, 0.3);
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 50px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(147, 112, 219, 0.2);
             position: relative;
             overflow: hidden;
         }
 
-        .nav-button::before {
+        .profile-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(147, 112, 219, 0.4), transparent);
-            transition: left 0.5s ease;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(147, 112, 219, 0.05), transparent);
+            animation: shimmerBg 4s ease-in-out infinite;
         }
 
-        .nav-button:hover::before {
-            left: 100%;
-        }
-
-        .nav-button:hover {
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
-            border-color: #9370db;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
-        }
-
-        .nav-button i {
-            font-size: 1.1rem;
-        }
-
-        /* User Info */
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            position: relative;
-            z-index: 100;
-        }
-
-        .balance-display {
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
-            border: 1px solid rgba(147, 112, 219, 0.4);
-            border-radius: 15px;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-        }
-        
-        /* Style the actual avatar image */
-        .user-avatar img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid #9370db;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .user-avatar img:hover {
-            border-color: #8a2be2;
-            box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
-        }
-        
-        /* Style avatar button when no image */
-        .user-avatar button {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.2), rgba(138, 43, 226, 0.2));
-            border: 1px solid rgba(147, 112, 219, 0.4);
-            border-radius: 25px;
-            padding: 8px 15px;
-            color: #e6d7f0;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .user-avatar button:hover {
-            background: linear-gradient(45deg, rgba(147, 112, 219, 0.3), rgba(138, 43, 226, 0.3));
-            border-color: #9370db;
-        }
-
-        /* Main Container */
-        .main-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 20px;
+        @keyframes shimmerBg {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         /* Page Title with ornament */
@@ -418,40 +689,46 @@
             gap: 30px;
         }
 
-        /* Profile Sections */
-        .profile-section {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.15));
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(147, 112, 219, 0.3);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        /* User Info Bar */
+        .user-info-bar {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.1));
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        .profile-section::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #9370db, #8a2be2, #9370db);
-            border-radius: 25px;
-            opacity: 0;
-            z-index: -1;
-            transition: opacity 0.3s ease;
+        .user-balance {
+            display: flex;
+            gap: 30px;
+            align-items: center;
         }
 
-        .profile-section:hover::before {
-            opacity: 0.3;
+        .balance-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .profile-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(147, 112, 219, 0.4);
+        .balance-icon {
+            font-size: 1.5rem;
+        }
+
+        .balance-label {
+            color: #b19cd9;
+            font-size: 0.95rem;
+        }
+
+        .balance-value {
+            color: #9370db;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.6);
         }
 
         .section-header {
@@ -917,43 +1194,131 @@
     <div class="dragon-ornament left"></div>
     <div class="dragon-ornament right"></div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <h1 class="header-title">PROFILE CENTER</h1>
+    @php
+        $api = new \hrace009\PerfectWorldAPI\API;
+        $onlineCount = $api->online ? \App\Models\Player::count() : 0;
+    @endphp
+    
+    <!-- Server Status -->
+    <div class="server-status">
+        <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
+            <span class="status-dot"></span>
+            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+        </div>
+        @if($api->online)
+            <div class="players-online">
+                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
             </div>
-            
-            <div class="user-info">
-                <div class="character-selector">
-                    <span class="character-selector-label">Character:</span>
-                    <x-hrace009::character-selector/>
-                </div>
-                
-                <div class="balance-display">
-                    <x-hrace009::balance/>
-                </div>
-                
-                <div class="nav-buttons">
-                    <a href="{{ route('HOME') }}" class="nav-button">
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                    @if(Auth::user()->isAdministrator())
-                    <a href="{{ route('admin.dashboard') }}" class="nav-button">
-                        <i class="fas fa-crown"></i> Admin
-                    </a>
-                    @endif
-                </div>
-                
-                <div class="user-avatar">
-                    <x-hrace009::user-avatar/>
-                </div>
+        @endif
+    </div>
+    
+    <!-- Login/User Box -->
+    <div class="login-box-wrapper">
+        <div class="login-box collapsed" id="loginBox">
+            <div class="login-box-header" onclick="toggleLoginBox()">
+                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <button class="collapse-toggle">▼</button>
+            </div>
+            <div class="login-box-content">
+                @if(Auth::check())
+                    <div class="user-info">
+                        <h3>Welcome Back!</h3>
+                        <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
+                        <div class="user-links">
+                            @if(config('pw-config.player_dashboard_enabled', true))
+                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            @endif
+                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            @if(Auth::user()->isAdministrator())
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            @endif
+                            @if(Auth::user()->isGamemaster())
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="login-button">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <h3>Member Login</h3>
+                    <form method="POST" action="{{ route('login') }}" class="login-form">
+                        @csrf
+                        <input type="text" name="name" placeholder="Username" required autofocus>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">Login</button>
+                    </form>
+                    <div class="login-links">
+                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('password.request') }}">Forgot?</a>
+                    </div>
+                @endif
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <div class="main-container">
+    <div class="container">
+        
+        @php
+            $headerSettings = \App\Models\HeaderSetting::first();
+            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
+    <h1 class="logo">Haven Perfect World</h1>
+    <p class="tagline">Embark on the Path of Immortals</p>
+</div>';
+            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
+        @endphp
+        
+        <div class="header header-{{ $headerAlignment }}">
+            <div class="mystical-border"></div>
+            <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
+                {!! $headerContent !!}
+            </a>
+        </div>
+
+        <nav class="nav-bar">
+            <div class="nav-links">
+                <a href="{{ route('HOME') }}" class="nav-link {{ Route::is('HOME') ? 'active' : '' }}">Home</a>
+                
+                @if( config('pw-config.system.apps.shop') )
+                <a href="{{ route('public.shop') }}" class="nav-link {{ Route::is('public.shop') ? 'active' : '' }}">Shop</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.donate') )
+                <a href="{{ route('public.donate') }}" class="nav-link {{ Route::is('public.donate') ? 'active' : '' }}">Donate</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.ranking') )
+                <a href="{{ route('public.rankings') }}" class="nav-link {{ Route::is('public.rankings') ? 'active' : '' }}">Rankings</a>
+                @endif
+                
+                @if( config('pw-config.system.apps.vote') )
+                <a href="{{ route('public.vote') }}" class="nav-link {{ Route::is('public.vote') ? 'active' : '' }}">Vote</a>
+                @endif
+                
+                @php
+                    $pages = \App\Models\Page::where('active', true)->orderBy('title')->get();
+                @endphp
+                @if($pages->count() > 0)
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
+                            Pages <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            @foreach($pages as $page)
+                                <a href="{{ route('page.show', $page->slug) }}" class="dropdown-item">{{ $page->title }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                
+                <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">Members</a>
+                
+                <a href="{{ route('profile.show') }}" class="nav-link active">Profile</a>
+            </div>
+        </nav>
+
         <!-- Page Header -->
         <div class="page-header">
             <h1 class="page-title">My Account</h1>
@@ -991,7 +1356,7 @@
                     </div>
                     <div class="stat-item">
                         <div class="stat-label">Account Status</div>
-                        <div class="stat-value">{{ Auth::user()->email_verified_at ? 'Verified' : 'Unverified' }}</div>
+                        <div class="stat-value">Active</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-label">Last Login</div>
@@ -1151,6 +1516,30 @@
                 Livewire.on('profile-updated', showSuccessAndRefresh);
             });
         });
+
+        // Toggle login box
+        function toggleLoginBox() {
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.toggle('collapsed');
+        }
+
+        // Auto-collapse login box if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(Auth::check())
+            const loginBox = document.getElementById('loginBox');
+            loginBox.classList.add('collapsed');
+            @endif
+        });
+
+        // Pin field auto-show based on URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('requires_pin') === 'true') {
+            const pinField = document.getElementById('pin-field');
+            if (pinField) {
+                pinField.style.display = 'block';
+                pinField.focus();
+            }
+        }
     </script>
     
     <x-hrace009::front.bottom-script/>
