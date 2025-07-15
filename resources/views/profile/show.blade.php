@@ -1476,6 +1476,19 @@
                     </div>
                     @livewire('profile.language-preference')
                 </div>
+                
+                <div class="profile-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div>
+                            <h3 class="section-title">{{ __('site.profile.sections.theme.title') }}</h3>
+                            <p class="section-description">{{ __('site.profile.sections.theme.description') }}</p>
+                        </div>
+                    </div>
+                    @livewire('profile.theme-preference')
+                </div>
 
                 @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                     <div class="profile-section">

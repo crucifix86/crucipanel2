@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\File;
+use App\Helpers\ThemeHelper;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,5 +45,8 @@ class AppServiceProvider extends ServiceProvider
             $languages = array_map('basename', $languageFiles);
             $view->with('languages', $languages);
         });
+        
+        // Make theme helper available to all views
+        View::share('themeHelper', new ThemeHelper());
     }
 }

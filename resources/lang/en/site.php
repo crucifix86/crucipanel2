@@ -386,6 +386,10 @@ return [
                 'title' => 'Language Preference',
                 'description' => 'Choose your preferred language for the interface',
             ],
+            'theme' => [
+                'title' => 'Theme Preference',
+                'description' => 'Choose your preferred theme for the website',
+            ],
             'password' => [
                 'title' => 'Update Password',
                 'description' => 'Ensure your account is using a long, random password to stay secure',

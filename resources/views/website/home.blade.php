@@ -1,3 +1,7 @@
+@php
+    $currentTheme = Auth::check() ? (Auth::user()->theme ?? 'mystical-purple') : 'mystical-purple';
+    $themeVars = getThemeVariables($currentTheme);
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +21,8 @@
 
         body {
             font-family: 'Cinzel', serif;
-            background: radial-gradient(ellipse at center, #2a1b3d 0%, #1a0f2e 50%, #0a0514 100%);
-            color: #e6d7f0;
+            background: {{ $themeVars['body_bg'] }};
+            color: {{ $themeVars['text_color'] }};
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
@@ -32,10 +36,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(75, 0, 130, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(148, 0, 211, 0.08) 0%, transparent 50%);
+            background: {{ $themeVars['mystical_bg'] }};
         }
 
         .floating-particles {
@@ -52,11 +53,11 @@
             position: absolute;
             width: 4px;
             height: 4px;
-            background: linear-gradient(45deg, #9370db, #8a2be2);
+            background: {{ $themeVars['particle_color'] }};
             border-radius: 50%;
             opacity: 0.7;
             animation: float 8s infinite ease-in-out;
-            box-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+            box-shadow: 0 0 10px {{ $themeVars['particle_shadow'] }};
         }
 
         @keyframes float {
@@ -76,7 +77,7 @@
             position: absolute;
             font-size: 8rem;
             opacity: 0.1;
-            color: #9370db;
+            color: {{ $themeVars['dragon_color'] }};
             animation: dragonPulse 4s ease-in-out infinite;
             user-select: none;
         }
@@ -155,13 +156,13 @@
         .logo {
             font-size: 4.5rem;
             font-weight: 700;
-            background: linear-gradient(45deg, #9370db, #8a2be2, #9370db, #4b0082);
+            background: {{ $themeVars['logo_gradient'] }};
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientShift 3s ease-in-out infinite;
-            text-shadow: 0 0 50px rgba(147, 112, 219, 0.8);
+            text-shadow: 0 0 50px {{ $themeVars['particle_shadow'] }};
             letter-spacing: 3px;
             margin-bottom: 15px;
         }
@@ -267,7 +268,7 @@
 
         .login-button {
             width: 100%;
-            background: linear-gradient(45deg, #9370db, #8a2be2);
+            background: {{ $themeVars['button_gradient'] }};
             color: #fff;
             border: none;
             padding: 8px;
@@ -766,9 +767,9 @@
         /* Footer */
         .footer {
             padding: 40px;
-            border-top: 2px solid rgba(147, 112, 219, 0.3);
+            border-top: 2px solid {{ $themeVars['border_color'] }};
             margin-top: 60px;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
+            background: {{ $themeVars['footer_bg'] }};
             border-radius: 20px;
         }
         
@@ -814,9 +815,9 @@
 
         .chinese-blessing {
             font-size: 1.3rem;
-            color: #9370db;
+            color: {{ $themeVars['primary_color'] }};
             margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+            text-shadow: 0 0 15px {{ $themeVars['particle_shadow'] }};
         }
 
         /* Social Links */

@@ -386,6 +386,10 @@ return [
                 'title' => 'Preferensi Bahasa',
                 'description' => 'Pilih bahasa yang Anda inginkan untuk antarmuka',
             ],
+            'theme' => [
+                'title' => 'Preferensi Tema',
+                'description' => 'Pilih tema yang Anda inginkan untuk website',
+            ],
             'password' => [
                 'title' => 'Perbarui Kata Sandi',
                 'description' => 'Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk tetap aman',
