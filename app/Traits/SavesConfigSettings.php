@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Config;
 use App\Facades\LocalSettings;
 
 trait SavesConfigSettings
@@ -17,7 +16,7 @@ trait SavesConfigSettings
     protected function writeConfig($key, $value)
     {
         // Write to config files
-        Config::write($key, $value);
+        \Config::write($key, $value);
         
         // Also save to local settings for persistence
         LocalSettings::set($key, $value);
@@ -32,7 +31,7 @@ trait SavesConfigSettings
     protected function writeConfigMany(array $settings)
     {
         foreach ($settings as $key => $value) {
-            Config::write($key, $value);
+            \Config::write($key, $value);
         }
         
         // Save all to local settings at once
