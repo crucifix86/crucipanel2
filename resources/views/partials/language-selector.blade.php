@@ -1,7 +1,6 @@
 <!-- Language Selector -->
 <div class="language-selector">
     <i class="fas fa-globe language-icon"></i>
-    <label for="language-select">{{ __('site.language') }}:</label>
     <select id="language-select" onchange="changeLanguage(this.value)">
         <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
         <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>Indonesian</option>
@@ -19,19 +18,13 @@
         backdrop-filter: blur(15px);
         border: 1px solid rgba(147, 112, 219, 0.4);
         border-radius: 10px;
-        padding: 8px 15px;
+        padding: 8px 12px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 8px;
     }
 
-    .language-selector label {
-        color: #b19cd9;
-        font-size: 0.9rem;
-        font-weight: 600;
-        margin: 0;
-    }
 
     .language-selector select {
         background: rgba(0, 0, 0, 0.4);
@@ -43,7 +36,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         font-family: 'Cinzel', serif;
-        min-width: 120px;
+        min-width: 100px;
     }
 
     .language-selector select:hover {

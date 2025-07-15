@@ -43,4 +43,41 @@ return [
     
     // Language
     'language' => 'Language',
+    
+    // Visit Reward
+    'visit_reward' => [
+        'title' => 'Daily Rewards',
+        'gold' => 'Gold',
+        'bonus_points' => 'Bonus Points',
+        'loading' => 'Loading...',
+        'check_in' => 'Claim Reward',
+        'claimed' => 'Already Claimed',
+        'next_reward' => 'Next reward in:',
+        'claiming' => 'Claiming...',
+        'error' => 'Error',
+        'reward_claimed' => 'Reward Claimed!',
+    ],
+    
+    // News Section
+    'news' => [
+        'title' => 'Latest News & Updates',
+        'read_more' => 'Read More',
+        'update' => 'Update',
+        'event' => 'Event',
+        'maintenance' => 'Maintenance',
+        'general' => 'General',
+        'no_articles' => 'No news articles at the moment',
+        'check_back' => 'Check back soon for updates!',
+    ],
+    
+    // Footer
+    'footer' => [
+        'server_features' => 'Server Features',
+        'rates' => [
+            'exp' => 'EXP Rate',
+            'spirit' => 'SP Rate',
+            'drop' => 'Drop Rate',
+            'coins' => 'Coins Rate',
+        ],
+    ],
 ];

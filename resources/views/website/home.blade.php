@@ -1171,11 +1171,18 @@
             secondsUntilNext: {{ $secondsUntilNext }},
             userId: {{ $user->ID }}
         };
+        window.visitRewardTranslations = {
+            checkIn: "{{ __('site.visit_reward.check_in') }}",
+            claimed: "{{ __('site.visit_reward.claimed') }}",
+            claiming: "{{ __('site.visit_reward.claiming', 'Claiming...') }}",
+            error: "{{ __('site.visit_reward.error', 'Error') }}",
+            rewardClaimed: "{{ __('site.visit_reward.reward_claimed', 'Reward Claimed!') }}"
+        };
     </script>
     <div class="visit-reward-wrapper">
         <div class="visit-reward-box" id="visitRewardBox">
             <div class="visit-reward-header" onclick="toggleVisitRewardBox()">
-                <h3>{{ $visitRewardSettings->title }}</h3>
+                <h3>{{ __('site.visit_reward.title') }}</h3>
                 <button class="collapse-toggle">▼</button>
             </div>
             <div class="visit-reward-content">
@@ -1188,16 +1195,16 @@
                     @if($visitRewardSettings->reward_type == 'virtual')
                         {{ config('pw-config.currency_name', 'Coins') }}
                     @elseif($visitRewardSettings->reward_type == 'cubi')
-                        Gold
+                        {{ __('site.visit_reward.gold') }}
                     @else
-                        Bonus Points
+                        {{ __('site.visit_reward.bonus_points') }}
                     @endif
                 </div>
                 <button class="claim-button" id="claimRewardBtn" onclick="claimVisitReward()" disabled>
-                    Loading...
+                    {{ __('site.visit_reward.loading') }}
                 </button>
                 <div class="reward-timer" id="rewardTimer" style="display: none;">
-                    Next reward in: <span class="countdown-display" id="rewardCountdown">--:--:--</span>
+                    {{ __('site.visit_reward.next_reward') }} <span class="countdown-display" id="rewardCountdown">--:--:--</span>
                 </div>
             </div>
         </div>
@@ -1269,7 +1276,7 @@
         </nav>
 
         <div class="content-section">
-            <h2 class="section-title">Latest News & Updates</h2>
+            <h2 class="section-title">{{ __('site.news.title') }}</h2>
             <div class="news-grid">
                 @if( isset($news) && $news->items() )
                     @foreach( $news as $article )
@@ -1291,13 +1298,13 @@
                                 <span class="news-category">{{ __('news.category.' . $article->category) }}</span>
                             </div>
                             <p class="news-description">{{ Str::limit($article->description, 150) }}</p>
-                            <a href="javascript:void(0)" onclick="openNewsPopup('{{ $article->slug }}')" class="read-more-btn">Read More</a>
+                            <a href="javascript:void(0)" onclick="openNewsPopup('{{ $article->slug }}')" class="read-more-btn">{{ __('site.news.read_more') }}</a>
                         </div>
                     @endforeach
                 @else
                     <div style="text-align: center; color: #b19cd9;">
-                        <p>📜 No news articles at the moment</p>
-                        <p>Check back soon for updates!</p>
+                        <p>📜 {{ __('site.news.no_articles') }}</p>
+                        <p>{{ __('site.news.check_back') }}</p>
                     </div>
                 @endif
             </div>
@@ -1306,8 +1313,8 @@
         <div class="server-features">
             <div class="feature-card">
                 <div class="feature-icon">🌟</div>
-                <div class="feature-title">EXP Rate</div>
-                <div class="feature-value">5x Experience · 3x Spirit</div>
+                <div class="feature-title">{{ __('site.footer.rates.exp') }}</div>
+                <div class="feature-value">5x {{ __('site.footer.rates.exp') }} · 3x {{ __('site.footer.rates.spirit') }}</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚖️</div>
@@ -1540,7 +1547,7 @@
             const countdownSpan = document.getElementById('rewardCountdown');
             
             if (window.visitRewardData.canClaim) {
-                claimBtn.textContent = 'Claim Reward';
+                claimBtn.textContent = window.visitRewardTranslations.checkIn;
                 claimBtn.disabled = false;
                 timerDiv.style.display = 'none';
                 
@@ -1550,7 +1557,7 @@
                     rewardCountdownInterval = null;
                 }
             } else {
-                claimBtn.textContent = 'Already Claimed';
+                claimBtn.textContent = window.visitRewardTranslations.claimed;
                 claimBtn.disabled = true;
                 timerDiv.style.display = 'block';
                 
@@ -1594,7 +1601,7 @@
         function claimVisitReward() {
             const claimBtn = document.getElementById('claimRewardBtn');
             claimBtn.disabled = true;
-            claimBtn.textContent = 'Claiming...';
+            claimBtn.textContent = window.visitRewardTranslations.claiming;
             
             fetch('/api/visit-reward/claim', {
                 method: 'POST',
@@ -1624,7 +1631,7 @@
             })
             .catch(error => {
                 console.error('Error claiming reward:', error);
-                claimBtn.textContent = 'Error';
+                claimBtn.textContent = window.visitRewardTranslations.error;
                 setTimeout(() => {
                     checkVisitRewardStatus();
                 }, 2000);
@@ -1660,7 +1667,7 @@
             
             notification.innerHTML = `
                 <div style="font-size: 3rem; margin-bottom: 10px;">🎁</div>
-                <div style="color: #ffd700; font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">Reward Claimed!</div>
+                <div style="color: #ffd700; font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;">${window.visitRewardTranslations.rewardClaimed || 'Reward Claimed!'}</div>
                 <div style="color: #ffed4e; font-size: 1.2rem;">+${rewardText}</div>
             `;
             

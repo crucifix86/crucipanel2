@@ -43,4 +43,41 @@ return [
     
     // Language
     'language' => 'Bahasa',
+    
+    // Visit Reward
+    'visit_reward' => [
+        'title' => 'Hadiah Harian',
+        'gold' => 'Emas',
+        'bonus_points' => 'Poin Bonus',
+        'loading' => 'Memuat...',
+        'check_in' => 'Klaim Hadiah',
+        'claimed' => 'Sudah Diklaim',
+        'next_reward' => 'Hadiah berikutnya dalam:',
+        'claiming' => 'Mengklaim...',
+        'error' => 'Error',
+        'reward_claimed' => 'Hadiah Diklaim!',
+    ],
+    
+    // News Section
+    'news' => [
+        'title' => 'Berita & Pembaruan Terbaru',
+        'read_more' => 'Baca Selengkapnya',
+        'update' => 'Pembaruan',
+        'event' => 'Event',
+        'maintenance' => 'Pemeliharaan',
+        'general' => 'Umum',
+        'no_articles' => 'Tidak ada artikel berita saat ini',
+        'check_back' => 'Kembali lagi nanti untuk pembaruan!',
+    ],
+    
+    // Footer
+    'footer' => [
+        'server_features' => 'Fitur Server',
+        'rates' => [
+            'exp' => 'Rate EXP',
+            'spirit' => 'Rate SP',
+            'drop' => 'Rate Drop',
+            'coins' => 'Rate Koin',
+        ],
+    ],
 ];
