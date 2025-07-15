@@ -274,4 +274,58 @@ return [
             'unknown' => 'Tidak Diketahui',
         ],
     ],
+    
+    // Vote Page
+    'vote' => [
+        'title' => 'Vote',
+        'main_title' => 'Vote untuk Haven Perfect World',
+        'subtitle' => 'Dukung server kami dan dapatkan hadiah dengan voting di situs-situs ini',
+        'balance_info' => 'Vote untuk mendapatkan hadiah dan melihat saldo Anda meningkat!',
+        'test_mode_active' => 'MODE TES ARENA AKTIF',
+        'test_mode_info' => [
+            'callbacks' => 'Callback akan selalu mengembalikan vote berhasil',
+            'cooldown' => 'Timer cooldown vote dinonaktifkan',
+            'reminder' => 'Ingat untuk menonaktifkan mode tes di produksi!',
+        ],
+        
+        // Arena Section
+        'arena' => [
+            'title' => 'Arena Top 100',
+            'gold' => 'Emas',
+            'description' => 'Vote setiap :hours jam di Arena Top 100',
+            'button' => 'Vote di Arena Top 100',
+            'claim_button' => 'Klaim Hadiah',
+            'only_title' => 'Hanya Arena Top 100',
+            'only_description' => 'Kami menggunakan sistem voting terverifikasi Arena Top 100 untuk memastikan hadiah yang adil!',
+            'vote_confirmed' => 'Vote Arena Top 100 Dikonfirmasi!',
+            'reward_added' => ':amount :type telah ditambahkan ke akun Anda!',
+            'confirmed_message' => 'Arena Top 100 mengkonfirmasi vote Anda! +:amount :type ditambahkan!',
+            'opening_message' => 'Membuka halaman voting Arena Top 100. Selesaikan vote Anda dan hadiah akan otomatis diterapkan saat Arena mengkonfirmasi vote Anda!',
+            'only_supported' => 'Hanya voting Arena Top 100 yang didukung.',
+        ],
+        
+        // Cooldown
+        'cooldown' => [
+            'please_wait' => 'Harap tunggu:',
+        ],
+        
+        // Why Vote Section
+        'why_vote' => [
+            'title' => 'Mengapa Vote?',
+            'earn_currency' => 'Dapatkan Mata Uang',
+            'help_grow' => 'Bantu Server Berkembang',
+            'daily_rewards' => 'Hadiah Harian',
+            'top_prizes' => 'Hadiah Voter Teratas',
+        ],
+        
+        // Login Notice
+        'login_notice' => 'Silakan login untuk vote dan menerima hadiah',
+        'welcome_voter' => 'Selamat datang :name! Vote untuk mendukung server kami dan dapatkan hadiah.',
+        
+        // JavaScript Messages
+        'js' => [
+            'vote_confirmed' => 'Vote dikonfirmasi! +:amount :type ditambahkan!',
+            'error_checking' => 'Error memeriksa status vote:',
+        ],
+    ],
 ];

@@ -10,7 +10,7 @@ if (!function_exists('get_setting')) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haven Perfect World - Vote</title>
+    <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('site.vote.title') }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
@@ -1010,6 +1010,9 @@ if (!function_exists('get_setting')) {
     <div class="dragon-ornament dragon-left">🐉</div>
     <div class="dragon-ornament dragon-right">🐉</div>
     
+    <!-- Language Selector -->
+    @include('partials.language-selector')
+    
     <!-- Server Status and Login Box must be outside any transformed containers -->
     @php
         $api = new \hrace009\PerfectWorldAPI\API();
@@ -1022,11 +1025,11 @@ if (!function_exists('get_setting')) {
     <div class="server-status">
         <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
             <span class="status-dot"></span>
-            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+            <span class="status-text">{{ $api->online ? __('site.server.online') : __('site.server.offline') }}</span>
         </div>
         @if($api->online)
             <div class="players-online">
-                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+                <i class="fas fa-users"></i> {{ trans_choice('site.server.players_online', $onlineCount, ['count' => $onlineCount]) }}
             </div>
         @endif
     </div>
@@ -1035,40 +1038,40 @@ if (!function_exists('get_setting')) {
     <div class="login-box-wrapper">
         <div class="login-box collapsed" id="loginBox">
                 <div class="login-box-header" onclick="toggleLoginBox()">
-                    <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                    <h3>@if(Auth::check()) {{ __('site.login.account') }} @else {{ __('site.login.member_login') }} @endif</h3>
                     <button class="collapse-toggle">▼</button>
                 </div>
                 <div class="login-box-content">
                     @if(Auth::check())
                         <div class="user-info">
-                            <h3>Welcome Back!</h3>
+                            <h3>{{ __('site.login.welcome_back') }}</h3>
                             <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
                             <div class="user-links">
                                 @if(config('pw-config.player_dashboard_enabled', true))
-                                <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                                <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
                                 @endif
-                                <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                                <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
                                 @if(Auth::user()->isAdministrator())
-                                <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                                <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
                                 @endif
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="login-button">Logout</button>
+                                    <button type="submit" class="login-button">{{ __('site.login.logout') }}</button>
                                 </form>
                             </div>
                         </div>
                     @else
-                        <h3>Member Login</h3>
+                        <h3>{{ __('site.login.member_login') }}</h3>
                         <form method="POST" action="{{ route('login') }}" class="login-form">
                             @csrf
-                            <input type="text" name="name" placeholder="Username" required autofocus>
-                            <input type="password" name="password" placeholder="Password" required>
-                            <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                            <button type="submit" class="login-button">Login</button>
+                            <input type="text" name="name" placeholder="{{ __('site.login.username') }}" required autofocus>
+                            <input type="password" name="password" placeholder="{{ __('site.login.password') }}" required>
+                            <input type="password" name="pin" placeholder="{{ __('site.login.pin') }}" id="pin-field" style="display: none;">
+                            <button type="submit" class="login-button">{{ __('site.login.login_button') }}</button>
                         </form>
                         <div class="login-links">
-                            <a href="{{ route('register') }}">Register</a>
-                            <a href="{{ route('password.request') }}">Forgot Password?</a>
+                            <a href="{{ route('register') }}">{{ __('site.login.register') }}</a>
+                            <a href="{{ route('password.request') }}">{{ __('site.login.forgot_password') }}</a>
                         </div>
                     @endif
                 </div>
@@ -1095,22 +1098,22 @@ if (!function_exists('get_setting')) {
 
         <nav class="nav-bar">
             <div class="nav-links">
-                <a href="{{ route('HOME') }}" class="nav-link">Home</a>
+                <a href="{{ route('HOME') }}" class="nav-link">{{ __('site.nav.home') }}</a>
                 
                 @if( config('pw-config.system.apps.shop') )
-                <a href="{{ route('public.shop') }}" class="nav-link">Shop</a>
+                <a href="{{ route('public.shop') }}" class="nav-link">{{ __('site.nav.shop') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.donate') )
-                <a href="{{ route('public.donate') }}" class="nav-link">Donate</a>
+                <a href="{{ route('public.donate') }}" class="nav-link">{{ __('site.nav.donate') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.ranking') )
-                <a href="{{ route('public.rankings') }}" class="nav-link">Rankings</a>
+                <a href="{{ route('public.rankings') }}" class="nav-link">{{ __('site.nav.rankings') }}</a>
                 @endif
                 
                 @if( config('pw-config.system.apps.vote') )
-                <a href="{{ route('public.vote') }}" class="nav-link active">Vote</a>
+                <a href="{{ route('public.vote') }}" class="nav-link active">{{ __('site.nav.vote') }}</a>
                 @endif
                 
                 @php
@@ -1119,7 +1122,7 @@ if (!function_exists('get_setting')) {
                 @if($pages->count() > 0)
                     <div class="nav-dropdown">
                         <a href="#" class="nav-link dropdown-toggle" onclick="event.preventDefault(); this.parentElement.classList.toggle('active');">
-                            Pages <span class="dropdown-arrow">▼</span>
+                            {{ __('site.nav.pages') }} <span class="dropdown-arrow">▼</span>
                         </a>
                         <div class="dropdown-menu">
                             @foreach($pages as $page)
@@ -1132,22 +1135,22 @@ if (!function_exists('get_setting')) {
         </nav>
 
         <div class="vote-section">
-            <h2 class="section-title">Vote for Haven Perfect World</h2>
-            <p class="section-subtitle">Support our server and earn rewards by voting on these sites</p>
+            <h2 class="section-title">{{ __('site.vote.main_title') }}</h2>
+            <p class="section-subtitle">{{ __('site.vote.subtitle') }}</p>
             
             @if( config('arena.test_mode') || config('arena.test_mode_clear_timer') )
             <div style="margin-bottom: 30px; padding: 20px; background: rgba(239, 68, 68, 0.2); border: 2px solid #ef4444; border-radius: 15px;">
                 <h3 style="color: #ef4444; font-size: 1.5rem; margin-bottom: 10px;">
-                    ⚠️ ARENA TEST MODE ACTIVE
+                    ⚠️ {{ __('site.vote.test_mode_active') }}
                 </h3>
                 <p style="color: #fca5a5;">
                     @if( config('arena.test_mode') )
-                        • Callbacks will always return successful vote<br>
+                        • {{ __('site.vote.test_mode_info.callbacks') }}<br>
                     @endif
                     @if( config('arena.test_mode_clear_timer') )
-                        • Vote cooldown timer is disabled<br>
+                        • {{ __('site.vote.test_mode_info.cooldown') }}<br>
                     @endif
-                    <strong>Remember to disable test mode in production!</strong>
+                    <strong>{{ __('site.vote.test_mode_info.reminder') }}</strong>
                 </p>
             </div>
             @endif
@@ -1163,13 +1166,13 @@ if (!function_exists('get_setting')) {
                     </div>
                     <div class="balance-item">
                         <span class="balance-icon">⭐</span>
-                        <span class="balance-label">Bonus Points:</span>
+                        <span class="balance-label">{{ __('site.shop.balance.bonus_points') }}</span>
                         <span class="balance-value">{{ number_format(Auth::user()->bonuses, 0, '', '.') }}</span>
                     </div>
                 </div>
                 
                 <div style="color: #b19cd9; font-style: italic;">
-                    Vote to earn rewards and see your balance increase!
+                    {{ __('site.vote.balance_info') }}
                 </div>
             </div>
             @endauth
@@ -1195,32 +1198,32 @@ if (!function_exists('get_setting')) {
             <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(147, 112, 219, 0.2)); border: 2px solid #10b981; padding: 20px 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">
                 <span style="font-size: 2rem; display: block; margin-bottom: 10px;">🎉</span>
                 <span style="color: #10b981; font-size: 1.3rem; font-weight: 600; display: block; margin-bottom: 10px;">
-                    Arena Top 100 Vote Confirmed!
+                    {{ __('site.vote.arena.vote_confirmed') }}
                 </span>
                 <span style="color: #e6d7f0; font-size: 1.1rem;">
                     +{{ $arenaSuccess['reward_amount'] }} 
                     @if($arenaSuccess['reward_type'] == 'virtual')
                         {{ config('pw-config.currency_name', 'Coins') }}
                     @elseif($arenaSuccess['reward_type'] == 'cubi')
-                        Gold
+                        {{ __('site.vote.arena.gold') }}
                     @else
-                        Bonus Points
+                        {{ __('site.shop.balance.bonus_points') }}
                     @endif
-                    has been added to your account!
+                    {{ __('site.vote.arena.reward_added', ['amount' => $arenaSuccess['reward_amount'], 'type' => $rewardText]) }}
                 </span>
                 @php
                     $rewardText = '';
                     if($arenaSuccess['reward_type'] == 'virtual') {
                         $rewardText = config('pw-config.currency_name', 'Coins');
                     } elseif($arenaSuccess['reward_type'] == 'cubi') {
-                        $rewardText = 'Gold';
+                        $rewardText = '{{ __('site.vote.arena.gold') }}';
                     } else {
-                        $rewardText = 'Bonus Points';
+                        $rewardText = '{{ __('site.shop.balance.bonus_points') }}';
                     }
                 @endphp
                 <script>
                     // Show immediate notification as well
-                    showNotification('success', 'Arena Top 100 confirmed your vote! +{{ $arenaSuccess['reward_amount'] }} {{ $rewardText }} added!');
+                    showNotification('success', '{{ __('site.vote.arena.confirmed_message', ['amount' => $arenaSuccess['reward_amount'], 'type' => $rewardText]) }}');
                 </script>
             </div>
             @endif
@@ -1232,38 +1235,38 @@ if (!function_exists('get_setting')) {
                     <div class="arena-header">
                         <h3 class="arena-title">
                             <span style="font-size: 2rem; margin-right: 10px;">🏆</span>
-                            Arena Top 100
+                            {{ __('site.vote.arena.title') }}
                         </h3>
                         <div class="arena-reward">
                             <span class="reward-amount">+{{ get_setting('arena.reward') }}</span>
                             <span class="reward-type">
                                 @if(get_setting('arena.reward_type') === 'cubi')
-                                    Gold
+                                    {{ __('site.vote.arena.gold') }}
                                 @elseif(get_setting('arena.reward_type') === 'virtual')
                                     {{ config('pw-config.currency_name', 'Coins') }}
                                 @else
-                                    Bonus Points
+                                    {{ __('site.shop.balance.bonus_points') }}
                                 @endif
                             </span>
                         </div>
                     </div>
                     <div class="arena-body">
-                        <p class="arena-description">Vote every {{ get_setting('arena.time') }} hours on Arena Top 100</p>
+                        <p class="arena-description">{{ __('site.vote.arena.description', ['hours' => get_setting('arena.time')]) }}</p>
                         @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
                             <form id="vote-form-arena" action="{{ route('public.vote.arena.redirect') }}" method="GET" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ get_setting('arena.reward') }}, '{{ get_setting('arena.reward_type') }}');">
                                 @csrf
                                 <button type="submit" class="vote-button arena-button">
                                     <span style="margin-right: 8px;">🗳️</span>
-                                    Vote on Arena Top 100
+                                    {{ __('site.vote.arena.button') }}
                                 </button>
                             </form>
                             <button class="vote-button check-vote-btn" id="check-vote-arena" style="background: linear-gradient(45deg, #28a745, #20c997); margin-top: 10px; display: none;" onclick="checkVoteStatus('arena')">
-                                ✓ Claim Rewards
+                                ✓ {{ __('site.vote.arena.claim_button') }}
                             </button>
                         @else
                             <div class="cooldown-timer" data-time="{{ $arena_info[Auth::user()->ID]['end_time'] ?? 0 }}">
                                 <span class="cooldown-icon">⏱️</span>
-                                <span class="cooldown-text">Please wait: <span class="time-remaining">--:--:--</span></span>
+                                <span class="cooldown-text">{{ __('site.vote.cooldown.please_wait') }} <span class="time-remaining">--:--:--</span></span>
                             </div>
                         @endif
                     </div>
@@ -1272,40 +1275,40 @@ if (!function_exists('get_setting')) {
             @else
             <div style="text-align: center; padding: 60px 20px; margin-top: 40px;">
                 <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
-                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">Arena Top 100 Only</p>
-                <p style="color: #b19cd9;">We use Arena Top 100's verified voting system to ensure fair rewards!</p>
+                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">{{ __('site.vote.arena.only_title') }}</p>
+                <p style="color: #b19cd9;">{{ __('site.vote.arena.only_description') }}</p>
             </div>
             @endif
             
             <div class="rewards-info">
-                <h3 class="rewards-title">Why Vote?</h3>
+                <h3 class="rewards-title">{{ __('site.vote.why_vote.title') }}</h3>
                 <div class="rewards-list">
                     <div class="reward-item">
                         <span class="reward-icon">💰</span>
-                        <p class="reward-text">Earn Currency</p>
+                        <p class="reward-text">{{ __('site.vote.why_vote.earn_currency') }}</p>
                     </div>
                     <div class="reward-item">
                         <span class="reward-icon">📈</span>
-                        <p class="reward-text">Help Server Grow</p>
+                        <p class="reward-text">{{ __('site.vote.why_vote.help_grow') }}</p>
                     </div>
                     <div class="reward-item">
                         <span class="reward-icon">🎯</span>
-                        <p class="reward-text">Daily Rewards</p>
+                        <p class="reward-text">{{ __('site.vote.why_vote.daily_rewards') }}</p>
                     </div>
                     <div class="reward-item">
                         <span class="reward-icon">🏆</span>
-                        <p class="reward-text">Top Voter Prizes</p>
+                        <p class="reward-text">{{ __('site.vote.why_vote.top_prizes') }}</p>
                     </div>
                 </div>
             </div>
             
             @guest
             <div class="login-notice">
-                <p>Please <a href="{{ route('login') }}">login</a> to vote and receive rewards</p>
+                <p>{{ __('site.vote.login_notice') }}</p>
             </div>
             @else
             <div class="login-notice" style="color: #9370db;">
-                <p>Welcome {{ Auth::user()->truename ?? Auth::user()->name }}! Vote to support our server and earn rewards.</p>
+                <p>{{ __('site.vote.welcome_voter', ['name' => Auth::user()->truename ?? Auth::user()->name]) }}</p>
             </div>
             @endguest
         </div>
@@ -1448,7 +1451,7 @@ if (!function_exists('get_setting')) {
         function handleVoteSubmit(siteName, siteId, rewardAmount, rewardType) {
             // For Arena Top 100
             if (siteId === 'arena') {
-                showNotification('info', `Opening Arena Top 100 voting page. Complete your vote and your rewards will be automatically applied when Arena confirms your vote!`);
+                showNotification('info', `{{ __('site.vote.arena.opening_message') }}`);
                 
                 // Start checking for vote completion
                 startVoteStatusCheck();
@@ -1457,7 +1460,7 @@ if (!function_exists('get_setting')) {
             }
             
             // This shouldn't happen anymore but just in case
-            showNotification('error', 'Only Arena Top 100 voting is supported.');
+            showNotification('error', '{{ __('site.vote.arena.only_supported') }}');
             return false;
         }
         
@@ -1480,7 +1483,7 @@ if (!function_exists('get_setting')) {
                             voteCheckInterval = null;
                             
                             // Show success notification
-                            showNotification('success', `Vote confirmed! +${data.reward_amount} ${data.reward_type} added!`);
+                            showNotification('success', `{{ __('site.vote.js.vote_confirmed', ['amount' => '${data.reward_amount}', 'type' => '${data.reward_type}']) }}`);
                             
                             // Update balance display
                             if (data.new_balance) {
@@ -1494,7 +1497,7 @@ if (!function_exists('get_setting')) {
                         }
                     })
                     .catch(error => {
-                        console.error('Error checking vote status:', error);
+                        console.error('{{ __('site.vote.js.error_checking') }}', error);
                     });
             }, 3000);
             

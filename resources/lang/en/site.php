@@ -274,4 +274,58 @@ return [
             'unknown' => 'Unknown',
         ],
     ],
+    
+    // Vote Page
+    'vote' => [
+        'title' => 'Vote',
+        'main_title' => 'Vote for Haven Perfect World',
+        'subtitle' => 'Support our server and earn rewards by voting on these sites',
+        'balance_info' => 'Vote to earn rewards and see your balance increase!',
+        'test_mode_active' => 'ARENA TEST MODE ACTIVE',
+        'test_mode_info' => [
+            'callbacks' => 'Callbacks will always return successful vote',
+            'cooldown' => 'Vote cooldown timer is disabled',
+            'reminder' => 'Remember to disable test mode in production!',
+        ],
+        
+        // Arena Section
+        'arena' => [
+            'title' => 'Arena Top 100',
+            'gold' => 'Gold',
+            'description' => 'Vote every :hours hours on Arena Top 100',
+            'button' => 'Vote on Arena Top 100',
+            'claim_button' => 'Claim Rewards',
+            'only_title' => 'Arena Top 100 Only',
+            'only_description' => 'We use Arena Top 100\'s verified voting system to ensure fair rewards!',
+            'vote_confirmed' => 'Arena Top 100 Vote Confirmed!',
+            'reward_added' => ':amount :type has been added to your account!',
+            'confirmed_message' => 'Arena Top 100 confirmed your vote! +:amount :type added!',
+            'opening_message' => 'Opening Arena Top 100 voting page. Complete your vote and your rewards will be automatically applied when Arena confirms your vote!',
+            'only_supported' => 'Only Arena Top 100 voting is supported.',
+        ],
+        
+        // Cooldown
+        'cooldown' => [
+            'please_wait' => 'Please wait:',
+        ],
+        
+        // Why Vote Section
+        'why_vote' => [
+            'title' => 'Why Vote?',
+            'earn_currency' => 'Earn Currency',
+            'help_grow' => 'Help Server Grow',
+            'daily_rewards' => 'Daily Rewards',
+            'top_prizes' => 'Top Voter Prizes',
+        ],
+        
+        // Login Notice
+        'login_notice' => 'Please login to vote and receive rewards',
+        'welcome_voter' => 'Welcome :name! Vote to support our server and earn rewards.',
+        
+        // JavaScript Messages
+        'js' => [
+            'vote_confirmed' => 'Vote confirmed! +:amount :type added!',
+            'error_checking' => 'Error checking vote status:',
+        ],
+    ],
 ];
