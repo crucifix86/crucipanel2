@@ -48,5 +48,16 @@ class AppServiceProvider extends ServiceProvider
         
         // Make theme helper available to all views
         View::share('themeHelper', new ThemeHelper());
+        
+        // Share theme information with all website views
+        View::composer(['website.*', 'profile.*'], function ($view) {
+            $currentTheme = \Illuminate\Support\Facades\Auth::check() ? 
+                (\Illuminate\Support\Facades\Auth::user()->theme ?? 'mystical-purple') : 'mystical-purple';
+            
+            $themeFile = $currentTheme === 'dark-gaming' ? 'website-dark-gaming.css' : 'website-mystical-purple.css';
+            
+            $view->with('currentTheme', $currentTheme);
+            $view->with('themeFile', $themeFile);
+        });
     }
 }
