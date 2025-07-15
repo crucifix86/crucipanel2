@@ -945,7 +945,11 @@
                             <div class="player-info">
                                 <div class="player-name">{{ $player->name }}</div>
                                 <div class="player-details">
-                                    {{ __('site.rankings.classes.' . $player->cls, __('site.rankings.classes.unknown')) }}
+                                    @php
+                                        $classKey = 'site.rankings.classes.' . $player->cls;
+                                        $className = __($classKey) !== $classKey ? __($classKey) : __('site.rankings.classes.unknown');
+                                    @endphp
+                                    {{ $className }}
                                 </div>
                             </div>
                             <div class="player-level">
@@ -992,7 +996,11 @@
                         <div class="player-info">
                             <div class="player-name">{{ $player->name }}</div>
                             <div class="player-details">
-                                {{ __('site.rankings.classes.' . $player->cls, __('site.rankings.classes.unknown')) }} - {{ __('site.rankings.level') }} {{ $player->level }}
+                                @php
+                                    $classKey = 'site.rankings.classes.' . $player->cls;
+                                    $className = __($classKey) !== $classKey ? __($classKey) : __('site.rankings.classes.unknown');
+                                @endphp
+                                {{ $className }} - {{ __('site.rankings.level') }} {{ $player->level }}
                             </div>
                         </div>
                         <div class="player-level" style="background: linear-gradient(45deg, #ff6b6b, #dc3545); min-width: 100px;">
