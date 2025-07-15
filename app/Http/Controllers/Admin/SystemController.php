@@ -211,16 +211,17 @@ class SystemController extends Controller
      */
     public function saveSettings(Request $request): RedirectResponse
     {
-        $validate = $request->validate([
-            'server_name' => 'required|string',
-            'discord' => 'required|string',
-            'currency_name' => 'required|string',
-            'server_ip' => 'required|ipv4',
-            'server_version' => 'required|string',
-            'encryption_type' => 'required|string',
-            'gmwa' => 'required|numeric',
-            'fakeonline' => 'required|numeric',
-        ]);
+        try {
+            $validate = $request->validate([
+                'server_name' => 'required|string',
+                'discord' => 'required|string',
+                'currency_name' => 'required|string',
+                'server_ip' => 'required|ipv4',
+                'server_version' => 'required|string',
+                'encryption_type' => 'required|string',
+                'gmwa' => 'required|numeric',
+                'fakeonline' => 'required|numeric',
+            ]);
 
         if ($request->hasFile('logo')) {
             $request->validate([
@@ -232,27 +233,41 @@ class SystemController extends Controller
             ]);
             $logo = $request->file('logo')->getClientOriginalName();
             Config::write('pw-config.logo', $logo);
-            LocalSettings::set('pw-config.logo', $logo);
+            // LocalSettings::set('pw-config.logo', $logo);
             $request->file('logo')->storeAs('logo', $logo, config('filesystems.default'));
         }
 
+        // First write all configs
         foreach ($validate as $settings => $value) {
             Config::write('pw-config.' . $settings, $value);
-            LocalSettings::set('pw-config.' . $settings, $value);
         }
         Config::write('app.name', $request->get('server_name'));
-        LocalSettings::set('app.name', $request->get('server_name'));
-        
         Config::write('app.timezone', $request->get('datetimezone'));
-        LocalSettings::set('app.timezone', $request->get('datetimezone'));
-        
-        // Handle player dashboard toggle
         Config::write('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
-        LocalSettings::set('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
         
-        // Clear and re-cache config to apply changes
+        // Clear and re-cache config FIRST
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
+        
+        // THEN save to LocalSettings after cache is rebuilt
+        // Temporarily disable to test
+        /*
+        try {
+            foreach ($validate as $settings => $value) {
+                LocalSettings::set('pw-config.' . $settings, $value);
+            }
+            LocalSettings::set('app.name', $request->get('server_name'));
+            LocalSettings::set('app.timezone', $request->get('datetimezone'));
+            LocalSettings::set('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
+            
+            if ($request->hasFile('logo') && isset($logo)) {
+                LocalSettings::set('pw-config.logo', $logo);
+            }
+        } catch (\Exception $e) {
+            \Log::error('LocalSettings save error: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+        }
+        */
         
         // Simple redirect back with query parameter
         $url = url()->previous();
@@ -263,5 +278,10 @@ class SystemController extends Controller
         }
         
         return redirect($url);
+        } catch (\Exception $e) {
+            \Log::error('Settings save error: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString());
+            throw $e;
+        }
     }
 }
