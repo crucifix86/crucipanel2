@@ -568,6 +568,19 @@ if (!function_exists('get_setting')) {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
             border-radius: 20px;
         }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-content-section {
+            flex: 1;
+        }
 
         .footer-left {
             text-align: left;

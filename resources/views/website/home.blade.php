@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Haven Perfect World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -764,27 +765,45 @@
 
         /* Footer */
         .footer {
-            padding: 40px 0;
+            padding: 40px;
             border-top: 2px solid rgba(147, 112, 219, 0.3);
             margin-top: 60px;
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
             border-radius: 20px;
         }
         
-        .footer-left {
-            text-align: left;
-            padding-left: 40px;
-            padding-right: 40px;
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .footer-center {
+        .footer-content-section {
+            flex: 1;
+        }
+        
+        .footer-left .footer-container {
+            justify-content: flex-start;
+        }
+        
+        .footer-center .footer-container {
+            justify-content: center;
+        }
+        
+        .footer-center .footer-content-section {
             text-align: center;
         }
         
-        .footer-right {
+        .footer-right .footer-container {
+            justify-content: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .footer-right .footer-content-section {
             text-align: right;
-            padding-left: 40px;
-            padding-right: 40px;
         }
 
         .footer-text {
@@ -803,18 +822,9 @@
         /* Social Links */
         .social-links {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .footer-left .social-links {
-            justify-content: flex-start;
-        }
-
-        .footer-right .social-links {
-            justify-content: flex-end;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
         }
 
         .social-link {
@@ -1108,6 +1118,20 @@
                 width: 100%;
             }
             
+            .footer-container {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-content-section {
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
         }
 
     </style>
@@ -1383,19 +1407,22 @@
             $socialLinks = \App\Models\SocialLink::where('active', true)->orderBy('order')->get();
         @endphp
         <div class="footer footer-{{ $footerAlignment }}">
-            {!! $footerContent !!}
-            
-            @if($socialLinks->count() > 0)
-            <div class="social-links">
-                @foreach($socialLinks as $link)
-                    <a href="{{ $link->url }}" class="social-link" target="_blank" rel="noopener noreferrer" title="{{ $link->name }}">
-                        <i class="{{ $link->icon }}"></i>
-                    </a>
-                @endforeach
+            <div class="footer-container">
+                <div class="footer-content-section">
+                    {!! $footerContent !!}
+                    <p class="footer-text">{!! $footerCopyright !!}</p>
+                </div>
+                
+                @if($socialLinks->count() > 0)
+                <div class="social-links">
+                    @foreach($socialLinks as $link)
+                        <a href="{{ $link->url }}" class="social-link" target="_blank" rel="noopener noreferrer" title="{{ $link->platform }}">
+                            <i class="{{ $link->icon }}"></i>
+                        </a>
+                    @endforeach
+                </div>
+                @endif
             </div>
-            @endif
-            
-            <p class="footer-text">{!! $footerCopyright !!}</p>
         </div>
     </div>
 

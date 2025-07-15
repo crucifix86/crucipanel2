@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('pw-config.server_name', 'Haven Perfect World') }} - {{ __('site.rankings.title') }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
         
@@ -457,6 +458,19 @@
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(147, 112, 219, 0.05));
             border-radius: 20px;
         }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-content-section {
+            flex: 1;
+        }
 
         .footer-left {
             text-align: left;
@@ -527,6 +541,21 @@
             
             .status-text {
                 font-size: 1rem;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .footer-content-section {
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+                flex-wrap: wrap;
             }
             
             .players-online {
@@ -1048,17 +1077,22 @@
             $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
         @endphp
         <div class="footer footer-{{ $footerAlignment }}">
-            {!! $footerContent !!}
-            @if($socialLinks->count() > 0)
-            <div class="social-links">
-                @foreach($socialLinks as $link)
-                <a href="{{ $link->url }}" target="_blank" class="social-link" title="{{ $link->platform }}">
-                    <i class="{{ $link->icon }}"></i>
-                </a>
-                @endforeach
+            <div class="footer-container">
+                <div class="footer-content-section">
+                    {!! $footerContent !!}
+                    <p class="footer-text">{!! $footerCopyright !!}</p>
+                </div>
+                
+                @if($socialLinks->count() > 0)
+                <div class="social-links">
+                    @foreach($socialLinks as $link)
+                        <a href="{{ $link->url }}" class="social-link" target="_blank" rel="noopener noreferrer" title="{{ $link->platform }}">
+                            <i class="{{ $link->icon }}"></i>
+                        </a>
+                    @endforeach
+                </div>
+                @endif
             </div>
-            @endif
-            <p class="footer-text">{!! $footerCopyright !!}</p>
         </div>
     </div>
 
