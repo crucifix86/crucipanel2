@@ -141,13 +141,17 @@
         {{-- Header Section --}}
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
-            $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg');
-            $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : config('pw-config.badge_logo', 'img/logo/crucifix_logo.svg');
+            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
+    <h1 class="logo">Haven Perfect World</h1>
+    <p class="tagline">Embark on the Path of Immortals</p>
+</div>';
+            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
         @endphp
         <header class="admin-header">
-            <div class="header-content">
-                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="admin-header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
-                <img src="{{ asset($badgeLogo) }}" alt="Badge" class="admin-badge-logo">
+            <div class="header-content" style="text-align: {{ $headerAlignment }}; color: #e6d7f0;">
+                <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
+                    {!! $headerContent !!}
+                </a>
             </div>
         </header>
         
