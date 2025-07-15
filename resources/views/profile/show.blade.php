@@ -112,16 +112,14 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            z-index: 9999;
+            z-index: 100;  /* Reduced from 1000 to avoid blocking dropdowns */
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
             border: 1px solid rgba(147, 112, 219, 0.4);
             border-radius: 10px;
             padding: 10px 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            width: 220px;
-            transform: none;
-            will-change: auto;
+            width: 220px;  /* Smaller width */
         }
         
         .status-indicator {
@@ -172,15 +170,16 @@
             color: #9370db;
         }
 
-        /* Login Box */
+        /* Login Box Container */
         .login-box-wrapper {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
+            top: 100px;  /* Position below server status with smaller gap */
+            left: 20px;
+            z-index: 100;
             width: 220px;
         }
         
+        /* Login Box */
         .login-box {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
             backdrop-filter: blur(15px);
@@ -189,7 +188,7 @@
             padding: 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
-            max-height: 400px;
+            max-height: 400px;  /* Limit max height */
             overflow-y: auto;
         }
         
@@ -203,20 +202,24 @@
         }
         
         .login-box-header h3 {
+            margin: 0;
             color: #9370db;
             font-size: 1rem;
-            margin: 0;
-            font-weight: 600;
-            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
         
         .collapse-toggle {
             background: none;
             border: none;
-            color: #9370db;
-            font-size: 0.8rem;
+            color: #b19cd9;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: transform 0.3s ease;
+            padding: 3px;
+        }
+        
+        .collapse-toggle:hover {
+            color: #9370db;
         }
         
         .login-box.collapsed .collapse-toggle {
@@ -225,9 +228,9 @@
         
         .login-box-content {
             padding: 15px;
-            max-height: 350px;
+            max-height: 300px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: max-height 0.3s ease, padding 0.3s ease;
         }
         
         .login-box.collapsed .login-box-content {
@@ -237,17 +240,18 @@
 
         .login-box-content h3 {
             color: #9370db;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 15px;
             text-align: center;
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
         }
         
         .user-name {
-            color: #9370db;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
+            color: #e6d7f0;
             text-align: center;
-            margin-bottom: 15px;
-            font-weight: 600;
+            margin: 10px 0;
+            text-shadow: 0 0 20px rgba(147, 112, 219, 0.8);
         }
         
         .login-form {
@@ -257,13 +261,16 @@
         }
         
         .login-form input {
-            background: rgba(26, 15, 46, 0.8);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 5px;
+            width: 100%;
             padding: 8px 12px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 112, 219, 0.5);
+            border-radius: 8px;
             color: #e6d7f0;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            font-family: Arial, sans-serif;
         }
         
         .login-form input:focus {
@@ -298,19 +305,16 @@
         .login-links {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(147, 112, 219, 0.2);
+            margin-top: 10px;
         }
-        
+
         .login-links a {
             color: #b19cd9;
             text-decoration: none;
             font-size: 0.85rem;
             transition: all 0.3s ease;
-            font-weight: 500;
         }
-        
+
         .login-links a:hover {
             color: #9370db;
             text-shadow: 0 0 10px rgba(147, 112, 219, 0.6);
@@ -1223,10 +1227,11 @@
             
             .login-box-wrapper {
                 position: fixed;
-                top: 60px;
-                right: 10px;
+                top: 90px;  /* Position below server status on mobile too */
                 left: 10px;
+                right: 10px;
                 width: auto;
+                max-width: 300px;  /* Limit width on mobile */
             }
             
             .login-box {
@@ -1326,7 +1331,7 @@
                     </form>
                     <div class="login-links">
                         <a href="{{ route('register') }}">Register</a>
-                        <a href="{{ route('password.request') }}">Forgot?</a>
+                        <a href="{{ route('password.request') }}">Forgot Password?</a>
                     </div>
                 @endif
             </div>
