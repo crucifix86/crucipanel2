@@ -31,64 +31,27 @@
 
     <x-hrace009::front.top-script/>
 
-    @php
-        $userTheme = auth()->user()->theme ?? config('themes.default');
-        $themeConfig = config('themes.themes.' . $userTheme);
-    @endphp
-    
-    @if($themeConfig && isset($themeConfig['css']))
-        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
-    @endif
+    <!-- Mystical Theme CSS -->
+    <link rel="stylesheet" href="{{ asset('css/mystical-purple-unified.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* Admin Header Styles */
-        .admin-header {
-            background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 100%);
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 2px solid #6366f1;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .admin-header .header-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-        }
-        
-        .admin-header-logo {
-            max-height: 80px;
-            width: auto;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
-            transition: transform 0.3s ease;
-        }
-        
-        .admin-header-logo:hover {
-            transform: scale(1.05);
-        }
-        
-        .admin-badge-logo {
-            max-height: 50px;
-            width: auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        /* Admin-specific overrides for mystical theme */
+        .admin-content {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin-left: 280px;
+            margin-right: auto;
+            padding: 20px;
+            min-height: 100vh;
         }
         
         @media (max-width: 768px) {
-            .admin-header {
-                padding: 15px 0;
-            }
-            
-            .admin-header .header-content {
-                gap: 20px;
-            }
-            
-            .admin-header-logo {
-                max-height: 60px;
-            }
-            
-            .admin-badge-logo {
-                max-height: 40px;
+            .admin-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 15px;
             }
         }
     </style>
@@ -138,18 +101,28 @@
     </x-hrace009::side-bar>
 
     <div class="flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto">
-        {{-- Header Section --}}
+        {{-- Mystical Header Section --}}
         @php
             $headerSettings = \App\Models\HeaderSetting::first();
-            $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg');
-            $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : config('pw-config.badge_logo', 'img/logo/crucifix_logo.svg');
+            $headerContent = $headerSettings ? $headerSettings->content : '<div class="logo-container">
+    <h1 class="logo">Haven Perfect World</h1>
+    <p class="tagline">Embark on the Path of Immortals</p>
+</div>';
+            $headerAlignment = $headerSettings ? $headerSettings->alignment : 'center';
         @endphp
-        <header class="admin-header">
-            <div class="header-content">
-                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="admin-header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
-                <img src="{{ asset($badgeLogo) }}" alt="Badge" class="admin-badge-logo">
+        
+        <div class="mystical-bg"></div>
+        <div class="floating-particles"></div>
+        <div class="dragon-ornament dragon-left">🐉</div>
+        <div class="dragon-ornament dragon-right">🐉</div>
+        
+        <div class="admin-content">
+            <div class="header header-{{ $headerAlignment }}">
+                <div class="mystical-border"></div>
+                <a href="{{ route('HOME') }}" style="text-decoration: none; color: inherit;">
+                    {!! $headerContent !!}
+                </a>
             </div>
-        </header>
         
         <x-hrace009::nav-bar>
             <x-slot name="navmenu">
@@ -221,15 +194,40 @@
         <main class="flex-1">
 
             <!-- Content header -->
-        @if (isset($header))
-            {{ $header }}
-        @endif
-        <!-- Content -->
-            <div class="mt-2 pb-16">
+            @if (isset($header))
+                {{ $header }}
+            @endif
+            
+            <!-- Admin Content -->
+            <div class="content-section">
                 {{ $content }}
             </div>
+            
+            <!-- Mystical Footer -->
+            @php
+                $footerSettings = \App\Models\FooterSetting::first();
+                $footerContent = $footerSettings ? $footerSettings->content : 'Copyright © 2025 Haven Perfect World. All rights reserved.';
+                $footerAlignment = $footerSettings ? $footerSettings->alignment : 'center';
+                $socialLinks = $footerSettings ? $footerSettings->social_links : [];
+            @endphp
+            
+            <div class="footer footer-{{ $footerAlignment }}">
+                <div class="footer-text">
+                    {!! $footerContent !!}
+                </div>
+                
+                @if(!empty($socialLinks))
+                <div class="social-links">
+                    @foreach($socialLinks as $social)
+                        <a href="{{ $social['url'] }}" target="_blank" class="social-link">
+                            <i class="{{ $social['icon'] }}"></i>
+                        </a>
+                    @endforeach
+                </div>
+                @endif
+            </div>
+        </div> <!-- End admin-content -->
         </main>
-        <x-hrace009::footer/>
     </div>
     <!-- Panels -->
     <x-hrace009::settings-panel/>
@@ -237,6 +235,10 @@
 @yield('footer')
 <x-hrace009::front.bottom-script/>
 <x-hrace009::flash-message/>
+
+<!-- Mystical Theme JavaScript -->
+<script src="{{ asset('js/mystical-purple-unified.js') }}"></script>
+
 @stack('scripts')
 </body>
 </html>
