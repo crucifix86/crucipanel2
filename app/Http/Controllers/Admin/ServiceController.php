@@ -11,6 +11,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Facades\LocalSettings;
 use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
 use Illuminate\Contracts\Foundation\Application;
@@ -122,6 +123,7 @@ class ServiceController extends Controller
         
         foreach ($configs as $config => $value) {
             Config::write('pw-config.' . $config, $value);
+            LocalSettings::set('pw-config.' . $config, $value);
         }
         
         // Clear and re-cache config after all writes are complete

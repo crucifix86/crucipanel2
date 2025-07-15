@@ -11,6 +11,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Facades\LocalSettings;
 use App\Http\Requests\ShopRequest;
 use App\Models\Shop;
 use Illuminate\Contracts\Foundation\Application;
@@ -182,6 +183,7 @@ class ShopController extends Controller
         ]);
         
         Config::write('pw-config.shop.page', $validate['item_page']);
+        LocalSettings::set('pw-config.shop.page', $validate['item_page']);
         
         // Clear and re-cache config after all writes are complete
         \Artisan::call('config:clear');

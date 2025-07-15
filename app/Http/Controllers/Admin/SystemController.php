@@ -11,6 +11,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Facades\LocalSettings;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -190,11 +191,9 @@ class SystemController extends Controller
     {
         $apps = config('pw-config.system.apps');
         foreach (array_keys($apps) as $app) {
-            if ($request->has($app) === true) {
-                Config::write('pw-config.system.apps.' . $app, true);
-            } else {
-                Config::write('pw-config.system.apps.' . $app, false);
-            }
+            $value = $request->has($app);
+            Config::write('pw-config.system.apps.' . $app, $value);
+            LocalSettings::set('pw-config.system.apps.' . $app, $value);
         }
         
         // Clear and re-cache config to apply changes
@@ -233,17 +232,23 @@ class SystemController extends Controller
             ]);
             $logo = $request->file('logo')->getClientOriginalName();
             Config::write('pw-config.logo', $logo);
+            LocalSettings::set('pw-config.logo', $logo);
             $request->file('logo')->storeAs('logo', $logo, config('filesystems.default'));
         }
 
         foreach ($validate as $settings => $value) {
             Config::write('pw-config.' . $settings, $value);
+            LocalSettings::set('pw-config.' . $settings, $value);
         }
         Config::write('app.name', $request->get('server_name'));
+        LocalSettings::set('app.name', $request->get('server_name'));
+        
         Config::write('app.timezone', $request->get('datetimezone'));
+        LocalSettings::set('app.timezone', $request->get('datetimezone'));
         
         // Handle player dashboard toggle
         Config::write('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
+        LocalSettings::set('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
         
         // Clear and re-cache config to apply changes
         \Artisan::call('config:clear');
