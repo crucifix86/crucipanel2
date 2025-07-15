@@ -1203,13 +1203,13 @@
                         <input type="text" 
                                name="search" 
                                value="{{ $search ?? '' }}"
-                               placeholder="Search items, vouchers, or services..." 
+                               placeholder="{{ __('site.shop.search_placeholder') }}" 
                                style="background: rgba(26, 15, 46, 0.6); border: 1px solid rgba(147, 112, 219, 0.3); border-radius: 10px; padding: 10px 15px; color: #e6d7f0; font-size: 1rem; width: 400px;">
                         <button type="submit" style="background: linear-gradient(45deg, #9370db, #8a2be2); border: none; border-radius: 10px; padding: 10px 20px; color: white; font-weight: 600; cursor: pointer;">
-                            Search
+                            {{ __('site.shop.search_button') }}
                         </button>
                         @if($search)
-                            <a href="{{ route('public.shop') }}" style="color: #b19cd9; text-decoration: none; padding: 10px;">Clear</a>
+                            <a href="{{ route('public.shop') }}" style="color: #b19cd9; text-decoration: none; padding: 10px;">{{ __('site.shop.clear') }}</a>
                         @endif
                     </div>
                 </form>
@@ -1219,7 +1219,7 @@
             <div class="shop-tabs" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
                 <a href="{{ route('public.shop', ['tab' => 'items']) }}" 
                    class="shop-tab {{ $tab === 'items' ? 'active' : '' }}">
-                    <span style="margin-right: 8px;">📦</span> Items
+                    <span style="margin-right: 8px;">📦</span> {{ __('site.shop.tabs.items') }}
                 </a>
                 <a href="{{ route('public.shop', ['tab' => 'vouchers']) }}" 
                    class="shop-tab {{ $tab === 'vouchers' ? 'active' : '' }}">
@@ -1227,7 +1227,7 @@
                 </a>
                 <a href="{{ route('public.shop', ['tab' => 'services']) }}" 
                    class="shop-tab {{ $tab === 'services' ? 'active' : '' }}">
-                    <span style="margin-right: 8px;">⚡</span> Services
+                    <span style="margin-right: 8px;">⚡</span> {{ __('site.shop.tabs.services') }}
                 </a>
             </div>
             
