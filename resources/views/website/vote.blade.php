@@ -1216,9 +1216,9 @@ if (!function_exists('get_setting')) {
                     if($arenaSuccess['reward_type'] == 'virtual') {
                         $rewardText = config('pw-config.currency_name', 'Coins');
                     } elseif($arenaSuccess['reward_type'] == 'cubi') {
-                        $rewardText = '{{ __('site.vote.arena.gold') }}';
+                        $rewardText = __('site.vote.arena.gold');
                     } else {
-                        $rewardText = '{{ __('site.shop.balance.bonus_points') }}';
+                        $rewardText = __('site.shop.balance.bonus_points');
                     }
                 @endphp
                 <script>
