@@ -140,6 +140,19 @@
                     </x-hrace009::select-with-popover>
                     <x-hrace009::label for="datetimezone">{{ __('system.datetimezone') }}</x-hrace009::label>
                 </div>
+                <div class="relative z-0 mb-6 w-full group">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="player_dashboard_enabled" value="1" 
+                               {{ config('pw-config.player_dashboard_enabled', true) ? 'checked' : '' }}
+                               class="text-indigo-600 rounded focus:ring-indigo-500">
+                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                            Enable Player Dashboard
+                        </span>
+                    </label>
+                    <span class="text-xs text-gray-500 dark:text-cyan-400">
+                        When disabled, users will not be able to access the player dashboard at /dashboard
+                    </span>
+                </div>
                 <!-- Submit Button -->
                 <x-hrace009::button-with-popover class="w-auto" popover="{{ __('general.config_save_desc') }}">
                     {{ __('general.Save') }}

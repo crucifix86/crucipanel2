@@ -154,7 +154,7 @@ Route::group(['middleware' => 'web'], static function () {
 });
 
 /* App Page */
-Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified']], static function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified', 'dashboard.enabled']], static function () {
 
     Route::get('/', [
         'as' => 'app.dashboard',

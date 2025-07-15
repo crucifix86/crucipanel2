@@ -11,6 +11,7 @@ namespace App\Http;
 use App\Http\Middleware\ArenaActive;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\BankTransferActive;
+use App\Http\Middleware\CheckDashboardEnabled;
 use App\Http\Middleware\DonateActive;
 use App\Http\Middleware\DonateAntiSpam;
 use App\Http\Middleware\EncryptCookies;
@@ -139,6 +140,7 @@ class Kernel extends HttpKernel
         'service.enable' => ServiceEnabled::class,
         'ipaymu.active' => IpaymuActive::class,
         'arena.active' => ArenaActive::class,
-        'pre.login' => EnsurePreLogin::class
+        'pre.login' => EnsurePreLogin::class,
+        'dashboard.enabled' => CheckDashboardEnabled::class
     ];
 }

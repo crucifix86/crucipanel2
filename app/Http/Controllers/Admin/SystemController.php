@@ -242,6 +242,9 @@ class SystemController extends Controller
         Config::write('app.name', $request->get('server_name'));
         Config::write('app.timezone', $request->get('datetimezone'));
         
+        // Handle player dashboard toggle
+        Config::write('pw-config.player_dashboard_enabled', $request->has('player_dashboard_enabled'));
+        
         // Clear and re-cache config to apply changes
         \Artisan::call('config:clear');
         \Artisan::call('config:cache');
