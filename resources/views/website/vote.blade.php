@@ -1044,7 +1044,9 @@ if (!function_exists('get_setting')) {
                             <h3>Welcome Back!</h3>
                             <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
                             <div class="user-links">
+                                @if(config('pw-config.player_dashboard_enabled', true))
                                 <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                                @endif
                                 <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
                                 @if(Auth::user()->isAdministrator())
                                 <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
