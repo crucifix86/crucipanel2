@@ -1282,11 +1282,11 @@
     <div class="server-status">
         <div class="status-indicator {{ $api->online ? 'online' : 'offline' }}">
             <span class="status-dot"></span>
-            <span class="status-text">Server {{ $api->online ? 'Online' : 'Offline' }}</span>
+            <span class="status-text">{{ $api->online ? __('site.server.online') : __('site.server.offline') }}</span>
         </div>
         @if($api->online)
             <div class="players-online">
-                <i class="fas fa-users"></i> {{ $onlineCount }} {{ $onlineCount == 1 ? 'Player' : 'Players' }} Online
+                <i class="fas fa-users"></i> {{ trans_choice('site.server.players_online', $onlineCount, ['count' => $onlineCount]) }}
             </div>
         @endif
     </div>
@@ -1295,43 +1295,43 @@
     <div class="login-box-wrapper">
         <div class="login-box collapsed" id="loginBox">
             <div class="login-box-header" onclick="toggleLoginBox()">
-                <h3>@if(Auth::check()) Account @else Member Login @endif</h3>
+                <h3>@if(Auth::check()) {{ __('site.login.account') }} @else {{ __('site.login.member_login') }} @endif</h3>
                 <button class="collapse-toggle">▼</button>
             </div>
             <div class="login-box-content">
                 @if(Auth::check())
                     <div class="user-info">
-                        <h3>Welcome Back!</h3>
+                        <h3>{{ __('site.login.welcome_back') }}</h3>
                         <div class="user-name">{{ Auth::user()->truename ?? Auth::user()->name }}</div>
                         <div class="user-links">
                             @if(config('pw-config.player_dashboard_enabled', true))
-                            <a href="{{ route('app.dashboard') }}" class="user-link">My Dashboard</a>
+                            <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
                             @endif
-                            <a href="{{ route('profile.show') }}" class="user-link">My Profile</a>
+                            <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
                             @if(Auth::user()->isAdministrator())
-                            <a href="{{ route('admin.dashboard') }}" class="user-link">Admin Panel</a>
+                            <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
                             @endif
                             @if(Auth::user()->isGamemaster())
-                            <a href="{{ route('gm.dashboard') }}" class="user-link">GM Panel</a>
+                            <a href="{{ route('gm.dashboard') }}" class="user-link">{{ __('site.user_menu.gm_panel') }}</a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="login-button">Logout</button>
+                                <button type="submit" class="login-button">{{ __('site.login.logout') }}</button>
                             </form>
                         </div>
                     </div>
                 @else
-                    <h3>Member Login</h3>
+                    <h3>{{ __('site.login.member_login') }}</h3>
                     <form method="POST" action="{{ route('login') }}" class="login-form">
                         @csrf
-                        <input type="text" name="name" placeholder="Username" required autofocus>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <input type="password" name="pin" placeholder="PIN (if required)" id="pin-field" style="display: none;">
-                        <button type="submit" class="login-button">Login</button>
+                        <input type="text" name="name" placeholder="{{ __('site.login.username') }}" required autofocus>
+                        <input type="password" name="password" placeholder="{{ __('site.login.password') }}" required>
+                        <input type="password" name="pin" placeholder="{{ __('site.login.pin') }}" id="pin-field" style="display: none;">
+                        <button type="submit" class="login-button">{{ __('site.login.login_button') }}</button>
                     </form>
                     <div class="login-links">
-                        <a href="{{ route('register') }}">Register</a>
-                        <a href="{{ route('password.request') }}">Forgot Password?</a>
+                        <a href="{{ route('register') }}">{{ __('site.login.register') }}</a>
+                        <a href="{{ route('password.request') }}">{{ __('site.login.forgot_password') }}</a>
                     </div>
                 @endif
             </div>
