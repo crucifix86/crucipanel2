@@ -99,14 +99,17 @@ We're fixing the theme selector that only works on home page. The issue: inline 
 
 ### What's Been Done:
 1. Created backups of all pages with inline CSS
-2. **COMPLETED: shop.blade.php** - Moved 1100+ lines to unified CSS with body.shop-page
-3. **COMPLETED: donate.blade.php** - Moved 961 lines to unified CSS with body.donate-page
-4. **COMPLETED: rankings.blade.php** - Moved 840 lines to unified CSS with body.rankings-page
-5. **COMPLETED: vote.blade.php** - Moved 1031 lines to unified CSS with body.vote-page
+2. **COMPLETED: shop.blade.php** - Moved 1100+ lines to unified CSS with body.shop-page ✓ LOOKS GOOD
+3. **COMPLETED: donate.blade.php** - Moved 961 lines to unified CSS with body.donate-page ✓ LOOKS GOOD
+4. **COMPLETED: rankings.blade.php** - Moved 840 lines to unified CSS with body.rankings-page ✓ LOOKS GOOD
+5. **BROKEN: vote.blade.php** - CSS is obliterated, style is all wrong ❌ NEEDS FIX
+   - Have backup in vote-inline-css.tmp
+   - CSS was extracted from lines 15-1046
 6. Created temp files for all completed pages
 
 ### What MUST Be Done Next:
-1. **members.blade.php** - PENDING (last page to fix)
+1. **FIX vote.blade.php CSS** - The CSS migration failed, style is broken
+2. **members.blade.php** - PENDING (last page to fix)
 
 ### Critical Notes:
 - User explicitly said: "its imperative that when removing the inline code the theme is preserved exactly"
