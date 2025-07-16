@@ -14,62 +14,57 @@ if (!function_exists('get_setting')) {
 
 
 @section('content')
-
-        <div class="vote-section">
-            <h2 class="section-title">{{ __('site.vote.main_title') }}</h2>
-            <p class="section-subtitle">{{ __('site.vote.subtitle') }}</p>
+<div class="vote-content">
+    <div class="vote-header">
+        <h1 class="vote-title">{{ __('site.vote.main_title') }}</h1>
+        <p class="vote-subtitle">{{ __('site.vote.subtitle') }}</p>
+    </div>
             
-            @if( config('arena.test_mode') || config('arena.test_mode_clear_timer') )
-            <div style="margin-bottom: 30px; padding: 20px; background: rgba(239, 68, 68, 0.2); border: 2px solid #ef4444; border-radius: 15px;">
-                <h3 style="color: #ef4444; font-size: 1.5rem; margin-bottom: 10px;">
-                    ⚠️ {{ __('site.vote.test_mode_active') }}
-                </h3>
-                <p style="color: #fca5a5;">
-                    @if( config('arena.test_mode') )
-                        • {{ __('site.vote.test_mode_info.callbacks') }}<br>
-                    @endif
-                    @if( config('arena.test_mode_clear_timer') )
-                        • {{ __('site.vote.test_mode_info.cooldown') }}<br>
-                    @endif
-                    <strong>{{ __('site.vote.test_mode_info.reminder') }}</strong>
-                </p>
-            </div>
+    @if( config('arena.test_mode') || config('arena.test_mode_clear_timer') )
+    <div class="test-mode-warning">
+        <h3>⚠️ {{ __('site.vote.test_mode_active') }}</h3>
+        <p>
+            @if( config('arena.test_mode') )
+                • {{ __('site.vote.test_mode_info.callbacks') }}<br>
             @endif
-            
-            @auth
-            <!-- User Info Bar -->
-            <div class="user-info-bar">
-                <div class="user-balance">
-                    <div class="balance-item">
-                        <span class="balance-icon">💰</span>
-                        <span class="balance-label">{{ config('pw-config.currency_name', 'Coins') }}:</span>
-                        <span class="balance-value">{{ number_format(Auth::user()->money, 0, '', '.') }}</span>
-                    </div>
-                    <div class="balance-item">
-                        <span class="balance-icon">⭐</span>
-                        <span class="balance-label">{{ __('site.shop.balance.bonus_points') }}</span>
-                        <span class="balance-value">{{ number_format(Auth::user()->bonuses, 0, '', '.') }}</span>
-                    </div>
-                </div>
-                
-                <div style="color: #b19cd9; font-style: italic;">
-                    {{ __('site.vote.balance_info') }}
-                </div>
-            </div>
-            @endauth
-            
-            <!-- Session Messages -->
-            @if(session('success'))
-            <div style="background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; padding: 15px 25px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
-                <span style="color: #10b981; font-size: 1.1rem;">✓ {{ session('success') }}</span>
-            </div>
+            @if( config('arena.test_mode_clear_timer') )
+                • {{ __('site.vote.test_mode_info.cooldown') }}<br>
             @endif
+            <strong>{{ __('site.vote.test_mode_info.reminder') }}</strong>
+        </p>
+    </div>
+    @endif
             
-            @if(session('error'))
-            <div style="background: rgba(239, 68, 68, 0.2); border: 2px solid #ef4444; padding: 15px 25px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
-                <span style="color: #ef4444; font-size: 1.1rem;">✗ {{ session('error') }}</span>
+    @auth
+    <!-- User Info Bar -->
+    <div class="user-info-bar">
+        <div class="user-balance">
+            <div class="balance-item">
+                <span class="balance-icon">💰</span>
+                <span class="balance-label">{{ config('pw-config.currency_name', 'Coins') }}:</span>
+                <span class="balance-value">{{ number_format(Auth::user()->money, 0, '', '.') }}</span>
             </div>
-            @endif
+            <div class="balance-item">
+                <span class="balance-icon">⭐</span>
+                <span class="balance-label">{{ __('site.shop.balance.bonus_points') }}</span>
+                <span class="balance-value">{{ number_format(Auth::user()->bonuses, 0, '', '.') }}</span>
+            </div>
+        </div>
+    </div>
+    @endauth
+            
+    <!-- Session Messages -->
+    @if(session('success'))
+    <div class="alert alert-success">
+        ✓ {{ session('success') }}
+    </div>
+    @endif
+    
+    @if(session('error'))
+    <div class="alert alert-error">
+        ✗ {{ session('error') }}
+    </div>
+    @endif
             
             <!-- Arena Vote Success Notification -->
             @if(isset($arena_vote_success) && $arena_vote_success)
@@ -109,15 +104,13 @@ if (!function_exists('get_setting')) {
             </div>
             @endif
             
-            <!-- Arena Top 100 Section -->
-            @if(get_setting('arena.status') === true && Auth::check())
-            <div style="margin-bottom: 50px;">
-                <div class="arena-section">
-                    <div class="arena-header">
-                        <h3 class="arena-title">
-                            <span style="font-size: 2rem; margin-right: 10px;">🏆</span>
-                            {{ __('site.vote.arena.title') }}
-                        </h3>
+    <!-- Arena Top 100 Section -->
+    @if(get_setting('arena.status') === true && Auth::check())
+    <div class="arena-section">
+        <div class="arena-header">
+            <h3 class="arena-title">
+                🏆 {{ __('site.vote.arena.title') }}
+            </h3>
                         <div class="arena-reward">
                             <span class="reward-amount">+{{ get_setting('arena.reward') }}</span>
                             <span class="reward-type">
@@ -131,68 +124,53 @@ if (!function_exists('get_setting')) {
                             </span>
                         </div>
                     </div>
-                    <div class="arena-body">
-                        <p class="arena-description">{{ __('site.vote.arena.description', ['hours' => get_setting('arena.time')]) }}</p>
-                        @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
-                            <form id="vote-form-arena" action="{{ route('public.vote.arena.redirect') }}" method="GET" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ get_setting('arena.reward') }}, '{{ get_setting('arena.reward_type') }}');">
-                                @csrf
-                                <button type="submit" class="vote-button arena-button">
-                                    <span style="margin-right: 8px;">🗳️</span>
-                                    {{ __('site.vote.arena.button') }}
-                                </button>
-                            </form>
-                            <button class="vote-button check-vote-btn" id="check-vote-arena" style="background: linear-gradient(45deg, #28a745, #20c997); margin-top: 10px; display: none;" onclick="checkVoteStatus('arena')">
-                                ✓ {{ __('site.vote.arena.claim_button') }}
-                            </button>
-                        @else
-                            <div class="cooldown-timer" data-time="{{ $arena_info[Auth::user()->ID]['end_time'] ?? 0 }}">
-                                <span class="cooldown-icon">⏱️</span>
-                                <span class="cooldown-text">{{ __('site.vote.cooldown.please_wait') }} <span class="time-remaining">--:--:--</span></span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
+        <p class="arena-description">{{ __('site.vote.arena.description', ['hours' => get_setting('arena.time')]) }}</p>
+        <div style="text-align: center;">
+            @if(isset($arena_info[Auth::user()->ID]) && $arena_info[Auth::user()->ID]['status'])
+                <form id="vote-form-arena" action="{{ route('public.vote.arena.redirect') }}" method="GET" target="_blank" onsubmit="return handleVoteSubmit('Arena Top 100', 'arena', {{ get_setting('arena.reward') }}, '{{ get_setting('arena.reward_type') }}');">
+                    @csrf
+                    <button type="submit" class="vote-button arena-button">
+                        🗳️ {{ __('site.vote.arena.button') }}
+                    </button>
+                </form>
             @else
-            <div style="text-align: center; padding: 60px 20px; margin-top: 40px;">
-                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">🗳️</span>
-                <p style="font-size: 1.5rem; color: #9370db; margin-bottom: 10px;">{{ __('site.vote.arena.only_title') }}</p>
-                <p style="color: #b19cd9;">{{ __('site.vote.arena.only_description') }}</p>
-            </div>
+                <div class="cooldown-timer" data-time="{{ $arena_info[Auth::user()->ID]['end_time'] ?? 0 }}">
+                    <span class="cooldown-icon">⏱️</span>
+                    <span class="cooldown-text">{{ __('site.vote.cooldown.please_wait') }} <span class="time-remaining">--:--:--</span></span>
+                </div>
             @endif
-            
-            <div class="rewards-info">
-                <h3 class="rewards-title">{{ __('site.vote.why_vote.title') }}</h3>
-                <div class="rewards-list">
-                    <div class="reward-item">
-                        <span class="reward-icon">💰</span>
-                        <p class="reward-text">{{ __('site.vote.why_vote.earn_currency') }}</p>
-                    </div>
-                    <div class="reward-item">
-                        <span class="reward-icon">📈</span>
-                        <p class="reward-text">{{ __('site.vote.why_vote.help_grow') }}</p>
-                    </div>
-                    <div class="reward-item">
-                        <span class="reward-icon">🎯</span>
-                        <p class="reward-text">{{ __('site.vote.why_vote.daily_rewards') }}</p>
-                    </div>
-                    <div class="reward-item">
-                        <span class="reward-icon">🏆</span>
-                        <p class="reward-text">{{ __('site.vote.why_vote.top_prizes') }}</p>
-                    </div>
-                </div>
-            </div>
-            
-            @guest
-            <div class="login-notice">
-                <p>{{ __('site.vote.login_notice') }}</p>
-            </div>
-            @else
-            <div class="login-notice" style="color: #9370db;">
-                <p>{{ __('site.vote.welcome_voter', ['name' => Auth::user()->truename ?? Auth::user()->name]) }}</p>
-            </div>
-            @endguest
         </div>
+    </div>
+    @endif
+            
+    <div class="vote-info-section">
+        <h3 class="info-title">{{ __('site.vote.why_vote.title') }}</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-icon">💰</span>
+                <p class="info-text">{{ __('site.vote.why_vote.earn_currency') }}</p>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">📈</span>
+                <p class="info-text">{{ __('site.vote.why_vote.help_grow') }}</p>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🎯</span>
+                <p class="info-text">{{ __('site.vote.why_vote.daily_rewards') }}</p>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🏆</span>
+                <p class="info-text">{{ __('site.vote.why_vote.top_prizes') }}</p>
+            </div>
+        </div>
+    </div>
+            
+    @guest
+    <div class="login-notice">
+        <p>{{ __('site.vote.login_notice') }}</p>
+    </div>
+    @endguest
+</div>
 
 @endsection
 
