@@ -19,7 +19,7 @@
     @yield('styles')
     @livewireStyles
 </head>
-<body>
+<body class="@yield('body-class', '')">
     <!-- Fixed Position Widgets - Outside Container -->
     @php
         $api = new \hrace009\PerfectWorldAPI\API();
