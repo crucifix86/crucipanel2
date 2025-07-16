@@ -1,11 +1,3 @@
-@php
-if (!function_exists('get_setting')) {
-    function get_setting($key, $default = null) {
-        return config($key, $default);
-    }
-}
-@endphp
-
 @extends('layouts.mystical')
 
 @section('title', config('pw-config.server_name', 'Haven Perfect World') . ' - ' . __('site.vote.title'))
