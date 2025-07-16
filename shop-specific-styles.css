@@ -1,0 +1,332 @@
+/* Shop-Specific Styles for CruciPanel2 */
+/* These styles are unique to the shop page and not present in mystical-purple-unified.css */
+
+/* Shop Tabs - More specific styling than unified */
+.shop-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Category Sidebar - Additional hover effect not in unified */
+.category-sidebar {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 220px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(147, 112, 219, 0.4);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+
+.category-sidebar h3 {
+    color: #9370db;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+}
+
+/* Enhanced Shop Grid - Shop page specific grid settings */
+.shop-content {
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Voucher Section - Not present in unified CSS */
+.voucher-section {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 30px;
+    padding: 40px;
+    margin-bottom: 50px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 215, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.voucher-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+    animation: shimmerBg 4s ease-in-out infinite;
+}
+
+.voucher-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #ffd700;
+    text-align: center;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+    position: relative;
+    z-index: 1;
+}
+
+.voucher-input-group {
+    display: flex;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.voucher-input {
+    flex: 1;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    border-radius: 25px;
+    color: #e6d7f0;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: 'Cinzel', serif;
+}
+
+.voucher-input::placeholder {
+    color: rgba(255, 215, 0, 0.5);
+}
+
+.voucher-input:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.redeem-button {
+    background: linear-gradient(45deg, #ffd700, #ffa500);
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Cinzel', serif;
+    white-space: nowrap;
+}
+
+.redeem-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+}
+
+.voucher-history-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.voucher-history-link:hover {
+    color: #ffed4e;
+    text-decoration: underline;
+}
+
+/* Character Dropdown - Enhanced for shop page */
+.char-dropdown {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.char-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.char-dropdown::-webkit-scrollbar-track {
+    background: rgba(147, 112, 219, 0.1);
+    border-radius: 3px;
+}
+
+.char-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(147, 112, 219, 0.4);
+    border-radius: 3px;
+}
+
+.char-dropdown::-webkit-scrollbar-thumb:hover {
+    background: rgba(147, 112, 219, 0.6);
+}
+
+/* Shop Item Enhancements - Additional hover effects */
+.shop-item.featured {
+    border-color: #ffd700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.shop-item.featured::after {
+    content: '⭐ Featured';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #ffd700, #ffa500);
+    color: #333;
+    padding: 4px 15px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Responsive adjustments for shop page */
+@media (max-width: 1024px) {
+    .category-sidebar {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .shop-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .voucher-input-group {
+        flex-direction: column;
+    }
+    
+    .voucher-input {
+        width: 100%;
+    }
+    
+    .redeem-button {
+        width: 100%;
+    }
+    
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Shop-specific loading animation */
+.shop-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.shop-loading::after {
+    content: '';
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(147, 112, 219, 0.3);
+    border-top-color: #9370db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Shop error message styling */
+.shop-error {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(220, 53, 69, 0.1));
+    border: 2px solid rgba(255, 107, 107, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: #ff6b6b;
+    margin: 20px 0;
+}
+
+.shop-error i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Shop success message styling */
+.shop-success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+    border: 2px solid rgba(16, 185, 129, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: #10b981;
+    margin: 20px 0;
+}
+
+.shop-success i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Empty shop category message */
+.empty-category {
+    text-align: center;
+    padding: 60px 20px;
+    color: #b19cd9;
+}
+
+.empty-category i {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+    opacity: 0.5;
+}
+
+.empty-category p {
+    font-size: 1.2rem;
+}
+
+/* Shop pagination styles */
+.shop-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.page-link {
+    background: rgba(147, 112, 219, 0.2);
+    border: 1px solid rgba(147, 112, 219, 0.4);
+    color: #e6d7f0;
+    padding: 8px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.page-link:hover {
+    background: rgba(147, 112, 219, 0.4);
+    border-color: #9370db;
+    transform: translateY(-2px);
+}
+
+.page-link.active {
+    background: linear-gradient(45deg, #9370db, #8a2be2);
+    border-color: #9370db;
+    color: #fff;
+}
+
+.page-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.page-link.disabled:hover {
+    transform: none;
+}

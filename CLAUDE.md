@@ -86,6 +86,40 @@ When making releases, ALWAYS follow these steps in order:
 - Hardcode domain-specific values (must work for all users)
 - Clear git history or use different git user
 
+## CRITICAL THEME UNIFICATION WORK IN PROGRESS
+
+### Current Status (v2.1.335 - theme-unification branch)
+We're fixing the theme selector that only works on home page. The issue: inline CSS left in pages when themes were unified.
+
+### What's Been Done:
+1. Created backups of all pages with inline CSS
+2. Extracted shop.blade.php inline CSS to shop-inline-css.tmp
+3. Started analyzing what needs to be moved to unified CSS
+
+### What MUST Be Done Next:
+1. **Shop Page (shop.blade.php)** - Has 1100+ lines of inline CSS (lines 6-1111)
+   - Need to add shop-specific body class 
+   - Move ALL inline styles to mystical-purple-unified.css 
+   - Preserve EXACT appearance - user is VERY frustrated about previous failed attempts
+   - Remove the style block only AFTER confirming appearance is identical
+   
+2. **Other Pages with Inline CSS** that need same treatment:
+   - donate.blade.php
+   - rankings.blade.php  
+   - vote.blade.php
+   - members.blade.php
+
+### Critical Notes:
+- User explicitly said: "its imperative that when removing the inline code the theme is preserved exactly"
+- Previous attempts failed because styles weren't properly moved to CSS file
+- MUST test each page after changes to ensure appearance is EXACTLY the same
+- Work one page at a time, test, commit, create release
+
+### Files Created:
+- shop-inline-css.tmp - Contains extracted CSS from shop page
+- shop-specific-styles.css - Initial attempt (incomplete)
+- Backups: *.blade.php.backup for all affected pages
+
 ## Traditional Website Theme Implementation (v2.1.66+)
 ### Important Context
 - **We bypassed the normal Laravel theming system entirely**
