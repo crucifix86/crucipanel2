@@ -5273,12 +5273,17 @@ body.popup-open {
 
 /* =====================================================
    PUBLIC PROFILE PAGE STYLES
+\n/* Public profile uses content-section for proper layout */
+body.public-profile-page .profile-section {
+    /* Inherits styling from .content-section */
+}
+
    ===================================================== */
 
 body.public-profile-page .public-profile-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body.public-profile-page .profile-header {
