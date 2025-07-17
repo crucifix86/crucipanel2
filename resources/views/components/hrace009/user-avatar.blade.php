@@ -24,9 +24,6 @@
         <x-hrace009::drop-down-link href="{{ route('app.donate.history') }}">
             {{ __('general.menu.donate.history') }}
         </x-hrace009::drop-down-link>
-        <x-hrace009::drop-down-link href="{{ route('messages.inbox') }}">
-            {{ __('messages.messages') }}
-        </x-hrace009::drop-down-link>
         @if(Auth::user()->isAdministrator())
             <x-hrace009::drop-down-link href="{{ route('admin.dashboard') }}">
                 {{ __('Admin Panel') }}

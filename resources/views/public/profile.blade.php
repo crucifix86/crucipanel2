@@ -31,6 +31,24 @@
             </div>
         </div>
 
+        <!-- Message Navigation for User's Own Profile -->
+        @if(Auth::check() && Auth::id() === $user->id)
+        <div class="message-navigation">
+            <h3 class="message-nav-title"><i class="fas fa-envelope"></i> {{ __('messages.my_messages') }}</h3>
+            <div class="message-nav-buttons">
+                <a href="{{ route('messages.inbox') }}" class="btn btn-primary">
+                    <i class="fas fa-inbox"></i> {{ __('messages.inbox') }}
+                </a>
+                <a href="{{ route('messages.outbox') }}" class="btn btn-secondary">
+                    <i class="fas fa-paper-plane"></i> {{ __('messages.outbox') }}
+                </a>
+                <a href="{{ route('messages.compose') }}" class="btn btn-success">
+                    <i class="fas fa-pen"></i> {{ __('messages.compose') }}
+                </a>
+            </div>
+        </div>
+        @endif
+
         <!-- Tabs Navigation -->
         <div class="profile-tabs-nav">
             <button class="tab-button active" onclick="switchTab('info', event)">
@@ -115,18 +133,6 @@
             <!-- Wall Tab -->
             @if($wallEnabled)
             <div id="wall-tab" class="tab-content">
-                <!-- Message Navigation for User's Own Profile -->
-                @if(Auth::check() && Auth::id() === $user->id)
-                <div class="message-navigation">
-                    <a href="{{ route('messages.inbox') }}" class="btn btn-secondary">
-                        <i class="fas fa-inbox"></i> {{ __('messages.inbox') }}
-                    </a>
-                    <a href="{{ route('messages.outbox') }}" class="btn btn-secondary">
-                        <i class="fas fa-paper-plane"></i> {{ __('messages.outbox') }}
-                    </a>
-                </div>
-                @endif
-                
                 @auth
                 <div class="wall-post-form">
                     <form action="{{ route('profile.wall.store', $user->name) }}" method="POST">
