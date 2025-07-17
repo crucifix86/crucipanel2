@@ -25,7 +25,7 @@ class MobileThemeSeeder extends Seeder
                 'description' => 'Clean and responsive theme optimized for mobile devices',
                 'css_content' => $mobileCss,
                 'js_content' => '// Mobile-specific JavaScript can go here',
-                'layout_content' => null,
+                'layout_content' => '',
                 'is_active' => true,
                 'is_visible' => true,
                 'is_default' => false,
