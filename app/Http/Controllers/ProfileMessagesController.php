@@ -72,8 +72,7 @@ class ProfileMessagesController extends Controller
             'message' => $validated['message']
         ]);
 
-        flash(__('messages.wall_post_success'))->success();
-        return back();
+        return back()->with('success', __('messages.wall_post_success'));
     }
 
     public function destroy(ProfileMessage $profileMessage)
@@ -85,8 +84,7 @@ class ProfileMessagesController extends Controller
 
         $profileMessage->delete();
 
-        flash(__('messages.wall_post_deleted'))->success();
-        return back();
+        return back()->with('success', __('messages.wall_post_deleted'));
     }
 
     public function hide(ProfileMessage $profileMessage)

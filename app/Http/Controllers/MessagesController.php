@@ -21,8 +21,7 @@ class MessagesController extends Controller
         $settings = MessagingSettings::first();
         
         if (!$settings || !$settings->messaging_enabled) {
-            flash(__('messages.messaging_disabled'))->error();
-            return redirect()->route('HOME');
+            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
         $messages = Auth::user()->receivedMessages()
@@ -39,8 +38,7 @@ class MessagesController extends Controller
         $settings = MessagingSettings::first();
         
         if (!$settings || !$settings->messaging_enabled) {
-            flash(__('messages.messaging_disabled'))->error();
-            return redirect()->route('HOME');
+            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
         $messages = Auth::user()->sentMessages()
@@ -57,8 +55,7 @@ class MessagesController extends Controller
         $settings = MessagingSettings::first();
         
         if (!$settings || !$settings->messaging_enabled) {
-            flash(__('messages.messaging_disabled'))->error();
-            return redirect()->route('HOME');
+            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
         $recipient = null;
@@ -66,8 +63,7 @@ class MessagesController extends Controller
             $recipient = User::findOrFail($userId);
             
             if ($recipient->id === Auth::id()) {
-                flash(__('messages.cannot_message_self'))->error();
-                return redirect()->route('messages.inbox');
+                return redirect()->route('messages.inbox')->with('error', __('messages.cannot_message_self'));
             }
         }
 
@@ -79,8 +75,7 @@ class MessagesController extends Controller
         $settings = MessagingSettings::first();
         
         if (!$settings || !$settings->messaging_enabled) {
-            flash(__('messages.messaging_disabled'))->error();
-            return redirect()->route('HOME');
+            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
         // Check rate limit
@@ -89,8 +84,7 @@ class MessagesController extends Controller
             ->count();
 
         if ($recentMessages >= $settings->message_rate_limit) {
-            flash(__('messages.rate_limit_exceeded'))->error();
-            return back()->withInput();
+            return back()->withInput()->with('error', __('messages.rate_limit_exceeded'));
         }
 
         $validated = $request->validate([
@@ -106,8 +100,7 @@ class MessagesController extends Controller
             'message' => $validated['message']
         ]);
 
-        flash(__('messages.sent_successfully'))->success();
-        return redirect()->route('messages.outbox');
+        return redirect()->route('messages.outbox')->with('success', __('messages.sent_successfully'));
     }
 
     public function show(Message $message)
@@ -130,8 +123,7 @@ class MessagesController extends Controller
         $settings = MessagingSettings::first();
         
         if (!$settings || !$settings->messaging_enabled) {
-            flash(__('messages.messaging_disabled'))->error();
-            return redirect()->route('HOME');
+            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
         // Check if user can reply to this message
@@ -149,8 +141,7 @@ class MessagesController extends Controller
         $settings = MessagingSettings::first();
         
         if (!$settings || !$settings->messaging_enabled) {
-            flash(__('messages.messaging_disabled'))->error();
-            return redirect()->route('HOME');
+            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
         // Check if user can reply to this message
@@ -164,8 +155,7 @@ class MessagesController extends Controller
             ->count();
 
         if ($recentMessages >= $settings->message_rate_limit) {
-            flash(__('messages.rate_limit_exceeded'))->error();
-            return back()->withInput();
+            return back()->withInput()->with('error', __('messages.rate_limit_exceeded'));
         }
 
         $validated = $request->validate([
@@ -182,8 +172,7 @@ class MessagesController extends Controller
             'parent_id' => $message->id
         ]);
 
-        flash(__('messages.reply_sent'))->success();
-        return redirect()->route('messages.show', $reply);
+        return redirect()->route('messages.show', $reply)->with('success', __('messages.reply_sent'));
     }
 
     public function destroy(Message $message)
@@ -197,12 +186,12 @@ class MessagesController extends Controller
             abort(403);
         }
 
-        flash(__('messages.deleted_successfully'))->success();
+        $successMessage = __('messages.deleted_successfully');
         
         if ($message->sender_id === Auth::id()) {
-            return redirect()->route('messages.outbox');
+            return redirect()->route('messages.outbox')->with('success', $successMessage);
         } else {
-            return redirect()->route('messages.inbox');
+            return redirect()->route('messages.inbox')->with('success', $successMessage);
         }
     }
 
