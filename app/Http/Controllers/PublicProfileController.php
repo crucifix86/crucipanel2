@@ -11,16 +11,17 @@ class PublicProfileController extends Controller
 {
     public function show($username)
     {
-        $user = User::where('name', $username)->firstOrFail();
+        $user = User::where('name', $username)->with('profile')->firstOrFail();
+        $profile = $user->profile;
         
         // Check if public profile is enabled
-        if (!$user->public_profile_enabled && (!Auth::check() || Auth::id() !== $user->id)) {
+        if (!$profile || !$profile->public_profile_enabled && (!Auth::check() || Auth::id() !== $user->id)) {
             abort(404);
         }
         
         // Get messaging settings
         $messagingSettings = MessagingSettings::first();
-        $wallEnabled = $user->public_wall_enabled && $messagingSettings && $messagingSettings->profile_wall_enabled;
+        $wallEnabled = $profile && $profile->public_wall_enabled && $messagingSettings && $messagingSettings->profile_wall_enabled;
         
         // Get wall messages if enabled
         $wallMessages = [];

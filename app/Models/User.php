@@ -68,11 +68,6 @@ class User extends Authenticatable
         'theme_id',
         'discord_id',
         'pin_enabled',
-        'public_bio',
-        'public_discord',
-        'public_website',
-        'public_profile_enabled',
-        'public_wall_enabled',
     ];
 
     /**
@@ -104,8 +99,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'pin_enabled' => 'boolean',
-        'public_profile_enabled' => 'boolean',
-        'public_wall_enabled' => 'boolean',
     ];
     /**
      * The accessors to append to the model's array form.
@@ -290,5 +283,23 @@ class User extends Authenticatable
             ->where('is_read', false)
             ->where('deleted_by_recipient', false)
             ->count();
+    }
+
+    /**
+     * User's public profile
+     */
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class, 'user_id', 'ID');
+    }
+
+    /**
+     * Get or create user profile
+     */
+    public function getOrCreateProfile()
+    {
+        return $this->profile ?: $this->profile()->create([
+            'user_id' => $this->ID
+        ]);
     }
 }

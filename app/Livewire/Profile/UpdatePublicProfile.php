@@ -24,18 +24,23 @@ class UpdatePublicProfile extends Component
     public function mount()
     {
         $user = Auth::user();
-        $this->public_bio = $user->public_bio;
-        $this->public_discord = $user->public_discord;
-        $this->public_website = $user->public_website;
-        $this->public_profile_enabled = $user->public_profile_enabled;
-        $this->public_wall_enabled = $user->public_wall_enabled;
+        $profile = $user->getOrCreateProfile();
+        
+        $this->public_bio = $profile->public_bio;
+        $this->public_discord = $profile->public_discord;
+        $this->public_website = $profile->public_website;
+        $this->public_profile_enabled = $profile->public_profile_enabled;
+        $this->public_wall_enabled = $profile->public_wall_enabled;
     }
 
     public function updatePublicProfile()
     {
         $this->validate();
 
-        Auth::user()->update([
+        $user = Auth::user();
+        $profile = $user->getOrCreateProfile();
+        
+        $profile->update([
             'public_bio' => $this->public_bio,
             'public_discord' => $this->public_discord,
             'public_website' => $this->public_website,

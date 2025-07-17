@@ -50,30 +50,32 @@
         <!-- Info Tab -->
         <div id="info-tab" class="tab-content active">
             <div class="info-grid">
-                @if($user->public_bio)
+                @if($user->profile && $user->profile->public_bio)
                 <div class="info-section">
                     <h3 class="info-title"><i class="fas fa-user"></i> {{ __('site.profile.public.about') }}</h3>
-                    <p class="info-bio">{{ $user->public_bio }}</p>
+                    <p class="info-bio">{{ $user->profile->public_bio }}</p>
                 </div>
                 @endif
 
+                @if($user->profile && ($user->profile->public_discord || $user->profile->public_website))
                 <div class="info-section">
                     <h3 class="info-title"><i class="fas fa-link"></i> {{ __('site.profile.public.links') }}</h3>
                     <div class="info-links">
-                        @if($user->public_discord)
+                        @if($user->profile->public_discord)
                         <div class="info-link">
                             <i class="fab fa-discord"></i>
-                            <span>{{ $user->public_discord }}</span>
+                            <span>{{ $user->profile->public_discord }}</span>
                         </div>
                         @endif
-                        @if($user->public_website)
+                        @if($user->profile->public_website)
                         <div class="info-link">
                             <i class="fas fa-globe"></i>
-                            <a href="{{ $user->public_website }}" target="_blank" rel="noopener">{{ parse_url($user->public_website, PHP_URL_HOST) }}</a>
+                            <a href="{{ $user->profile->public_website }}" target="_blank" rel="noopener">{{ parse_url($user->profile->public_website, PHP_URL_HOST) }}</a>
                         </div>
                         @endif
                     </div>
                 </div>
+                @endif
 
                 <div class="info-section">
                     <h3 class="info-title"><i class="fas fa-chart-bar"></i> {{ __('site.profile.public.stats') }}</h3>
