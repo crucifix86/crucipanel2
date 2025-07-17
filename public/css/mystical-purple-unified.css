@@ -2925,6 +2925,26 @@ body.members-page .staff-info {
     gap: 8px;
 }
 
+body.members-page .staff-message-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(45deg, #9370db, #8a2be2);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+body.members-page .staff-message-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(147, 112, 219, 0.6);
+}
+
 body.members-page .info-icon {
     font-size: 1.1rem;
 }
@@ -3194,9 +3214,44 @@ body.members-page .player-row:hover .player-avatar {
     box-shadow: 0 0 15px rgba(147, 112, 219, 0.5);
 }
 
+body.members-page .player-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 body.members-page .player-name {
     font-weight: 600;
     color: #e6d7f0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+body.members-page .player-name:hover {
+    color: #9370db;
+}
+
+body.members-page .message-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: rgba(147, 112, 219, 0.2);
+    border-radius: 50%;
+    color: #9370db;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+body.members-page .message-icon:hover {
+    background: rgba(147, 112, 219, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+}
+
+body.members-page .message-icon i {
+    font-size: 0.9rem;
 }
 
 /* Character Cell */

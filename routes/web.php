@@ -194,6 +194,54 @@ Route::group(['middleware' => 'web'], static function () {
     Route::get('/theme/js', [App\Http\Controllers\ThemeAssetController::class, 'js'])->name('theme.js');
 });
 
+/* Messaging Routes - Independent of Dashboard */
+Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web', 'verified']], function () {
+    Route::get('/', [
+        'as' => 'messages.inbox',
+        'uses' => 'App\Http\Controllers\MessagesController@inbox'
+    ]);
+    
+    Route::get('/outbox', [
+        'as' => 'messages.outbox',
+        'uses' => 'App\Http\Controllers\MessagesController@outbox'
+    ]);
+    
+    Route::get('/compose/{userId?}', [
+        'as' => 'messages.compose',
+        'uses' => 'App\Http\Controllers\MessagesController@compose'
+    ]);
+    
+    Route::post('/', [
+        'as' => 'messages.store',
+        'uses' => 'App\Http\Controllers\MessagesController@store'
+    ]);
+    
+    Route::get('/{message}', [
+        'as' => 'messages.show',
+        'uses' => 'App\Http\Controllers\MessagesController@show'
+    ]);
+    
+    Route::get('/{message}/reply', [
+        'as' => 'messages.reply',
+        'uses' => 'App\Http\Controllers\MessagesController@reply'
+    ]);
+    
+    Route::post('/{message}/reply', [
+        'as' => 'messages.reply.store',
+        'uses' => 'App\Http\Controllers\MessagesController@storeReply'
+    ]);
+    
+    Route::delete('/{message}', [
+        'as' => 'messages.destroy',
+        'uses' => 'App\Http\Controllers\MessagesController@destroy'
+    ]);
+    
+    Route::get('/api/search-users', [
+        'as' => 'messages.search-users',
+        'uses' => 'App\Http\Controllers\MessagesController@searchUsers'
+    ]);
+});
+
 /* App Page */
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified', 'dashboard.enabled']], static function () {
 
@@ -201,54 +249,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified
         'as' => 'app.dashboard',
         'uses' => 'App\Http\Controllers\Front\Dashboard@getIndex'
     ]);
-
-    // Messaging Routes
-    Route::group(['prefix' => 'messages'], function () {
-        Route::get('/', [
-            'as' => 'messages.inbox',
-            'uses' => 'App\Http\Controllers\MessagesController@inbox'
-        ]);
-        
-        Route::get('/outbox', [
-            'as' => 'messages.outbox',
-            'uses' => 'App\Http\Controllers\MessagesController@outbox'
-        ]);
-        
-        Route::get('/compose/{userId?}', [
-            'as' => 'messages.compose',
-            'uses' => 'App\Http\Controllers\MessagesController@compose'
-        ]);
-        
-        Route::post('/', [
-            'as' => 'messages.store',
-            'uses' => 'App\Http\Controllers\MessagesController@store'
-        ]);
-        
-        Route::get('/{message}', [
-            'as' => 'messages.show',
-            'uses' => 'App\Http\Controllers\MessagesController@show'
-        ]);
-        
-        Route::get('/{message}/reply', [
-            'as' => 'messages.reply',
-            'uses' => 'App\Http\Controllers\MessagesController@reply'
-        ]);
-        
-        Route::post('/{message}/reply', [
-            'as' => 'messages.reply.store',
-            'uses' => 'App\Http\Controllers\MessagesController@storeReply'
-        ]);
-        
-        Route::delete('/{message}', [
-            'as' => 'messages.destroy',
-            'uses' => 'App\Http\Controllers\MessagesController@destroy'
-        ]);
-        
-        Route::get('/api/search-users', [
-            'as' => 'messages.search-users',
-            'uses' => 'App\Http\Controllers\MessagesController@searchUsers'
-        ]);
-    });
 
     /***
      * Shop Routing
