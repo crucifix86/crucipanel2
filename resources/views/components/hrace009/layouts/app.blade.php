@@ -103,6 +103,7 @@
     <x-hrace009::side-bar>
         <x-slot name="links">
             <x-hrace009::front.dashboard-link/>
+            <x-hrace009::front.messaging-link/>
             @if( config('pw-config.system.apps.shop') )
                 <x-hrace009::front.shop-link/>
             @endif

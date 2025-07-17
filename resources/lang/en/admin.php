@@ -58,4 +58,19 @@ return [
     'page_status_updated' => 'Page status updated successfully!',
     'create' => 'Create',
     'update' => 'Update',
+    
+    // Messaging Translations
+    'messaging' => [
+        'title' => 'Messaging',
+        'settings' => 'Messaging Settings',
+        'settings_updated' => 'Messaging settings have been updated successfully!',
+        'enable_messaging' => 'Enable Private Messaging',
+        'enable_messaging_desc' => 'Allow users to send private messages to each other',
+        'enable_profile_wall' => 'Enable Profile Message Wall',
+        'enable_profile_wall_desc' => 'Allow users to post public messages on profiles',
+        'message_rate_limit' => 'Messages per Hour',
+        'message_rate_limit_desc' => 'Maximum number of private messages a user can send per hour',
+        'wall_message_rate_limit' => 'Wall Posts per Hour',
+        'wall_message_rate_limit_desc' => 'Maximum number of profile wall posts a user can make per hour',
+    ],
 ];

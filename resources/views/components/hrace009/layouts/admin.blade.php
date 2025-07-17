@@ -130,6 +130,7 @@
                 <x-hrace009::admin.ranking-link/>
             @endif
             <x-hrace009::admin.manage-link/>
+            <x-hrace009::admin.messaging-link/>
             <x-hrace009::admin.pages-link/>
             <x-hrace009::admin.live-chat-link/>
         </x-slot>

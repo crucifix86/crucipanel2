@@ -1,0 +1,227 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Message;
+use App\Models\User;
+use App\Models\MessagingSettings;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+
+class MessagesController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function inbox()
+    {
+        $settings = MessagingSettings::first();
+        
+        if (!$settings || !$settings->messaging_enabled) {
+            flash(__('messages.messaging_disabled'))->error();
+            return redirect()->route('HOME');
+        }
+
+        $messages = Auth::user()->receivedMessages()
+            ->inbox(Auth::id())
+            ->with('sender')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('messages.inbox', compact('messages'));
+    }
+
+    public function outbox()
+    {
+        $settings = MessagingSettings::first();
+        
+        if (!$settings || !$settings->messaging_enabled) {
+            flash(__('messages.messaging_disabled'))->error();
+            return redirect()->route('HOME');
+        }
+
+        $messages = Auth::user()->sentMessages()
+            ->outbox(Auth::id())
+            ->with('recipient')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('messages.outbox', compact('messages'));
+    }
+
+    public function compose($userId = null)
+    {
+        $settings = MessagingSettings::first();
+        
+        if (!$settings || !$settings->messaging_enabled) {
+            flash(__('messages.messaging_disabled'))->error();
+            return redirect()->route('HOME');
+        }
+
+        $recipient = null;
+        if ($userId) {
+            $recipient = User::findOrFail($userId);
+            
+            if ($recipient->id === Auth::id()) {
+                flash(__('messages.cannot_message_self'))->error();
+                return redirect()->route('messages.inbox');
+            }
+        }
+
+        return view('messages.compose', compact('recipient'));
+    }
+
+    public function store(Request $request)
+    {
+        $settings = MessagingSettings::first();
+        
+        if (!$settings || !$settings->messaging_enabled) {
+            flash(__('messages.messaging_disabled'))->error();
+            return redirect()->route('HOME');
+        }
+
+        // Check rate limit
+        $recentMessages = Auth::user()->sentMessages()
+            ->where('created_at', '>=', now()->subHour())
+            ->count();
+
+        if ($recentMessages >= $settings->message_rate_limit) {
+            flash(__('messages.rate_limit_exceeded'))->error();
+            return back()->withInput();
+        }
+
+        $validated = $request->validate([
+            'recipient_id' => ['required', 'exists:users,id', Rule::notIn([Auth::id()])],
+            'subject' => 'nullable|string|max:255',
+            'message' => 'required|string|min:1|max:10000'
+        ]);
+
+        $message = Message::create([
+            'sender_id' => Auth::id(),
+            'recipient_id' => $validated['recipient_id'],
+            'subject' => $validated['subject'] ?? null,
+            'message' => $validated['message']
+        ]);
+
+        flash(__('messages.sent_successfully'))->success();
+        return redirect()->route('messages.outbox');
+    }
+
+    public function show(Message $message)
+    {
+        // Check if user can view this message
+        if ($message->sender_id !== Auth::id() && $message->recipient_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Mark as read if recipient
+        if ($message->recipient_id === Auth::id() && !$message->is_read) {
+            $message->update(['is_read' => true]);
+        }
+
+        return view('messages.show', compact('message'));
+    }
+
+    public function reply(Message $message)
+    {
+        $settings = MessagingSettings::first();
+        
+        if (!$settings || !$settings->messaging_enabled) {
+            flash(__('messages.messaging_disabled'))->error();
+            return redirect()->route('HOME');
+        }
+
+        // Check if user can reply to this message
+        if ($message->sender_id !== Auth::id() && $message->recipient_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $recipient = $message->sender_id === Auth::id() ? $message->recipient : $message->sender;
+
+        return view('messages.reply', compact('message', 'recipient'));
+    }
+
+    public function storeReply(Request $request, Message $message)
+    {
+        $settings = MessagingSettings::first();
+        
+        if (!$settings || !$settings->messaging_enabled) {
+            flash(__('messages.messaging_disabled'))->error();
+            return redirect()->route('HOME');
+        }
+
+        // Check if user can reply to this message
+        if ($message->sender_id !== Auth::id() && $message->recipient_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Check rate limit
+        $recentMessages = Auth::user()->sentMessages()
+            ->where('created_at', '>=', now()->subHour())
+            ->count();
+
+        if ($recentMessages >= $settings->message_rate_limit) {
+            flash(__('messages.rate_limit_exceeded'))->error();
+            return back()->withInput();
+        }
+
+        $validated = $request->validate([
+            'message' => 'required|string|min:1|max:10000'
+        ]);
+
+        $recipientId = $message->sender_id === Auth::id() ? $message->recipient_id : $message->sender_id;
+
+        $reply = Message::create([
+            'sender_id' => Auth::id(),
+            'recipient_id' => $recipientId,
+            'subject' => 'Re: ' . ($message->subject ?? __('messages.no_subject')),
+            'message' => $validated['message'],
+            'parent_id' => $message->id
+        ]);
+
+        flash(__('messages.reply_sent'))->success();
+        return redirect()->route('messages.show', $reply);
+    }
+
+    public function destroy(Message $message)
+    {
+        // Check if user can delete this message
+        if ($message->sender_id === Auth::id()) {
+            $message->update(['deleted_by_sender' => true]);
+        } elseif ($message->recipient_id === Auth::id()) {
+            $message->update(['deleted_by_recipient' => true]);
+        } else {
+            abort(403);
+        }
+
+        flash(__('messages.deleted_successfully'))->success();
+        
+        if ($message->sender_id === Auth::id()) {
+            return redirect()->route('messages.outbox');
+        } else {
+            return redirect()->route('messages.inbox');
+        }
+    }
+
+    public function searchUsers(Request $request)
+    {
+        $search = $request->get('q');
+        
+        if (!$search || strlen($search) < 2) {
+            return response()->json([]);
+        }
+
+        $users = User::where('id', '!=', Auth::id())
+            ->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->limit(10)
+            ->get(['id', 'name', 'email']);
+
+        return response()->json($users);
+    }
+}

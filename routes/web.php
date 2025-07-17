@@ -186,6 +186,54 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified
         'uses' => 'App\Http\Controllers\Front\Dashboard@getIndex'
     ]);
 
+    // Messaging Routes
+    Route::group(['prefix' => 'messages'], function () {
+        Route::get('/', [
+            'as' => 'messages.inbox',
+            'uses' => 'App\Http\Controllers\MessagesController@inbox'
+        ]);
+        
+        Route::get('/outbox', [
+            'as' => 'messages.outbox',
+            'uses' => 'App\Http\Controllers\MessagesController@outbox'
+        ]);
+        
+        Route::get('/compose/{userId?}', [
+            'as' => 'messages.compose',
+            'uses' => 'App\Http\Controllers\MessagesController@compose'
+        ]);
+        
+        Route::post('/', [
+            'as' => 'messages.store',
+            'uses' => 'App\Http\Controllers\MessagesController@store'
+        ]);
+        
+        Route::get('/{message}', [
+            'as' => 'messages.show',
+            'uses' => 'App\Http\Controllers\MessagesController@show'
+        ]);
+        
+        Route::get('/{message}/reply', [
+            'as' => 'messages.reply',
+            'uses' => 'App\Http\Controllers\MessagesController@reply'
+        ]);
+        
+        Route::post('/{message}/reply', [
+            'as' => 'messages.reply.store',
+            'uses' => 'App\Http\Controllers\MessagesController@storeReply'
+        ]);
+        
+        Route::delete('/{message}', [
+            'as' => 'messages.destroy',
+            'uses' => 'App\Http\Controllers\MessagesController@destroy'
+        ]);
+        
+        Route::get('/api/search-users', [
+            'as' => 'messages.search-users',
+            'uses' => 'App\Http\Controllers\MessagesController@searchUsers'
+        ]);
+    });
+
     /***
      * Shop Routing
      */
@@ -797,6 +845,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
     });
 
     /* Scheduler Routes */
+    /* Messaging Settings */
+    Route::group(['prefix' => 'messaging'], static function () {
+        Route::get('settings', [
+            'as' => 'admin.messaging.settings',
+            'uses' => 'App\Http\Controllers\Admin\MessagingSettingsController@index'
+        ]);
+        
+        Route::post('settings', [
+            'as' => 'admin.messaging.settings.update',
+            'uses' => 'App\Http\Controllers\Admin\MessagingSettingsController@update'
+        ]);
+    });
+
     Route::group(['prefix' => 'scheduler'], static function () {
         Route::get('/', [
             'as' => 'admin.scheduler.index',

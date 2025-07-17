@@ -107,6 +107,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'unread_message_count',
     ];
 
     /**
@@ -239,5 +240,48 @@ class User extends Authenticatable
     public function theme()
     {
         return $this->belongsTo(Theme::class);
+    }
+
+    /**
+     * Messages sent by the user
+     */
+    public function sentMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id', 'ID');
+    }
+
+    /**
+     * Messages received by the user
+     */
+    public function receivedMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'recipient_id', 'ID');
+    }
+
+    /**
+     * Profile messages on user's profile
+     */
+    public function profileMessages(): HasMany
+    {
+        return $this->hasMany(ProfileMessage::class, 'profile_user_id', 'ID');
+    }
+
+    /**
+     * Profile messages sent by the user
+     */
+    public function sentProfileMessages(): HasMany
+    {
+        return $this->hasMany(ProfileMessage::class, 'sender_id', 'ID');
+    }
+
+    /**
+     * Get unread message count
+     */
+    public function getUnreadMessageCountAttribute(): int
+    {
+        return $this->receivedMessages()
+            ->where('is_read', false)
+            ->where('deleted_by_recipient', false)
+            ->count();
     }
 }
