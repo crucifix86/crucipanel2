@@ -123,6 +123,34 @@ ALTER TABLE settings ADD COLUMN profile_wall_enabled BOOLEAN DEFAULT TRUE;
   - Mass message interface with preview
   - Message statistics dashboard
 
+## CRITICAL PUBLIC PROFILE ISSUES (v2.1.472)
+
+### THE PROBLEMS:
+1. **Wall content is ABOVE the navigation bar and header** - This means content is being rendered outside/before the container
+2. **Profile sections are underneath all widgets** - Not using the container's margin-left properly
+3. **Page structure is completely broken** - Elements are scattered, not following the layout
+
+### WHAT I TRIED AND FAILED:
+1. v2.1.464 - Added margins that pushed everything left and broke the theme everywhere
+2. v2.1.465-466 - Emergency fixes that made it worse
+3. v2.1.467 - Reverted but then broke it again
+4. v2.1.468 - Tried to copy container pattern, made elements scatter
+5. v2.1.469 - Made it even worse with wrong margins
+6. v2.1.470 - Reverted to v2.1.463
+7. v2.1.471 - Added content-section wrapper (wrong approach)
+8. v2.1.472 - Applied styling but didn't fix structural issues
+
+### THE REAL ISSUE:
+- Something is fundamentally wrong with how the public profile content is being rendered
+- Content appears OUTSIDE the mystical layout's container structure
+- The @yield('content') is not working as expected for this page
+
+### WHAT NEEDS TO BE INVESTIGATED:
+1. Why is content appearing above the nav/header?
+2. Is there a route/controller issue?
+3. Is the blade template structure correct?
+4. Is something overriding the layout?
+
 ## CURRENT STATUS (v2.1.453)
 
 ### ✅ ALL INLINE CSS ISSUES RESOLVED! 
