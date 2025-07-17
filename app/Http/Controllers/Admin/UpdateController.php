@@ -144,16 +144,35 @@ class UpdateController extends Controller
      */
     private function addDirectoryToZip($zip, $dir, $zipPath)
     {
+        if (!is_dir($dir)) {
+            return;
+        }
+        
         $files = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($dir),
+            new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::LEAVES_ONLY
         );
         
         foreach ($files as $name => $file) {
-            if (!$file->isDir()) {
-                $filePath = $file->getRealPath();
-                $relativePath = $zipPath . '/' . substr($filePath, strlen($dir) + 1);
+            // Skip if not a file or if it's a directory
+            if (!$file->isFile()) {
+                continue;
+            }
+            
+            $filePath = $file->getRealPath();
+            
+            // Skip if file path is empty or file doesn't exist
+            if (empty($filePath) || !file_exists($filePath)) {
+                continue;
+            }
+            
+            $relativePath = $zipPath . '/' . substr($filePath, strlen($dir) + 1);
+            
+            try {
                 $zip->addFile($filePath, $relativePath);
+            } catch (\Exception $e) {
+                // Log the error but continue with other files
+                \Log::warning('Failed to add file to backup: ' . $filePath . ' - ' . $e->getMessage());
             }
         }
     }
