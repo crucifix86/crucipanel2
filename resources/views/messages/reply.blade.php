@@ -1,4 +1,4 @@
-<x-hrace009-layouts-app>
+<x-hrace009.layouts.app>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -21,7 +21,7 @@
                 </div>
                 
                 <div class="card-body">
-                    <form action="{{ route('messages.sendReply', $message) }}" method="POST">
+                    <form action="{{ route('messages.reply.store', $message) }}" method="POST">
                         @csrf
                         
                         <div class="form-group">
@@ -48,4 +48,4 @@
         </div>
     </div>
 </div>
-</x-hrace009-layouts-app>
+</x-hrace009.layouts.app>
