@@ -107,6 +107,8 @@ body.popup-open {
     margin-left: 260px;
     margin-right: auto;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     min-height: 100vh;
 }
 
@@ -725,7 +727,7 @@ body.popup-open {
     justify-content: space-between;
     align-items: center;
     gap: 40px;
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -966,7 +968,7 @@ body.shop-page .shop-item {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
     border: 2px solid rgba(147, 112, 219, 0.4);
     border-radius: 20px;
-    padding: 25px;
+    padding: 20px;
     text-align: center;
     transition: all 0.4s ease;
     position: relative;
@@ -1094,6 +1096,8 @@ body.shop-page .bonus-button:hover {
     border: 2px solid rgba(147, 112, 219, 0.3);
     border-radius: 20px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
@@ -1190,6 +1194,8 @@ body.shop-page .bonus-button:hover {
     border: 2px solid rgba(147, 112, 219, 0.4);
     border-radius: 15px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     min-width: 250px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     z-index: 1000;
@@ -1227,6 +1233,8 @@ body.shop-page .bonus-button:hover {
     color: var(--light-purple);
     text-align: center;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
 }
 
 /* Category Sidebar */
@@ -1611,7 +1619,7 @@ body.donate-page .welcome-notice {
 }
 
 .benefits-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--primary-purple);
     margin-bottom: 20px;
     text-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
@@ -1650,7 +1658,7 @@ body.vote-page {
 
 /* Main content wrapper */
 body.vote-page .vote-content {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 40px 20px;
 }
@@ -1685,7 +1693,7 @@ body.vote-page .user-info-bar {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.15));
     border: 2px solid rgba(147, 112, 219, 0.3);
     border-radius: 20px;
-    padding: 25px;
+    padding: 20px;
     margin-bottom: 40px;
     backdrop-filter: blur(10px);
 }
@@ -1818,7 +1826,7 @@ body.vote-page .cooldown-timer {
     background: rgba(239, 68, 68, 0.15);
     border: 2px solid rgba(239, 68, 68, 0.3);
     border-radius: 20px;
-    padding: 15px 25px;
+    padding: 10px 20px;
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -1852,7 +1860,7 @@ body.vote-page .vote-info-section {
 }
 
 body.vote-page .info-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #9370db;
     text-align: center;
     margin-bottom: 40px;
@@ -1888,6 +1896,8 @@ body.vote-page .login-notice {
     border: 2px solid rgba(147, 112, 219, 0.2);
     border-radius: 15px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     margin-top: 40px;
 }
 
@@ -1933,6 +1943,8 @@ body.vote-page .login-notice p {
 body.vote-page .alert {
     border-radius: 15px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     margin-bottom: 30px;
     text-align: center;
     font-size: 1.15rem;
@@ -1956,7 +1968,7 @@ body.vote-page .test-mode-warning {
     background: rgba(239, 68, 68, 0.15);
     border: 2px solid #ef4444;
     border-radius: 15px;
-    padding: 25px;
+    padding: 20px;
     margin-bottom: 30px;
 }
 
@@ -2135,7 +2147,7 @@ body.vote-page .cooldown-timer {
 }
 
 body.vote-page .cooldown-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
     animation: pulse 2s ease-in-out infinite;
 }
 
@@ -2235,9 +2247,11 @@ body.vote-page .vote-title {
 
 /* Members Page Container */
 body.members-page .members-content {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
 }
 
 /* Members Header */
@@ -2277,7 +2291,7 @@ body.members-page .section-title {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #9370db;
     margin-bottom: 40px;
     text-align: center;
@@ -2359,7 +2373,7 @@ body.members-page .staff-avatar {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    border: 4px solid #9370db;
+    border: 3px solid #9370db;
     box-shadow: 0 0 30px rgba(147, 112, 219, 0.6);
     transition: all 0.3s ease;
 }
@@ -2885,7 +2899,7 @@ body.members-page .pagination-info {
 /* Responsive Design */
 @media (max-width: 768px) {
     body.members-page .members-title {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     body.members-page .staff-grid {
@@ -3051,7 +3065,7 @@ body.custom-page .page-content h1 {
 }
 
 body.custom-page .page-content h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -3192,6 +3206,8 @@ body.custom-page .page-content pre {
     border: 1px solid rgba(147, 112, 219, 0.3);
     border-radius: 10px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     overflow-x: auto;
     margin: 25px 0;
 }
@@ -3356,7 +3372,7 @@ body.custom-page .page-content .success-box::before {
     }
     
     body.custom-page .page-content h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     
     body.custom-page .page-content h2 {
@@ -3384,6 +3400,8 @@ body.profile-page .profile-container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     min-height: 100vh;
     position: relative;
 }
@@ -3534,6 +3552,8 @@ body.profile-page .profile-stats {
 
 body.profile-page .stat-item {
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(147, 112, 219, 0.4);
     border-radius: 15px;
@@ -3723,6 +3743,8 @@ body.profile-page .character-card {
     border: 1px solid rgba(147, 112, 219, 0.4);
     border-radius: 20px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     transition: all 0.3s ease;
 }
 
@@ -3762,8 +3784,8 @@ body.profile-page .character-card:hover {
     }
     
     body.profile-page .profile-avatar {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
     }
     
     body.profile-page .profile-username {
@@ -4588,6 +4610,8 @@ body.home-page .news-popup {
     z-index: 10000;
     overflow-y: auto;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     display: none;
 }
 
@@ -4664,7 +4688,7 @@ body.shop-page .shop-item {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(147, 112, 219, 0.1));
     border: 2px solid rgba(147, 112, 219, 0.4);
     border-radius: 20px;
-    padding: 25px;
+    padding: 20px;
     text-align: center;
     transition: all 0.4s ease;
     position: relative;
@@ -4884,6 +4908,8 @@ body.shop-page .category-sidebar-inner {
     border: 1px solid rgba(147, 112, 219, 0.3);
     border-radius: 15px;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
 }
 
 body.shop-page .category-sidebar h3 {
@@ -5276,9 +5302,11 @@ body.popup-open {
    ===================================================== */
 
 body.public-profile-page .public-profile-container {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
 }
 
 body.public-profile-page .profile-header {
@@ -5290,7 +5318,7 @@ body.public-profile-page .profile-header {
 }
 
 body.public-profile-page .profile-banner {
-    height: 200px;
+    height: 150px;
     background: linear-gradient(135deg, #9370DB, #8A2BE2);
     opacity: 0.8;
 }
@@ -5298,22 +5326,22 @@ body.public-profile-page .profile-banner {
 body.public-profile-page .profile-info {
     display: flex;
     align-items: flex-end;
-    padding: 0 30px 30px;
-    margin-top: -50px;
+    padding: 0 20px 20px;
+    margin-top: -40px;
     position: relative;
 }
 
 body.public-profile-page .profile-avatar {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: rgba(30, 30, 60, 0.95);
-    border: 4px solid #9370DB;
+    border: 3px solid #9370DB;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 body.public-profile-page .profile-avatar img {
@@ -5323,7 +5351,7 @@ body.public-profile-page .profile-avatar img {
 }
 
 body.public-profile-page .profile-avatar i {
-    font-size: 60px;
+    font-size: 40px;
     color: #9370DB;
 }
 
@@ -5332,7 +5360,7 @@ body.public-profile-page .profile-details {
 }
 
 body.public-profile-page .profile-name {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #e6d7f0;
     margin: 0;
 }
@@ -5358,7 +5386,7 @@ body.public-profile-page .tab-button {
     background: none;
     border: none;
     color: #e6d7f0;
-    padding: 15px 25px;
+    padding: 10px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
@@ -5399,7 +5427,7 @@ body.public-profile-page .info-grid {
 
 body.public-profile-page .info-section {
     background: rgba(30, 30, 60, 0.6);
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
 }
@@ -5450,7 +5478,7 @@ body.public-profile-page .stat-label {
 
 body.public-profile-page .stat-value {
     display: block;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #e6d7f0;
     font-weight: bold;
 }
@@ -5464,7 +5492,7 @@ body.public-profile-page .characters-grid {
 
 body.public-profile-page .character-card {
     background: rgba(30, 30, 60, 0.6);
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
     text-align: center;
@@ -5496,6 +5524,8 @@ body.public-profile-page .character-class {
 body.public-profile-page .wall-post-form {
     background: rgba(30, 30, 60, 0.6);
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     border-radius: 10px;
     margin-bottom: 30px;
     border: 1px solid rgba(147, 112, 219, 0.3);
@@ -5526,6 +5556,8 @@ body.public-profile-page .char-count {
 body.public-profile-page .wall-message {
     background: rgba(30, 30, 60, 0.6);
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
     border-radius: 10px;
     margin-bottom: 15px;
     border: 1px solid rgba(147, 112, 219, 0.3);

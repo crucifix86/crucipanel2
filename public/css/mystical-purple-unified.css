@@ -5323,9 +5323,11 @@ body.popup-open {
    ===================================================== */
 
 body.public-profile-page .public-profile-container {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 50px;
+    margin-right: 350px;
 }
 
 body.public-profile-page .profile-header {
@@ -5337,7 +5339,7 @@ body.public-profile-page .profile-header {
 }
 
 body.public-profile-page .profile-banner {
-    height: 200px;
+    height: 150px;
     background: linear-gradient(135deg, #9370DB, #8A2BE2);
     opacity: 0.8;
 }
@@ -5345,22 +5347,22 @@ body.public-profile-page .profile-banner {
 body.public-profile-page .profile-info {
     display: flex;
     align-items: flex-end;
-    padding: 0 30px 30px;
-    margin-top: -50px;
+    padding: 0 20px 20px;
+    margin-top: -40px;
     position: relative;
 }
 
 body.public-profile-page .profile-avatar {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: rgba(30, 30, 60, 0.95);
-    border: 4px solid #9370DB;
+    border: 3px solid #9370DB;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 body.public-profile-page .profile-avatar img {
@@ -5370,7 +5372,7 @@ body.public-profile-page .profile-avatar img {
 }
 
 body.public-profile-page .profile-avatar i {
-    font-size: 60px;
+    font-size: 40px;
     color: #9370DB;
 }
 
@@ -5379,7 +5381,7 @@ body.public-profile-page .profile-details {
 }
 
 body.public-profile-page .profile-name {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #e6d7f0;
     margin: 0;
 }
@@ -5405,11 +5407,11 @@ body.public-profile-page .tab-button {
     background: none;
     border: none;
     color: #e6d7f0;
-    padding: 15px 25px;
+    padding: 10px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 body.public-profile-page .tab-button:hover {
@@ -5446,7 +5448,7 @@ body.public-profile-page .info-grid {
 
 body.public-profile-page .info-section {
     background: rgba(30, 30, 60, 0.6);
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
 }
@@ -5511,7 +5513,7 @@ body.public-profile-page .characters-grid {
 
 body.public-profile-page .character-card {
     background: rgba(30, 30, 60, 0.6);
-    padding: 25px;
+    padding: 20px;
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
     text-align: center;
