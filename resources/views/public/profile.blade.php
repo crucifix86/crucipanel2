@@ -20,9 +20,9 @@
                 <div class="profile-details">
                     <h1 class="profile-name">{{ $user->truename ?? $user->name }}</h1>
                     <p class="profile-joined">{{ __('profile.public.member_since', ['date' => $user->created_at->format('F Y')]) }}</p>
-                    @if(Auth::check() && Auth::id() !== $user->id)
+                    @if(Auth::check() && Auth::id() !== $user->ID)
                         <div class="profile-actions">
-                            <a href="{{ route('messages.compose', $user->id) }}" class="btn btn-primary">
+                            <a href="{{ route('messages.compose', $user->ID) }}" class="btn btn-primary">
                                 <i class="fas fa-envelope mr-2"></i>{{ __('messages.send_message') }}
                             </a>
                         </div>
@@ -32,7 +32,7 @@
         </div>
 
         <!-- Message Navigation for User's Own Profile -->
-        @if(Auth::check() && Auth::id() === $user->id)
+        @if(Auth::check() && Auth::id() === $user->ID)
         <div class="message-navigation">
             <h3 class="message-nav-title"><i class="fas fa-envelope"></i> {{ __('messages.my_messages') }}</h3>
             <div class="message-nav-buttons">
@@ -177,7 +177,7 @@
                             </div>
                             <div class="message-actions">
                                 <span class="message-time">{{ $message->created_at->diffForHumans() }}</span>
-                                @if(Auth::check() && (Auth::id() === $user->id || Auth::id() === $message->sender_id))
+                                @if(Auth::check() && (Auth::id() === $user->ID || Auth::id() === $message->sender_id))
                                 <form action="{{ route('profile.wall.destroy', [$user->name, $message->id]) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
