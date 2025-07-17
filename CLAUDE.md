@@ -251,11 +251,13 @@ The mystical layout loads CSS from theme files via `route('theme.css')`, NOT fro
    - Now using existing keys from auth.php language file
 
 ### CRITICAL NOTES
+- **NEVER USE INLINE CSS!** ALL CSS must go in mystical-purple-unified.css
 - **BODY CLASS IS REQUIRED!** Each page MUST have `@section('body-class', 'page-name')`
 - All CSS is in `mystical-purple-unified.css` scoped by body classes
 - Without body-class, pages will have NO styling
 - The mystical layout loads CSS from the unified file, NOT from database
 - Auth pages use the new `layouts/auth.blade.php` layout (simpler, no navigation)
+- **DO NOT ADD <style> TAGS TO BLADE FILES** - This breaks the theme system!
 
 ### APPROACH THAT WORKS
 1. Examine current page structure
