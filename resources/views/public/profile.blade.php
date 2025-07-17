@@ -32,14 +32,14 @@
 
     <!-- Tabs Navigation -->
     <div class="profile-tabs-nav">
-        <button class="tab-button active" onclick="switchTab('info')">
+        <button class="tab-button active" onclick="switchTab('info', event)">
             <i class="fas fa-info-circle"></i> {{ __('profile.public.tab_info') }}
         </button>
-        <button class="tab-button" onclick="switchTab('characters')">
+        <button class="tab-button" onclick="switchTab('characters', event)">
             <i class="fas fa-gamepad"></i> {{ __('profile.public.tab_characters') }} ({{ count($characters) }})
         </button>
         @if($wallEnabled)
-        <button class="tab-button" onclick="switchTab('wall')">
+        <button class="tab-button" onclick="switchTab('wall', event)">
             <i class="fas fa-comments"></i> {{ __('profile.public.tab_wall') }} ({{ $wallMessages->total() }})
         </button>
         @endif
@@ -506,14 +506,14 @@
 
 @push('scripts')
 <script>
-function switchTab(tabName) {
+function switchTab(tabName, event) {
     // Remove active class from all tabs and buttons
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
     // Add active class to selected tab and button
     document.querySelector(`#${tabName}-tab`).classList.add('active');
-    event.target.classList.add('active');
+    event.currentTarget.classList.add('active');
 }
 
 // Character counter for wall post
