@@ -123,6 +123,32 @@ ALTER TABLE settings ADD COLUMN profile_wall_enabled BOOLEAN DEFAULT TRUE;
   - Mass message interface with preview
   - Message statistics dashboard
 
+## MESSAGING SYSTEM CRITICAL FIXES NEEDED (v2.1.483)
+
+### CURRENT ISSUES:
+1. **Inbox still has error** - Using `->inbox(Auth::id())` scope that doesn't exist
+2. **Message views using wrong layout** - Changed to component syntax `<x-hrace009-layouts-app>` but needs testing
+3. **Missing translation keys** - Need to add missing keys like 'no_sent_messages', 'select_recipient', 'subject_optional', 'back_to_inbox', 'original_message'
+
+### WHAT NEEDS TO BE DONE:
+1. Fix inbox method in MessagesController - remove `->inbox(Auth::id())` 
+2. Add missing translation keys to messages.php
+3. Test all message views are working with component layout
+4. Create release v2.1.484 with all fixes
+
+### CODE THAT NEEDS FIXING:
+```php
+// MessagesController.php line 28-29
+$messages = Auth::user()->receivedMessages()
+    ->inbox(Auth::id())  // THIS DOESN'T EXIST - REMOVE IT
+```
+
+Should be:
+```php
+$messages = Auth::user()->receivedMessages()
+    ->where('deleted_by_recipient', false)
+```
+
 ## CRITICAL PUBLIC PROFILE ISSUES (v2.1.473)
 
 ### THE PROBLEMS:

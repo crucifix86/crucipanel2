@@ -25,7 +25,7 @@ class MessagesController extends Controller
         }
 
         $messages = Auth::user()->receivedMessages()
-            ->inbox(Auth::id())
+            ->where('deleted_by_recipient', false)
             ->with('sender')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
@@ -42,7 +42,7 @@ class MessagesController extends Controller
         }
 
         $messages = Auth::user()->sentMessages()
-            ->outbox(Auth::id())
+            ->where('deleted_by_sender', false)
             ->with('recipient')
             ->orderBy('created_at', 'desc')
             ->paginate(20);
