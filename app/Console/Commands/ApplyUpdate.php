@@ -286,43 +286,6 @@ class ApplyUpdate extends Command
             }
         }
         
-        // Special check for mobile theme
-        $this->checkAndRunMobileThemeSeeder();
-        
         $this->info('Seeder check completed.');
-    }
-    
-    private function checkAndRunMobileThemeSeeder()
-    {
-        try {
-            // Check if themes table exists
-            if (!Schema::hasTable('themes')) {
-                return;
-            }
-            
-            // Check if mobile theme already exists
-            $mobileThemeExists = DB::table('themes')
-                ->where('name', 'mobile-mystical')
-                ->exists();
-                
-            if (!$mobileThemeExists) {
-                $this->info("Running MobileThemeSeeder...");
-                
-                $result = Artisan::call('db:seed', [
-                    '--class' => 'Database\\Seeders\\MobileThemeSeeder',
-                    '--force' => true
-                ]);
-                
-                if ($result === 0) {
-                    $this->info("✓ Mobile theme added successfully");
-                } else {
-                    $this->error("✗ Failed to add mobile theme");
-                }
-            } else {
-                $this->info("Mobile theme already exists");
-            }
-        } catch (\Exception $e) {
-            $this->error("Failed to check/run mobile theme seeder: " . $e->getMessage());
-        }
     }
 }

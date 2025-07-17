@@ -28,7 +28,10 @@ All pages now support theme color changes. The 24+ hours of theme unification wo
 6. **Auth Pages Theming** - Login/register pages support themes
 
 ### PENDING TASKS:
-1. **Debug output in ThemeAssetController** - Temporary debugging needs removal
+1. **Mobile Theme Needs Complete Revert** - Current mobile theme is awful and breaking functionality
+   - Custom CSS/JS is interfering with normal panel operation
+   - Need to revert to panel's original mobile integration
+   - Remove all the mobile "improvements" that made things worse
 
 ## HOW THE THEME SYSTEM WORKS
 
