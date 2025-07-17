@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'messages' => 'Messages',
+    'my_messages' => 'My Messages',
     'inbox' => 'Inbox',
     'outbox' => 'Outbox',
     'compose' => 'Compose Message',
