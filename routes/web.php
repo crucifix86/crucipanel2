@@ -156,6 +156,22 @@ Route::group(['middleware' => 'web'], static function () {
         'uses' => 'App\Http\Controllers\Website\PublicMembersController@index'
     ]);
     
+    // Public Profile Pages
+    Route::get('profile/{username}', [
+        'as' => 'public.profile',
+        'uses' => 'App\Http\Controllers\PublicProfileController@show'
+    ]);
+    
+    Route::post('profile/{username}/wall', [
+        'as' => 'profile.wall.store',
+        'uses' => 'App\Http\Controllers\ProfileMessagesController@store'
+    ])->middleware('auth');
+    
+    Route::delete('profile/{username}/wall/{message}', [
+        'as' => 'profile.wall.destroy',
+        'uses' => 'App\Http\Controllers\ProfileMessagesController@destroy'
+    ])->middleware('auth');
+    
     // Visit Reward API Routes (need web middleware for auth)
     Route::get('api/visit-reward/status', [
         'as' => 'api.visit-reward.status',

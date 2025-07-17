@@ -49,6 +49,9 @@ return [
     'wall_post_deleted' => 'Wall message deleted.',
     'wall_disabled' => 'Profile message walls are currently disabled.',
     'wall_rate_limit' => 'You have exceeded the wall post rate limit. Please try again later.',
+    'cannot_post_own_wall' => 'You cannot post on your own profile wall.',
+    'send_message' => 'Send Message',
+    'wall_message_placeholder' => 'Write a message on this profile wall...',
     
     // Admin Mass Messaging
     'mass_message' => 'Mass Message',

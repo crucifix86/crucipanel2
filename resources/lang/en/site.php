@@ -245,6 +245,87 @@ return [
         'welcome_donor' => 'Welcome :name! Thank you for supporting our realm.',
     ],
     
+    // Profile Page
+    'profile' => [
+        'title' => 'Profile',
+        'sections' => [
+            'profile_info' => [
+                'title' => 'Profile Information',
+                'description' => 'Update your account\'s profile information and email address.',
+            ],
+            'theme' => [
+                'title' => 'Theme Preferences',
+                'description' => 'Choose your preferred visual theme for the panel.',
+            ],
+            'language' => [
+                'title' => 'Language Preferences',
+                'description' => 'Select your preferred language for the interface.',
+            ],
+            'public_profile' => [
+                'title' => 'Public Profile',
+                'description' => 'Manage your public profile settings and information visible to other users.',
+            ],
+            'characters' => [
+                'title' => 'My Characters',
+                'description' => 'View and manage your in-game characters.',
+            ],
+            'password' => [
+                'title' => 'Update Password',
+                'description' => 'Ensure your account is using a long, random password to stay secure.',
+            ],
+            'pin' => [
+                'title' => 'PIN Settings',
+                'description' => 'Manage your account PIN for additional security.',
+            ],
+            'sessions' => [
+                'title' => 'Browser Sessions',
+                'description' => 'Manage and log out your active sessions on other browsers and devices.',
+            ],
+            'delete_account' => [
+                'title' => 'Delete Account',
+                'description' => 'Permanently delete your account.',
+            ],
+        ],
+        'sidebar' => [
+            'member_since' => 'Member Since',
+            'account_status' => 'Account Status',
+            'status_active' => 'Active',
+        ],
+        'save_changes' => 'Save Changes',
+        'saving' => 'Saving...',
+        'saved' => 'Saved',
+        'success_message' => 'Your profile has been updated successfully!',
+        'public' => [
+            'settings_title' => 'Privacy Settings',
+            'info_title' => 'Public Information',
+            'enable_profile' => 'Enable Public Profile',
+            'enable_profile_help' => 'Allow other users to view your public profile',
+            'enable_wall' => 'Enable Message Wall',
+            'enable_wall_help' => 'Allow other users to post messages on your profile',
+            'bio' => 'About Me',
+            'bio_placeholder' => 'Tell others about yourself...',
+            'bio_help' => 'This will be displayed on your public profile (max 1000 characters)',
+            'discord' => 'Discord Username',
+            'discord_placeholder' => 'YourName#1234',
+            'website' => 'Website',
+            'website_placeholder' => 'https://example.com',
+            'view_profile' => 'View Public Profile',
+            'member_since' => 'Member since :date',
+            'tab_info' => 'Information',
+            'tab_characters' => 'Characters',
+            'tab_wall' => 'Message Wall',
+            'about' => 'About',
+            'links' => 'Links',
+            'stats' => 'Statistics',
+            'total_characters' => 'Total Characters',
+            'wall_posts' => 'Wall Posts',
+            'level' => 'Level',
+            'unknown_class' => 'Unknown Class',
+            'no_characters' => 'No characters found',
+            'login_to_post' => 'Please login to post on this wall',
+        ],
+    ],
+    
     // Rankings Page
     'rankings' => [
         'title' => 'Rankings',

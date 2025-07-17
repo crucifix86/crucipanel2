@@ -68,6 +68,11 @@ class User extends Authenticatable
         'theme_id',
         'discord_id',
         'pin_enabled',
+        'public_bio',
+        'public_discord',
+        'public_website',
+        'public_profile_enabled',
+        'public_wall_enabled',
     ];
 
     /**
@@ -99,6 +104,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'pin_enabled' => 'boolean',
+        'public_profile_enabled' => 'boolean',
+        'public_wall_enabled' => 'boolean',
     ];
     /**
      * The accessors to append to the model's array form.

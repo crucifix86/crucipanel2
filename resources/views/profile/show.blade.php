@@ -90,6 +90,21 @@
                 </div>
             </div>
             
+            <div class="profile-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="section-info">
+                        <h3 class="section-title">{{ __('site.profile.sections.public_profile.title') }}</h3>
+                        <p class="section-description">{{ __('site.profile.sections.public_profile.description') }}</p>
+                    </div>
+                </div>
+                <div class="section-content">
+                    @livewire('profile.update-public-profile')
+                </div>
+            </div>
+            
             @if ( $api->online )
                 <div class="profile-section">
                     <div class="section-header">

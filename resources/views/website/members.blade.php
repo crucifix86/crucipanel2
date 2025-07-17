@@ -26,10 +26,19 @@
                         {{ $gm->isAdministrator() ? '👑' : '⚔️' }}
                     </div>
                 </div>
-                <h3 class="staff-name">{{ $gm->truename ?? $gm->name }}</h3>
+                <h3 class="staff-name">
+                    <a href="{{ route('public.profile', $gm->name) }}" style="color: inherit; text-decoration: none;">{{ $gm->truename ?? $gm->name }}</a>
+                </h3>
                 <div class="staff-role {{ $gm->isAdministrator() ? 'role-admin' : 'role-gm' }}">
                     {{ $gm->isAdministrator() ? __('site.members.administrator') : __('site.members.game_master') }}
                 </div>
+                @auth
+                    @if(Auth::id() !== $gm->ID)
+                        <a href="{{ route('messages.compose', $gm->ID) }}" class="staff-message-btn">
+                            <i class="fas fa-envelope mr-2"></i>{{ __('messages.send_message') }}
+                        </a>
+                    @endif
+                @endauth
                 <div class="staff-info">
                     <span class="info-icon">📅</span>
                     {{ __('site.members.member_since', ['date' => $gm->created_at->format('M Y')]) }}
@@ -122,7 +131,16 @@
                         <tr class="player-row">
                             <td class="player-info">
                                 <img src="{{ $member->profile_photo_url }}" alt="{{ $member->truename ?? $member->name }}" class="player-avatar">
-                                <span class="player-name">{{ $member->truename ?? $member->name }}</span>
+                                <div class="player-name-wrapper">
+                                    <a href="{{ route('public.profile', $member->name) }}" class="player-name">{{ $member->truename ?? $member->name }}</a>
+                                    @auth
+                                        @if(Auth::id() !== $member->ID)
+                                            <a href="{{ route('messages.compose', $member->ID) }}" class="message-icon" title="{{ __('messages.send_message') }}">
+                                                <i class="fas fa-envelope"></i>
+                                            </a>
+                                        @endif
+                                    @endauth
+                                </div>
                             </td>
                             <td class="character-cell">
                                 @php
