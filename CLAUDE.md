@@ -1,6 +1,82 @@
 # Claude Context for CruciPanel2
 
-## CURRENT STATUS (v2.1.437)
+## SAFETY VERSION: v2.1.453
+- **Mobile theme completely removed and original responsive design restored**
+- **All non-essential files cleaned up, project directory organized**
+- **This is our stable baseline version for new features**
+
+## PRIVATE MESSAGING IMPLEMENTATION PLAN
+
+### Overview
+Implement a private messaging system that allows users to send messages to each other within the panel.
+
+### Key Features
+1. **User Search**: Search for users by name or email to send messages
+2. **Click-to-Message**: Click on player names in members list to send message
+3. **Inbox/Outbox**: View received and sent messages
+4. **Notifications**: Show unread message count
+5. **Message Threading**: Reply to messages with conversation view
+
+### Database Schema
+```sql
+CREATE TABLE messages (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    sender_id INT NOT NULL,
+    recipient_id INT NOT NULL,
+    subject VARCHAR(255),
+    message TEXT NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    parent_id BIGINT NULL, -- For threading
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_by_sender BOOLEAN DEFAULT FALSE,
+    deleted_by_recipient BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (sender_id) REFERENCES users(ID),
+    FOREIGN KEY (recipient_id) REFERENCES users(ID),
+    FOREIGN KEY (parent_id) REFERENCES messages(id),
+    INDEX idx_recipient_read (recipient_id, is_read),
+    INDEX idx_sender (sender_id)
+);
+```
+
+### Implementation Steps
+1. **Create Migration & Model**
+   - Messages table migration
+   - Message model with relationships
+   - Add message count to User model
+
+2. **Backend Controllers**
+   - MessagesController for CRUD operations
+   - Search functionality for users
+   - Mark as read/unread
+   - Soft delete for sender/recipient
+
+3. **Frontend Components**
+   - Message compose modal/page
+   - Inbox/Outbox views with pagination
+   - Unread badge in navigation
+   - User search autocomplete
+
+4. **Integration Points**
+   - Add message icon/link to player names in members list
+   - Add messaging section to user dashboard
+   - Add "Send Message" button to user profiles
+   - Show unread count in main navigation
+
+5. **Security Considerations**
+   - Rate limiting for message sending
+   - Message content validation/sanitization
+   - Block user functionality (future feature)
+   - Admin ability to view/moderate messages
+
+### UI/UX Design
+- Clean, simple interface matching mystical theme
+- Modal for quick message composition
+- Full page view for message threads
+- Toast notifications for new messages
+- Mobile-responsive design
+
+## CURRENT STATUS (v2.1.453)
 
 ### ✅ ALL INLINE CSS ISSUES RESOLVED! 
 All pages now support theme color changes. The 24+ hours of theme unification work is complete.
