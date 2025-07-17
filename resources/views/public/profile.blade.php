@@ -504,16 +504,26 @@
 }
 </style>
 
-@push('scripts')
+@section('scripts')
+@parent
 <script>
 function switchTab(tabName, event) {
+    console.log('Switching to tab:', tabName);
     // Remove active class from all tabs and buttons
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
     
     // Add active class to selected tab and button
-    document.querySelector(`#${tabName}-tab`).classList.add('active');
-    event.currentTarget.classList.add('active');
+    const tabElement = document.querySelector(`#${tabName}-tab`);
+    if (tabElement) {
+        tabElement.classList.add('active');
+    } else {
+        console.error('Tab not found:', tabName + '-tab');
+    }
+    
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
 }
 
 // Character counter for wall post
@@ -526,5 +536,4 @@ if (textarea && charCount) {
     });
 }
 </script>
-@endpush
 @endsection

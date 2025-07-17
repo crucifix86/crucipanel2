@@ -195,7 +195,7 @@ Route::group(['middleware' => 'web'], static function () {
 });
 
 /* Messaging Routes - Independent of Dashboard */
-Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web', 'verified']], function () {
+Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web']], function () {
     Route::get('/', [
         'as' => 'messages.inbox',
         'uses' => 'App\Http\Controllers\MessagesController@inbox'
