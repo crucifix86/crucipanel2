@@ -5322,15 +5322,18 @@ body.popup-open {
    PUBLIC PROFILE PAGE STYLES
    ===================================================== */
 
-/* Public profile uses content-section for proper layout */
-body.public-profile-page .profile-section {
-    /* Inherits styling from .content-section */
-}
-
 body.public-profile-page .public-profile-container {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(147, 112, 219, 0.3);
+    border-radius: 30px;
+    padding: 50px;
+    margin-bottom: 50px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(147, 112, 219, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
 body.public-profile-page .profile-header {
@@ -5647,4 +5650,12 @@ body.public-profile-page .no-characters {
     text-align: center;
     color: #9370DB;
     padding: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body.public-profile-page .public-profile-container {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
 }

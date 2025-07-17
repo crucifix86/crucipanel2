@@ -5,8 +5,7 @@
 @section('body-class', 'public-profile-page')
 
 @section('content')
-<div class="content-section profile-section">
-    <div class="public-profile-container">
+<div class="public-profile-container">
     <div class="profile-header">
         <div class="profile-banner"></div>
         <div class="profile-info">
@@ -181,7 +180,6 @@
         </div>
         @endif
     </div>
-</div>
 </div>
 
 @section('scripts')
