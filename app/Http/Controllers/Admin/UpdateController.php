@@ -84,7 +84,7 @@ class UpdateController extends Controller
     /**
      * Create backup before update
      *
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public function createBackup()
     {
@@ -116,14 +116,14 @@ class UpdateController extends Controller
             
             $zip->close();
             
-            return [
+            return response()->json([
                 'success' => true,
                 'backup_name' => $backupName,
                 'backup_size' => $this->formatBytes(filesize($backupPath))
-            ];
+            ]);
         }
         
-        return ['success' => false, 'message' => 'Failed to create backup'];
+        return response()->json(['success' => false, 'message' => 'Failed to create backup'], 500);
     }
     
     /**
