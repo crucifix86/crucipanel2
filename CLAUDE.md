@@ -16,9 +16,13 @@ Implement a private messaging system that allows users to send messages to each 
 3. **Inbox/Outbox**: View received and sent messages
 4. **Notifications**: Show unread message count
 5. **Message Threading**: Reply to messages with conversation view
+6. **Profile Message Wall**: Public message wall on user profiles for comments/greetings
+7. **Admin Controls**: Enable/disable messaging system globally
+8. **Mass Messaging**: Admin ability to message all users at once
 
 ### Database Schema
 ```sql
+-- Private Messages Table
 CREATE TABLE messages (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     sender_id INT NOT NULL,
@@ -37,37 +41,71 @@ CREATE TABLE messages (
     INDEX idx_recipient_read (recipient_id, is_read),
     INDEX idx_sender (sender_id)
 );
+
+-- Profile Message Wall
+CREATE TABLE profile_messages (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    profile_user_id INT NOT NULL, -- User whose profile this is posted on
+    sender_id INT NOT NULL,
+    message TEXT NOT NULL,
+    is_visible BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (profile_user_id) REFERENCES users(ID),
+    FOREIGN KEY (sender_id) REFERENCES users(ID),
+    INDEX idx_profile_visible (profile_user_id, is_visible)
+);
+
+-- System Settings for Messaging
+ALTER TABLE settings ADD COLUMN messaging_enabled BOOLEAN DEFAULT TRUE;
+ALTER TABLE settings ADD COLUMN profile_wall_enabled BOOLEAN DEFAULT TRUE;
 ```
 
 ### Implementation Steps
 1. **Create Migration & Model**
    - Messages table migration
-   - Message model with relationships
+   - Profile messages table migration
+   - Message and ProfileMessage models with relationships
    - Add message count to User model
+   - Update Settings model for messaging toggles
 
 2. **Backend Controllers**
-   - MessagesController for CRUD operations
+   - MessagesController for private message CRUD
+   - ProfileMessagesController for wall messages
    - Search functionality for users
    - Mark as read/unread
    - Soft delete for sender/recipient
+   - Admin mass messaging endpoint
 
 3. **Frontend Components**
    - Message compose modal/page
    - Inbox/Outbox views with pagination
    - Unread badge in navigation
    - User search autocomplete
+   - Profile message wall component
+   - Admin messaging interface
 
 4. **Integration Points**
    - Add message icon/link to player names in members list
    - Add messaging section to user dashboard
    - Add "Send Message" button to user profiles
    - Show unread count in main navigation
+   - Add message wall to profile pages
+   - Admin panel messaging settings
 
-5. **Security Considerations**
+5. **Admin Features**
+   - Toggle messaging system on/off
+   - Toggle profile walls on/off
+   - Mass message all users interface
+   - View messaging statistics
+   - Moderate inappropriate messages
+
+6. **Security Considerations**
    - Rate limiting for message sending
    - Message content validation/sanitization
-   - Block user functionality (future feature)
-   - Admin ability to view/moderate messages
+   - Profile wall moderation (user can hide messages)
+   - Admin ability to view/moderate all messages
+   - Prevent spam with cooldowns
 
 ### UI/UX Design
 - Clean, simple interface matching mystical theme
@@ -75,6 +113,15 @@ CREATE TABLE messages (
 - Full page view for message threads
 - Toast notifications for new messages
 - Mobile-responsive design
+- Profile message wall with:
+  - Public comments visible to all
+  - Delete option for profile owner
+  - Report button for inappropriate content
+  - Pagination for many messages
+- Admin panel integration:
+  - Settings page with messaging toggles
+  - Mass message interface with preview
+  - Message statistics dashboard
 
 ## CURRENT STATUS (v2.1.453)
 
