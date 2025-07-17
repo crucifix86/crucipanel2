@@ -67,7 +67,7 @@ class ProfileMessagesController extends Controller
         ]);
 
         ProfileMessage::create([
-            'profile_user_id' => $user->id,
+            'profile_user_id' => $user->ID,
             'sender_id' => Auth::id(),
             'message' => $validated['message']
         ]);
