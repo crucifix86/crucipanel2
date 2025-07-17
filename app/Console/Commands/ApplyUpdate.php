@@ -151,15 +151,27 @@ class ApplyUpdate extends Command
     
     private function copyFiles($source, $destination)
     {
+        // First, backup pw-config.php
+        $pwConfigPath = $destination . '/config/pw-config.php';
+        $pwConfigBackup = null;
+        if (File::exists($pwConfigPath)) {
+            $pwConfigBackup = File::get($pwConfigPath);
+        }
+        
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST
         );
         
-        $skipPaths = ['.env', 'storage/', 'vendor/', 'node_modules/', '.git', 'bootstrap/cache/', 'config/pw-config.php'];
+        $skipPaths = ['.env', 'storage/', 'vendor/', 'node_modules/', '.git', 'bootstrap/cache/'];
         
         foreach ($iterator as $item) {
             $destPath = $destination . '/' . $iterator->getSubPathName();
+            
+            // Special handling for pw-config.php
+            if ($iterator->getSubPathName() === 'config/pw-config.php') {
+                continue; // Skip copying this file
+            }
             
             $skip = false;
             foreach ($skipPaths as $skipPath) {
@@ -176,29 +188,15 @@ class ApplyUpdate extends Command
                     File::makeDirectory($destPath, 0755, true);
                 }
             } else {
-                // Store original permissions if file exists
-                $originalPerms = null;
-                if (File::exists($destPath)) {
-                    $originalPerms = fileperms($destPath);
-                }
-                
                 // Copy the file
                 File::copy($item, $destPath);
-                
-                // Restore original permissions or set appropriate defaults
-                if ($originalPerms !== null) {
-                    chmod($destPath, $originalPerms);
-                } else {
-                    // Set appropriate permissions for new files
-                    if (strpos($iterator->getSubPathName(), 'config/') === 0) {
-                        // Config files should be writable
-                        chmod($destPath, 0664);
-                    } else {
-                        // Default file permissions
-                        chmod($destPath, 0644);
-                    }
-                }
             }
+        }
+        
+        // Restore pw-config.php if we had a backup
+        if ($pwConfigBackup !== null) {
+            File::put($pwConfigPath, $pwConfigBackup);
+            chmod($pwConfigPath, 0664); // Ensure it's writable
         }
         
         // After copying, ensure critical directories have correct permissions
@@ -209,24 +207,10 @@ class ApplyUpdate extends Command
     {
         $this->info('Setting correct file permissions...');
         
-        // Directories that need to be writable
+        // Critical directories that must be writable
         $writableDirectories = [
             'storage',
-            'storage/app',
-            'storage/framework',
-            'storage/framework/cache',
-            'storage/framework/sessions',
-            'storage/framework/views',
-            'storage/logs',
             'bootstrap/cache',
-            'public/uploads',
-            'public/css/themes',
-        ];
-        
-        // Files/directories that need to be writable
-        $writableFiles = [
-            'config',
-            '.env',
         ];
         
         // Set directory permissions
@@ -237,44 +221,12 @@ class ApplyUpdate extends Command
             }
         }
         
-        // Set file/config permissions
-        foreach ($writableFiles as $file) {
-            $path = $basePath . '/' . $file;
-            if (File::exists($path)) {
-                if (File::isDirectory($path)) {
-                    shell_exec("chmod -R 664 " . escapeshellarg($path) . " 2>&1");
-                } else {
-                    chmod($path, 0664);
-                }
-            }
+        // Ensure config directory is writable
+        $configPath = $basePath . '/config';
+        if (File::exists($configPath)) {
+            shell_exec("chmod 755 " . escapeshellarg($configPath) . " 2>&1");
+            shell_exec("chmod 664 " . escapeshellarg($configPath) . "/*.php 2>&1");
         }
-        
-        // Ensure web server can write to these directories
-        $webUser = $this->getWebServerUser();
-        if ($webUser) {
-            foreach (array_merge($writableDirectories, $writableFiles) as $path) {
-                $fullPath = $basePath . '/' . $path;
-                if (File::exists($fullPath)) {
-                    shell_exec("chown -R " . escapeshellarg($webUser) . " " . escapeshellarg($fullPath) . " 2>&1");
-                }
-            }
-        }
-    }
-    
-    private function getWebServerUser()
-    {
-        // Try to detect the web server user
-        $possibleUsers = ['www-data', 'apache', 'nginx', 'httpd'];
-        
-        foreach ($possibleUsers as $user) {
-            $result = shell_exec("id " . escapeshellarg($user) . " 2>&1");
-            if ($result && !str_contains($result, 'no such user')) {
-                return $user;
-            }
-        }
-        
-        // If we can't detect, return null and skip chown
-        return null;
     }
     
     private function updateVersion($version)
