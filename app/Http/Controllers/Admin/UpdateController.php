@@ -88,42 +88,51 @@ class UpdateController extends Controller
      */
     public function createBackup()
     {
-        $backupName = 'backup_' . date('Y-m-d_H-i-s') . '.zip';
-        $backupPath = storage_path('app/backups/' . $backupName);
-        
-        // Create backups directory if it doesn't exist
-        if (!File::exists(storage_path('app/backups'))) {
-            File::makeDirectory(storage_path('app/backups'), 0755, true);
-        }
-        
-        $zip = new ZipArchive();
-        
-        if ($zip->open($backupPath, ZipArchive::CREATE) === TRUE) {
-            // Add important directories
-            $this->addDirectoryToZip($zip, base_path('app'), 'app');
-            $this->addDirectoryToZip($zip, base_path('config'), 'config');
-            $this->addDirectoryToZip($zip, base_path('database'), 'database');
-            $this->addDirectoryToZip($zip, base_path('resources'), 'resources');
-            $this->addDirectoryToZip($zip, base_path('routes'), 'routes');
-            
-            // Add important files
-            $importantFiles = ['.env', 'composer.json', 'composer.lock'];
-            foreach ($importantFiles as $file) {
-                if (File::exists(base_path($file))) {
-                    $zip->addFile(base_path($file), $file);
-                }
+        try {
+            // Clean any output buffer to ensure clean JSON response
+            if (ob_get_level()) {
+                ob_end_clean();
             }
             
-            $zip->close();
+            $backupName = 'backup_' . date('Y-m-d_H-i-s') . '.zip';
+            $backupPath = storage_path('app/backups/' . $backupName);
             
-            return response()->json([
-                'success' => true,
-                'backup_name' => $backupName,
-                'backup_size' => $this->formatBytes(filesize($backupPath))
-            ]);
+            // Create backups directory if it doesn't exist
+            if (!File::exists(storage_path('app/backups'))) {
+                File::makeDirectory(storage_path('app/backups'), 0755, true);
+            }
+            
+            $zip = new ZipArchive();
+            
+            if ($zip->open($backupPath, ZipArchive::CREATE) === TRUE) {
+                // Add important directories
+                $this->addDirectoryToZip($zip, base_path('app'), 'app');
+                $this->addDirectoryToZip($zip, base_path('config'), 'config');
+                $this->addDirectoryToZip($zip, base_path('database'), 'database');
+                $this->addDirectoryToZip($zip, base_path('resources'), 'resources');
+                $this->addDirectoryToZip($zip, base_path('routes'), 'routes');
+                
+                // Add important files
+                $importantFiles = ['.env', 'composer.json', 'composer.lock'];
+                foreach ($importantFiles as $file) {
+                    if (File::exists(base_path($file))) {
+                        $zip->addFile(base_path($file), $file);
+                    }
+                }
+                
+                $zip->close();
+                
+                return response()->json([
+                    'success' => true,
+                    'backup_name' => $backupName,
+                    'backup_size' => $this->formatBytes(filesize($backupPath))
+                ]);
+            }
+            
+            return response()->json(['success' => false, 'message' => 'Failed to create backup'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()], 500);
         }
-        
-        return response()->json(['success' => false, 'message' => 'Failed to create backup'], 500);
     }
     
     /**

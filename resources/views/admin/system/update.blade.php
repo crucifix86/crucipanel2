@@ -230,7 +230,21 @@
                         }
                     });
 
-                    const data = await response.json();
+                    // Check if response is ok
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
+                    }
+
+                    // Try to parse JSON
+                    let data;
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        data = await response.json();
+                    } else {
+                        const text = await response.text();
+                        throw new Error(`Expected JSON but got: ${text.substring(0, 100)}...`);
+                    }
 
                     if (data.success) {
                         updateProgress(100, 'Backup created successfully!', true);
