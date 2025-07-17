@@ -18,7 +18,7 @@
             </div>
             <div class="profile-details">
                 <h1 class="profile-name">{{ $user->truename ?? $user->name }}</h1>
-                <p class="profile-joined">{{ __('site.profile.public.member_since', ['date' => $user->created_at->format('F Y')]) }}</p>
+                <p class="profile-joined">{{ __('profile.public.member_since', ['date' => $user->created_at->format('F Y')]) }}</p>
                 @if(Auth::check() && Auth::id() !== $user->id)
                     <div class="profile-actions">
                         <a href="{{ route('messages.compose', $user->id) }}" class="btn btn-primary">
@@ -33,14 +33,14 @@
     <!-- Tabs Navigation -->
     <div class="profile-tabs-nav">
         <button class="tab-button active" onclick="switchTab('info')">
-            <i class="fas fa-info-circle"></i> {{ __('site.profile.public.tab_info') }}
+            <i class="fas fa-info-circle"></i> {{ __('profile.public.tab_info') }}
         </button>
         <button class="tab-button" onclick="switchTab('characters')">
-            <i class="fas fa-gamepad"></i> {{ __('site.profile.public.tab_characters') }} ({{ count($characters) }})
+            <i class="fas fa-gamepad"></i> {{ __('profile.public.tab_characters') }} ({{ count($characters) }})
         </button>
         @if($wallEnabled)
         <button class="tab-button" onclick="switchTab('wall')">
-            <i class="fas fa-comments"></i> {{ __('site.profile.public.tab_wall') }} ({{ $wallMessages->total() }})
+            <i class="fas fa-comments"></i> {{ __('profile.public.tab_wall') }} ({{ $wallMessages->total() }})
         </button>
         @endif
     </div>
@@ -52,14 +52,14 @@
             <div class="info-grid">
                 @if($user->profile && $user->profile->public_bio)
                 <div class="info-section">
-                    <h3 class="info-title"><i class="fas fa-user"></i> {{ __('site.profile.public.about') }}</h3>
+                    <h3 class="info-title"><i class="fas fa-user"></i> {{ __('profile.public.about') }}</h3>
                     <p class="info-bio">{{ $user->profile->public_bio }}</p>
                 </div>
                 @endif
 
                 @if($user->profile && ($user->profile->public_discord || $user->profile->public_website))
                 <div class="info-section">
-                    <h3 class="info-title"><i class="fas fa-link"></i> {{ __('site.profile.public.links') }}</h3>
+                    <h3 class="info-title"><i class="fas fa-link"></i> {{ __('profile.public.links') }}</h3>
                     <div class="info-links">
                         @if($user->profile->public_discord)
                         <div class="info-link">
@@ -78,14 +78,14 @@
                 @endif
 
                 <div class="info-section">
-                    <h3 class="info-title"><i class="fas fa-chart-bar"></i> {{ __('site.profile.public.stats') }}</h3>
+                    <h3 class="info-title"><i class="fas fa-chart-bar"></i> {{ __('profile.public.stats') }}</h3>
                     <div class="info-stats">
                         <div class="stat">
-                            <span class="stat-label">{{ __('site.profile.public.total_characters') }}</span>
+                            <span class="stat-label">{{ __('profile.public.total_characters') }}</span>
                             <span class="stat-value">{{ count($characters) }}</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-label">{{ __('site.profile.public.wall_posts') }}</span>
+                            <span class="stat-label">{{ __('profile.public.wall_posts') }}</span>
                             <span class="stat-value">{{ $wallEnabled ? $wallMessages->total() : 0 }}</span>
                         </div>
                     </div>
@@ -102,11 +102,11 @@
                         <i class="fas fa-user-ninja"></i>
                     </div>
                     <h4 class="character-name">{{ $character['name'] }}</h4>
-                    <p class="character-level">{{ __('site.profile.public.level') }} {{ $character['level'] ?? '?' }}</p>
-                    <p class="character-class">{{ $character['occupation'] ?? __('site.profile.public.unknown_class') }}</p>
+                    <p class="character-level">{{ __('profile.public.level') }} {{ $character['level'] ?? '?' }}</p>
+                    <p class="character-class">{{ $character['occupation'] ?? __('profile.public.unknown_class') }}</p>
                 </div>
                 @empty
-                <p class="no-characters">{{ __('site.profile.public.no_characters') }}</p>
+                <p class="no-characters">{{ __('profile.public.no_characters') }}</p>
                 @endforelse
             </div>
         </div>
@@ -135,7 +135,7 @@
             </div>
             @else
             <div class="login-prompt">
-                <p>{{ __('site.profile.public.login_to_post') }}</p>
+                <p>{{ __('profile.public.login_to_post') }}</p>
                 <a href="{{ route('login') }}" class="btn btn-primary">{{ __('auth.login') }}</a>
             </div>
             @endauth

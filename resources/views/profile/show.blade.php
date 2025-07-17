@@ -1,6 +1,6 @@
 @extends('layouts.mystical')
 
-@section('title', config('pw-config.server_name', 'Haven Perfect World') . ' - ' . __('site.profile.title'))
+@section('title', config('pw-config.server_name', 'Haven Perfect World') . ' - ' . __('profile.title'))
 
 @section('body-class', 'profile-page')
 
@@ -8,7 +8,7 @@
 <div class="profile-container">
     <!-- Success notification -->
     <div id="success-notification" class="success-notification">
-        <i class="fas fa-check-circle"></i> {{ __('site.profile.success_message') }}
+        <i class="fas fa-check-circle"></i> {{ __('profile.success_message') }}
     </div>
     
     <!-- Profile Grid Layout -->
@@ -31,12 +31,12 @@
             
             <div class="profile-stats">
                 <div class="stat-item">
-                    <div class="stat-label">{{ __('site.profile.sidebar.member_since') }}</div>
+                    <div class="stat-label">{{ __('profile.sidebar.member_since') }}</div>
                     <div class="stat-value">{{ Auth::user()->created_at->format('M d, Y') }}</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-label">{{ __('site.profile.sidebar.account_status') }}</div>
-                    <div class="stat-value">{{ __('site.profile.sidebar.status_active') }}</div>
+                    <div class="stat-label">{{ __('profile.sidebar.account_status') }}</div>
+                    <div class="stat-value">{{ __('profile.sidebar.status_active') }}</div>
                 </div>
             </div>
         </div>
@@ -50,8 +50,8 @@
                             <i class="fas fa-user-edit"></i>
                         </div>
                         <div class="section-info">
-                            <h3 class="section-title">{{ __('site.profile.sections.profile_info.title') }}</h3>
-                            <p class="section-description">{{ __('site.profile.sections.profile_info.description') }}</p>
+                            <h3 class="section-title">{{ __('profile.sections.profile_info.title') }}</h3>
+                            <p class="section-description">{{ __('profile.sections.profile_info.description') }}</p>
                         </div>
                     </div>
                     <div class="section-content">
@@ -66,8 +66,8 @@
                         <i class="fas fa-palette"></i>
                     </div>
                     <div class="section-info">
-                        <h3 class="section-title">{{ __('site.profile.sections.theme.title') }}</h3>
-                        <p class="section-description">{{ __('site.profile.sections.theme.description') }}</p>
+                        <h3 class="section-title">{{ __('profile.sections.theme.title') }}</h3>
+                        <p class="section-description">{{ __('profile.sections.theme.description') }}</p>
                     </div>
                 </div>
                 <div class="section-content">
@@ -81,8 +81,8 @@
                         <i class="fas fa-globe"></i>
                     </div>
                     <div class="section-info">
-                        <h3 class="section-title">{{ __('site.profile.sections.language.title') }}</h3>
-                        <p class="section-description">{{ __('site.profile.sections.language.description') }}</p>
+                        <h3 class="section-title">{{ __('profile.sections.language.title') }}</h3>
+                        <p class="section-description">{{ __('profile.sections.language.description') }}</p>
                     </div>
                 </div>
                 <div class="section-content">
@@ -96,8 +96,8 @@
                         <i class="fas fa-user-circle"></i>
                     </div>
                     <div class="section-info">
-                        <h3 class="section-title">{{ __('site.profile.sections.public_profile.title') }}</h3>
-                        <p class="section-description">{{ __('site.profile.sections.public_profile.description') }}</p>
+                        <h3 class="section-title">{{ __('profile.sections.public_profile.title') }}</h3>
+                        <p class="section-description">{{ __('profile.sections.public_profile.description') }}</p>
                     </div>
                 </div>
                 <div class="section-content">
@@ -112,8 +112,8 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="section-info">
-                            <h3 class="section-title">{{ __('site.profile.sections.characters.title') }}</h3>
-                            <p class="section-description">{{ __('site.profile.sections.characters.description') }}</p>
+                            <h3 class="section-title">{{ __('profile.sections.characters.title') }}</h3>
+                            <p class="section-description">{{ __('profile.sections.characters.description') }}</p>
                         </div>
                     </div>
                     <div class="section-content">
@@ -129,8 +129,8 @@
                             <i class="fas fa-lock"></i>
                         </div>
                         <div class="section-info">
-                            <h3 class="section-title">{{ __('site.profile.sections.password.title') }}</h3>
-                            <p class="section-description">{{ __('site.profile.sections.password.description') }}</p>
+                            <h3 class="section-title">{{ __('profile.sections.password.title') }}</h3>
+                            <p class="section-description">{{ __('profile.sections.password.description') }}</p>
                         </div>
                     </div>
                     <div class="section-content">
@@ -144,8 +144,8 @@
                             <i class="fas fa-key"></i>
                         </div>
                         <div class="section-info">
-                            <h3 class="section-title">{{ __('site.profile.sections.pin.title') }}</h3>
-                            <p class="section-description">{{ __('site.profile.sections.pin.description') }}</p>
+                            <h3 class="section-title">{{ __('profile.sections.pin.title') }}</h3>
+                            <p class="section-description">{{ __('profile.sections.pin.description') }}</p>
                         </div>
                     </div>
                     <div class="section-content">
@@ -160,8 +160,8 @@
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <div class="section-info">
-                        <h3 class="section-title">{{ __('site.profile.sections.sessions.title') }}</h3>
-                        <p class="section-description">{{ __('site.profile.sections.sessions.description') }}</p>
+                        <h3 class="section-title">{{ __('profile.sections.sessions.title') }}</h3>
+                        <p class="section-description">{{ __('profile.sections.sessions.description') }}</p>
                     </div>
                 </div>
                 <div class="section-content">
@@ -176,8 +176,8 @@
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         <div class="section-info">
-                            <h3 class="section-title">{{ __('site.profile.sections.delete_account.title') }}</h3>
-                            <p class="section-description">{{ __('site.profile.sections.delete_account.description') }}</p>
+                            <h3 class="section-title">{{ __('profile.sections.delete_account.title') }}</h3>
+                            <p class="section-description">{{ __('profile.sections.delete_account.description') }}</p>
                         </div>
                     </div>
                     <div class="section-content">
