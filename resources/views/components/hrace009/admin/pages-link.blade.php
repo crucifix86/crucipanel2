@@ -1,0 +1,62 @@
+<!-- Pages links -->
+<div x-data="{ isActive: {{ $status }}, open: {{ $status }} }">
+    <!-- active & hover classes 'bg-primary-100 dark:bg-primary' -->
+    <a
+        href="#"
+        @click="$event.preventDefault(); open = !open"
+        class="flex items-center p-2 text-gray-500 transition-colors rounded-md dark:text-light hover:bg-primary-100 dark:hover:bg-primary"
+        :class="{'bg-primary-100 dark:bg-primary': isActive || open}"
+        role="button"
+        aria-haspopup="true"
+        :aria-expanded="(open || isActive) ? 'true' : 'false'"
+    >
+                  <span aria-hidden="true">
+                    <svg
+                        class="w-5 h-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                      <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="1.5"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                      />
+                    </svg>
+                  </span>
+        <span class="ml-2 text-sm"> {{ __('admin.page_manager') }} </span>
+        <span class="ml-auto" aria-hidden="true">
+                    <!-- active class 'rotate-180' -->
+                    <svg
+                        class="w-4 h-4 transition-transform transform"
+                        :class="{ 'rotate-180': open }"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </span>
+    </a>
+    <div role="menu" x-show="open" class="mt-2 space-y-2 px-7" aria-label="{{ __('admin.page_manager') }}">
+        <!-- active & hover classes 'text-gray-700 dark:text-light' -->
+        <!-- inActive classes 'text-gray-400 dark:text-gray-400' -->
+        <a
+            href="{{ route('admin.pages.create') }}"
+            role="menuitem"
+            class="block p-2 text-sm text-gray-{{ $createText }} transition-colors duration-200 rounded-md dark:{{ $createLight }} dark:hover:text-light hover:text-gray-700"
+        >
+            {{ __('admin.create_page') }}
+        </a>
+        <a
+            href="{{ route('admin.pages.index') }}"
+            role="menuitem"
+            class="block p-2 text-sm text-gray-{{ $viewText }} transition-colors duration-200 rounded-md dark:{{ $viewLight }} dark:hover:text-light hover:text-gray-700"
+        >
+            {{ __('admin.view_pages') }}
+        </a>
+    </div>
+</div>

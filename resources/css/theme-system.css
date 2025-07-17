@@ -1,0 +1,341 @@
+/*
+ * Modern Theme System - Light and Dark modes
+ * Unified styling across all sections: profile, dashboard, admin panel
+ */
+
+/* Root/Light Theme Variables (Default) */
+:root {
+    /* Background colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --card-bg: #ffffff;
+    --hover-bg: rgba(99, 102, 241, 0.05);
+    
+    /* Accent colors */
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    
+    /* Text colors */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    /* Border color */
+    --border-color: #e2e8f0;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+/* Dark Theme Variables */
+.dark {
+    /* Background colors */
+    --bg-primary: #0f0f23;
+    --bg-secondary: #1a1a3a;
+    --bg-tertiary: #2a2a4a;
+    --card-bg: #1e293b;
+    --hover-bg: rgba(99, 102, 241, 0.1);
+    
+    /* Accent colors (same in both themes for consistency) */
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    
+    /* Text colors */
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Border color */
+    --border-color: #334155;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+/* Base styling using CSS variables */
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Main content areas */
+.bg-white,
+.bg-gray-100 {
+    background-color: var(--bg-primary) !important;
+}
+
+.bg-gray-50 {
+    background-color: var(--bg-secondary) !important;
+}
+
+.bg-gray-200 {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Card and panel backgrounds */
+.bg-white.shadow,
+.bg-white.rounded,
+.bg-white.rounded-lg,
+.bg-white.rounded-md,
+.card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Navigation and sidebar */
+nav,
+.sidebar,
+aside,
+.navbar {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Dark mode specific navbar styling */
+.dark nav,
+.dark .sidebar,
+.dark aside,
+.dark .navbar {
+    background-color: rgba(15, 15, 35, 0.95) !important;
+    backdrop-filter: blur(20px);
+}
+
+/* Text color classes */
+.text-gray-900,
+.text-gray-800,
+.text-gray-700 {
+    color: var(--text-primary) !important;
+}
+
+.text-gray-600,
+.text-gray-500 {
+    color: var(--text-secondary) !important;
+}
+
+.text-gray-400 {
+    color: var(--text-muted) !important;
+}
+
+/* Border colors */
+.border-gray-200,
+.border-gray-300,
+.divide-gray-200 > *,
+.border-b {
+    border-color: var(--border-color) !important;
+}
+
+/* Form inputs and controls */
+input,
+textarea,
+select,
+.form-input,
+.form-textarea,
+.form-select {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Buttons */
+.bg-primary,
+.bg-cyan-600,
+.btn-primary {
+    background-color: var(--accent-primary) !important;
+}
+
+.bg-primary:hover,
+.bg-cyan-600:hover,
+.btn-primary:hover {
+    background-color: var(--accent-secondary) !important;
+}
+
+.hover\:bg-gray-100:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Links */
+a {
+    color: var(--accent-primary);
+}
+
+a:hover {
+    color: var(--accent-secondary);
+}
+
+/* Dropdown menus */
+.dropdown-menu,
+[role="menu"] {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.dropdown-item:hover,
+[role="menuitem"]:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Tables */
+table {
+    background-color: var(--card-bg) !important;
+}
+
+th {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+}
+
+td {
+    border-color: var(--border-color) !important;
+}
+
+tr:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Modals and dialogs */
+.modal-content,
+[role="dialog"] {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* Tabs */
+.nav-tabs .nav-link {
+    color: var(--text-secondary) !important;
+    border-color: transparent !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--text-primary) !important;
+    background-color: var(--hover-bg) !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--text-primary) !important;
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    border-bottom-color: var(--card-bg) !important;
+}
+
+/* Badges and labels */
+.badge,
+.label {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Progress bars */
+.progress {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Tooltips */
+.tooltip-inner {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color);
+}
+
+/* Scrollbars for webkit browsers */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* Special components */
+.section-border {
+    border-color: var(--border-color) !important;
+}
+
+/* Profile page specific */
+.profile-section {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Dashboard specific */
+.dashboard-card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Admin panel specific */
+.admin-panel {
+    background-color: var(--bg-primary) !important;
+}
+
+.admin-sidebar {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Smooth transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Ensure proper contrast in light mode */
+:root .text-white {
+    color: var(--text-primary) !important;
+}
+
+/* Dark mode specific text adjustments */
+.dark .text-white {
+    color: #ffffff !important;
+}
+
+/* Header styling */
+.header-gradient {
+    background: var(--gradient-primary);
+}
+
+/* Custom hover effects */
+.hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}

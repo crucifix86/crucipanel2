@@ -1,0 +1,83 @@
+/*
+ * @author Harris Marfel <hrace009@gmail.com>
+ * @link https://youtube.com/c/hrace009
+ * @copyright Copyright (c) 2022.
+ */
+
+
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './kamona-wd.css';
+@import './theme-system.css';
+
+@layer base {
+    ul, ol {
+        list-style: revert;
+        margin-left: 1rem;
+    }
+
+    p {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+}
+
+.blinking {
+    -webkit-animation: 1s blink ease infinite;
+    -moz-animation: 1s blink ease infinite;
+    -ms-animation: 1s blink ease infinite;
+    -o-animation: 1s blink ease infinite;
+    animation: 1s blink ease infinite;
+}
+
+@keyframes "blink" {
+    from,
+    to {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes blink {
+    from,
+    to {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes "blink" {
+    from,
+    to {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes "blink" {
+    from,
+    to {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes "blink" {
+    from,
+    to {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}

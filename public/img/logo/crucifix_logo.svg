@@ -1,0 +1,142 @@
+<svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dark purple gradients -->
+    <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0a1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="skullGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d0c0d0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#9080a0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#504060;stop-opacity:1" />
+    </linearGradient>
+    
+    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#aa00ff;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#8800cc;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#550088;stop-opacity:0.3" />
+    </radialGradient>
+    
+    <linearGradient id="hornGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a1a2a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="purpleGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  
+  <!-- Outer border with spikes -->
+  <path d="M150 5 L170 8 L190 15 L235 35 L250 55 L275 115 L270 140 L260 170 L250 195 L240 215 L205 255 L180 275 L150 285 L120 275 L95 255 L60 215 L50 195 L40 170 L30 140 L25 115 L50 55 L65 35 L110 15 L130 8 Z" 
+        fill="none" 
+        stroke="#6600aa" 
+        stroke-width="3" 
+        filter="url(#purpleGlow)"/>
+  
+  <!-- Main shield background -->
+  <path d="M150 12 L165 15 L180 20 L230 40 L245 60 L268 115 L263 135 L253 165 L243 190 L233 210 L200 248 L175 268 L150 275 L125 268 L100 248 L67 210 L57 190 L47 165 L37 135 L32 115 L55 60 L70 40 L120 20 L135 15 Z" 
+        fill="url(#shieldGradient)" 
+        stroke="#222222" 
+        stroke-width="2"/>
+  
+  <!-- Demonic horns -->
+  <path d="M120 25 Q115 15 110 20 Q115 25 125 35" fill="url(#hornGradient)" stroke="#000000" stroke-width="1"/>
+  <path d="M180 25 Q185 15 190 20 Q185 25 175 35" fill="url(#hornGradient)" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Main skull shape -->
+  <ellipse cx="150" cy="80" rx="45" ry="40" fill="url(#skullGradient)" stroke="#888888" stroke-width="1" filter="url(#shadow)"/>
+  
+  <!-- Skull forehead ridge -->
+  <path d="M115 65 Q150 55 185 65 Q180 70 150 68 Q120 70 115 65" fill="#b0b0b0" stroke="#999999" stroke-width="0.5"/>
+  
+  <!-- Eye sockets (large and menacing) -->
+  <ellipse cx="130" cy="75" rx="12" ry="15" fill="#000000"/>
+  <ellipse cx="170" cy="75" rx="12" ry="15" fill="#000000"/>
+  
+  <!-- Glowing purple eyes deep in sockets -->
+  <ellipse cx="130" cy="78" rx="6" ry="8" fill="url(#eyeGlow)" filter="url(#purpleGlow)"/>
+  <ellipse cx="170" cy="78" rx="6" ry="8" fill="url(#eyeGlow)" filter="url(#purpleGlow)"/>
+  
+  <!-- Nasal cavity (dark and angular) -->
+  <path d="M150 85 L145 95 L150 110 L155 95 Z" fill="#000000"/>
+  <path d="M148 100 L152 100 L150 105 Z" fill="#111111"/>
+  
+  <!-- Jawline and cheekbones -->
+  <path d="M110 95 Q150 90 190 95" stroke="#888888" stroke-width="1" fill="none"/>
+  <path d="M115 85 Q125 88 135 85" stroke="#999999" stroke-width="1" fill="none"/>
+  <path d="M165 85 Q175 88 185 85" stroke="#999999" stroke-width="1" fill="none"/>
+  
+  <!-- Menacing grin with sharp teeth -->
+  <path d="M125 115 Q150 125 175 115" fill="#000000" stroke="#666666" stroke-width="1"/>
+  
+  <!-- Individual sharp teeth -->
+  <rect x="132" y="115" width="3" height="8" fill="#e0e0e0" transform="rotate(-5 133.5 119)"/>
+  <rect x="140" y="115" width="3" height="10" fill="#e0e0e0"/>
+  <rect x="148" y="115" width="3" height="12" fill="#e0e0e0"/>
+  <rect x="156" y="115" width="3" height="10" fill="#e0e0e0"/>
+  <rect x="164" y="115" width="3" height="8" fill="#e0e0e0" transform="rotate(5 165.5 119)"/>
+  
+  <!-- Crack in skull -->
+  <path d="M160 45 Q165 60 170 75" stroke="#555555" stroke-width="2" fill="none"/>
+  <path d="M162 50 L168 52" stroke="#555555" stroke-width="1" fill="none"/>
+  <path d="M164 65 L170 67" stroke="#555555" stroke-width="1" fill="none"/>
+  
+  <!-- Large ornate crucifix overlaying the skull -->
+  <g transform="translate(150,145)">
+    <!-- Vertical beam with gothic details -->
+    <rect x="-4" y="-25" width="8" height="40" fill="#444444" stroke="#666666" stroke-width="1"/>
+    <!-- Horizontal beam -->
+    <rect x="-18" y="-12" width="36" height="8" fill="#444444" stroke="#666666" stroke-width="1"/>
+    <!-- Gothic ornamental ends -->
+    <path d="M0 -25 L-3 -30 L0 -35 L3 -30 Z" fill="#666666"/>
+    <path d="M0 15 L-3 20 L0 25 L3 20 Z" fill="#666666"/>
+    <path d="M-18 -8 L-23 -11 L-28 -8 L-23 -5 Z" fill="#666666"/>
+    <path d="M18 -8 L23 -11 L28 -8 L23 -5 Z" fill="#666666"/>
+    <!-- Center ornament -->
+    <circle cx="0" cy="-8" r="4" fill="#555555" stroke="#777777" stroke-width="1"/>
+  </g>
+  
+  <!-- Gothic text banner -->
+  <path d="M70 185 L230 185 L240 190 L230 195 L225 215 L215 230 L85 230 L75 215 L70 195 L60 190 Z" 
+        fill="#0a0a0a" 
+        stroke="#6600aa" 
+        stroke-width="2"
+        filter="url(#shadow)"/>
+  
+  <!-- Banner ornamental spikes -->
+  <path d="M70 190 L65 195 L70 200" stroke="#333333" stroke-width="1" fill="none"/>
+  <path d="M230 190 L235 195 L230 200" stroke="#333333" stroke-width="1" fill="none"/>
+  
+  <!-- Text "CRUCIFIX" -->
+  <text x="150" y="210" 
+        font-family="serif" 
+        font-size="22" 
+        font-weight="bold" 
+        text-anchor="middle" 
+        fill="#cccccc" 
+        stroke="#6600aa" 
+        stroke-width="0.8"
+        filter="url(#shadow)">CRUCIFIX</text>
+  
+  <!-- Additional menacing details -->
+  <circle cx="80" cy="70" r="2" fill="#6600aa" opacity="0.8"/>
+  <circle cx="220" cy="70" r="2" fill="#6600aa" opacity="0.8"/>
+  <circle cx="75" cy="220" r="2" fill="#6600aa" opacity="0.8"/>
+  <circle cx="225" cy="220" r="2" fill="#6600aa" opacity="0.8"/>
+  
+  <!-- Gothic decorative elements around shield -->
+  <path d="M100 250 Q150 245 200 250" stroke="#333333" stroke-width="1" fill="none"/>
+  <path d="M90 35 L95 40 L90 45" stroke="#444444" stroke-width="1" fill="none"/>
+  <path d="M210 35 L205 40 L210 45" stroke="#444444" stroke-width="1" fill="none"/>
+</svg>

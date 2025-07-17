@@ -1,0 +1,139 @@
+# Changelog
+
+All notable changes to Haven Perfect World Panel will be documented in this file.
+
+## [v2.1.75] - 2025-01-11
+
+### Fixed
+- Donate page now uses correct config paths (pw-config.payment)
+- Fixed PayPal config path: pw-config.payment.paypal.*
+- Fixed bank transfer config path: pw-config.payment.bank_transfer.*
+- Added fallback message when no payment methods are configured
+- Added debug comments to help troubleshoot empty displays
+
+### Added
+- Debug output showing enabled/disabled status for each payment method
+- "No Payment Methods Configured" message when all methods disabled
+
+## [v2.1.74] - 2025-01-11
+
+### Added
+- Vote page now shows cooldown timers for each voting site
+- Countdown timer with hours:minutes:seconds display
+- Auto-reload when cooldown expires
+- Donate page shows actual payment rates and minimums
+- Bank transfer shows available banks
+- Double bonus indicators when active
+
+### Changed
+- Vote page uses panel's cooldown logic checking IP and user ID
+- Vote controller checks VoteLog for cooldown status
+- Donate page displays detailed payment information
+- Both pages now use actual panel data instead of generic displays
+
+### Fixed
+- Vote and donate pages now properly integrate with panel logic
+
+## [v2.1.73] - 2025-01-11
+
+### Fixed
+- Character dropdown now appears above category navigation
+- Increased z-index values to prevent dropdown from appearing behind elements
+- Added backdrop blur to dropdown for better visibility
+- Character selector can now be properly clicked
+
+## [v2.1.72] - 2025-01-11
+
+### Fixed
+- Fixed "Undefined array key 'id'" error in character selection
+- Now uses the same User->roles() method as the dashboard
+- Removed non-existent 'level' field from character display
+- Added server online check before fetching characters
+- Character selection now matches exact dashboard implementation
+
+## [v2.1.71] - 2025-01-11
+
+### Added
+- User balance display showing currency and bonus points
+- Character selection system with dropdown menu
+- Selected character display with change option
+- Warning when no character is selected
+- Character level display in selection dropdown
+
+### Changed
+- Shop page now shows user's current balance
+- Shop page displays selected character name
+- Purchase buttons require character selection
+
+### Fixed
+- Shop now properly integrates with panel's character system
+
+## [v2.1.70] - 2025-01-11
+
+### Added
+- Shop category navigation system with mask filtering
+- 21 shop categories including weapons, armor, fashion, charms, etc.
+- Active category highlighting
+- Category icons for visual identification
+
+### Changed
+- Shop now properly uses the panel's mask system for item categorization
+- Shop controller now accepts mask parameter for filtering
+- Removed debug comments from shop and vote pages
+
+### Fixed
+- Shop now displays items properly with category filtering
+
+## [v2.1.69] - 2025-01-11
+
+### Fixed
+- Added empty state messages for shop and vote pages when no items/sites exist
+- Added debug output to show item/site counts
+- Fixed potential display issues when database has no data
+
+### Added
+- "No Items Available" message for empty shop
+- "No Vote Sites Available" message for empty vote page
+
+## [v2.1.68] - 2025-01-11
+
+### Added
+- Actual shop functionality with purchase buttons on shop page
+- Support for both currency and bonus point purchases
+- Actual donate functionality with links to all enabled payment methods
+- Actual vote functionality with proper vote submission forms
+- Character selection check for shop purchases
+
+### Changed
+- Shop items now show purchase buttons when logged in
+- Donate methods now show action buttons when logged in
+- Vote sites now have working vote buttons when logged in
+- All pages show "Login Required" status when not authenticated
+
+## [v2.1.67] - 2025-01-11
+
+### Fixed
+- Shop page now properly shows logged-in status instead of prompting to login
+- Donate page now properly shows logged-in status instead of prompting to login  
+- Vote page now properly shows logged-in status instead of prompting to login
+- Added personalized welcome messages for authenticated users on these pages
+
+## [v2.1.66] - 2025-01-11
+
+### Added
+- Traditional HTML website theme implementation
+- Custom shop page with mystical purple theme
+- Custom donate page with payment method display
+- Custom vote page with voting sites display
+- Public routes for shop, donate, and vote sections
+
+### Changed
+- Transformed panel to look like a traditional website
+- Bypassed normal Laravel theming system for custom HTML/CSS approach
+- Updated home.blade.php to use traditional HTML structure
+- Modified navigation to use public routes for unauthenticated access
+
+### Notes
+- Pre-login page remains unchanged as requested
+- All pages maintain mystical purple theme with floating particles
+- Backend functionality preserved using existing models and functions

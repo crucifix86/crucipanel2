@@ -1,0 +1,43 @@
+<?php
+
+
+
+/*
+ * @author Harris Marfel <hrace009@gmail.com>
+ * @link https://youtube.com/c/hrace009
+ * @copyright Copyright (c) 2022.
+ */
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class NewsRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'title' => 'required|min:3|max:255',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp,svg|max:10240', // Optional, more formats, max 10MB
+            'description' => 'required|min:20|max:255',
+            'keywords' => 'required',
+            'content' => 'required',
+            'category' => 'required'
+        ];
+    }
+}

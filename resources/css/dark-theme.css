@@ -1,0 +1,262 @@
+/*
+ * Modern Dark Theme - Unified styling from home.blade.php
+ * Applied across all sections: profile, dashboard, admin panel
+ */
+
+/* Dark Theme Variables - matching home.blade.php */
+.dark {
+    /* Background colors */
+    --bg-primary: #0f0f23;
+    --bg-secondary: #1a1a3a;
+    --bg-tertiary: #2a2a4a;
+    --card-bg: #1e293b;
+    --hover-bg: rgba(99, 102, 241, 0.1);
+    
+    /* Accent colors */
+    --accent-primary: #6366f1;
+    --accent-secondary: #8b5cf6;
+    
+    /* Text colors */
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Border color */
+    --border-color: #334155;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+/* Override existing dark mode colors */
+.dark {
+    /* Main backgrounds */
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Dark mode background overrides */
+.dark .bg-gray-100,
+.dark .bg-white {
+    background-color: var(--bg-primary) !important;
+}
+
+.dark .bg-gray-50 {
+    background-color: var(--bg-secondary) !important;
+}
+
+.dark .bg-gray-200 {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Card and panel backgrounds */
+.dark .bg-white.shadow,
+.dark .bg-white.rounded,
+.dark .bg-white.rounded-lg,
+.dark .bg-white.rounded-md {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color);
+}
+
+/* Navigation and sidebar */
+.dark nav,
+.dark .sidebar,
+.dark aside {
+    background-color: rgba(15, 15, 35, 0.95) !important;
+    backdrop-filter: blur(20px);
+    border-color: var(--border-color) !important;
+}
+
+/* Text color overrides */
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700 {
+    color: var(--text-primary) !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+    color: var(--text-secondary) !important;
+}
+
+.dark .text-gray-400 {
+    color: var(--text-muted) !important;
+}
+
+/* Border color overrides */
+.dark .border-gray-200,
+.dark .border-gray-300,
+.dark .divide-gray-200 > * {
+    border-color: var(--border-color) !important;
+}
+
+/* Form inputs and controls */
+.dark input,
+.dark textarea,
+.dark select {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1) !important;
+}
+
+/* Buttons */
+.dark .bg-primary,
+.dark .bg-cyan-600 {
+    background-color: var(--accent-primary) !important;
+}
+
+.dark .bg-primary:hover,
+.dark .bg-cyan-600:hover {
+    background-color: var(--accent-secondary) !important;
+}
+
+.dark .hover\:bg-gray-100:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Links */
+.dark a {
+    color: var(--accent-primary);
+}
+
+.dark a:hover {
+    color: var(--accent-secondary);
+}
+
+/* Dropdown menus */
+.dark .dropdown-menu,
+.dark [role="menu"] {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark .dropdown-item:hover,
+.dark [role="menuitem"]:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Tables */
+.dark table {
+    background-color: var(--card-bg) !important;
+}
+
+.dark th {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark td {
+    border-color: var(--border-color) !important;
+}
+
+.dark tr:hover {
+    background-color: var(--hover-bg) !important;
+}
+
+/* Modals and dialogs */
+.dark .modal-content,
+.dark [role="dialog"] {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Tabs */
+.dark .nav-tabs .nav-link {
+    color: var(--text-secondary) !important;
+    border-color: transparent !important;
+}
+
+.dark .nav-tabs .nav-link:hover {
+    color: var(--text-primary) !important;
+    background-color: var(--hover-bg) !important;
+}
+
+.dark .nav-tabs .nav-link.active {
+    color: var(--text-primary) !important;
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    border-bottom-color: var(--card-bg) !important;
+}
+
+/* Badges and labels */
+.dark .badge,
+.dark .label {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Progress bars */
+.dark .progress {
+    background-color: var(--bg-tertiary) !important;
+}
+
+/* Tooltips */
+.dark .tooltip-inner {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Scrollbars for webkit browsers */
+.dark ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* Special components */
+.dark .section-border {
+    border-color: var(--border-color) !important;
+}
+
+/* Profile page specific */
+.dark .profile-section {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Dashboard specific */
+.dark .dashboard-card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Admin panel specific */
+.dark .admin-panel {
+    background-color: var(--bg-primary) !important;
+}
+
+.dark .admin-sidebar {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Animations */
+.dark * {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}

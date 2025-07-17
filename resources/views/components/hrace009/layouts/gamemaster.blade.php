@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('pw-config.server_name', 'Laravel') }} @yield('title')</title>
+
+    @if( ! config('pw-config.logo') )
+        <link rel="shortcut icon" href="{{ asset('img/logo/logo.png') }}"/>
+        <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="{{ asset('img/logo/logo.png') }}"
+        />
+    @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
+        <link rel="shortcut icon" href="{{ asset(config('pw-config.logo')) }}"/>
+        <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="{{ asset(config('pw-config.logo')) }}"
+        />
+    @else
+        <link rel="shortcut icon" href="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}"/>
+        <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}"
+        />
+    @endif
+
+    <x-hrace009::front.top-script/>
+
+    @php
+        $userTheme = auth()->user()->theme ?? config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+    
+    <style>
+        /* Admin Header Styles */
+        .admin-header {
+            background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 100%);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #6366f1;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .admin-header .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .admin-header-logo {
+            max-height: 80px;
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+        
+        .admin-header-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .admin-badge-logo {
+            max-height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 15px 0;
+            }
+            
+            .admin-header .header-content {
+                gap: 20px;
+            }
+            
+            .admin-header-logo {
+                max-height: 60px;
+            }
+            
+            .admin-badge-logo {
+                max-height: 40px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased theme-{{ $userTheme }}">
+<x-hrace009::front.big-frame>
+    <x-hrace009::loading>
+        {{ __('general.loading') }}
+    </x-hrace009::loading>
+    <!-- Sidebar -->
+    <x-hrace009::side-bar>
+        <x-slot name="links">
+            <x-hrace009::gamemaster.dashboard-link/>
+            @if( config('pw-config.system.apps.news') )
+                <x-hrace009::gamemaster.news-link/>
+            @endif
+        </x-slot>
+        <x-slot name="footer">
+            <x-hrace009::side-bar-footer/>
+        </x-slot>
+    </x-hrace009::side-bar>
+
+    <div class="flex flex-col flex-1 h-full overflow-x-hidden overflow-y-auto">
+        {{-- Header Section --}}
+        @php
+            $headerSettings = \App\Models\HeaderSetting::first();
+            $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : 'img/logo/haven_perfect_world_logo.svg';
+            $badgeLogo = $headerSettings && $headerSettings->badge_logo ? $headerSettings->badge_logo : 'img/logo/crucifix_logo.svg';
+        @endphp
+        <header class="admin-header">
+            <div class="header-content">
+                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="admin-header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+                <img src="{{ asset($badgeLogo) }}" alt="Badge" class="admin-badge-logo">
+            </div>
+        </header>
+        
+        <x-hrace009::nav-bar>
+            <x-slot name="navmenu">
+                <x-hrace009::mobile-menu-button/>
+                <x-hrace009::admin.brand>
+                    <x-slot name="brand">
+                        {{ config('pw-config.server_name') }} - Game Master
+                    </x-slot>
+                </x-hrace009::admin.brand>
+                <x-hrace009::mobile-sub-menu-button/>
+                <x-hrace009::desktop-right-button>
+                    <x-slot name="button">
+                        <x-hrace009::dark-theme-button/>
+                        <x-hrace009::language-button/>
+                        <x-hrace009::user-button/>
+                        <x-hrace009::user-avatar/>
+                    </x-slot>
+                </x-hrace009::desktop-right-button>
+                <x-hrace009.mobile-sub-menu>
+                    <x-slot name="button">
+                        <x-hrace009::dark-theme-button/>
+                        <x-hrace009::mobile-language-menu/>
+                        <x-hrace009::user-button/>
+                        <x-hrace009::admin.mobile-user-avatar/>
+                    </x-slot>
+                </x-hrace009.mobile-sub-menu>
+            </x-slot>
+            <x-slot name="navMobilMenu">
+                <x-hrace009.mobile-main-menu>
+                    <x-slot name="links">
+                        <x-hrace009::gamemaster.dashboard-link/>
+                        @if( config('pw-config.system.apps.news') )
+                            <x-hrace009::gamemaster.news-link/>
+                        @endif
+                    </x-slot>
+                </x-hrace009.mobile-main-menu>
+            </x-slot>
+        </x-hrace009::nav-bar>
+
+        <!-- Main content -->
+        <main class="flex-1">
+
+            <!-- Content header -->
+            @if (isset($header))
+                {{ $header }}
+            @endif
+            <!-- Content -->
+            <div class="mt-2 pb-16">
+                {{ $content }}
+            </div>
+        </main>
+        <x-hrace009::footer/>
+    </div>
+    <!-- Panels -->
+    <x-hrace009::settings-panel/>
+</x-hrace009::front.big-frame>
+@yield('footer')
+<x-hrace009::front.bottom-script/>
+</body>
+</html>

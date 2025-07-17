@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ $title }}</title>
+    <meta name="description" content="{{ $description  }}">
+    <meta name="keywords" content="{{ $keywords }}">
+    <meta name="author" content="{{ $author  }}">
+
+    <meta property="og:locale" content="{{ app()->getLocale() }}">
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:url" content="{{ $og_url }}">
+    <meta property="og:type" content="blog">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:image" content="{{ $og_image }}">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name='twitter:description' content="{{ $description }}">
+    <meta name="twitter:url" content="{{ $og_url }}">
+    <meta name="twitter:image" content="{{ $og_image }}">
+
+    @if( ! config('pw-config.logo') )
+        <link rel="shortcut icon" href="{{ asset('img/logo/logo.png') }}"/>
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/logo/logo.png') }}" />
+    @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
+        <link rel="shortcut icon" href="{{ asset(config('pw-config.logo')) }}"/>
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset(config('pw-config.logo')) }}" />
+    @else
+        <link rel="shortcut icon" href="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}"/>
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" />
+    @endif
+
+    {{-- Bootstrap CSS --}}
+    <link rel="stylesheet" href="{{ asset('vendor/portal/bootstrap/dist/css/bootstrap.min.css') }}" />
+    {{-- FontAwesome for icons --}}
+    <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fontawesome-all.min.js') }}"></script>
+    <script defer src="{{ asset('vendor/portal/font-awesome/svg-with-js/js/fa-v4-shims.min.js') }}"></script>
+    {{-- Custom CSS from home page --}}
+    <link rel="stylesheet" href="{{ asset('css/custom-home.css') }}">
+
+    @php
+        $userTheme = auth()->check() ? auth()->user()->theme : config('themes.default');
+        $themeConfig = config('themes.themes.' . $userTheme);
+    @endphp
+    
+    @if($themeConfig && isset($themeConfig['css']))
+        <link rel="stylesheet" href="{{ asset($themeConfig['css']) }}">
+    @endif
+
+    {{-- Livewire Styles --}}
+    @livewireStyles
+
+    <style>
+        /* Copy all the styles from home.blade.php */
+        /* Light Theme Variables (Default) */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --hover-bg: rgba(99, 102, 241, 0.05);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        
+        /* Dark Theme Variables */
+        body.dark-mode {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a3a;
+            --bg-tertiary: #2a2a4a;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --card-bg: #1e293b;
+            --hover-bg: rgba(99, 102, 241, 0.1);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-accent: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+
+        /* Global Dark Theme */
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Navbar Styles */
+        .custom-navbar {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            padding: 12px 0;
+            min-height: 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        /* Ensure navbar items maintain proper order */
+        .custom-navbar .navbar-nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        
+        .custom-navbar .nav-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Ensure all navbar items maintain their order */
+        .custom-navbar .navbar-nav > * {
+            order: initial;
+        }
+        
+        /* Make nav-item dropdowns behave like inline elements */
+        .custom-navbar .nav-item.dropdown {
+            display: inline-flex;
+        }
+
+        .custom-navbar .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .custom-navbar .navbar-brand img {
+            height: 60px;
+            width: auto;
+        }
+
+        .custom-navbar .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            padding: 8px 16px !important;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin: 0 2px;
+        }
+
+        .custom-navbar .nav-link:hover, .custom-navbar .nav-link.active {
+            color: #ffd700 !important;
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .custom-navbar .navbar-toggler {
+            border-color: rgba(255,255,255,0.3);
+            padding: 4px 8px;
+        }
+
+        .custom-navbar .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Dropdown styles for Download/Guide sections */
+        .custom-navbar .dropdown-menu {
+            background-color: #6a5acd;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 10px 0;
+        }
+        .custom-navbar .dropdown-menu .dropdown-item {
+            color: rgba(255,255,255,0.85) !important;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .custom-navbar .dropdown-menu .dropdown-item:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: #ffd700 !important;
+        }
+        .custom-navbar .dropdown-toggle::after {
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Account Dropdown Styling */
+        .navbar .dropdown-menu {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            margin-top: 10px;
+        }
+        
+        .navbar .dropdown-menu .dropdown-item {
+            color: var(--text-primary);
+        }
+        
+        .navbar .dropdown-menu .dropdown-item:hover {
+            background: var(--hover-bg);
+            color: var(--accent-primary);
+        }
+
+        /* Logo styling */
+        .navbar-logo {
+            height: 60px !important;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .navbar-badge {
+            cursor: default;
+            pointer-events: none;
+        }
+        
+        /* Header Section */
+        .site-header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 30px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .header-logo {
+            max-height: 120px;
+            width: auto;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+        
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Article content specific styles */
+        .article-hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .article-hero h1 {
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: 3rem;
+            margin: 0 0 20px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-hero-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .article-hero-meta .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .article-hero-meta .meta-item i {
+            color: var(--accent-primary);
+            font-size: 1.1rem;
+        }
+
+        .youplay-news {
+            padding: 60px 0;
+            background: var(--bg-primary);
+        }
+
+        .article-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .article-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .article-body {
+            padding: 40px;
+        }
+
+        .article-tags {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .article-tags .tags-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .article-tags .tag-icon {
+            color: var(--accent-primary);
+            font-size: 1.2rem;
+        }
+
+        .article-tags a {
+            display: inline-flex;
+            align-items: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 8px 20px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-primary);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .article-tags a:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .article-text {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            letter-spacing: 0.01em;
+        }
+
+        .article-text p {
+            margin-bottom: 1.8rem;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .article-text h2, .article-text h3 {
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+            font-weight: 700;
+        }
+
+        .article-text h2 {
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .article-text h3 {
+            font-size: 1.4rem;
+        }
+
+        .article-text blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .article-text a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--accent-primary);
+            transition: all 0.3s ease;
+        }
+
+        .article-text a:hover {
+            color: var(--accent-secondary);
+            border-bottom-style: solid;
+        }
+
+        .article-text ul, .article-text ol {
+            margin-bottom: 1.5rem;
+            padding-left: 30px;
+        }
+
+        .article-text li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-text code {
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-primary);
+        }
+
+        .article-text pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .article-text pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .article-text img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .article-footer {
+            padding: 30px 40px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .social-share {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-share-label {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .social-share-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-share-buttons .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-share-buttons .share-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .social-share-buttons .facebook:hover {
+            background: #1877f2;
+            color: white;
+            border-color: #1877f2;
+        }
+
+        .social-share-buttons .twitter:hover {
+            background: #1da1f2;
+            color: white;
+            border-color: #1da1f2;
+        }
+
+        @media (max-width: 768px) {
+            .article-hero h1 {
+                font-size: 2rem;
+            }
+
+            .article-body {
+                padding: 25px;
+            }
+
+            .article-hero-meta {
+                gap: 15px;
+            }
+        }
+
+        /* Article Container - Full Width Reading */
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .content-wrap {
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Fix: Hide navbar toggler on desktop screens - more aggressive */
+        @media (min-width: 992px) {
+            .custom-navbar .navbar-toggler {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                width: 0 !important;
+                height: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: 0 !important;
+                position: absolute !important;
+                left: -9999px !important;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 991px) {
+            .custom-navbar .navbar-nav {
+                padding-top: 10px;
+            }
+
+            .custom-navbar .nav-link, .custom-navbar .nav-item .dropdown-toggle {
+                margin: 2px 0;
+                text-align: center;
+            }
+
+            .site-header {
+                padding: 20px 0;
+            }
+            
+            .header-logo {
+                max-height: 80px;
+            }
+
+            .article-container {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body class="theme-{{ $userTheme }}">
+    {{-- Language Selector and Theme Toggle - Fixed Position, Top Right --}}
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1100; display: flex; align-items: center; gap: 10px;">
+        @if(Auth::check())
+            @livewire('theme-selector')
+        @endif
+        <x-home-theme-toggle />
+        <x-hrace009::language-button />
+    </div>
+
+    {{-- Header Section --}}
+    @php
+        $headerSettings = \App\Models\HeaderSetting::first();
+        $headerLogo = $headerSettings && $headerSettings->header_logo ? $headerSettings->header_logo : config('pw-config.header_logo', 'img/logo/haven_perfect_world_logo.svg');
+    @endphp
+    <header class="site-header">
+        <div class="container-fluid">
+            <div class="header-content">
+                <img src="{{ asset($headerLogo) }}" alt="{{ config('pw-config.server_name') }}" class="header-logo" onclick="window.location.href='{{ route('HOME') }}'" style="cursor: pointer;">
+            </div>
+        </div>
+    </header>
+
+    {{-- Custom Navbar --}}
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                @if( !config('pw-config.logo') || config('pw-config.logo') === '' )
+                    <img src="{{ asset('img/logo/logo.png') }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
+                @elseif( str_starts_with(config('pw-config.logo'), 'img/logo/') )
+                    <img src="{{ asset(config('pw-config.logo')) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
+                @else
+                    <img src="{{ asset('uploads/logo/' . config('pw-config.logo') ) }}" alt="{{ config('pw-config.server_name') }}" class="navbar-logo navbar-badge">
+                @endif
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto">
+                    {{-- Home Link --}}
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('HOME') }}">
+                            <i class="fas fa-home me-1"></i>{{ __('general.home') }}
+                        </a>
+                    </div>
+
+                    {{-- Shop Link --}}
+                    @if( config('pw-config.system.apps.shop') )
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('app.shop.index') }}">
+                            <i class="fas fa-shopping-cart me-1"></i>{{ __('shop.title') }}
+                        </a>
+                    </div>
+                    @endif
+
+                    {{-- Donate Link --}}
+                    @if( config('pw-config.system.apps.donate') )
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('app.donate.history') }}">
+                            <i class="fas fa-credit-card me-1"></i>{{ __('donate.title') }}
+                        </a>
+                    </div>
+                    @endif
+
+                    {{-- Voucher Link --}}
+                    @if( config('pw-config.system.apps.voucher') )
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('app.voucher.index') }}">
+                            <i class="fas fa-ticket-alt me-1"></i>{{ __('voucher.title') }}
+                        </a>
+                    </div>
+                    @endif
+
+                    {{-- Ingame Service Link --}}
+                    @if( config('pw-config.system.apps.inGameService') )
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('app.services.index') }}">
+                            <i class="fas fa-tools me-1"></i>{{ __('service.title') }}
+                        </a>
+                    </div>
+                    @endif
+
+                    {{-- Ranking Link --}}
+                    @if( config('pw-config.system.apps.ranking') )
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('app.ranking.index') }}">
+                            <i class="fas fa-trophy me-1"></i>{{ __('ranking.title') }}
+                        </a>
+                    </div>
+                    @endif
+
+                    {{-- Vote Link --}}
+                    @if( config('pw-config.system.apps.vote') )
+                    <div class="nav-item">
+                        <a class="nav-link" href="{{ route('app.vote.index') }}">
+                            <i class="fas fa-vote-yea me-1"></i>{{ __('vote.title') }}
+                        </a>
+                    </div>
+                    @endif
+
+                    {{-- Extras Dropdown (Custom Pages) --}}
+                    @php
+                        $customPages = \App\Models\Page::active()->inNav()->orderBy('order')->orderBy('title')->get();
+                    @endphp
+                    @if($customPages->count() > 0)
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->routeIs('page.show') ? 'active' : '' }}" href="#" id="extrasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ __('general.extras') }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="extrasDropdown">
+                                @foreach($customPages as $page)
+                                    <li><a class="dropdown-item {{ request()->is('page/' . $page->slug) ? 'active' : '' }}" href="{{ route('page.show', $page->slug) }}">{{ $page->nav_title }}</a></li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    {{-- Download Links --}}
+                    @isset($download)
+                        @if( $download->exists() && $download->count() > 0 )
+                            @if( $download->count() === 1 )
+                                <div class="nav-item">
+                                    <a class="nav-link" href="{{ route('show.article', $download->first()->slug ) }}">
+                                        <i class="fas fa-download me-1"></i>{{ $download->first()->title }}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="downloadDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-download me-1"></i>{{ __('news.category.download') }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="downloadDropdown">
+                                        @foreach( $download->get() as $page )
+                                            <li><a class="dropdown-item" href="{{ route('show.article', $page->slug ) }}">{{ $page->title }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        @endif
+                    @endisset
+
+                    {{-- Guide Links --}}
+                    @isset($guide)
+                        @if( $guide->exists() && $guide->count() > 0 )
+                            @if( $guide->count() === 1 )
+                                <div class="nav-item">
+                                    <a class="nav-link" href="{{ route('show.article', $guide->first()->slug ) }}">
+                                        <i class="fas fa-book-open me-1"></i>{{ $guide->first()->title }}
+                                    </a>
+                                </div>
+                            @else
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="guideDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-book-open me-1"></i>{{ __('news.category.guide') }}
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="guideDropdown">
+                                        @foreach( $guide->get() as $guidepage )
+                                            <li><a class="dropdown-item" href="{{ route('show.article', $guidepage->slug ) }}">{{ $guidepage->title }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        @endif
+                    @endisset
+                </div>
+
+                <div class="navbar-nav">
+                    @if(Auth::check())
+                        {{-- If user is logged in --}}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>
+                                <span>{{ Auth::user()->truename ?? Auth::user()->name ?? 'User' }}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown" style="min-width: 280px; padding: 20px;">
+                                <div class="text-center mb-3">
+                                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos() && Auth::user()->profile_photo_url)
+                                        <img class="img-fluid rounded-circle mb-2" width="64" height="64" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->truename ?? Auth::user()->name }}" />
+                                    @else
+                                        <i class="fas fa-user-circle" style="font-size: 2.5rem; color: #667eea;"></i>
+                                    @endif
+                                    <h6 class="mt-2 mb-0">{{ Auth::user()->truename ?? Auth::user()->name ?? 'User' }}</h6>
+                                    <small class="text-muted">{{ Auth::user()->email ?? '' }}</small>
+                                </div>
+                                <hr>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ route('profile.show') }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-user me-1"></i>{{ __('general.dashboard.profile.header') }}
+                                    </a>
+                                    <a href="{{ route('app.dashboard') }}" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-tachometer-alt me-1"></i>{{ __('general.menu.dashboard') }}
+                                    </a>
+                                    <a href="{{ route('app.donate.history') }}" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-history me-1"></i>{{ __('general.menu.donate.history') }}
+                                    </a>
+                                    @if(Auth::user()->isAdministrator())
+                                    <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-outline-warning">
+                                        <i class="fas fa-user-shield me-1"></i>Admin Dashboard
+                                    </a>
+                                    @endif
+                                    @if(Auth::user()->isGamemaster())
+                                    <a href="{{ route('gm.dashboard') }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-gamepad me-1"></i>GM Dashboard
+                                    </a>
+                                    @endif
+                                    <hr class="my-2">
+                                    <form method="POST" action="{{ route('logout') }}" class="d-grid">
+                                        @csrf
+                                        <a href="{{ route('logout') }}" class="btn btn-sm btn-outline-danger"
+                                           onclick="event.preventDefault(); this.closest('form').submit();">
+                                            <i class="fas fa-sign-out-alt me-1"></i>{{ __('general.logout') }}
+                                        </a>
+                                    </form>
+                                </div>
+                            </ul>
+                        </div>
+                    @else
+                        {{-- If user is not logged in --}}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user me-1"></i>
+                                <span>Account</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown" style="min-width: 320px; padding: 20px;">
+                                <div class="login-form">
+                                    <h5 class="text-center mb-3" style="color: #667eea;">
+                                        <i class="fas fa-sign-in-alt me-2"></i>{{ __('auth.form.login') }}
+                                    </h5>
+
+                                    <form method="POST" action="{{ route('login') }}">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="name-login" class="form-label visually-hidden">{{ __('auth.form.login') }}:</label>
+                                            <input id="name-login" type="text" name="name" class="form-control" placeholder="{{ __('auth.form.login_placeholder') ?? 'Username or Email' }}" required autofocus />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="password-login" class="form-label visually-hidden">{{ __('auth.form.password') }}:</label>
+                                            <input id="password-login" type="password" name="password" class="form-control" placeholder="{{ __('auth.form.password') }}" required />
+                                        </div>
+
+                                        <!-- Dynamic PIN field -->
+                                        <div class="mb-3" id="pin-field-dropdown" style="display: none;">
+                                            <label for="pin-login" class="form-label visually-hidden">{{ __('auth.form.pin') }}:</label>
+                                            <input id="pin-login" type="password" name="pin" class="form-control" placeholder="{{ __('auth.form.pin') }}" autocomplete="current-pin" />
+                                        </div>
+
+                                        @if( config('pw-config.system.apps.captcha') )
+                                            @captcha
+                                            <div class="mb-3">
+                                                <label for="captcha-login" class="form-label visually-hidden">{{ __('captcha.enter_code') }}:</label>
+                                                <input id="captcha-login" type="text" name="captcha" class="form-control" placeholder="{{ __('captcha.enter_code') }}" required />
+                                            </div>
+                                        @endif
+
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" name="remember" class="form-check-input" id="remember_me_custom">
+                                            <label class="form-check-label" for="remember_me_custom" style="font-size: 14px;">
+                                                {{ __('auth.form.remember') }}
+                                            </label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-login w-100 mb-2">
+                                            <i class="fas fa-sign-in-alt me-1"></i>{{ __('auth.form.login') }}
+                                        </button>
+                                    </form>
+
+                                    <div class="login-divider">────── {{ __('general.or') }} ──────</div>
+
+                                    <a href="{{ route('register') }}" class="btn btn-register w-100 mb-2">
+                                        <i class="fas fa-user-plus me-1"></i>{{ __('auth.form.register') }}
+                                    </a>
+
+                                    <div class="text-center">
+                                        <a href="{{ route('password.request') }}">{{ __('auth.form.forgotPassword') }}</a>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {{-- Article Content --}}
+    <div class="content-wrap">
+        {{-- Article Hero Section --}}
+        <section class="article-hero">
+            <div class="container">
+                <h1>{{ $article_title }}</h1>
+                <div class="article-hero-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span>{{ $author }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ $published }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-folder"></i>
+                        {{ $categories }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="youplay-news">
+            <div class="article-container">
+                <article class="article-content">
+                    <div class="article-body">
+                        <div class="article-tags">
+                            <div class="tags-container">
+                                <i class="fas fa-tags tag-icon"></i>
+                                @php($tags = explode(',', $keywords ))
+                                @foreach( $tags as $tag )
+                                    <a href="{{ route('show.article.tag', trim($tag)) }}">{{ trim($tag) }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                        
+                        <div class="article-text">
+                            {!! $news !!}
+                        </div>
+                    </div>
+                    
+                    {{-- Article Footer with Share --}}
+                    <div class="article-footer">
+                        <div class="social-share">
+                            <span class="social-share-label">Share this article:</span>
+                            <div class="social-share-buttons">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode($og_url) }}" 
+                                   target="_blank" 
+                                   class="share-btn facebook"
+                                   title="Share on Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ urlencode($og_url) }}&text={{ urlencode($article_title) }}" 
+                                   target="_blank" 
+                                   class="share-btn twitter"
+                                   title="Share on Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <x-hrace009::portal.footer/>
+    </div>
+
+    {{-- Scripts --}}
+    <script src="{{ asset('vendor/portal/jquery/dist/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('vendor/portal/jarallax/dist/jarallax.min.js') }}"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    {{-- Livewire Scripts --}}
+    @livewireScripts
+
+    {{-- PIN Check Script for Dropdown Login --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('name-login');
+            const pinField = document.getElementById('pin-field-dropdown');
+            const pinInput = document.getElementById('pin-login');
+            let checkTimeout;
+
+            function checkPinRequired() {
+                const username = nameInput.value;
+                if (username.length < 3) {
+                    pinField.style.display = 'none';
+                    pinInput.removeAttribute('required');
+                    return;
+                }
+
+                fetch('/api/check-pin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ username: username })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.pin_required) {
+                        pinField.style.display = 'block';
+                        pinInput.setAttribute('required', 'required');
+                    } else {
+                        pinField.style.display = 'none';
+                        pinInput.removeAttribute('required');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking PIN requirement:', error);
+                });
+            }
+
+            if (nameInput) {
+                nameInput.addEventListener('input', function() {
+                    clearTimeout(checkTimeout);
+                    checkTimeout = setTimeout(checkPinRequired, 500);
+                });
+
+                nameInput.addEventListener('blur', checkPinRequired);
+
+                // Check on page load if username is pre-filled
+                if (nameInput.value) {
+                    checkPinRequired();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<?php
+
+
+
+/*
+ * @author Harris Marfel <hrace009@gmail.com>
+ * @link https://youtube.com/c/hrace009
+ * @copyright Copyright (c) 2022.
+ */
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsRequest;
+use App\Models\News;
+use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+
+class NewsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function index()
+    {
+        $news = News::paginate(config('pw-config.news.page'));
+        $user = new User();
+        return view('admin.news.view', [
+            'news' => $news,
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function create()
+    {
+        return view('admin.news.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param NewsRequest $request
+     * @return RedirectResponse
+     */
+    public function store(NewsRequest $request): RedirectResponse
+    {
+        $input = $request->all();
+        
+        // Handle optional image upload
+        if ($request->hasFile('og_image')) {
+            $image = $request->file('og_image')->getClientOriginalName();
+            $request->file('og_image')->storeAs('og_image', $image, config('filesystems.default'));
+            $input['og_image'] = $image;
+        }
+
+        $slug = \Str::slug($request->title);
+        $count = News::where('slug', 'LIKE', '%' . $slug . '%')->count();
+        $input['slug'] = $count ? "{$slug}-{$count}" : $slug;
+
+        News::create($input);
+        return redirect(route('news.index'))->with('success', __('news.create_success'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return Application|Factory|View
+     */
+    public function edit(int $id)
+    {
+        $article = News::findOrFail($id);
+        return view('admin.news.edit', [
+            'article' => $article
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param NewsRequest $request
+     * @param int $id
+     * @return RedirectResponse
+     */
+    public function update(NewsRequest $request, int $id): RedirectResponse
+    {
+        $updateData = [
+            'title' => $request->get('title'),
+            'slug' => \Str::slug($request->title),
+            'description' => $request->get('description'),
+            'keywords' => $request->get('keywords'),
+            'content' => $request->get('content'),
+            'category' => $request->get('category'),
+            'author' => $request->get('author'),
+        ];
+        
+        // Handle optional image upload
+        if ($request->hasFile('og_image')) {
+            $image = $request->file('og_image')->getClientOriginalName();
+            $request->file('og_image')->storeAs('og_image', $image, config('filesystems.default'));
+            $updateData['og_image'] = $image;
+        }
+
+        News::whereId($id)->update($updateData);
+        return redirect(route('news.index'))->with('success', __('news.edit_success'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function destroy($id): RedirectResponse
+    {
+        $article = News::findOrFail($id);
+        $article->delete();
+
+        return redirect(route('news.index'))->with('success', __('news.remove_success'));
+    }
+
+    /**
+     * Control the upload image from Tiny MCE Editor
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function upload(Request $request): JsonResponse
+    {
+        $fileName = $request->file('file')->getClientOriginalName();
+        $path = $request->file('file')->storeAs('content', $fileName, config('filesystems.default'));
+        return response()->json([
+            'location' => url('/uploads/' . $path)
+        ]);
+    }
+
+    /**
+     * Show news settings page
+     *
+     * @return Application|Factory|View
+     */
+    public function settings()
+    {
+        return view('admin.news.settings');
+    }
+
+    /**
+     * Post settings to config file
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function postSettings(Request $request): RedirectResponse
+    {
+        $validate = $request->validate([
+            'article_page' => 'required|numeric',
+            'default_og_logo' => 'required|string'
+        ]);
+        
+        Config::write('pw-config.news.page', $validate['article_page']);
+        Config::write('pw-config.news.default_og_logo', $validate['default_og_logo']);
+        
+        // Clear and re-cache config after all writes are complete
+        \Artisan::call('config:clear');
+        \Artisan::call('config:cache');
+        
+        // Simple redirect back with query parameter
+        $url = url()->previous();
+        if (strpos($url, '?') !== false) {
+            $url .= '&saved=1';
+        } else {
+            $url .= '?saved=1';
+        }
+        
+        return redirect($url);
+    }
+}
