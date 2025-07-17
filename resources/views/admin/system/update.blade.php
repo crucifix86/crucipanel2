@@ -117,6 +117,14 @@
                             </div>
                         </div>
                         
+                        <!-- Backup Progress -->
+                        <div id="backupProgressContainer" class="mt-4 hidden">
+                            <div class="bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div id="backupProgressBar" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <p id="backupProgressText" class="text-sm text-gray-600 dark:text-gray-400 mt-2"></p>
+                        </div>
+                        
                         <!-- Backup Messages -->
                         <div id="backupMessageContainer" class="mt-4"></div>
                     </div>
@@ -186,10 +194,24 @@
                 container.appendChild(alert);
             }
 
-            function updateProgress(percent, text) {
-                document.getElementById('progressContainer').classList.remove('hidden');
-                document.getElementById('progressBar').style.width = percent + '%';
-                document.getElementById('progressText').textContent = text;
+            function updateProgress(percent, text, isBackup = false) {
+                let progressContainer, progressBar, progressText;
+                
+                if (isBackup) {
+                    progressContainer = document.getElementById('backupProgressContainer');
+                    progressBar = document.getElementById('backupProgressBar');
+                    progressText = document.getElementById('backupProgressText');
+                } else {
+                    progressContainer = document.getElementById('progressContainer');
+                    progressBar = document.getElementById('progressBar');
+                    progressText = document.getElementById('progressText');
+                }
+                
+                if (progressContainer && progressBar && progressText) {
+                    progressContainer.classList.remove('hidden');
+                    progressBar.style.width = percent + '%';
+                    progressText.textContent = text;
+                }
             }
 
             async function createBackup() {
@@ -198,7 +220,7 @@
                 btn.textContent = 'Creating...';
 
                 try {
-                    updateProgress(50, 'Creating backup...');
+                    updateProgress(50, 'Creating backup...', true);
                     
                     const response = await fetch('{{ route('admin.system.update.backup') }}', {
                         method: 'POST',
@@ -211,7 +233,7 @@
                     const data = await response.json();
 
                     if (data.success) {
-                        updateProgress(100, 'Backup created successfully!');
+                        updateProgress(100, 'Backup created successfully!', true);
                         showMessage(`Backup created: ${data.backup_name} (${data.backup_size})`, 'success', 'backupMessageContainer');
                         backupCreated = true;
                         // Only enable update button if it exists
@@ -221,11 +243,11 @@
                         }
                     } else {
                         showMessage(data.message || 'Failed to create backup', 'error', 'backupMessageContainer');
-                        updateProgress(0, '');
+                        updateProgress(0, '', true);
                     }
                 } catch (error) {
                     showMessage('Error creating backup: ' + error.message, 'error', 'backupMessageContainer');
-                    updateProgress(0, '');
+                    updateProgress(0, '', true);
                 } finally {
                     btn.disabled = false;
                     btn.textContent = 'Create Backup';
