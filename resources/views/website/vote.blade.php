@@ -68,6 +68,15 @@ if (!function_exists('get_setting')) {
             @if(isset($arena_vote_success) && $arena_vote_success)
             @php
                 $arenaSuccess = $arena_vote_success;
+                // Define rewardText before using it
+                $rewardText = '';
+                if($arenaSuccess['reward_type'] == 'virtual') {
+                    $rewardText = config('pw-config.currency_name', 'Coins');
+                } elseif($arenaSuccess['reward_type'] == 'cubi') {
+                    $rewardText = __('site.vote.arena.gold');
+                } else {
+                    $rewardText = __('site.shop.balance.bonus_points');
+                }
             @endphp
             <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(147, 112, 219, 0.2)); border: 2px solid #10b981; padding: 20px 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">
                 <span style="font-size: 2rem; display: block; margin-bottom: 10px;">🎉</span>
@@ -75,26 +84,9 @@ if (!function_exists('get_setting')) {
                     {{ __('site.vote.arena.vote_confirmed') }}
                 </span>
                 <span style="color: #e6d7f0; font-size: 1.1rem;">
-                    +{{ $arenaSuccess['reward_amount'] }} 
-                    @if($arenaSuccess['reward_type'] == 'virtual')
-                        {{ config('pw-config.currency_name', 'Coins') }}
-                    @elseif($arenaSuccess['reward_type'] == 'cubi')
-                        {{ __('site.vote.arena.gold') }}
-                    @else
-                        {{ __('site.shop.balance.bonus_points') }}
-                    @endif
-                    {{ __('site.vote.arena.reward_added', ['amount' => $arenaSuccess['reward_amount'], 'type' => $rewardText]) }}
+                    +{{ $arenaSuccess['reward_amount'] }} {{ $rewardText }}
+                    {{ __('site.vote.arena.reward_added') }}
                 </span>
-                @php
-                    $rewardText = '';
-                    if($arenaSuccess['reward_type'] == 'virtual') {
-                        $rewardText = config('pw-config.currency_name', 'Coins');
-                    } elseif($arenaSuccess['reward_type'] == 'cubi') {
-                        $rewardText = __('site.vote.arena.gold');
-                    } else {
-                        $rewardText = __('site.shop.balance.bonus_points');
-                    }
-                @endphp
                 <script>
                     // Show immediate notification as well
                     showNotification('success', '{{ __('site.vote.arena.confirmed_message', ['amount' => $arenaSuccess['reward_amount'], 'type' => $rewardText]) }}');
