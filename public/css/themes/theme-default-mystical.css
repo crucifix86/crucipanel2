@@ -5587,17 +5587,31 @@ body.public-profile-page .no-characters {
     color: #9370DB;
     padding: 40px;
 }
-/* =====================================================
-   PUBLIC PROFILE PAGE STYLES
-   ===================================================== */
 
-body.public-profile-page .public-profile-container {
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(147, 112, 219, 0.3);
-    border-radius: 30px;
-    padding: 50px;
-    margin-bottom: 50px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(147, 112, 219, 0.2);
+/* Message Navigation */
+body.public-profile-page .message-navigation {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(30, 30, 60, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .message-navigation .btn {
+    flex: 1;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body.public-profile-page .public-profile-container {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    
+    body.public-profile-page .message-navigation {
+        flex-direction: column;
+    }
+}
