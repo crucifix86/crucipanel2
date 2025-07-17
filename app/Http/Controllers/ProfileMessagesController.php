@@ -72,7 +72,7 @@ class ProfileMessagesController extends Controller
             'message' => $validated['message']
         ]);
 
-        return back()->with('success', __('messages.wall_post_success'));
+        return back()->with('success', __('messages.wall_post_success'))->withFragment('wall-tab');
     }
 
     public function destroy(ProfileMessage $profileMessage)

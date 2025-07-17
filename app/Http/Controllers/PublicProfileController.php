@@ -14,9 +14,12 @@ class PublicProfileController extends Controller
         $user = User::where('name', $username)->with('profile')->firstOrFail();
         $profile = $user->profile;
         
-        // Check if public profile is enabled
-        if (!$profile || !$profile->public_profile_enabled && (!Auth::check() || Auth::id() !== $user->id)) {
-            abort(404);
+        // Create default profile if it doesn't exist (enabled by default for everyone)
+        if (!$profile) {
+            $profile = $user->profile()->create([
+                'public_profile_enabled' => true,
+                'public_wall_enabled' => true,
+            ]);
         }
         
         // Get messaging settings
