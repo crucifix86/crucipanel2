@@ -11,14 +11,6 @@ class ThemeAssetController extends Controller
     {
         $theme = Theme::getActive();
         
-        // Debug info
-        $debug = "/* CSS Route Debug:\n";
-        $debug .= " * Request Path: " . request()->path() . "\n";
-        $debug .= " * Route Name: " . (request()->route() ? request()->route()->getName() : 'no route') . "\n";
-        $debug .= " * Auth: " . (auth()->check() ? 'logged in' : 'not logged in') . "\n";
-        $debug .= " * Theme: " . ($theme ? $theme->name . ' (auth: ' . ($theme->is_auth_theme ? 'yes' : 'no') . ')' : 'NO THEME FOUND') . "\n";
-        $debug .= " */\n\n";
-        
         if (!$theme) {
             // Return default theme CSS  
             $defaultTheme = Theme::where('is_default', true)->first();
@@ -59,7 +51,7 @@ class ThemeAssetController extends Controller
             }
         }
         
-        return response($debug . $css)
+        return response($css)
             ->header('Content-Type', 'text/css')
             ->header('Cache-Control', 'no-cache, must-revalidate');
     }

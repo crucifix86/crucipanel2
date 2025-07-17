@@ -79,6 +79,48 @@
                         @endif
                     </div>
 
+                    <!-- Backup Section (Always Visible) -->
+                    <div class="border-t dark:border-gray-700 pt-6 mb-8">
+                        <h2 class="text-lg font-semibold mb-4 dark:text-gray-100">Backup Management</h2>
+                        
+                        <div class="space-y-4">
+                            <!-- Create Backup -->
+                            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <div>
+                                    <h3 class="font-medium dark:text-gray-100">Create Panel Backup</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Create a backup of your panel before making changes</p>
+                                </div>
+                                <button id="backupBtn" onclick="createBackup()" 
+                                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    Create Backup
+                                </button>
+                            </div>
+                            
+                            <!-- Restore Info -->
+                            <div class="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium text-blue-800 dark:text-blue-200">
+                                            How to Restore
+                                        </h3>
+                                        <div class="mt-2 text-sm text-blue-700 dark:text-blue-300">
+                                            <p>To restore a backup, run this command from your panel directory:</p>
+                                            <code class="block mt-2 p-2 bg-gray-800 text-green-400 rounded font-mono text-xs">./restore-backup.sh</code>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Backup Messages -->
+                        <div id="backupMessageContainer" class="mt-4"></div>
+                    </div>
+
                     @if($updateAvailable && $latestRelease && !isset($latestRelease['no_releases']))
                         <!-- Changelog -->
                         <div class="mb-8">
@@ -92,29 +134,17 @@
 
                         <!-- Update Actions -->
                         <div class="border-t dark:border-gray-700 pt-6">
-                            <h2 class="text-lg font-semibold mb-4 dark:text-gray-100">Update Actions</h2>
+                            <h2 class="text-lg font-semibold mb-4 dark:text-gray-100">Update to {{ $latestRelease['version'] }}</h2>
                             
                             <div class="space-y-4">
-                                <!-- Backup -->
-                                <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <div>
-                                        <h3 class="font-medium dark:text-gray-100">1. Create Backup</h3>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400">Recommended before updating</p>
-                                    </div>
-                                    <button id="backupBtn" onclick="createBackup()" 
-                                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        Create Backup
-                                    </button>
-                                </div>
-
                                 <!-- Update -->
                                 <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                                     <div>
-                                        <h3 class="font-medium dark:text-gray-100">2. Install Update</h3>
+                                        <h3 class="font-medium dark:text-gray-100">Install Update</h3>
                                         <p class="text-sm text-gray-600 dark:text-gray-400">Update to version {{ $latestRelease['version'] }}</p>
                                     </div>
-                                    <button id="updateBtn" onclick="installUpdate()" disabled
-                                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <button id="updateBtn" onclick="installUpdate()" 
+                                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                                         Install Update
                                     </button>
                                 </div>
@@ -139,8 +169,10 @@
         <script>
             let backupCreated = false;
 
-            function showMessage(message, type = 'info') {
-                const container = document.getElementById('messageContainer');
+            function showMessage(message, type = 'info', containerId = 'messageContainer') {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
                 const alertClass = {
                     'info': 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-100',
                     'success': 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-100',
@@ -180,15 +212,19 @@
 
                     if (data.success) {
                         updateProgress(100, 'Backup created successfully!');
-                        showMessage(`Backup created: ${data.backup_name} (${data.backup_size})`, 'success');
+                        showMessage(`Backup created: ${data.backup_name} (${data.backup_size})`, 'success', 'backupMessageContainer');
                         backupCreated = true;
-                        document.getElementById('updateBtn').disabled = false;
+                        // Only enable update button if it exists
+                        const updateBtn = document.getElementById('updateBtn');
+                        if (updateBtn) {
+                            updateBtn.disabled = false;
+                        }
                     } else {
-                        showMessage(data.message || 'Failed to create backup', 'error');
+                        showMessage(data.message || 'Failed to create backup', 'error', 'backupMessageContainer');
                         updateProgress(0, '');
                     }
                 } catch (error) {
-                    showMessage('Error creating backup: ' + error.message, 'error');
+                    showMessage('Error creating backup: ' + error.message, 'error', 'backupMessageContainer');
                     updateProgress(0, '');
                 } finally {
                     btn.disabled = false;

@@ -21,6 +21,7 @@ class Theme extends Model
         'is_visible',
         'is_default',
         'is_auth_theme',
+        'is_mobile_theme',
         'is_editable'
     ];
 
@@ -29,11 +30,15 @@ class Theme extends Model
         'is_visible' => 'boolean',
         'is_default' => 'boolean',
         'is_auth_theme' => 'boolean',
+        'is_mobile_theme' => 'boolean',
         'is_editable' => 'boolean'
     ];
 
     public static function getActive()
     {
+        // Check if this is a mobile device
+        $isMobile = self::isMobileDevice();
+        
         // Check if we're on an auth page
         // Since EnsurePreLogin returns view directly, we need to check referrer too
         $referrer = request()->headers->get('referer', '');
@@ -49,6 +54,27 @@ class Theme extends Model
             $authTheme = self::where('is_auth_theme', true)->first();
             if ($authTheme) {
                 return $authTheme;
+            }
+        }
+        
+        // If mobile device, try to get mobile theme
+        if ($isMobile) {
+            // Check if user has a mobile theme preference
+            if (auth()->check() && auth()->user()->mobile_theme_id) {
+                $userMobileTheme = self::find(auth()->user()->mobile_theme_id);
+                if ($userMobileTheme && $userMobileTheme->is_visible) {
+                    session(['active_theme_id' => $userMobileTheme->id]);
+                    return $userMobileTheme;
+                }
+            }
+            
+            // Otherwise get the default mobile theme
+            $defaultMobileTheme = self::where('is_mobile_theme', true)
+                                    ->where('is_active', true)
+                                    ->first();
+            if ($defaultMobileTheme) {
+                session(['active_theme_id' => $defaultMobileTheme->id]);
+                return $defaultMobileTheme;
             }
         }
         
@@ -77,6 +103,23 @@ class Theme extends Model
     public static function getVisibleThemes()
     {
         return self::where('is_visible', true)->get();
+    }
+    
+    /**
+     * Detect if the current request is from a mobile device
+     */
+    public static function isMobileDevice()
+    {
+        $userAgent = request()->header('User-Agent', '');
+        
+        // Mobile detection regex pattern
+        $mobilePattern = '/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i';
+        
+        // Additional pattern for tablets
+        $tabletPattern = '/android|webos|ipad|playbook|silk/i';
+        
+        // Check if it's a mobile device (phone or tablet)
+        return preg_match($mobilePattern, $userAgent) || preg_match($tabletPattern, $userAgent);
     }
     
     public function users()
