@@ -156,7 +156,7 @@ class ApplyUpdate extends Command
             \RecursiveIteratorIterator::SELF_FIRST
         );
         
-        $skipPaths = ['.env', 'storage/', 'vendor/', 'node_modules/', '.git', 'bootstrap/cache/'];
+        $skipPaths = ['.env', 'storage/', 'vendor/', 'node_modules/', '.git', 'bootstrap/cache/', 'config/pw-config.php'];
         
         foreach ($iterator as $item) {
             $destPath = $destination . '/' . $iterator->getSubPathName();
