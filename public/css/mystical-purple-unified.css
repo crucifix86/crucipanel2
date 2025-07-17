@@ -5322,27 +5322,13 @@ body.popup-open {
    PUBLIC PROFILE PAGE STYLES
    ===================================================== */
 
-/* Center the profile and avoid widgets */
-body.public-profile-page {
-    display: flex;
-    justify-content: center;
-}
-
-body.public-profile-page .container {
-    width: 100%;
-    max-width: 1200px;
-    padding-left: 280px;
-    padding-right: 280px;
-    box-sizing: border-box;
-}
-
 body.public-profile-page .public-profile-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 900px;
+    margin-left: 260px;
+    margin-right: auto;
     padding: 20px;
     position: relative;
-    z-index: 1;
+    z-index: 3;
 }
 
 body.public-profile-page .profile-header {
@@ -5659,4 +5645,12 @@ body.public-profile-page .no-characters {
     text-align: center;
     color: #9370DB;
     padding: 40px;
+}
+
+/* Responsive for public profile */
+@media (max-width: 768px) {
+    body.public-profile-page .public-profile-container {
+        margin-left: 0;
+        max-width: 100%;
+    }
 }

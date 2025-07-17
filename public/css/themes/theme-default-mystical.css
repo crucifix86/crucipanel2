@@ -5929,3 +5929,340 @@ body.public-profile-page .login-prompt {
     background: rgba(30, 30, 60, 0.6);
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
+
+/* =====================================================
+   PUBLIC PROFILE PAGE STYLES
+   ===================================================== */
+
+body.public-profile-page .public-profile-container {
+    max-width: 900px;
+    margin-left: 260px;
+    margin-right: auto;
+    padding: 20px;
+    position: relative;
+    z-index: 3;
+}
+
+body.public-profile-page .profile-header {
+    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(138, 43, 226, 0.1));
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .profile-banner {
+    height: 150px;
+    background: linear-gradient(135deg, #9370DB, #8A2BE2);
+    opacity: 0.8;
+}
+
+body.public-profile-page .profile-info {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 20px 20px;
+    margin-top: -40px;
+    position: relative;
+}
+
+body.public-profile-page .profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(30, 30, 60, 0.95);
+    border: 3px solid #9370DB;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+body.public-profile-page .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+body.public-profile-page .profile-avatar i {
+    font-size: 40px;
+    color: #9370DB;
+}
+
+body.public-profile-page .profile-details {
+    flex: 1;
+}
+
+body.public-profile-page .profile-name {
+    font-size: 1.5rem;
+    color: #e6d7f0;
+    margin: 0;
+}
+
+body.public-profile-page .profile-joined {
+    color: #9370DB;
+    margin: 5px 0;
+}
+
+body.public-profile-page .profile-actions {
+    margin-top: 15px;
+}
+
+/* Public Profile Tabs */
+body.public-profile-page .profile-tabs-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .tab-button {
+    background: none;
+    border: none;
+    color: #e6d7f0;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 0.9rem;
+}
+
+body.public-profile-page .tab-button:hover {
+    color: #9370DB;
+}
+
+body.public-profile-page .tab-button.active {
+    color: #9370DB;
+}
+
+body.public-profile-page .tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #9370DB;
+}
+
+body.public-profile-page .tab-content {
+    display: none;
+}
+
+body.public-profile-page .tab-content.active {
+    display: block;
+}
+
+/* Info Tab */
+body.public-profile-page .info-grid {
+    display: grid;
+    gap: 30px;
+}
+
+body.public-profile-page .info-section {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .info-title {
+    color: #9370DB;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+body.public-profile-page .info-bio {
+    color: #e6d7f0;
+    line-height: 1.8;
+}
+
+body.public-profile-page .info-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #e6d7f0;
+    margin-bottom: 10px;
+}
+
+body.public-profile-page .info-link a {
+    color: #9370DB;
+    text-decoration: none;
+}
+
+body.public-profile-page .info-link a:hover {
+    text-decoration: underline;
+}
+
+body.public-profile-page .info-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+body.public-profile-page .stat {
+    text-align: center;
+}
+
+body.public-profile-page .stat-label {
+    display: block;
+    color: #9370DB;
+    margin-bottom: 5px;
+}
+
+body.public-profile-page .stat-value {
+    display: block;
+    font-size: 2rem;
+    color: #e6d7f0;
+    font-weight: bold;
+}
+
+/* Characters Tab */
+body.public-profile-page .characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+body.public-profile-page .character-card {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+body.public-profile-page .character-card:hover {
+    transform: translateY(-5px);
+}
+
+body.public-profile-page .character-icon {
+    font-size: 3rem;
+    color: #9370DB;
+    margin-bottom: 15px;
+}
+
+body.public-profile-page .character-name {
+    color: #e6d7f0;
+    margin: 10px 0;
+}
+
+body.public-profile-page .character-level, 
+body.public-profile-page .character-class {
+    color: #9370DB;
+    margin: 5px 0;
+}
+
+/* Wall Tab */
+body.public-profile-page .wall-post-form {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .wall-post-form textarea {
+    width: 100%;
+    background: rgba(20, 20, 40, 0.8);
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    color: #e6d7f0;
+    padding: 15px;
+    border-radius: 5px;
+    resize: vertical;
+}
+
+body.public-profile-page .wall-post-form .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+body.public-profile-page .char-count {
+    color: #9370DB;
+    font-size: 0.9rem;
+}
+
+body.public-profile-page .wall-message {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+body.public-profile-page .message-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+body.public-profile-page .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+body.public-profile-page .author-name {
+    color: #9370DB;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+body.public-profile-page .author-name:hover {
+    text-decoration: underline;
+}
+
+body.public-profile-page .message-time {
+    color: #9370DB;
+    font-size: 0.9rem;
+}
+
+body.public-profile-page .message-content {
+    color: #e6d7f0;
+    line-height: 1.6;
+}
+
+body.public-profile-page .delete-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 5px;
+}
+
+body.public-profile-page .delete-btn:hover {
+    color: #ff6b6b;
+}
+
+body.public-profile-page .login-prompt {
+    text-align: center;
+    padding: 40px;
+    background: rgba(30, 30, 60, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .no-messages, 
+body.public-profile-page .no-characters {
+    text-align: center;
+    color: #9370DB;
+    padding: 40px;
+}
+
+/* Responsive for public profile */
+@media (max-width: 768px) {
+    body.public-profile-page .public-profile-container {
+        margin-left: 0;
+        max-width: 100%;
+    }
+}
