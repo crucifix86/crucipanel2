@@ -5323,12 +5323,9 @@ body.popup-open {
    ===================================================== */
 
 body.public-profile-page .public-profile-container {
-    max-width: 900px;
-    margin-left: 260px;
-    margin-right: auto;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    position: relative;
-    z-index: 3;
 }
 
 body.public-profile-page .profile-header {
@@ -5340,7 +5337,7 @@ body.public-profile-page .profile-header {
 }
 
 body.public-profile-page .profile-banner {
-    height: 150px;
+    height: 200px;
     background: linear-gradient(135deg, #9370DB, #8A2BE2);
     opacity: 0.8;
 }
@@ -5348,22 +5345,22 @@ body.public-profile-page .profile-banner {
 body.public-profile-page .profile-info {
     display: flex;
     align-items: flex-end;
-    padding: 0 20px 20px;
-    margin-top: -40px;
+    padding: 0 30px 30px;
+    margin-top: -50px;
     position: relative;
 }
 
 body.public-profile-page .profile-avatar {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     background: rgba(30, 30, 60, 0.95);
-    border: 3px solid #9370DB;
+    border: 4px solid #9370DB;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 body.public-profile-page .profile-avatar img {
@@ -5373,7 +5370,7 @@ body.public-profile-page .profile-avatar img {
 }
 
 body.public-profile-page .profile-avatar i {
-    font-size: 40px;
+    font-size: 60px;
     color: #9370DB;
 }
 
@@ -5382,7 +5379,7 @@ body.public-profile-page .profile-details {
 }
 
 body.public-profile-page .profile-name {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #e6d7f0;
     margin: 0;
 }
@@ -5408,11 +5405,11 @@ body.public-profile-page .tab-button {
     background: none;
     border: none;
     color: #e6d7f0;
-    padding: 10px 20px;
+    padding: 15px 25px;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 body.public-profile-page .tab-button:hover {
@@ -5449,7 +5446,7 @@ body.public-profile-page .info-grid {
 
 body.public-profile-page .info-section {
     background: rgba(30, 30, 60, 0.6);
-    padding: 20px;
+    padding: 25px;
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
 }
@@ -5514,7 +5511,7 @@ body.public-profile-page .characters-grid {
 
 body.public-profile-page .character-card {
     background: rgba(30, 30, 60, 0.6);
-    padding: 20px;
+    padding: 25px;
     border-radius: 10px;
     border: 1px solid rgba(147, 112, 219, 0.3);
     text-align: center;
@@ -5645,12 +5642,4 @@ body.public-profile-page .no-characters {
     text-align: center;
     color: #9370DB;
     padding: 40px;
-}
-
-/* Responsive for public profile */
-@media (max-width: 768px) {
-    body.public-profile-page .public-profile-container {
-        margin-left: 0;
-        max-width: 100%;
-    }
 }
