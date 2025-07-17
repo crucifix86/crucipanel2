@@ -5652,10 +5652,30 @@ body.public-profile-page .no-characters {
     padding: 40px;
 }
 
+/* Message Navigation */
+body.public-profile-page .message-navigation {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(30, 30, 60, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+body.public-profile-page .message-navigation .btn {
+    flex: 1;
+    text-align: center;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     body.public-profile-page .public-profile-container {
         padding: 30px 20px;
         border-radius: 20px;
+    }
+    
+    body.public-profile-page .message-navigation {
+        flex-direction: column;
     }
 }

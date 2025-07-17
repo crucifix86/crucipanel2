@@ -115,6 +115,18 @@
             <!-- Wall Tab -->
             @if($wallEnabled)
             <div id="wall-tab" class="tab-content">
+                <!-- Message Navigation for User's Own Profile -->
+                @if(Auth::check() && Auth::id() === $user->id)
+                <div class="message-navigation">
+                    <a href="{{ route('messages.inbox') }}" class="btn btn-secondary">
+                        <i class="fas fa-inbox"></i> {{ __('messages.inbox') }}
+                    </a>
+                    <a href="{{ route('messages.outbox') }}" class="btn btn-secondary">
+                        <i class="fas fa-paper-plane"></i> {{ __('messages.outbox') }}
+                    </a>
+                </div>
+                @endif
+                
                 @auth
                 <div class="wall-post-form">
                     <form action="{{ route('profile.wall.store', $user->name) }}" method="POST">
@@ -210,6 +222,14 @@ document.addEventListener('DOMContentLoaded', function() {
         textarea.addEventListener('input', function() {
             charCount.textContent = this.value.length + '/500';
         });
+    }
+    
+    // Check if we need to switch to wall tab after posting
+    if (window.location.hash === '#wall-tab') {
+        const wallButton = document.querySelector('.tab-button[onclick*="wall"]');
+        if (wallButton) {
+            wallButton.click();
+        }
     }
 });
 </script>
