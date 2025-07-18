@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\MessagingSettings;
+use App\Models\WelcomeMessageSetting;
+use App\Models\WelcomeMessageReward;
+use hrace009\PerfectWorldAPI\API;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class MessagesController extends Controller
@@ -97,6 +101,11 @@ class MessagesController extends Controller
         // Mark as read if recipient
         if ($message->recipient_id === Auth::id() && !$message->is_read) {
             $message->update(['is_read' => true]);
+            
+            // Check if this is a welcome message with unclaimed reward
+            if ($message->is_welcome_message) {
+                $this->claimWelcomeReward($message);
+            }
         }
 
         return view('messages.show', compact('message'));
@@ -208,6 +217,11 @@ class MessagesController extends Controller
         // Mark as read if recipient
         if ($message->recipient_id === Auth::id() && !$message->is_read) {
             $message->update(['is_read' => true]);
+            
+            // Check if this is a welcome message with unclaimed reward
+            if ($message->is_welcome_message) {
+                $this->claimWelcomeReward($message);
+            }
         }
 
         $html = view('messages.partials.message', compact('message'))->render();
@@ -216,5 +230,75 @@ class MessagesController extends Controller
             'html' => $html,
             'can_reply' => $message->recipient_id === Auth::id()
         ]);
+    }
+    
+    private function claimWelcomeReward(Message $message)
+    {
+        // Check if reward already claimed
+        $existingReward = WelcomeMessageReward::where('user_id', Auth::id())
+            ->where('message_id', $message->id)
+            ->first();
+            
+        if ($existingReward) {
+            return;
+        }
+        
+        $settings = WelcomeMessageSetting::first();
+        
+        if (!$settings || !$settings->reward_enabled || $settings->reward_amount <= 0) {
+            return;
+        }
+        
+        DB::beginTransaction();
+        
+        try {
+            // Give reward to user
+            $user = Auth::user();
+            $api = new API();
+            
+            switch ($settings->reward_type) {
+                case 'virtual':
+                    $user->money = $user->money + $settings->reward_amount;
+                    $user->save();
+                    break;
+                case 'cubi':
+                    $api->addCubiUser($user->ID, $settings->reward_amount);
+                    break;
+                case 'bonus':
+                    $user->bonuspoint = $user->bonuspoint + $settings->reward_amount;
+                    $user->save();
+                    break;
+            }
+            
+            // Record the reward
+            WelcomeMessageReward::create([
+                'user_id' => Auth::id(),
+                'message_id' => $message->id,
+                'reward_type' => $settings->reward_type,
+                'reward_amount' => $settings->reward_amount,
+                'claimed_at' => now(),
+            ]);
+            
+            DB::commit();
+            
+            // Add a flash message for the user
+            $rewardText = $settings->reward_amount . ' ';
+            switch ($settings->reward_type) {
+                case 'virtual':
+                    $rewardText .= config('pw-config.currency_name', 'Coins');
+                    break;
+                case 'cubi':
+                    $rewardText .= 'Gold';
+                    break;
+                case 'bonus':
+                    $rewardText .= 'Bonus Points';
+                    break;
+            }
+            
+            session()->flash('welcome_reward', "Congratulations! You've received {$rewardText} as a welcome gift!");
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
     }
 }

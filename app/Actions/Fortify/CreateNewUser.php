@@ -14,6 +14,8 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Models\Message;
+use App\Models\WelcomeMessageSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -53,7 +55,7 @@ class CreateNewUser implements CreatesNewUsers
             }
 
 
-            return User::create([
+            $user = User::create([
                 'ID' => (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024,
                 'name' => $input['name'],
                 'email' => $input['email'],
@@ -64,6 +66,10 @@ class CreateNewUser implements CreatesNewUsers
                 'truename' => null,
                 'creatime' => Carbon::now(),
             ]);
+            
+            $this->sendWelcomeMessage($user);
+            
+            return $user;
         } else {
             if (config('pw-config.system.apps.captcha')) {
                 Validator::make($input, [
@@ -83,7 +89,7 @@ class CreateNewUser implements CreatesNewUsers
                     'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
                 ])->validate();
             }
-            return User::create([
+            $user = User::create([
                 'ID' => (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024,
                 'name' => $input['name'],
                 'email' => $input['email'],
@@ -95,6 +101,34 @@ class CreateNewUser implements CreatesNewUsers
                 'truename' => null,
                 'creatime' => Carbon::now(),
             ]);
+            
+            $this->sendWelcomeMessage($user);
+            
+            return $user;
         }
+    }
+    
+    /**
+     * Send welcome message to newly registered user
+     */
+    private function sendWelcomeMessage(User $user)
+    {
+        $settings = WelcomeMessageSetting::first();
+        
+        if (!$settings || !$settings->enabled) {
+            return;
+        }
+        
+        // Get system user ID (admin)
+        $systemUserId = 1024; // Default admin ID, you might want to make this configurable
+        
+        Message::create([
+            'sender_id' => $systemUserId,
+            'recipient_id' => $user->ID,
+            'subject' => $settings->subject,
+            'message' => $settings->message,
+            'is_read' => false,
+            'is_welcome_message' => true,
+        ]);
     }
 }

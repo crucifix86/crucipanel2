@@ -20,12 +20,14 @@ class Message extends Model
         'parent_id',
         'deleted_by_sender',
         'deleted_by_recipient',
+        'is_welcome_message',
     ];
 
     protected $casts = [
         'is_read' => 'boolean',
         'deleted_by_sender' => 'boolean',
         'deleted_by_recipient' => 'boolean',
+        'is_welcome_message' => 'boolean',
     ];
 
     /**

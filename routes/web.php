@@ -755,6 +755,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
         ]);
     });
 
+    /* Welcome Message Routes */
+    Route::group(['prefix' => 'welcome-message'], static function () {
+        Route::get('/', [
+            'as' => 'admin.welcome-message.index',
+            'uses' => 'App\Http\Controllers\Admin\WelcomeMessageController@index'
+        ]);
+        
+        Route::put('update', [
+            'as' => 'admin.welcome-message.update',
+            'uses' => 'App\Http\Controllers\Admin\WelcomeMessageController@update'
+        ]);
+    });
+
     Route::group(['prefix' => 'service', 'middleware' => 'service'], static function () {
         Route::get('settings', [
             'as' => 'admin.service.settings',

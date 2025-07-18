@@ -106,6 +106,7 @@
             <x-hrace009::admin.theme-link/>
             <x-hrace009::admin.members-link/>
             <x-hrace009::admin.mass-message-link/>
+            <x-hrace009::admin.welcome-message-link/>
             @if( config('pw-config.system.apps.news') )
                 <x-hrace009::admin.news-link/>
             @endif
@@ -193,6 +194,7 @@
                         <x-hrace009::admin.system-link/>
                         <x-hrace009::admin.members-link/>
                         <x-hrace009::admin.mass-message-link/>
+                        <x-hrace009::admin.welcome-message-link/>
                         @if( config('pw-config.system.apps.news') )
                             <x-hrace009::admin.news-link/>
                         @endif
