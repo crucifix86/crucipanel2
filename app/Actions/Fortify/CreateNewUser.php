@@ -164,8 +164,18 @@ class CreateNewUser implements CreatesNewUsers
                 'message' => $settings->message,
                 'is_read' => false,
                 'is_welcome_message' => true,
+                'deleted_by_sender' => false,
+                'deleted_by_recipient' => false,
             ]);
             \Log::info('Welcome message created successfully with ID: ' . $message->id);
+            
+            // Verify the message can be found
+            $check = Message::where('recipient_id', $user->ID)->where('is_welcome_message', true)->first();
+            if ($check) {
+                \Log::info('Verified: Message can be retrieved for user ' . $user->ID);
+            } else {
+                \Log::error('ERROR: Cannot retrieve message for user ' . $user->ID);
+            }
         } catch (\Exception $e) {
             // Log the error but don't fail user registration
             \Log::error('Failed to send welcome message: ' . $e->getMessage());
