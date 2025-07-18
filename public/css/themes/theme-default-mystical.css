@@ -5946,4 +5946,237 @@ body.messages-page .btn-sm {
 
 body.messages-page .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.8);
+}/* Bootstrap Conflict Fixes for Mystical Theme */
+/* Fix dropdown double arrows */
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.nav-link.dropdown-toggle {
+    position: relative;
+}
+
+.nav-link.dropdown-toggle:after {
+    content: '▼' !important;
+    display: inline-block !important;
+    margin-left: 5px;
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+
+/* Fix dropdown menu styling */
+.dropdown-menu {
+    background: rgba(26, 26, 58, 0.98) !important;
+    border: 2px solid #6366f1 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    padding: 10px 0 !important;
+}
+
+.dropdown-item {
+    color: #e0e0e0 !important;
+    padding: 10px 20px !important;
+    transition: all 0.3s ease !important;
+    background: transparent !important;
+}
+
+.dropdown-item:hover {
+    background: rgba(99, 102, 241, 0.2) !important;
+    color: #9370db !important;
+    text-decoration: none !important;
+}
+
+.dropdown-item:focus,
+.dropdown-item:active {
+    background: rgba(99, 102, 241, 0.3) !important;
+    color: #a680ec !important;
+}
+
+/* Fix white backgrounds on form sections */
+.card,
+.card-body,
+.card-header {
+    background: transparent !important;
+}
+
+body .card {
+    background: rgba(26, 26, 58, 0.95) !important;
+    border: 1px solid #6366f1 !important;
+    border-radius: 15px !important;
+    color: #e0e0e0 !important;
+}
+
+body .card-header {
+    background: linear-gradient(135deg, #2a2a5a 0%, #3a3a6a 100%) !important;
+    border-bottom: 2px solid #6366f1 !important;
+    color: #9370db !important;
+    padding: 20px !important;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+body .card-body {
+    background: transparent !important;
+    padding: 25px !important;
+}
+
+/* Fix form controls */
+.form-control,
+.form-select,
+.custom-select,
+select.form-control {
+    background: rgba(26, 26, 58, 0.9) !important;
+    border: 1px solid #6366f1 !important;
+    color: #e0e0e0 !important;
+    border-radius: 8px !important;
+    padding: 12px 15px !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+.custom-select:focus,
+select.form-control:focus {
+    background: rgba(26, 26, 58, 1) !important;
+    border-color: #9370db !important;
+    box-shadow: 0 0 0 0.2rem rgba(147, 112, 219, 0.25) !important;
+    color: #fff !important;
+}
+
+.form-control::placeholder {
+    color: #8a8aa8 !important;
+}
+
+/* Fix labels */
+label {
+    color: #9370db !important;
+    font-weight: 600 !important;
+}
+
+/* Fix buttons */
+.btn {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    text-transform: none !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #9370db 0%, #6366f1 100%) !important;
+    border: none !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #a680ec 0%, #7376f1 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4) !important;
+}
+
+.btn-secondary {
+    background: rgba(99, 102, 241, 0.2) !important;
+    border: 1px solid #6366f1 !important;
+    color: #9370db !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(99, 102, 241, 0.3) !important;
+    border-color: #9370db !important;
+    color: #a680ec !important;
+}
+
+/* Fix list groups */
+.list-group {
+    background: transparent !important;
+}
+
+.list-group-item {
+    background: rgba(26, 26, 58, 0.95) !important;
+    border: 1px solid #6366f1 !important;
+    color: #e0e0e0 !important;
+    margin-bottom: 5px !important;
+}
+
+.list-group-item:first-child {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.list-group-item:last-child {
+    border-radius: 0 0 10px 10px !important;
+}
+
+/* Fix alerts */
+.alert {
+    border-radius: 10px !important;
+    border: 1px solid !important;
+}
+
+.alert-info {
+    background: rgba(99, 102, 241, 0.2) !important;
+    border-color: #6366f1 !important;
+    color: #9370db !important;
+}
+
+.alert-success {
+    background: rgba(40, 167, 69, 0.2) !important;
+    border-color: #28a745 !important;
+    color: #5dd85d !important;
+}
+
+.alert-warning {
+    background: rgba(255, 193, 7, 0.2) !important;
+    border-color: #ffc107 !important;
+    color: #ffd700 !important;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.2) !important;
+    border-color: #dc3545 !important;
+    color: #ff6b6b !important;
+}
+
+/* Fix text colors */
+.text-muted {
+    color: #8a8aa8 !important;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.text-dark {
+    color: #e0e0e0 !important;
+}
+
+/* Fix backgrounds */
+.bg-white {
+    background-color: rgba(26, 26, 58, 0.95) !important;
+}
+
+.bg-light {
+    background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+.bg-dark {
+    background-color: rgba(26, 26, 58, 0.98) !important;
+}
+
+/* Fix borders */
+.border {
+    border-color: #6366f1 !important;
+}
+
+.border-top {
+    border-top-color: #6366f1 !important;
+}
+
+.border-bottom {
+    border-bottom-color: #6366f1 !important;
+}
+
+.border-left {
+    border-left-color: #6366f1 !important;
+}
+
+.border-right {
+    border-right-color: #6366f1 !important;
 }
