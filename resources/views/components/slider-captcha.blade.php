@@ -23,12 +23,12 @@
 <style>
 .slider-captcha-container {
     width: 100%;
-    max-width: 350px;
+    max-width: 300px;
     margin: 0 auto;
     background: rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(147, 112, 219, 0.5);
-    border-radius: 12px;
-    padding: 20px;
+    border-radius: 8px;
+    padding: 12px;
     position: relative;
 }
 
@@ -36,22 +36,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: #dda0dd;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .slider-captcha-status {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .slider-captcha-puzzle {
     width: 100%;
-    height: 150px;
+    height: 80px;
     position: relative;
     background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(138, 43, 226, 0.1));
-    border-radius: 8px;
-    margin-bottom: 20px;
+    border-radius: 6px;
+    margin-bottom: 12px;
     overflow: hidden;
 }
 
@@ -66,16 +66,16 @@
 
 .puzzle-piece {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
     background: linear-gradient(135deg, #9370db, #8a2be2);
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: grab;
     transition: left 0.1s ease-out;
-    box-shadow: 0 4px 15px rgba(147, 112, 219, 0.5);
+    box-shadow: 0 2px 10px rgba(147, 112, 219, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,33 +83,33 @@
 
 .puzzle-piece.dragging {
     cursor: grabbing;
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(147, 112, 219, 0.8);
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 4px 15px rgba(147, 112, 219, 0.8);
 }
 
 .puzzle-piece.verified {
     background: linear-gradient(135deg, #32cd32, #00ff7f);
-    box-shadow: 0 4px 15px rgba(50, 205, 50, 0.5);
+    box-shadow: 0 2px 10px rgba(50, 205, 50, 0.5);
 }
 
 .puzzle-icon {
-    font-size: 30px;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    font-size: 20px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .slider-captcha-track {
     width: 100%;
-    height: 40px;
+    height: 32px;
     background: rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
+    border-radius: 16px;
     position: relative;
     overflow: hidden;
 }
 
 .slider-handle {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     left: 0;
     top: 0;
     background: linear-gradient(135deg, #9370db, #8a2be2);
@@ -119,7 +119,7 @@
     align-items: center;
     justify-content: center;
     transition: left 0.1s ease-out;
-    box-shadow: 0 2px 10px rgba(147, 112, 219, 0.5);
+    box-shadow: 0 2px 8px rgba(147, 112, 219, 0.5);
 }
 
 .slider-handle.dragging {
@@ -134,7 +134,7 @@
 
 .slider-arrow {
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     transform: translateX(-1px);
 }
 

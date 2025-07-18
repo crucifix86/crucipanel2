@@ -15,7 +15,7 @@ return [
     'incorrect_code' => 'Invalid code from the image.',
     'update_code' => 'Update',
     'captcha' => 'Verification',
-    'slide_to_verify' => 'Slide puzzle piece and slider to match position',
+    'slide_to_verify' => 'Slide both to match',
     'required' => 'Please complete the captcha verification.',
     'expired' => 'Captcha verification expired. Please try again.',
     'invalid' => 'Invalid captcha verification.',
