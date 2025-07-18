@@ -262,39 +262,50 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function checkAlignment() {
-        const puzzleRect = puzzlePiece.getBoundingClientRect();
-        const targetRect = puzzleTarget.getBoundingClientRect();
+        // Get positions relative to their containers
+        const puzzleLeft = puzzlePiece.offsetLeft;
+        const puzzleWidth = puzzlePiece.offsetWidth;
+        const puzzleCenter = puzzleLeft + (puzzleWidth / 2);
         
-        // Check if puzzle piece overlaps with target (within 5px tolerance)
-        const isAligned = Math.abs(puzzleRect.left - targetRect.left) < 5;
+        const targetLeft = puzzleTarget.offsetLeft;
+        const targetWidth = puzzleTarget.offsetWidth;
+        const targetCenter = targetLeft + (targetWidth / 2);
         
-        if (isAligned) {
+        // Check if centers are aligned within tolerance
+        const centerDistance = Math.abs(puzzleCenter - targetCenter);
+        const tolerance = 8; // pixels
+        
+        const isAligned = centerDistance < tolerance;
+        
+        // Visual feedback when close
+        if (centerDistance < 20) {
             puzzleTarget.classList.add('highlight');
-            
-            if (!verified) {
-                verified = true;
-                puzzlePiece.classList.add('verified');
-                sliderHandle.classList.add('verified');
-                trackFill.classList.add('verified');
-                statusEl.textContent = '✓';
-                statusEl.style.color = '#32cd32';
-                
-                // Generate verification token
-                const token = btoa(Date.now() + ':' + targetPosition);
-                hiddenInput.value = token;
-                
-                // Snap puzzle piece to exact target position
-                const targetLeft = puzzleTarget.offsetLeft;
-                puzzlePiece.style.left = targetLeft + 'px';
-                
-                // Success animation
-                container.style.animation = 'captchaSuccess 0.5s ease';
-                
-                // Disable further dragging
-                sliderHandle.style.pointerEvents = 'none';
-            }
         } else {
             puzzleTarget.classList.remove('highlight');
+        }
+        
+        if (isAligned && !verified) {
+            verified = true;
+            puzzlePiece.classList.add('verified');
+            sliderHandle.classList.add('verified');
+            trackFill.classList.add('verified');
+            puzzleTarget.classList.add('highlight');
+            statusEl.textContent = '✓';
+            statusEl.style.color = '#32cd32';
+            
+            // Generate verification token
+            const token = btoa(Date.now() + ':' + targetPosition);
+            hiddenInput.value = token;
+            
+            // Snap puzzle piece to exact target position
+            const snapPosition = targetLeft + (targetWidth / 2) - (puzzleWidth / 2);
+            puzzlePiece.style.left = snapPosition + 'px';
+            
+            // Success animation
+            container.style.animation = 'captchaSuccess 0.5s ease';
+            
+            // Disable further dragging
+            sliderHandle.style.pointerEvents = 'none';
         }
     }
 });
