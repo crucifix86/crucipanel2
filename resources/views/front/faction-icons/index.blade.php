@@ -1,15 +1,13 @@
-<x-hrace009.layouts.app>
-    <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold leading-tight">
-                {{ __('Faction Icons') }}
-            </h2>
-        </div>
-    </x-slot>
+@extends('layouts.mystical')
 
-    <x-slot name="content">
-        <div class="content-section">
-            <h3>{{ __('Faction Icon Upload') }}</h3>
+@section('title', config('pw-config.server_name', 'Haven Perfect World') . ' - ' . __('Faction Icons'))
+
+@section('body-class', 'faction-icons-page')
+
+@section('content')
+<div class="container">
+    <div class="content-section">
+        <h3>{{ __('Faction Icon Upload') }}</h3>
             
             @if(session('success'))
                 <div class="alert alert-success">
@@ -133,9 +131,10 @@
                 @endif
             @endif
         </div>
+    </div>
         
-        <!-- Upload Modal -->
-        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <!-- Upload Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -184,10 +183,10 @@
                 </div>
             </div>
         </div>
-    </x-slot>
+@endsection
     
-    @push('css')
-        <style>
+@section('scripts')
+    <style>
             .faction-icon-preview {
                 width: 24px;
                 height: 24px;
@@ -218,9 +217,6 @@
                 font-weight: bold;
             }
         </style>
-    @endpush
-    
-    @push('scripts')
         <script>
             $(document).ready(function() {
                 // Handle upload button click
@@ -284,5 +280,4 @@
                 });
             });
         </script>
-    @endpush
-</x-hrace009.layouts.app>
+@endsection
