@@ -214,6 +214,10 @@ document.addEventListener('DOMContentLoaded', function() {
     sliderHandle.addEventListener('mousedown', startDragSlider);
     sliderHandle.addEventListener('touchstart', startDragSlider);
     
+    // Prevent verification on release unless aligned
+    document.addEventListener('mouseup', checkFinalAlignment);
+    document.addEventListener('touchend', checkFinalAlignment);
+    
     function startDragSlider(e) {
         if (verified) return;
         isDraggingSlider = true;
@@ -248,7 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const newPuzzleX = progress * maxPuzzleX;
         puzzlePiece.style.left = newPuzzleX + 'px';
         
-        checkAlignment();
+        // Only show visual feedback while dragging, don't verify
+        updateVisualFeedback();
     }
     
     function endDragSlider() {
@@ -261,7 +266,28 @@ document.addEventListener('DOMContentLoaded', function() {
         document.removeEventListener('touchend', endDragSlider);
     }
     
-    function checkAlignment() {
+    function updateVisualFeedback() {
+        const puzzleLeft = puzzlePiece.offsetLeft;
+        const puzzleWidth = puzzlePiece.offsetWidth;
+        const puzzleCenter = puzzleLeft + (puzzleWidth / 2);
+        
+        const targetLeft = puzzleTarget.offsetLeft;
+        const targetWidth = puzzleTarget.offsetWidth;
+        const targetCenter = targetLeft + (targetWidth / 2);
+        
+        const centerDistance = Math.abs(puzzleCenter - targetCenter);
+        
+        // Visual feedback when close
+        if (centerDistance < 20) {
+            puzzleTarget.classList.add('highlight');
+        } else {
+            puzzleTarget.classList.remove('highlight');
+        }
+    }
+    
+    function checkFinalAlignment() {
+        if (!isDraggingSlider || verified) return;
+        
         // Get positions relative to their containers
         const puzzleLeft = puzzlePiece.offsetLeft;
         const puzzleWidth = puzzlePiece.offsetWidth;
@@ -273,18 +299,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Check if centers are aligned within tolerance
         const centerDistance = Math.abs(puzzleCenter - targetCenter);
-        const tolerance = 8; // pixels
+        const tolerance = 10; // pixels
         
         const isAligned = centerDistance < tolerance;
         
-        // Visual feedback when close
-        if (centerDistance < 20) {
-            puzzleTarget.classList.add('highlight');
-        } else {
-            puzzleTarget.classList.remove('highlight');
-        }
-        
-        if (isAligned && !verified) {
+        // Only verify when properly aligned
+        if (isAligned) {
             verified = true;
             puzzlePiece.classList.add('verified');
             sliderHandle.classList.add('verified');
@@ -306,6 +326,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Disable further dragging
             sliderHandle.style.pointerEvents = 'none';
+        } else {
+            // Reset if not aligned on release
+            hiddenInput.value = '';
         }
     }
 });
