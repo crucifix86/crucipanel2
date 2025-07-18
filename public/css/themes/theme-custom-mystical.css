@@ -5641,10 +5641,11 @@ body.messages-page {
     min-height: 100vh;
 }
 
-body.messages-page .container {
-    padding: 80px 20px 20px 20px;
-    position: relative;
-    z-index: 5;
+body.messages-page .messages-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 body.messages-page .card {
@@ -5652,7 +5653,7 @@ body.messages-page .card {
     border: 1px solid #6366f1;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    margin-top: 30px;
+    width: 100%;
 }
 
 body.messages-page .card-header {
@@ -5923,23 +5924,8 @@ body.messages-page .message-details .font-weight-bold {
 }
 
 /* Bootstrap Override for Messages Page */
-body.messages-page .container {
-    max-width: 1200px;
-}
-
-/* Fix language selector overlap on messages page */
-body.messages-page .language-selector {
-    z-index: 2 !important;
-}
-
-body.messages-page .row {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-body.messages-page .col-md-12 {
-    padding-left: 0;
-    padding-right: 0;
+body.messages-page .modal .container {
+    max-width: 100%;
 }
 
 body.messages-page .btn:focus,

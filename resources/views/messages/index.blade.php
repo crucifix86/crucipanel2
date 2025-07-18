@@ -3,10 +3,8 @@
 @section('body-class', 'messages-page')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
+<div class="messages-wrapper">
+    <div class="card">
                 <div class="card-header">
                     <h2 class="mb-0">{{ __('messages.my_messages') }}</h2>
                 </div>
@@ -183,8 +181,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 </div>
 
 <!-- Message Modal -->
