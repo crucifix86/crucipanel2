@@ -7,7 +7,7 @@
 @section('content')
 <div class="profile-container">
     <!-- Success notification -->
-    <div id="success-notification" class="success-notification">
+    <div id="success-notification" class="success-notification" style="display: none;">
         <i class="fas fa-check-circle"></i> {{ __('profile.success_message') }}
     </div>
     

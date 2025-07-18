@@ -157,6 +157,22 @@ The private messaging system is now fully implemented and operational with the f
 1. **Admin Mass Messaging** - Allow admins to message all users at once
 2. **Real-time Notifications** - Show toast notifications for new messages
 
+## CURRENT WORK IN PROGRESS (v2.1.502)
+
+### COMPLETED:
+1. **Widget Positioning Fixed** - Language selector moved from top: 20px to top: 80px so dropdown doesn't overlap Messages widget
+2. **Success Message Updated** - Changed "Your profile has been updated successfully!" to "Your settings have been updated successfully!"
+
+### WHAT NEEDS TO BE DONE:
+1. **Update all theme CSS files** with the new positions
+2. **Commit and create release** v2.1.503
+
+### CURRENT STATUS:
+- Messages widget is at top: 20px (top right)
+- Language selector is at top: 80px (below messages)
+- Success message text has been updated in /resources/lang/en/profile.php
+- Theme files need to be updated with: `for file in /home/doug/crucipanel2/public/css/themes/theme-*.css; do cp /home/doug/crucipanel2/public/css/mystical-purple-unified.css "$file"; done`
+
 ## CRITICAL PUBLIC PROFILE ISSUES (v2.1.473)
 
 ### THE PROBLEMS:

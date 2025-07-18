@@ -81,7 +81,7 @@ return [
     'save_changes' => 'Save Changes',
     'saving' => 'Saving...',
     'saved' => 'Saved',
-    'success_message' => 'Your profile has been updated successfully!',
+    'success_message' => 'Your settings have been updated successfully!',
     'public' => [
         'settings_title' => 'Privacy Settings',
         'info_title' => 'Public Information',
