@@ -23,7 +23,6 @@ use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
-use Illuminate\Support\Facades\DB;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -56,31 +55,29 @@ class CreateNewUser implements CreatesNewUsers
             }
 
 
-            $user = DB::transaction(function () use ($input) {
-                $userId = (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024;
-                
-                $user = User::create([
-                    'ID' => $userId,
-                    'name' => $input['name'],
-                    'email' => $input['email'],
-                    'phonenumber' => null,
-                    'passwd' => Hash::make($input['name'] . $input['password']),
-                    'passwd2' => Hash::make($input['name'] . $input['password']),
-                    'answer' => config('app.debug') ? $input['password'] : '',
-                    'truename' => null,
-                    'creatime' => Carbon::now(),
-                ]);
-                
-                // Send welcome message within the same transaction
-                if ($user && $user->ID) {
-                    \Log::info('User created with ID: ' . $user->ID . ', attempting to send welcome message');
-                    $this->sendWelcomeMessage($user);
-                } else {
-                    \Log::error('User creation failed or ID not set');
+            $userId = (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024;
+            
+            $user = User::create([
+                'ID' => $userId,
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'phonenumber' => null,
+                'passwd' => Hash::make($input['name'] . $input['password']),
+                'passwd2' => Hash::make($input['name'] . $input['password']),
+                'answer' => config('app.debug') ? $input['password'] : '',
+                'truename' => null,
+                'creatime' => Carbon::now(),
+            ]);
+            
+            // Send welcome message after user creation
+            if ($user) {
+                // Find the user by email to ensure we have the correct ID
+                $createdUser = User::where('email', $input['email'])->first();
+                if ($createdUser) {
+                    \Log::info('User created with ID: ' . $createdUser->ID . ', sending welcome message');
+                    $this->sendWelcomeMessage($createdUser);
                 }
-                
-                return $user;
-            });
+            }
             
             return $user;
         } else {
@@ -102,32 +99,30 @@ class CreateNewUser implements CreatesNewUsers
                     'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
                 ])->validate();
             }
-            $user = DB::transaction(function () use ($input) {
-                $userId = (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024;
-                
-                $user = User::create([
-                    'ID' => $userId,
-                    'name' => $input['name'],
-                    'email' => $input['email'],
-                    'phonenumber' => null,
-                    'passwd' => Hash::make($input['name'] . $input['password']),
-                    'passwd2' => Hash::make($input['name'] . $input['password']),
-                    'answer' => config('app.debug') ? $input['password'] : '',
-                    'qq' => $input['pin'],
-                    'truename' => null,
-                    'creatime' => Carbon::now(),
-                ]);
-                
-                // Send welcome message within the same transaction
-                if ($user && $user->ID) {
-                    \Log::info('User created with ID: ' . $user->ID . ', attempting to send welcome message');
-                    $this->sendWelcomeMessage($user);
-                } else {
-                    \Log::error('User creation failed or ID not set');
+            $userId = (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024;
+            
+            $user = User::create([
+                'ID' => $userId,
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'phonenumber' => null,
+                'passwd' => Hash::make($input['name'] . $input['password']),
+                'passwd2' => Hash::make($input['name'] . $input['password']),
+                'answer' => config('app.debug') ? $input['password'] : '',
+                'qq' => $input['pin'],
+                'truename' => null,
+                'creatime' => Carbon::now(),
+            ]);
+            
+            // Send welcome message after user creation
+            if ($user) {
+                // Find the user by email to ensure we have the correct ID
+                $createdUser = User::where('email', $input['email'])->first();
+                if ($createdUser) {
+                    \Log::info('User created with ID: ' . $createdUser->ID . ', sending welcome message');
+                    $this->sendWelcomeMessage($createdUser);
                 }
-                
-                return $user;
-            });
+            }
             
             return $user;
         }

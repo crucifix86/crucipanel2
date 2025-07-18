@@ -13,7 +13,7 @@ class WelcomeMessageController extends Controller
         $settings = WelcomeMessageSetting::firstOrCreate(
             [],
             [
-                'enabled' => false,
+                'enabled' => 1,  // Use 1 instead of true to ensure it saves correctly
                 'subject' => 'Welcome to ' . config('app.name'),
                 'message' => "Welcome to our server!\n\nWe're excited to have you join our community. This message contains a special reward for new players.\n\nTo claim your reward, simply read this message. The reward will be automatically added to your account.\n\nIf you have any questions, feel free to reach out to our support team.\n\nEnjoy your adventure!",
                 'reward_enabled' => true,
