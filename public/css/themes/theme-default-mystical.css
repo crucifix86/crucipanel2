@@ -5635,3 +5635,193 @@ body.public-profile-page .message-navigation .btn {
         justify-content: center;
     }
 }
+/* Messages Pages Styling */
+body.messages-page {
+    background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 100%);
+    min-height: 100vh;
+}
+
+body.messages-page .container {
+    padding: 20px;
+}
+
+body.messages-page .card {
+    background: rgba(26, 26, 58, 0.95);
+    border: 1px solid #6366f1;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+body.messages-page .card-header {
+    background: linear-gradient(135deg, #2a2a5a 0%, #3a3a6a 100%);
+    border-bottom: 2px solid #6366f1;
+    padding: 20px;
+    border-radius: 15px 15px 0 0;
+}
+
+body.messages-page .card-header h2 {
+    color: #9370db;
+    text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+    font-weight: 600;
+    margin: 0;
+}
+
+body.messages-page .card-body {
+    padding: 25px;
+}
+
+body.messages-page .table {
+    color: #e0e0e0;
+}
+
+body.messages-page .table thead th {
+    color: #9370db;
+    border-bottom: 2px solid #6366f1;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+body.messages-page .table tbody td {
+    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+    padding: 15px 10px;
+}
+
+body.messages-page .table tbody tr:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+body.messages-page .table tbody tr.font-weight-bold td {
+    color: #ffd700;
+    font-weight: 600;
+}
+
+body.messages-page .btn-primary {
+    background: linear-gradient(135deg, #9370db 0%, #6366f1 100%);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.messages-page .btn-primary:hover {
+    background: linear-gradient(135deg, #a680ec 0%, #7376f1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+body.messages-page .btn-secondary {
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid #6366f1;
+    color: #9370db;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+body.messages-page .btn-secondary:hover {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: #9370db;
+    color: #a680ec;
+}
+
+body.messages-page .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+body.messages-page .btn-danger:hover {
+    background: linear-gradient(135deg, #e74a5a 0%, #d32535 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+body.messages-page .form-control {
+    background: rgba(26, 26, 58, 0.9);
+    border: 1px solid #6366f1;
+    color: #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+body.messages-page .form-control:focus {
+    background: rgba(26, 26, 58, 1);
+    border-color: #9370db;
+    box-shadow: 0 0 0 0.2rem rgba(147, 112, 219, 0.25);
+    color: #fff;
+}
+
+body.messages-page .form-control option {
+    background: #1a1a3a;
+    color: #e0e0e0;
+}
+
+body.messages-page label {
+    color: #9370db;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+body.messages-page .text-muted {
+    color: #8a8aa8 !important;
+}
+
+body.messages-page .invalid-feedback {
+    color: #ff6b6b;
+}
+
+body.messages-page .message-content {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    color: #e0e0e0;
+    line-height: 1.6;
+}
+
+body.messages-page .bg-light {
+    background: rgba(99, 102, 241, 0.1) !important;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 10px;
+}
+
+body.messages-page .pagination {
+    margin-top: 20px;
+}
+
+body.messages-page .page-link {
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid #6366f1;
+    color: #9370db;
+    margin: 0 2px;
+    border-radius: 5px;
+}
+
+body.messages-page .page-link:hover {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: #9370db;
+    color: #a680ec;
+}
+
+body.messages-page .page-item.active .page-link {
+    background: linear-gradient(135deg, #9370db 0%, #6366f1 100%);
+    border-color: #9370db;
+    color: white;
+}
+
+body.messages-page .page-item.disabled .page-link {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: #666;
+}
