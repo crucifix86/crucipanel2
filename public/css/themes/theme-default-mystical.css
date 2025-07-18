@@ -1022,7 +1022,7 @@ body.popup-open {
 /* Language Selector Positioning */
 .language-selector {
     position: fixed;
-    top: 70px;
+    top: 90px;
     right: 20px;
     z-index: 100;
 }
