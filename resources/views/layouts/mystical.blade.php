@@ -74,12 +74,6 @@
                             @endif
                             <a href="{{ route('profile.show', Auth::user()->name) }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
                             <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.settings') }}</a>
-                            <a href="{{ route('messages.index') }}" class="user-link">
-                                {{ __('site.user_menu.messages') }}
-                                @if(Auth::user()->unread_message_count > 0)
-                                    <span class="unread-badge">{{ Auth::user()->unread_message_count }}</span>
-                                @endif
-                            </a>
                             @if(Auth::user()->isAdministrator())
                             <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
                             @endif
