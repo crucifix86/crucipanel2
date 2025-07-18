@@ -16,7 +16,7 @@ class MessagesController extends Controller
         $this->middleware('auth');
     }
 
-    public function inbox()
+    public function index()
     {
         $settings = MessagingSettings::first();
         
@@ -24,50 +24,34 @@ class MessagesController extends Controller
             return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
 
-        $messages = Auth::user()->receivedMessages()
+        $inbox = Auth::user()->receivedMessages()
             ->where('deleted_by_recipient', false)
             ->with('sender')
             ->orderBy('created_at', 'desc')
-            ->paginate(20);
+            ->paginate(20, ['*'], 'inbox_page');
 
-        return view('messages.inbox', compact('messages'));
+        $outbox = Auth::user()->sentMessages()
+            ->where('deleted_by_sender', false)
+            ->with('recipient')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20, ['*'], 'outbox_page');
+
+        return view('messages.index', compact('inbox', 'outbox'));
+    }
+    
+    public function inbox()
+    {
+        return redirect()->route('messages.index');
     }
 
     public function outbox()
     {
-        $settings = MessagingSettings::first();
-        
-        if (!$settings || !$settings->messaging_enabled) {
-            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
-        }
-
-        $messages = Auth::user()->sentMessages()
-            ->where('deleted_by_sender', false)
-            ->with('recipient')
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        return view('messages.outbox', compact('messages'));
+        return redirect()->route('messages.index')->with('tab', 'outbox');
     }
 
     public function compose($userId = null)
     {
-        $settings = MessagingSettings::first();
-        
-        if (!$settings || !$settings->messaging_enabled) {
-            return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
-        }
-
-        $recipient = null;
-        if ($userId) {
-            $recipient = User::findOrFail($userId);
-            
-            if ($recipient->id === Auth::id()) {
-                return redirect()->route('messages.inbox')->with('error', __('messages.cannot_message_self'));
-            }
-        }
-
-        return view('messages.compose', compact('recipient'));
+        return redirect()->route('messages.index')->with('tab', 'compose')->with('recipient_id', $userId);
     }
 
     public function store(Request $request)
@@ -100,7 +84,7 @@ class MessagesController extends Controller
             'message' => $validated['message']
         ]);
 
-        return redirect()->route('messages.outbox')->with('success', __('messages.sent_successfully'));
+        return redirect()->route('messages.index')->with('tab', 'outbox')->with('success', __('messages.sent_successfully'));
     }
 
     public function show(Message $message)
@@ -172,7 +156,7 @@ class MessagesController extends Controller
             'parent_id' => $message->id
         ]);
 
-        return redirect()->route('messages.show', $reply)->with('success', __('messages.reply_sent'));
+        return redirect()->route('messages.index')->with('success', __('messages.reply_sent'));
     }
 
     public function destroy(Message $message)
@@ -189,9 +173,9 @@ class MessagesController extends Controller
         $successMessage = __('messages.deleted_successfully');
         
         if ($message->sender_id === Auth::id()) {
-            return redirect()->route('messages.outbox')->with('success', $successMessage);
+            return redirect()->route('messages.index')->with('tab', 'outbox')->with('success', $successMessage);
         } else {
-            return redirect()->route('messages.inbox')->with('success', $successMessage);
+            return redirect()->route('messages.index')->with('success', $successMessage);
         }
     }
 
@@ -212,5 +196,25 @@ class MessagesController extends Controller
             ->get(['id', 'name', 'email']);
 
         return response()->json($users);
+    }
+    
+    public function showAjax(Message $message)
+    {
+        // Check if user can view this message
+        if ($message->sender_id !== Auth::id() && $message->recipient_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Mark as read if recipient
+        if ($message->recipient_id === Auth::id() && !$message->is_read) {
+            $message->update(['is_read' => true]);
+        }
+
+        $html = view('messages.partials.message', compact('message'))->render();
+        
+        return response()->json([
+            'html' => $html,
+            'can_reply' => $message->recipient_id === Auth::id()
+        ]);
     }
 }

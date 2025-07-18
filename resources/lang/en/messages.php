@@ -20,6 +20,7 @@ return [
     'view' => 'View',
     'delete' => 'Delete',
     'cancel' => 'Cancel',
+    'close' => 'Close',
     'recipient' => 'Recipient',
     'select_recipient' => 'Select Recipient',
     'subject_optional' => 'Subject (Optional)',

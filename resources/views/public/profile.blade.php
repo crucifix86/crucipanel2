@@ -36,14 +36,8 @@
         <div class="message-navigation">
             <h3 class="message-nav-title"><i class="fas fa-envelope"></i> {{ __('messages.my_messages') }}</h3>
             <div class="message-nav-buttons">
-                <a href="{{ route('messages.inbox') }}" class="btn btn-primary">
-                    <i class="fas fa-inbox"></i> {{ __('messages.inbox') }}
-                </a>
-                <a href="{{ route('messages.outbox') }}" class="btn btn-secondary">
-                    <i class="fas fa-paper-plane"></i> {{ __('messages.outbox') }}
-                </a>
-                <a href="{{ route('messages.compose') }}" class="btn btn-success">
-                    <i class="fas fa-pen"></i> {{ __('messages.compose') }}
+                <a href="{{ route('messages.index') }}" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i> {{ __('messages.my_messages') }}
                 </a>
             </div>
         </div>

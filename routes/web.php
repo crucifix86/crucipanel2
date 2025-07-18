@@ -197,6 +197,11 @@ Route::group(['middleware' => 'web'], static function () {
 /* Messaging Routes - Independent of Dashboard */
 Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web']], function () {
     Route::get('/', [
+        'as' => 'messages.index',
+        'uses' => 'App\Http\Controllers\MessagesController@index'
+    ]);
+    
+    Route::get('/inbox', [
         'as' => 'messages.inbox',
         'uses' => 'App\Http\Controllers\MessagesController@inbox'
     ]);
@@ -219,6 +224,11 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web']], function
     Route::get('/{message}', [
         'as' => 'messages.show',
         'uses' => 'App\Http\Controllers\MessagesController@show'
+    ]);
+    
+    Route::get('/{message}/ajax', [
+        'as' => 'messages.show.ajax',
+        'uses' => 'App\Http\Controllers\MessagesController@showAjax'
     ]);
     
     Route::get('/{message}/reply', [

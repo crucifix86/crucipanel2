@@ -5838,4 +5838,95 @@ body.messages-page .page-item.disabled .page-link {
     background: rgba(99, 102, 241, 0.1);
     border-color: rgba(99, 102, 241, 0.3);
     color: #666;
+}/* Messages Page Tab Navigation */
+body.messages-page .nav-tabs {
+    border-bottom: 2px solid #6366f1;
+    margin-bottom: 0;
+}
+
+body.messages-page .nav-tabs .nav-link {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid transparent;
+    border-bottom: none;
+    color: #9370db;
+    padding: 12px 20px;
+    margin-right: 5px;
+    border-radius: 10px 10px 0 0;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+body.messages-page .nav-tabs .nav-link:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: #6366f1 #6366f1 transparent #6366f1;
+}
+
+body.messages-page .nav-tabs .nav-link.active {
+    background: rgba(26, 26, 58, 0.95);
+    border-color: #6366f1 #6366f1 transparent #6366f1;
+    color: #ffd700;
+    position: relative;
+    bottom: -2px;
+}
+
+body.messages-page .nav-tabs .nav-link .badge {
+    background: #ffd700;
+    color: #1a1a3a;
+    margin-left: 5px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+}
+
+body.messages-page .tab-content {
+    background: rgba(26, 26, 58, 0.95);
+    border: 2px solid #6366f1;
+    border-top: none;
+    padding: 25px;
+    border-radius: 0 0 15px 15px;
+}
+
+/* Modal Styling */
+body.messages-page .modal-content {
+    background: rgba(26, 26, 58, 0.98);
+    border: 2px solid #6366f1;
+    border-radius: 15px;
+}
+
+body.messages-page .modal-header {
+    background: linear-gradient(135deg, #2a2a5a 0%, #3a3a6a 100%);
+    border-bottom: 2px solid #6366f1;
+    border-radius: 13px 13px 0 0;
+}
+
+body.messages-page .modal-title {
+    color: #9370db;
+    font-weight: 600;
+}
+
+body.messages-page .modal-header .close {
+    color: #9370db;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+body.messages-page .modal-header .close:hover {
+    opacity: 1;
+}
+
+body.messages-page .modal-body {
+    padding: 25px;
+}
+
+body.messages-page .modal-footer {
+    border-top: 1px solid #6366f1;
+    padding: 15px 25px;
+}
+
+body.messages-page .message-details .row {
+    margin-bottom: 15px;
+}
+
+body.messages-page .message-details .font-weight-bold {
+    color: #9370db;
 }
