@@ -4778,6 +4778,7 @@ body.reset-password-page .floating-particles {
 /* Register container is larger */
 .auth-container.register-container {
     width: 500px;
+    padding: 20px 25px;
 }
 
 /* Shimmer Background Effect */
@@ -4826,6 +4827,11 @@ body.reset-password-page .floating-particles {
     z-index: 1;
 }
 
+/* Smaller header for register page */
+.register-container .auth-header {
+    margin-bottom: 10px;
+}
+
 .auth-tagline {
     font-size: 1.6rem;
     color: #dda0dd;
@@ -4857,6 +4863,16 @@ body.reset-password-page .floating-particles {
 .form-group {
     margin-bottom: 12px;
     position: relative;
+}
+
+/* Tighter spacing for register form */
+.register-container .form-group {
+    margin-bottom: 10px;
+}
+
+.register-container .form-group input {
+    padding: 8px 12px;
+    font-size: 0.9rem;
 }
 
 .form-group label {
@@ -5067,6 +5083,7 @@ body.reset-password-page .floating-particles {
     text-align: center;
     position: relative;
     z-index: 1;
+    margin-top: 10px;
 }
 
 .auth-link a {
@@ -5129,7 +5146,7 @@ body.reset-password-page .floating-particles {
 .form-check {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     position: relative;
     z-index: 1;
 }
