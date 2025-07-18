@@ -50,6 +50,21 @@
                                     @enderror
                                 </div>
 
+                                <!-- Email Verification Settings -->
+                                <div class="border-t pt-6">
+                                    <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Email Verification') }}</h3>
+                                    
+                                    <!-- Enable Email Verification -->
+                                    <div class="mb-4">
+                                        <label class="flex items-center">
+                                            <input type="hidden" name="email_verification_enabled" value="0">
+                                            <input type="checkbox" name="email_verification_enabled" value="1" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" {{ $settings && $settings->email_verification_enabled ? 'checked' : '' }}>
+                                            <span class="ml-2 text-sm text-gray-600">{{ __('Require email verification for new users') }}</span>
+                                        </label>
+                                        <p class="ml-6 mt-1 text-xs text-gray-500">{{ __('Users must verify their email address before accessing the panel') }}</p>
+                                    </div>
+                                </div>
+
                                 <!-- Reward Settings -->
                                 <div class="border-t pt-6">
                                     <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Reward Settings') }}</h3>

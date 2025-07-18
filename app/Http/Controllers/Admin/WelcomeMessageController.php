@@ -19,6 +19,7 @@ class WelcomeMessageController extends Controller
                 'reward_enabled' => true,
                 'reward_type' => 'virtual',
                 'reward_amount' => 1000,
+                'email_verification_enabled' => true,
             ]
         );
         return view('admin.welcome-message.index', compact('settings'));
@@ -33,6 +34,7 @@ class WelcomeMessageController extends Controller
             'reward_enabled' => 'required|boolean',
             'reward_type' => 'required|in:virtual,cubi,bonus',
             'reward_amount' => 'required|integer|min:0',
+            'email_verification_enabled' => 'required|boolean',
         ]);
 
         $settings = WelcomeMessageSetting::firstOrCreate([]);

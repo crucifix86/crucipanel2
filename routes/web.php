@@ -195,7 +195,7 @@ Route::group(['middleware' => 'web'], static function () {
 });
 
 /* Messaging Routes - Independent of Dashboard */
-Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web']], function () {
+Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web', 'check.email.verification']], function () {
     Route::get('/', [
         'as' => 'messages.index',
         'uses' => 'App\Http\Controllers\MessagesController@index'
@@ -253,7 +253,7 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web']], function
 });
 
 /* App Page */
-Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified', 'dashboard.enabled']], static function () {
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'check.email.verification', 'dashboard.enabled']], static function () {
 
     Route::get('/', [
         'as' => 'app.dashboard',
@@ -436,13 +436,13 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'verified
 });
 
 /* Character Route */
-Route::group(['middleware' => ['web', 'auth', 'verified', 'server.online']], static function () {
+Route::group(['middleware' => ['web', 'auth', 'check.email.verification', 'server.online']], static function () {
     /* Character */
     Route::get('character/select/{role_id}', [CharacterSelector::class, 'getSelect']);
 });
 
 /* Admin Page */
-Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', 'admin']], static function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'check.email.verification', 'admin']], static function () {
     Route::get('/', static function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
@@ -977,7 +977,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
 });
 
 /* GM Page */
-Route::group(['prefix' => 'gm', 'middleware' => ['auth', 'web', 'verified', 'gm']], static function () {
+Route::group(['prefix' => 'gm', 'middleware' => ['auth', 'web', 'check.email.verification', 'gm']], static function () {
     Route::get('/', static function () {
         return view('gm.dashboard');
     })->name('gm.dashboard');
@@ -1142,7 +1142,7 @@ Route::group(['middleware' => config('jetstream.middleware', ['web'])], static f
         Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
     }
 
-    Route::group(['middleware' => ['auth', 'verified']], static function () {
+    Route::group(['middleware' => ['auth', 'check.email.verification']], static function () {
         // User & Profile...
         Route::get('/user/profile', [UserProfileController::class, 'show'])
             ->name('profile.show');

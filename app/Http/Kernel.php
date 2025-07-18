@@ -39,6 +39,7 @@ use App\Http\Middleware\VoteActive;
 use App\Http\Middleware\VoucherActive;
 use App\Http\Middleware\RunScheduler;
 use App\Http\Middleware\ValidateSliderCaptcha;
+use App\Http\Middleware\CheckEmailVerification;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
@@ -143,6 +144,7 @@ class Kernel extends HttpKernel
         'arena.active' => ArenaActive::class,
         'pre.login' => EnsurePreLogin::class,
         'dashboard.enabled' => CheckDashboardEnabled::class,
-        'slider.captcha' => ValidateSliderCaptcha::class
+        'slider.captcha' => ValidateSliderCaptcha::class,
+        'check.email.verification' => CheckEmailVerification::class
     ];
 }
