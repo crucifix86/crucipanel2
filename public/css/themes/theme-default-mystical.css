@@ -5208,6 +5208,31 @@ body.popup-open {
     transform: translateY(-5px);
 }
 
+.content-section .character-icon {
+    font-size: 3rem;
+    color: #9370DB;
+    margin-bottom: 15px;
+}
+
+.content-section .character-name {
+    color: #e6d7f0;
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+.content-section .character-level,
+.content-section .character-class {
+    color: #9370DB;
+    margin: 5px 0;
+}
+
+.content-section .no-characters {
+    text-align: center;
+    color: #9370DB;
+    padding: 40px;
+    font-size: 1.1rem;
+}
+
 /* Wall Messages */
 .content-section .wall-post-form {
     background: rgba(30, 30, 60, 0.6);
@@ -5215,6 +5240,29 @@ body.popup-open {
     border-radius: 10px;
     margin-bottom: 30px;
     border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+.content-section .wall-post-form textarea {
+    width: 100%;
+    background: rgba(20, 20, 40, 0.8);
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    color: #e6d7f0;
+    padding: 15px;
+    border-radius: 5px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.content-section .wall-post-form .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.content-section .char-count {
+    color: #9370DB;
+    font-size: 0.9rem;
 }
 
 .content-section .wall-message {
@@ -5289,4 +5337,93 @@ body.popup-open {
     border-radius: 12px;
     font-size: 0.8rem;
     margin-left: 5px;
+}
+
+/* Profile Info Tab */
+.content-section .info-grid {
+    display: grid;
+    gap: 30px;
+}
+
+.content-section .info-section {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+.content-section .info-title {
+    color: #9370DB;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.content-section .info-bio {
+    color: #e6d7f0;
+    line-height: 1.8;
+}
+
+.content-section .info-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #e6d7f0;
+    margin-bottom: 10px;
+}
+
+.content-section .info-link a {
+    color: #9370DB;
+    text-decoration: none;
+}
+
+.content-section .info-link a:hover {
+    text-decoration: underline;
+}
+
+.content-section .info-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.content-section .stat {
+    text-align: center;
+}
+
+.content-section .stat-label {
+    display: block;
+    color: #9370DB;
+    margin-bottom: 5px;
+}
+
+.content-section .stat-value {
+    display: block;
+    font-size: 2rem;
+    color: #e6d7f0;
+    font-weight: bold;
+}
+
+/* Login Prompt */
+.content-section .login-prompt {
+    text-align: center;
+    padding: 40px;
+    background: rgba(30, 30, 60, 0.6);
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+.content-section .no-messages {
+    text-align: center;
+    color: #9370DB;
+    padding: 40px;
+    font-size: 1.1rem;
+}
+
+/* Profile-specific tab navigation adjustments */
+.content-section .profile-tabs-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(147, 112, 219, 0.3);
 }
