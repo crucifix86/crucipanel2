@@ -73,7 +73,10 @@ class CreateNewUser implements CreatesNewUsers
                 
                 // Send welcome message within the same transaction
                 if ($user && $user->ID) {
+                    \Log::info('User created with ID: ' . $user->ID . ', attempting to send welcome message');
                     $this->sendWelcomeMessage($user);
+                } else {
+                    \Log::error('User creation failed or ID not set');
                 }
                 
                 return $user;
@@ -117,7 +120,10 @@ class CreateNewUser implements CreatesNewUsers
                 
                 // Send welcome message within the same transaction
                 if ($user && $user->ID) {
+                    \Log::info('User created with ID: ' . $user->ID . ', attempting to send welcome message');
                     $this->sendWelcomeMessage($user);
+                } else {
+                    \Log::error('User creation failed or ID not set');
                 }
                 
                 return $user;
@@ -132,14 +138,23 @@ class CreateNewUser implements CreatesNewUsers
      */
     private function sendWelcomeMessage(User $user)
     {
+        \Log::info('Attempting to send welcome message to user ID: ' . $user->ID);
+        
         $settings = WelcomeMessageSetting::first();
         
-        if (!$settings || !$settings->enabled) {
+        if (!$settings) {
+            \Log::info('No welcome message settings found');
+            return;
+        }
+        
+        if (!$settings->enabled) {
+            \Log::info('Welcome messages are disabled');
             return;
         }
         
         // Ensure we have a valid user ID
         if (!$user->ID) {
+            \Log::error('User ID is null or empty');
             return;
         }
         
@@ -147,7 +162,7 @@ class CreateNewUser implements CreatesNewUsers
         $systemUserId = 1024; // Default admin ID
         
         try {
-            Message::create([
+            $message = Message::create([
                 'sender_id' => $systemUserId,
                 'recipient_id' => $user->ID,
                 'subject' => $settings->subject,
@@ -155,9 +170,11 @@ class CreateNewUser implements CreatesNewUsers
                 'is_read' => false,
                 'is_welcome_message' => true,
             ]);
+            \Log::info('Welcome message created successfully with ID: ' . $message->id);
         } catch (\Exception $e) {
             // Log the error but don't fail user registration
             \Log::error('Failed to send welcome message: ' . $e->getMessage());
+            \Log::error('Exception trace: ' . $e->getTraceAsString());
         }
     }
 }
