@@ -195,6 +195,7 @@
                         <x-hrace009::admin.members-link/>
                         <x-hrace009::admin.mass-message-link/>
                         <x-hrace009::admin.welcome-message-link/>
+                        <x-hrace009::admin.faction-icons-link/>
                         @if( config('pw-config.system.apps.news') )
                             <x-hrace009::admin.news-link/>
                         @endif

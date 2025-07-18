@@ -24,7 +24,7 @@ class PublicRankingsController extends Controller
             ->get();
 
         // Get top 10 factions by level using existing scope
-        $topFactions = Faction::subtype('level')->limit(10)->get();
+        $topFactions = Faction::with('icon')->subtype('level')->limit(10)->get();
         
         // Debug: Log the counts
         \Log::info('Rankings Debug - Total in DB: Players: ' . $totalPlayers . ', Factions: ' . $totalFactions);

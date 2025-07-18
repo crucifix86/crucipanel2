@@ -65,4 +65,23 @@ class Faction extends Model
             ->whereNotIn('id', explode(',', config('pw-config.ignoreFaction')))
             ->orderBy($column[$sub] ?? 'level', 'desc');
     }
+    
+    /**
+     * Get the faction's icon
+     */
+    public function icon()
+    {
+        return $this->hasOne(FactionIcon::class, 'faction_id', 'id')
+            ->where('status', 'approved')
+            ->where('server_id', config('pw-config.server_id', 1));
+    }
+    
+    /**
+     * Get all icon submissions for this faction
+     */
+    public function iconSubmissions()
+    {
+        return $this->hasMany(FactionIcon::class, 'faction_id', 'id')
+            ->where('server_id', config('pw-config.server_id', 1));
+    }
 }

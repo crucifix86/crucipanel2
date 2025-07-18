@@ -51,7 +51,12 @@
                                 {{ $index + 1 }}
                             </div>
                             <div class="player-info">
-                                <div class="player-name">{{ $faction->name }}</div>
+                                <div class="player-name">
+                                    @if($faction->icon)
+                                        <img src="{{ $faction->icon->getIconUrl() }}" alt="{{ $faction->name }}" style="width: 24px; height: 24px; display: inline-block; vertical-align: middle; margin-right: 5px;">
+                                    @endif
+                                    {{ $faction->name }}
+                                </div>
                                 <div class="player-details">
                                     {{ __('site.rankings.members') }} {{ $faction->members->count() }}
                                 </div>
