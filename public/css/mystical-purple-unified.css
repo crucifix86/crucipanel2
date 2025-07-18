@@ -4192,399 +4192,6 @@ body.home-page .news-popup-body {
    Profile Page Specific Styles
    ======================================== */
 
-/* Profile Container */
-body.profile-page .profile-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-    min-height: 100vh;
-    position: relative;
-}
-
-/* Success Notification */
-body.profile-page .success-notification {
-    background: linear-gradient(45deg, #10b981, #059669);
-    color: white;
-    padding: 20px 40px;
-    border-radius: 15px;
-    font-weight: 600;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    position: fixed;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    display: none;
-    animation: slideDown 0.5s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateX(-50%) translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-    }
-}
-
-/* Profile Grid Layout */
-body.profile-page .profile-grid {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 40px;
-    margin-top: 20px;
-}
-
-/* Profile Sidebar */
-body.profile-page .profile-sidebar {
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(147, 112, 219, 0.3);
-    border-radius: 30px;
-    padding: 30px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(147, 112, 219, 0.2);
-    position: relative;
-    overflow: hidden;
-    height: fit-content;
-}
-
-body.profile-page .profile-sidebar::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(147, 112, 219, 0.1) 0%, transparent 70%);
-    animation: pulseGlow 4s ease-in-out infinite;
-}
-
-/* Avatar Section */
-body.profile-page .profile-avatar-section {
-    text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-    z-index: 1;
-}
-
-body.profile-page .profile-avatar-wrapper {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
-body.profile-page .profile-avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.3), rgba(75, 0, 130, 0.3));
-    border: 3px solid rgba(147, 112, 219, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    position: relative;
-}
-
-body.profile-page .profile-avatar::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(45deg, #9370db, #8a2be2, #4b0082);
-    -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: rotateGradient 3s linear infinite;
-}
-
-@keyframes rotateGradient {
-    to { transform: rotate(360deg); }
-}
-
-body.profile-page .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-body.profile-page .profile-avatar i {
-    font-size: 4rem;
-    color: #9370db;
-    text-shadow: 0 0 20px rgba(147, 112, 219, 0.8);
-}
-
-body.profile-page .profile-username {
-    font-size: 1.8rem;
-    color: #9370db;
-    margin-bottom: 8px;
-    text-shadow: 0 0 20px rgba(147, 112, 219, 0.8);
-    font-weight: 600;
-}
-
-body.profile-page .profile-email {
-    color: #b19cd9;
-    font-size: 1rem;
-    margin-bottom: 20px;
-}
-
-/* Profile Stats */
-body.profile-page .profile-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    position: relative;
-    z-index: 1;
-}
-
-body.profile-page .stat-item {
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(147, 112, 219, 0.4);
-    border-radius: 15px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-body.profile-page .stat-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(147, 112, 219, 0.3);
-    border-color: #9370db;
-}
-
-body.profile-page .stat-label {
-    font-size: 0.9rem;
-    color: #b19cd9;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-body.profile-page .stat-value {
-    font-size: 1.1rem;
-    color: #e6d7f0;
-    font-weight: 600;
-}
-
-/* Profile Content Area */
-body.profile-page .profile-content {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-/* Profile Sections */
-body.profile-page .profile-section {
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(147, 112, 219, 0.3);
-    border-radius: 30px;
-    padding: 40px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(147, 112, 219, 0.2);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-body.profile-page .profile-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
-}
-
-body.profile-page .profile-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(147, 112, 219, 0.1), transparent);
-    transition: left 0.8s ease;
-}
-
-body.profile-page .profile-section:hover::before {
-    left: 100%;
-}
-
-/* Section Header */
-body.profile-page .section-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-body.profile-page .section-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(45deg, #9370db, #8a2be2);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    box-shadow: 0 10px 30px rgba(147, 112, 219, 0.5);
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-}
-
-body.profile-page .profile-section:hover .section-icon {
-    transform: rotate(5deg) scale(1.1);
-}
-
-body.profile-page .section-info {
-    flex: 1;
-}
-
-body.profile-page .section-title {
-    font-size: 1.8rem;
-    color: #9370db;
-    margin-bottom: 8px;
-    text-shadow: 0 0 20px rgba(147, 112, 219, 0.8);
-}
-
-body.profile-page .section-description {
-    color: #b19cd9;
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-/* Section Content */
-body.profile-page .section-content {
-    position: relative;
-    z-index: 1;
-}
-
-/* Danger Section */
-body.profile-page .danger-section {
-    border-color: rgba(220, 38, 38, 0.3);
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(127, 29, 29, 0.1));
-}
-
-body.profile-page .danger-icon {
-    background: linear-gradient(45deg, #dc2626, #b91c1c);
-    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5);
-}
-
-/* Form Styling within Profile */
-body.profile-page input[type="text"],
-body.profile-page input[type="email"],
-body.profile-page input[type="password"],
-body.profile-page select,
-body.profile-page textarea {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(147, 112, 219, 0.4);
-    color: #e6d7f0;
-    border-radius: 10px;
-    padding: 12px 15px;
-    width: 100%;
-    transition: all 0.3s ease;
-}
-
-body.profile-page input[type="text"]:focus,
-body.profile-page input[type="email"]:focus,
-body.profile-page input[type="password"]:focus,
-body.profile-page select:focus,
-body.profile-page textarea:focus {
-    outline: none;
-    border-color: #9370db;
-    box-shadow: 0 0 20px rgba(147, 112, 219, 0.3);
-    background: rgba(0, 0, 0, 0.4);
-}
-
-/* Buttons within Profile */
-body.profile-page button[type="submit"],
-body.profile-page .btn-primary {
-    background: linear-gradient(45deg, #9370db, #8a2be2);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
-}
-
-body.profile-page button[type="submit"]:hover,
-body.profile-page .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(147, 112, 219, 0.6);
-}
-
-/* Character Grid */
-body.profile-page .character-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-}
-
-body.profile-page .character-card {
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(147, 112, 219, 0.4);
-    border-radius: 20px;
-    padding: 20px;
-    transition: all 0.3s ease;
-}
-
-body.profile-page .character-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(147, 112, 219, 0.3);
-    border-color: #9370db;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    body.profile-page .profile-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    body.profile-page .profile-sidebar {
-        max-width: 400px;
-        margin: 0 auto;
-    }
-}
-
-@media (max-width: 768px) {
-    body.profile-page .profile-section {
-        padding: 25px 20px;
-    }
-    
-    body.profile-page .section-header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-        align-items: center;
-    }
-    
-    body.profile-page .section-title {
-        font-size: 1.5rem;
-    }
-    
-    body.profile-page .profile-avatar {
-        width: 120px;
-        height: 120px;
-    }
-    
-    body.profile-page .profile-username {
-        font-size: 1.5rem;
-    }
-}
-
-/* End of Profile Page Styles */
 /* ========================================
    Auth Pages Common Styles
    ======================================== */
@@ -5319,24 +4926,185 @@ body.popup-open {
 }
 
 /* =====================================================
-   PUBLIC PROFILE PAGE STYLES
+   GENERIC TAB STYLES FOR CONTENT SECTIONS
    ===================================================== */
 
-body.public-profile-page .public-profile-container {
-    background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(75, 0, 130, 0.1));
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(147, 112, 219, 0.3);
-    border-radius: 30px;
-    padding: 50px;
-    margin-bottom: 50px;
-    box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(147, 112, 219, 0.2);
+/* Tab Navigation */
+.content-section .tab-navigation {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(147, 112, 219, 0.3);
+}
+
+.content-section .tab-button {
+    background: none;
+    border: none;
+    color: #e6d7f0;
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
     position: relative;
+    font-size: 1rem;
+}
+
+.content-section .tab-button:hover {
+    color: #9370DB;
+}
+
+.content-section .tab-button.active {
+    color: #9370DB;
+}
+
+.content-section .tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #9370DB;
+}
+
+.content-section .tab-content {
+    display: none;
+}
+
+.content-section .tab-content.active {
+    display: block;
+}
+
+/* Table Styles for Messages */
+.content-section .data-table {
+    width: 100%;
+    background: rgba(30, 30, 60, 0.6);
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    border-radius: 10px;
     overflow: hidden;
 }
 
-body.public-profile-page .profile-header {
+.content-section .data-table th,
+.content-section .data-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(147, 112, 219, 0.2);
+}
+
+.content-section .data-table th {
+    background: rgba(147, 112, 219, 0.1);
+    color: #9370DB;
+    font-weight: bold;
+}
+
+.content-section .data-table tr:hover {
+    background: rgba(147, 112, 219, 0.05);
+}
+
+.content-section .data-table tr.unread-message {
+    font-weight: bold;
+}
+
+/* Form Controls in Content Section */
+.content-section .form-group {
+    margin-bottom: 20px;
+}
+
+.content-section .form-group label {
+    display: block;
+    color: #9370DB;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.content-section .form-control {
+    width: 100%;
+    background: rgba(20, 20, 40, 0.8);
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    color: #e6d7f0;
+    padding: 12px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.content-section .form-control:focus {
+    outline: none;
+    border-color: #9370DB;
+    box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.1);
+}
+
+.content-section textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Action Buttons */
+.content-section .action-button {
+    background: linear-gradient(45deg, #9370DB, #8A2BE2);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.content-section .action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(147, 112, 219, 0.4);
+}
+
+.content-section .action-btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.content-section .action-btn.view {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+}
+
+.content-section .action-btn.view:hover {
+    background: rgba(52, 152, 219, 0.3);
+}
+
+.content-section .action-btn.delete {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+}
+
+.content-section .action-btn.delete:hover {
+    color: #ff6b6b;
+}
+
+/* Empty States */
+.content-section .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9370DB;
+}
+
+.content-section .empty-state i {
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.content-section .empty-state p {
+    font-size: 1.1rem;
+}
+
+/* Profile Specific Styles */
+.content-section .profile-header {
     background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(138, 43, 226, 0.1));
     border-radius: 15px;
     overflow: hidden;
@@ -5344,13 +5112,13 @@ body.public-profile-page .profile-header {
     border: 1px solid rgba(147, 112, 219, 0.3);
 }
 
-body.public-profile-page .profile-banner {
+.content-section .profile-banner {
     height: 200px;
     background: linear-gradient(135deg, #9370DB, #8A2BE2);
     opacity: 0.8;
 }
 
-body.public-profile-page .profile-info {
+.content-section .profile-info {
     display: flex;
     align-items: flex-end;
     padding: 0 30px 30px;
@@ -5358,7 +5126,7 @@ body.public-profile-page .profile-info {
     position: relative;
 }
 
-body.public-profile-page .profile-avatar {
+.content-section .profile-avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -5371,289 +5139,34 @@ body.public-profile-page .profile-avatar {
     margin-right: 20px;
 }
 
-body.public-profile-page .profile-avatar img {
+.content-section .profile-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-body.public-profile-page .profile-avatar i {
+.content-section .profile-avatar i {
     font-size: 60px;
     color: #9370DB;
 }
 
-body.public-profile-page .profile-details {
+.content-section .profile-details {
     flex: 1;
 }
 
-body.public-profile-page .profile-name {
+.content-section .profile-name {
     font-size: 2rem;
     color: #e6d7f0;
     margin: 0;
 }
 
-body.public-profile-page .profile-joined {
+.content-section .profile-joined {
     color: #9370DB;
     margin: 5px 0;
 }
 
-body.public-profile-page .profile-actions {
-    margin-top: 15px;
-}
-
-/* Public Profile Tabs */
-body.public-profile-page .profile-tabs-nav {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
-    border-bottom: 2px solid rgba(147, 112, 219, 0.3);
-}
-
-body.public-profile-page .tab-button {
-    background: none;
-    border: none;
-    color: #e6d7f0;
-    padding: 15px 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    font-size: 1rem;
-}
-
-body.public-profile-page .tab-button:hover {
-    color: #9370DB;
-}
-
-body.public-profile-page .tab-button.active {
-    color: #9370DB;
-}
-
-body.public-profile-page .tab-button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #9370DB;
-}
-
-body.public-profile-page .tab-content {
-    display: none;
-}
-
-body.public-profile-page .tab-content.active {
-    display: block;
-}
-
-/* Info Tab */
-body.public-profile-page .info-grid {
-    display: grid;
-    gap: 30px;
-}
-
-body.public-profile-page .info-section {
-    background: rgba(30, 30, 60, 0.6);
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid rgba(147, 112, 219, 0.3);
-}
-
-body.public-profile-page .info-title {
-    color: #9370DB;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-}
-
-body.public-profile-page .info-bio {
-    color: #e6d7f0;
-    line-height: 1.8;
-}
-
-body.public-profile-page .info-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #e6d7f0;
-    margin-bottom: 10px;
-}
-
-body.public-profile-page .info-link a {
-    color: #9370DB;
-    text-decoration: none;
-}
-
-body.public-profile-page .info-link a:hover {
-    text-decoration: underline;
-}
-
-body.public-profile-page .info-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-}
-
-body.public-profile-page .stat {
-    text-align: center;
-}
-
-body.public-profile-page .stat-label {
-    display: block;
-    color: #9370DB;
-    margin-bottom: 5px;
-}
-
-body.public-profile-page .stat-value {
-    display: block;
-    font-size: 2rem;
-    color: #e6d7f0;
-    font-weight: bold;
-}
-
-/* Characters Tab */
-body.public-profile-page .characters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-body.public-profile-page .character-card {
-    background: rgba(30, 30, 60, 0.6);
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid rgba(147, 112, 219, 0.3);
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-body.public-profile-page .character-card:hover {
-    transform: translateY(-5px);
-}
-
-body.public-profile-page .character-icon {
-    font-size: 3rem;
-    color: #9370DB;
-    margin-bottom: 15px;
-}
-
-body.public-profile-page .character-name {
-    color: #e6d7f0;
-    margin: 10px 0;
-}
-
-body.public-profile-page .character-level, 
-body.public-profile-page .character-class {
-    color: #9370DB;
-    margin: 5px 0;
-}
-
-/* Wall Tab */
-body.public-profile-page .wall-post-form {
-    background: rgba(30, 30, 60, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    border: 1px solid rgba(147, 112, 219, 0.3);
-}
-
-body.public-profile-page .wall-post-form textarea {
-    width: 100%;
-    background: rgba(20, 20, 40, 0.8);
-    border: 1px solid rgba(147, 112, 219, 0.3);
-    color: #e6d7f0;
-    padding: 15px;
-    border-radius: 5px;
-    resize: vertical;
-}
-
-body.public-profile-page .wall-post-form .form-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-}
-
-body.public-profile-page .char-count {
-    color: #9370DB;
-    font-size: 0.9rem;
-}
-
-body.public-profile-page .wall-message {
-    background: rgba(30, 30, 60, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(147, 112, 219, 0.3);
-}
-
-body.public-profile-page .message-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-body.public-profile-page .message-author {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-body.public-profile-page .author-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-body.public-profile-page .author-name {
-    color: #9370DB;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-body.public-profile-page .author-name:hover {
-    text-decoration: underline;
-}
-
-body.public-profile-page .message-time {
-    color: #9370DB;
-    font-size: 0.9rem;
-}
-
-body.public-profile-page .message-content {
-    color: #e6d7f0;
-    line-height: 1.6;
-}
-
-body.public-profile-page .delete-btn {
-    background: none;
-    border: none;
-    color: #dc3545;
-    cursor: pointer;
-    padding: 5px;
-}
-
-body.public-profile-page .delete-btn:hover {
-    color: #ff6b6b;
-}
-
-body.public-profile-page .login-prompt {
-    text-align: center;
-    padding: 40px;
-    background: rgba(30, 30, 60, 0.6);
-    border-radius: 10px;
-    border: 1px solid rgba(147, 112, 219, 0.3);
-}
-
-body.public-profile-page .no-messages, 
-body.public-profile-page .no-characters {
-    text-align: center;
-    color: #9370DB;
-    padding: 40px;
-}
-
-/* Message Navigation */
-body.public-profile-page .message-navigation {
+/* Message Navigation Section */
+.content-section .message-navigation {
     margin: 30px 0;
     padding: 30px;
     background: linear-gradient(135deg, rgba(147, 112, 219, 0.15), rgba(138, 43, 226, 0.15));
@@ -5662,363 +5175,118 @@ body.public-profile-page .message-navigation {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-body.public-profile-page .message-nav-title {
+.content-section .message-nav-title {
     color: #e6d7f0;
     font-size: 1.5rem;
     margin-bottom: 20px;
     text-align: center;
 }
 
-body.public-profile-page .message-nav-buttons {
+.content-section .message-nav-buttons {
     display: flex;
     gap: 20px;
     justify-content: center;
 }
 
-body.public-profile-page .message-navigation .btn {
-    padding: 12px 30px;
-    font-size: 1.1rem;
+/* Character Cards */
+.content-section .characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.content-section .character-card {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.content-section .character-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Wall Messages */
+.content-section .wall-post-form {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+.content-section .wall-message {
+    background: rgba(30, 30, 60, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(147, 112, 219, 0.3);
+}
+
+.content-section .message-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    body.public-profile-page .public-profile-container {
-        padding: 30px 20px;
-        border-radius: 20px;
-    }
-    
-    body.public-profile-page .message-nav-buttons {
-        flex-direction: column;
-    }
-    
-    body.public-profile-page .message-navigation .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-/* Messages Pages Styling */
-body.messages-page {
-    background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 100%);
-    min-height: 100vh;
-}
-
-body.messages-page .messages-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-body.messages-page .card {
-    background: rgba(26, 26, 58, 0.95);
-    border: 1px solid #6366f1;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    width: 100%;
-}
-
-body.messages-page .card-header {
-    background: linear-gradient(135deg, #2a2a5a 0%, #3a3a6a 100%);
-    border-bottom: 2px solid #6366f1;
-    padding: 20px;
-    border-radius: 15px 15px 0 0;
-}
-
-body.messages-page .card-header h2 {
-    color: #9370db;
-    text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
-    font-weight: 600;
-    margin: 0;
-}
-
-body.messages-page .card-body {
-    padding: 25px;
-}
-
-body.messages-page .table {
-    color: #e0e0e0;
-}
-
-body.messages-page .table thead th {
-    color: #9370db;
-    border-bottom: 2px solid #6366f1;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-}
-
-body.messages-page .table tbody td {
-    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
-    padding: 15px 10px;
-}
-
-body.messages-page .table tbody tr:hover {
-    background: rgba(99, 102, 241, 0.1);
-}
-
-body.messages-page .table tbody tr.font-weight-bold td {
-    color: #ffd700;
-    font-weight: 600;
-}
-
-body.messages-page .btn-primary {
-    background: linear-gradient(135deg, #9370db 0%, #6366f1 100%);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-body.messages-page .btn-primary:hover {
-    background: linear-gradient(135deg, #a680ec 0%, #7376f1 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
-}
-
-body.messages-page .btn-secondary {
-    background: rgba(99, 102, 241, 0.2);
-    border: 1px solid #6366f1;
-    color: #9370db;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-body.messages-page .btn-secondary:hover {
-    background: rgba(99, 102, 241, 0.3);
-    border-color: #9370db;
-    color: #a680ec;
-}
-
-body.messages-page .btn-danger {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-body.messages-page .btn-danger:hover {
-    background: linear-gradient(135deg, #e74a5a 0%, #d32535 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
-}
-
-body.messages-page .form-control {
-    background: rgba(26, 26, 58, 0.9);
-    border: 1px solid #6366f1;
-    color: #e0e0e0;
-    border-radius: 8px;
-    padding: 12px 15px;
-    transition: all 0.3s ease;
-}
-
-body.messages-page .form-control:focus {
-    background: rgba(26, 26, 58, 1);
-    border-color: #9370db;
-    box-shadow: 0 0 0 0.2rem rgba(147, 112, 219, 0.25);
-    color: #fff;
-}
-
-body.messages-page .form-control option {
-    background: #1a1a3a;
-    color: #e0e0e0;
-}
-
-body.messages-page label {
-    color: #9370db;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-body.messages-page .text-muted {
-    color: #8a8aa8 !important;
-}
-
-body.messages-page .invalid-feedback {
-    color: #ff6b6b;
-}
-
-body.messages-page .message-content {
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    border-radius: 10px;
-    padding: 20px;
-    color: #e0e0e0;
-    line-height: 1.6;
-}
-
-body.messages-page .bg-light {
-    background: rgba(99, 102, 241, 0.1) !important;
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    border-radius: 10px;
-}
-
-body.messages-page .pagination {
-    margin-top: 20px;
-}
-
-body.messages-page .page-link {
-    background: rgba(99, 102, 241, 0.2);
-    border: 1px solid #6366f1;
-    color: #9370db;
-    margin: 0 2px;
-    border-radius: 5px;
-}
-
-body.messages-page .page-link:hover {
-    background: rgba(99, 102, 241, 0.3);
-    border-color: #9370db;
-    color: #a680ec;
-}
-
-body.messages-page .page-item.active .page-link {
-    background: linear-gradient(135deg, #9370db 0%, #6366f1 100%);
-    border-color: #9370db;
-    color: white;
-}
-
-body.messages-page .page-item.disabled .page-link {
-    background: rgba(99, 102, 241, 0.1);
-    border-color: rgba(99, 102, 241, 0.3);
-    color: #666;
-}
-
-/* Messages Page Tab Navigation */
-body.messages-page .nav-tabs {
-    border-bottom: 2px solid #6366f1;
-    margin-bottom: 0;
-}
-
-body.messages-page .nav-tabs .nav-link {
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid transparent;
-    border-bottom: none;
-    color: #9370db;
-    padding: 12px 20px;
-    margin-right: 5px;
-    border-radius: 10px 10px 0 0;
-    transition: all 0.3s ease;
-    font-weight: 600;
-}
-
-body.messages-page .nav-tabs .nav-link:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: #6366f1 #6366f1 transparent #6366f1;
-}
-
-body.messages-page .nav-tabs .nav-link.active {
-    background: rgba(26, 26, 58, 0.95);
-    border-color: #6366f1 #6366f1 transparent #6366f1;
-    color: #ffd700;
-    position: relative;
-    bottom: -2px;
-}
-
-body.messages-page .nav-tabs .nav-link .badge {
-    background: #ffd700;
-    color: #1a1a3a;
-    margin-left: 5px;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-}
-
-body.messages-page .tab-content {
-    background: rgba(26, 26, 58, 0.95);
-    border: 2px solid #6366f1;
-    border-top: none;
-    padding: 25px;
-    border-radius: 0 0 15px 15px;
-}
-
-/* Modal Styling */
-body.messages-page .modal-content {
-    background: rgba(26, 26, 58, 0.98);
-    border: 2px solid #6366f1;
-    border-radius: 15px;
-}
-
-body.messages-page .modal-header {
-    background: linear-gradient(135deg, #2a2a5a 0%, #3a3a6a 100%);
-    border-bottom: 2px solid #6366f1;
-    border-radius: 13px 13px 0 0;
-}
-
-body.messages-page .modal-title {
-    color: #9370db;
-    font-weight: 600;
-}
-
-body.messages-page .modal-header .close {
-    color: #9370db;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
-
-body.messages-page .modal-header .close:hover {
-    opacity: 1;
-}
-
-body.messages-page .modal-body {
-    padding: 25px;
-}
-
-body.messages-page .modal-footer {
-    border-top: 1px solid #6366f1;
-    padding: 15px 25px;
-}
-
-body.messages-page .message-details .row {
     margin-bottom: 15px;
 }
 
-body.messages-page .message-details .font-weight-bold {
-    color: #9370db;
+.content-section .message-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-/* Bootstrap Override for Messages Page */
-body.messages-page .modal .container {
-    max-width: 100%;
+.content-section .author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(30, 30, 60, 0.95);
+    border: 2px solid #9370DB;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-body.messages-page .btn:focus,
-body.messages-page .btn:active {
-    outline: none !important;
-    box-shadow: none !important;
+.content-section .author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-body.messages-page .table td,
-body.messages-page .table th {
-    vertical-align: middle;
+.content-section .author-avatar i {
+    font-size: 20px;
+    color: #9370DB;
 }
 
-body.messages-page .btn-sm {
-    padding: 5px 10px;
-    font-size: 0.875rem;
+.content-section .author-name {
+    color: #9370DB;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-body.messages-page .modal-backdrop {
-    background-color: rgba(0, 0, 0, 0.8);
+.content-section .author-name:hover {
+    text-decoration: underline;
 }
 
-/* Messages page Bootstrap overrides - only applies when Bootstrap is loaded */
-body.messages-page .nav-tabs {
-    background: none;
+.content-section .message-time {
+    color: #9370DB;
+    font-size: 0.9rem;
 }
 
-body.messages-page .modal-dialog {
-    margin-top: 100px;
+.content-section .message-content {
+    color: #e6d7f0;
+    line-height: 1.6;
 }
 
+/* Unread Badge */
+.content-section .unread-badge {
+    background: #dc3545;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
