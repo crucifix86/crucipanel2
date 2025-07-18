@@ -73,7 +73,7 @@
                             <a href="{{ route('app.dashboard') }}" class="user-link">{{ __('site.user_menu.my_dashboard') }}</a>
                             @endif
                             <a href="{{ route('profile.show') }}" class="user-link">{{ __('site.user_menu.settings') }}</a>
-                            <a href="{{ route('profile.show', Auth::user()->name) }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
+                            <a href="{{ route('public.profile', Auth::user()->name) }}" class="user-link">{{ __('site.user_menu.my_profile') }}</a>
                             @if(Auth::user()->isAdministrator())
                             <a href="{{ route('admin.dashboard') }}" class="user-link">{{ __('site.user_menu.admin_panel') }}</a>
                             @endif

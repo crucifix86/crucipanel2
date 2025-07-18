@@ -153,7 +153,7 @@
                                         <i class="fas fa-user"></i>
                                     @endif
                                 </div>
-                                <a href="{{ route('profile.show', $message->sender->name) }}" class="author-name">
+                                <a href="{{ route('public.profile', $message->sender->name) }}" class="author-name">
                                     {{ $message->sender->truename ?? $message->sender->name }}
                                 </a>
                             </div>
