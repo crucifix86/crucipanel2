@@ -75,7 +75,8 @@
                 <div class="form-group">
                     <label for="captcha">Verification Code</label>
                     <div class="captcha-wrapper">
-                        @captcha
+                        <span id="captcha-container">{!! captcha_img() !!}</span>
+                        <a href="javascript:void(0)" onclick="refreshCaptcha()" style="margin-left: 10px; color: #9370db;">🔄</a>
                     </div>
                     <input type="text" id="captcha" name="captcha" placeholder="{{ __('captcha.enter_code') }}" required>
                     <div class="input-icon">🛡️</div>
@@ -198,6 +199,13 @@
 
     // Initialize particles
     createParticles();
+
+    // Refresh captcha function
+    function refreshCaptcha() {
+        const container = document.getElementById('captcha-container');
+        const timestamp = new Date().getTime();
+        container.innerHTML = '<img src="/captcha/default?' + timestamp + '" alt="captcha">';
+    }
 
     // Add portal expansion animation
     const portalStyle = document.createElement('style');

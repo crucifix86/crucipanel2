@@ -49,6 +49,11 @@ class EnsurePreLogin
             return $next($request);
         }
 
+        // Skip for captcha routes
+        if (str_starts_with($request->path(), 'captcha/')) {
+            return $next($request);
+        }
+
         // Skip if accessing one of the allowed routes
         if ($request->route() && in_array($request->route()->getName(), $skipRoutes)) {
             return $next($request);

@@ -5181,11 +5181,18 @@ body.reset-password-page .floating-particles {
 .captcha-wrapper {
     margin-bottom: 10px;
     text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .captcha-wrapper img {
     border-radius: 8px;
     border: 2px solid rgba(147, 112, 219, 0.5);
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+    display: inline-block;
 }
 
 /* Form Section (for PIN in reset) */

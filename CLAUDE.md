@@ -185,6 +185,21 @@ The private messaging system is now fully implemented and operational with the f
 - Rewards automatically applied when message is read
 - System can be enabled/disabled from admin panel
 
+## SMALL TWEAKS AND ENHANCEMENTS (v2.1.527+)
+
+### Completed Enhancements:
+1. ✅ **Pre-Login Captcha** (v2.1.527) - Added captcha support to the pre-login page (auth page before entering site)
+   - Shows when captcha is enabled in admin settings
+   - Appears after PIN field with shield icon
+   - Backend validation was already present, just needed frontend field
+
+### Notes on Current State:
+- We are now in the "small tweaks" stage of development
+- Core features are complete and working
+- Focus is on minor improvements and polish
+- All messaging features fully operational
+- Authentication system properly handles manual user IDs
+
 ## CRITICAL PUBLIC PROFILE ISSUES (v2.1.473)
 
 ### THE PROBLEMS:
