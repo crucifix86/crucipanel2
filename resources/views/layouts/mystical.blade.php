@@ -243,10 +243,6 @@
                 @endif
                 
                 <a href="{{ route('public.members') }}" class="nav-link {{ Route::is('public.members') ? 'active' : '' }}">{{ __('site.nav.members') }}</a>
-                
-                @if(Auth::check())
-                    <a href="{{ route('faction-icons.index') }}" class="nav-link {{ Route::is('faction-icons.*') ? 'active' : '' }}">{{ __('Faction Icons') }}</a>
-                @endif
             </div>
         </nav>
 

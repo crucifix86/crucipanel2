@@ -122,6 +122,31 @@
                 </div>
             @endif
             
+            @php
+                $factionIconSettings = \App\Models\FactionIconSetting::getSettings();
+            @endphp
+            
+            @if($factionIconSettings->enabled)
+                <div class="profile-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div class="section-info">
+                            <h3 class="section-title">{{ __('Faction Icons') }}</h3>
+                            <p class="section-description">{{ __('Upload custom icons for your factions') }}</p>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="text-center">
+                            <a href="{{ route('faction-icons.index') }}" class="btn btn-primary">
+                                <i class="fas fa-upload"></i> {{ __('Manage Faction Icons') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="profile-section">
                     <div class="section-header">
