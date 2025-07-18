@@ -26,6 +26,8 @@ return [
     'user_menu' => [
         'my_dashboard' => 'My Dashboard',
         'my_profile' => 'My Profile',
+        'settings' => 'Settings',
+        'messages' => 'Messages',
         'admin_panel' => 'Admin Panel',
         'gm_panel' => 'GM Panel',
     ],
@@ -43,6 +45,11 @@ return [
     
     // Language
     'language' => 'Language',
+    
+    // Widgets
+    'widgets' => [
+        'messages' => 'Messages',
+    ],
     
     // Visit Reward
     'visit_reward' => [

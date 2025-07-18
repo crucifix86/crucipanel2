@@ -30,17 +30,6 @@
             </div>
         </div>
 
-        <!-- Message Navigation for User's Own Profile -->
-        @if(Auth::check() && Auth::id() === $user->ID)
-        <div class="message-navigation">
-            <h3 class="message-nav-title"><i class="fas fa-envelope"></i> {{ __('messages.my_messages') }}</h3>
-            <div class="message-nav-buttons">
-                <a href="{{ route('messages.index') }}" class="btn btn-primary">
-                    <i class="fas fa-envelope"></i> {{ __('messages.my_messages') }}
-                </a>
-            </div>
-        </div>
-        @endif
 
         <!-- Tabs Navigation -->
         <div class="profile-tabs-nav">

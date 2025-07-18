@@ -368,10 +368,64 @@ body.popup-open {
     font-size: 0.9rem;
 }
 
+/* Messages Widget */
+.messages-widget {
+    position: fixed;
+    top: 110px;
+    left: 20px;
+    z-index: 100;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(147, 112, 219, 0.4);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.messages-widget:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    border-color: rgba(147, 112, 219, 0.6);
+}
+
+.messages-widget .messages-link {
+    display: block;
+    padding: 12px 20px;
+    color: #e6d7f0;
+    text-decoration: none;
+}
+
+.messages-widget .widget-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.messages-widget .widget-header i {
+    font-size: 1.2rem;
+    color: #9370DB;
+}
+
+.messages-widget .unread-count {
+    background: #dc3545;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: auto;
+    animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
 /* Login Box Widget */
 .login-box-wrapper {
     position: fixed;
-    top: 100px;
+    top: 170px;
     left: 20px;
     z-index: 100;
     width: 220px;
@@ -540,10 +594,21 @@ body.popup-open {
     transform: translateY(-2px);
 }
 
+.user-link .unread-badge {
+    background: #dc3545;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-left: 5px;
+    display: inline-block;
+}
+
 /* Visit Reward Widget */
 .visit-reward-wrapper {
     position: fixed;
-    top: 420px;
+    top: 480px;
     left: 20px;
     z-index: 100;
     width: 220px;
@@ -897,7 +962,8 @@ body.popup-open {
     }
     
     .login-box-wrapper,
-    .visit-reward-wrapper {
+    .visit-reward-wrapper,
+    .messages-widget {
         position: fixed;
         left: 10px;
         right: 10px;
@@ -905,8 +971,12 @@ body.popup-open {
         max-width: 300px;
     }
     
+    .messages-widget {
+        top: 70px;
+    }
+    
     .login-box-wrapper {
-        top: 90px;
+        top: 120px;
     }
     
     .footer-container {
