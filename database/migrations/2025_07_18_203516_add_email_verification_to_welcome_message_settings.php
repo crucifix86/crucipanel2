@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('welcome_message_settings', function (Blueprint $table) {
             if (!Schema::hasColumn('welcome_message_settings', 'email_verification_enabled')) {
-                $table->boolean('email_verification_enabled')->default(true)->after('reward_amount');
+                $table->boolean('email_verification_enabled')->default(false)->after('reward_amount');
             }
         });
     }

@@ -19,7 +19,7 @@ class WelcomeMessageController extends Controller
                 'reward_enabled' => true,
                 'reward_type' => 'virtual',
                 'reward_amount' => 1000,
-                'email_verification_enabled' => true,
+                'email_verification_enabled' => false,
             ]
         );
         return view('admin.welcome-message.index', compact('settings'));
