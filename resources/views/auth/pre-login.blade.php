@@ -51,6 +51,17 @@
                 <div class="input-icon">🔐</div>
             </div>
             
+            @if( config('pw-config.system.apps.captcha') )
+                <div class="form-group">
+                    <label for="captcha">{{ __('auth.verification') }}</label>
+                    <div class="captcha-wrapper">
+                        @captcha
+                    </div>
+                    <input type="text" id="captcha" name="captcha" placeholder="{{ __('captcha.enter_code') }}" required>
+                    <div class="input-icon">🛡️</div>
+                </div>
+            @endif
+            
             <div class="form-options">
                 <label class="remember-me">
                     <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
