@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\API;
 use App\Models\Faction;
 use App\Models\FactionIcon;
 use App\Models\FactionIconSetting;
@@ -29,15 +30,14 @@ class FactionIconController extends Controller
         
         $user = Auth::user();
         
+        // Get user's characters via API
+        $characters = $user->roles();
+        $characterIds = array_column($characters, 'id');
+        
         // Get all factions where user is a master
         $factions = DB::table('pwp_factions')
             ->select('id', 'name', 'master', 'members')
-            ->where('master', function($query) use ($user) {
-                $query->select('id')
-                    ->from('pwp_players')
-                    ->where('user', $user->ID)
-                    ->whereColumn('pwp_factions.master', 'pwp_players.id');
-            })
+            ->whereIn('master', $characterIds)
             ->get();
             
         // Get existing icon submissions
@@ -74,15 +74,14 @@ class FactionIconController extends Controller
         $user = Auth::user();
         $factionId = $request->faction_id;
         
+        // Get user's characters via API
+        $characters = $user->roles();
+        $characterIds = array_column($characters, 'id');
+        
         // Verify user is faction master
         $isMaster = DB::table('pwp_factions')
             ->where('id', $factionId)
-            ->where('master', function($query) use ($user) {
-                $query->select('id')
-                    ->from('pwp_players')
-                    ->where('user', $user->ID)
-                    ->whereColumn('pwp_factions.master', 'pwp_players.id');
-            })
+            ->whereIn('master', $characterIds)
             ->exists();
             
         if (!$isMaster) {
@@ -160,10 +159,17 @@ class FactionIconController extends Controller
         }
         
         if ($factionIcon->cost_gold > 0) {
-            // Get faction master character
-            $masterCharacter = Player::where('user', $user->ID)
-                ->whereColumn('id', DB::raw("(SELECT master FROM pwp_factions WHERE id = {$factionIcon->faction_id})"))
+            // Get the faction to find the master character ID
+            $faction = DB::table('pwp_factions')
+                ->where('id', $factionIcon->faction_id)
                 ->first();
+                
+            if ($faction) {
+                // Get master character from players table
+                $masterCharacter = Player::where('id', $faction->master)->first();
+            } else {
+                $masterCharacter = null;
+            }
                 
             if ($masterCharacter) {
                 $hasGold = $masterCharacter->money >= $factionIcon->cost_gold;
@@ -183,9 +189,17 @@ class FactionIconController extends Controller
             }
             
             if ($factionIcon->cost_gold > 0) {
-                $masterCharacter = Player::where('user', $user->ID)
-                    ->whereColumn('id', DB::raw("(SELECT master FROM pwp_factions WHERE id = {$factionIcon->faction_id})"))
+                // Get the faction to find the master character ID
+                $faction = DB::table('pwp_factions')
+                    ->where('id', $factionIcon->faction_id)
                     ->first();
+                    
+                if ($faction) {
+                    // Get master character from players table
+                    $masterCharacter = Player::where('id', $faction->master)->first();
+                } else {
+                    $masterCharacter = null;
+                }
                     
                 if ($masterCharacter) {
                     $masterCharacter->decrement('money', $factionIcon->cost_gold);
