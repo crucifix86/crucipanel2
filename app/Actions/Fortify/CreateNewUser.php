@@ -71,12 +71,7 @@ class CreateNewUser implements CreatesNewUsers
             
             // Send welcome message after user creation
             if ($user) {
-                // Find the user by email to ensure we have the correct ID
-                $createdUser = User::where('email', $input['email'])->first();
-                if ($createdUser) {
-                    \Log::info('User created with ID: ' . $createdUser->ID . ', sending welcome message');
-                    $this->sendWelcomeMessage($createdUser);
-                }
+                $this->sendWelcomeMessage($user);
             }
             
             return $user;
@@ -116,12 +111,7 @@ class CreateNewUser implements CreatesNewUsers
             
             // Send welcome message after user creation
             if ($user) {
-                // Find the user by email to ensure we have the correct ID
-                $createdUser = User::where('email', $input['email'])->first();
-                if ($createdUser) {
-                    \Log::info('User created with ID: ' . $createdUser->ID . ', sending welcome message');
-                    $this->sendWelcomeMessage($createdUser);
-                }
+                $this->sendWelcomeMessage($user);
             }
             
             return $user;
@@ -133,23 +123,14 @@ class CreateNewUser implements CreatesNewUsers
      */
     private function sendWelcomeMessage(User $user)
     {
-        \Log::info('Attempting to send welcome message to user ID: ' . $user->ID);
-        
         $settings = WelcomeMessageSetting::first();
         
-        if (!$settings) {
-            \Log::info('No welcome message settings found');
-            return;
-        }
-        
-        if (!$settings->enabled) {
-            \Log::info('Welcome messages are disabled');
+        if (!$settings || !$settings->enabled) {
             return;
         }
         
         // Ensure we have a valid user ID
         if (!$user->ID) {
-            \Log::error('User ID is null or empty');
             return;
         }
         
@@ -157,7 +138,7 @@ class CreateNewUser implements CreatesNewUsers
         $systemUserId = 1024; // Default admin ID
         
         try {
-            $message = Message::create([
+            Message::create([
                 'sender_id' => $systemUserId,
                 'recipient_id' => $user->ID,
                 'subject' => $settings->subject,
@@ -167,19 +148,8 @@ class CreateNewUser implements CreatesNewUsers
                 'deleted_by_sender' => false,
                 'deleted_by_recipient' => false,
             ]);
-            \Log::info('Welcome message created successfully with ID: ' . $message->id);
-            
-            // Verify the message can be found
-            $check = Message::where('recipient_id', $user->ID)->where('is_welcome_message', true)->first();
-            if ($check) {
-                \Log::info('Verified: Message can be retrieved for user ' . $user->ID);
-            } else {
-                \Log::error('ERROR: Cannot retrieve message for user ' . $user->ID);
-            }
         } catch (\Exception $e) {
-            // Log the error but don't fail user registration
-            \Log::error('Failed to send welcome message: ' . $e->getMessage());
-            \Log::error('Exception trace: ' . $e->getTraceAsString());
+            // Silently fail - don't block user registration
         }
     }
 }

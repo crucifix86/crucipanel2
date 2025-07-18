@@ -28,16 +28,11 @@ class MessagesController extends Controller
             return redirect()->route('HOME')->with('error', __('messages.messaging_disabled'));
         }
         
-        \Log::info('Messages index accessed by user ID: ' . Auth::user()->ID);
-        \Log::info('User primary key check - Auth::id(): ' . Auth::id() . ', Auth::user()->ID: ' . Auth::user()->ID);
-
         $inbox = Auth::user()->receivedMessages()
             ->where('deleted_by_recipient', false)
             ->with('sender')
             ->orderBy('created_at', 'desc')
             ->paginate(20, ['*'], 'inbox_page');
-            
-        \Log::info('Inbox message count: ' . $inbox->total());
 
         $outbox = Auth::user()->sentMessages()
             ->where('deleted_by_sender', false)
