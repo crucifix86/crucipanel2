@@ -5929,4 +5929,37 @@ body.messages-page .message-details .row {
 
 body.messages-page .message-details .font-weight-bold {
     color: #9370db;
+}/* Bootstrap Override for Messages Page */
+body.messages-page .container {
+    max-width: 1200px;
+}
+
+body.messages-page .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+body.messages-page .col-md-12 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+body.messages-page .btn:focus,
+body.messages-page .btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+body.messages-page .table td,
+body.messages-page .table th {
+    vertical-align: middle;
+}
+
+body.messages-page .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+body.messages-page .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
 }
