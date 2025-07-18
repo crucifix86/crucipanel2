@@ -5946,17 +5946,17 @@ body.messages-page .btn-sm {
 
 body.messages-page .modal-backdrop {
     background-color: rgba(0, 0, 0, 0.8);
-}/* Bootstrap Conflict Fixes for Mystical Theme */
-/* Fix dropdown double arrows */
-.dropdown-toggle::after {
+/* Bootstrap Conflict Fixes for Mystical Theme */
+/* Fix dropdown double arrows - but not for nav-dropdown */
+.dropdown-toggle:not(.nav-dropdown .dropdown-toggle)::after {
     display: none !important;
 }
 
-.nav-link.dropdown-toggle {
+.nav-link.dropdown-toggle:not(.nav-dropdown .dropdown-toggle) {
     position: relative;
 }
 
-.nav-link.dropdown-toggle:after {
+.nav-link.dropdown-toggle:not(.nav-dropdown .dropdown-toggle):after {
     content: '▼' !important;
     display: inline-block !important;
     margin-left: 5px;
@@ -5964,8 +5964,19 @@ body.messages-page .modal-backdrop {
     vertical-align: middle;
 }
 
-/* Fix dropdown menu styling */
-.dropdown-menu {
+/* Keep nav-dropdown arrow functionality */
+.nav-dropdown .dropdown-arrow {
+    display: inline-block;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.nav-dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+/* Fix dropdown menu styling - but not for nav-dropdown */
+.dropdown-menu:not(.nav-dropdown .dropdown-menu) {
     background: rgba(26, 26, 58, 0.98) !important;
     border: 2px solid #6366f1 !important;
     border-radius: 10px !important;
@@ -5973,23 +5984,69 @@ body.messages-page .modal-backdrop {
     padding: 10px 0 !important;
 }
 
-.dropdown-item {
+/* Restore nav-dropdown functionality */
+.nav-dropdown .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26, 26, 58, 0.98);
+    border: 2px solid #6366f1;
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 200px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.nav-dropdown.active .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.dropdown-item:not(.nav-dropdown .dropdown-item) {
     color: #e0e0e0 !important;
     padding: 10px 20px !important;
     transition: all 0.3s ease !important;
     background: transparent !important;
 }
 
-.dropdown-item:hover {
+.dropdown-item:not(.nav-dropdown .dropdown-item):hover {
     background: rgba(99, 102, 241, 0.2) !important;
     color: #9370db !important;
     text-decoration: none !important;
 }
 
-.dropdown-item:focus,
-.dropdown-item:active {
+.dropdown-item:not(.nav-dropdown .dropdown-item):focus,
+.dropdown-item:not(.nav-dropdown .dropdown-item):active {
     background: rgba(99, 102, 241, 0.3) !important;
     color: #a680ec !important;
+}
+
+/* Nav dropdown specific item styling */
+.nav-dropdown .dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.nav-dropdown .dropdown-item:hover {
+    background: rgba(99, 102, 241, 0.2);
+    color: #9370db;
+    transform: translateX(5px);
+}
+
+.nav-dropdown .dropdown-item:last-child {
+    margin-bottom: 0;
 }
 
 /* Fix white backgrounds on form sections */
