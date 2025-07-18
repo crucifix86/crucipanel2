@@ -5,7 +5,9 @@
             <h1 class="text-2xl font-semibold">Mass Message</h1>
         </div>
     </x-slot>
-<div class="container mx-auto px-4 py-6">
+    
+    <x-slot name="content">
+        <div class="container mx-auto px-4 py-6">
 
     @if (session('success'))
         <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
@@ -106,4 +108,5 @@
         }
     });
 </script>
+    </x-slot>
 </x-hrace009.layouts.admin>
