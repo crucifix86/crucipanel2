@@ -45,6 +45,13 @@ class User extends Authenticatable
      * @var string
      */
     protected $primaryKey = 'ID';
+    
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
 
     /**
