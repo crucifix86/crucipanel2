@@ -4638,6 +4638,7 @@ body.reset-password-page {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 /* Mystical Background */
@@ -4764,36 +4765,40 @@ body.reset-password-page .floating-particles {
     backdrop-filter: blur(25px);
     border: 2px solid rgba(147, 112, 219, 0.4);
     border-radius: 25px;
-    padding: 50px 40px;
+    padding: 30px 25px;
     width: 450px;
     max-width: 90vw;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     box-shadow: 
         0 25px 80px rgba(0, 0, 0, 0.6),
         inset 0 1px 0 rgba(147, 112, 219, 0.3);
     position: relative;
-    overflow: hidden;
+}
+
+/* Custom scrollbar for all auth containers */
+.auth-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.auth-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.auth-container::-webkit-scrollbar-thumb {
+    background: rgba(147, 112, 219, 0.6);
+    border-radius: 3px;
+}
+
+.auth-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(147, 112, 219, 0.8);
 }
 
 /* Register container is larger */
 .auth-container.register-container {
     width: 500px;
-    padding: 40px 35px;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.auth-container.register-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.auth-container.register-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-}
-
-.auth-container.register-container::-webkit-scrollbar-thumb {
-    background: rgba(147, 112, 219, 0.5);
-    border-radius: 4px;
 }
 
 /* Shimmer Background Effect */
@@ -4837,7 +4842,7 @@ body.reset-password-page .floating-particles {
 /* Auth Header */
 .auth-header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     position: relative;
     z-index: 1;
 }
@@ -4871,7 +4876,7 @@ body.reset-password-page .floating-particles {
 
 /* Form Groups */
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 18px;
     position: relative;
 }
 
