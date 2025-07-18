@@ -23,6 +23,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Features;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\DB;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -55,19 +56,28 @@ class CreateNewUser implements CreatesNewUsers
             }
 
 
-            $user = User::create([
-                'ID' => (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024,
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'phonenumber' => null,
-                'passwd' => Hash::make($input['name'] . $input['password']),
-                'passwd2' => Hash::make($input['name'] . $input['password']),
-                'answer' => config('app.debug') ? $input['password'] : '',
-                'truename' => null,
-                'creatime' => Carbon::now(),
-            ]);
-            
-            $this->sendWelcomeMessage($user);
+            $user = DB::transaction(function () use ($input) {
+                $userId = (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024;
+                
+                $user = User::create([
+                    'ID' => $userId,
+                    'name' => $input['name'],
+                    'email' => $input['email'],
+                    'phonenumber' => null,
+                    'passwd' => Hash::make($input['name'] . $input['password']),
+                    'passwd2' => Hash::make($input['name'] . $input['password']),
+                    'answer' => config('app.debug') ? $input['password'] : '',
+                    'truename' => null,
+                    'creatime' => Carbon::now(),
+                ]);
+                
+                // Send welcome message within the same transaction
+                if ($user && $user->ID) {
+                    $this->sendWelcomeMessage($user);
+                }
+                
+                return $user;
+            });
             
             return $user;
         } else {
@@ -89,20 +99,29 @@ class CreateNewUser implements CreatesNewUsers
                     'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
                 ])->validate();
             }
-            $user = User::create([
-                'ID' => (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024,
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'phonenumber' => null,
-                'passwd' => Hash::make($input['name'] . $input['password']),
-                'passwd2' => Hash::make($input['name'] . $input['password']),
-                'answer' => config('app.debug') ? $input['password'] : '',
-                'qq' => $input['pin'],
-                'truename' => null,
-                'creatime' => Carbon::now(),
-            ]);
-            
-            $this->sendWelcomeMessage($user);
+            $user = DB::transaction(function () use ($input) {
+                $userId = (User::all()->count() > 0) ? User::orderBy('ID', 'desc')->first()->ID + 16 : 1024;
+                
+                $user = User::create([
+                    'ID' => $userId,
+                    'name' => $input['name'],
+                    'email' => $input['email'],
+                    'phonenumber' => null,
+                    'passwd' => Hash::make($input['name'] . $input['password']),
+                    'passwd2' => Hash::make($input['name'] . $input['password']),
+                    'answer' => config('app.debug') ? $input['password'] : '',
+                    'qq' => $input['pin'],
+                    'truename' => null,
+                    'creatime' => Carbon::now(),
+                ]);
+                
+                // Send welcome message within the same transaction
+                if ($user && $user->ID) {
+                    $this->sendWelcomeMessage($user);
+                }
+                
+                return $user;
+            });
             
             return $user;
         }
@@ -119,16 +138,26 @@ class CreateNewUser implements CreatesNewUsers
             return;
         }
         
-        // Get system user ID (admin)
-        $systemUserId = 1024; // Default admin ID, you might want to make this configurable
+        // Ensure we have a valid user ID
+        if (!$user->ID) {
+            return;
+        }
         
-        Message::create([
-            'sender_id' => $systemUserId,
-            'recipient_id' => $user->ID,
-            'subject' => $settings->subject,
-            'message' => $settings->message,
-            'is_read' => false,
-            'is_welcome_message' => true,
-        ]);
+        // Get system user ID (admin)
+        $systemUserId = 1024; // Default admin ID
+        
+        try {
+            Message::create([
+                'sender_id' => $systemUserId,
+                'recipient_id' => $user->ID,
+                'subject' => $settings->subject,
+                'message' => $settings->message,
+                'is_read' => false,
+                'is_welcome_message' => true,
+            ]);
+        } catch (\Exception $e) {
+            // Log the error but don't fail user registration
+            \Log::error('Failed to send welcome message: ' . $e->getMessage());
+        }
     }
 }
