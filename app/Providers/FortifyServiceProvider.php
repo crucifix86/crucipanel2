@@ -123,9 +123,7 @@ class FortifyServiceProvider extends ServiceProvider
             'password' => $this->LoginPagePasswordRules(),
         ];
 
-        if (config('pw-config.system.apps.captcha')) {
-            $rules['captcha'] = $this->captchaRules();
-        }
+        // Captcha validation is now handled by ValidateSliderCaptcha middleware
 
         // Only validate PIN if it's provided (we'll check if it's required during authentication)
         if ($request->has('pin') && $request->pin) {

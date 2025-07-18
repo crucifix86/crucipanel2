@@ -1012,6 +1012,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], static fun
         ->middleware(array_filter([
             'guest:' . config('fortify.guard'),
             $limiter ? 'throttle:' . $limiter : null,
+            'slider.captcha',
         ]));
 
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
@@ -1030,11 +1031,11 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], static fun
         }
 
         Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-            ->middleware(['guest:' . config('fortify.guard')])
+            ->middleware(['guest:' . config('fortify.guard'), 'slider.captcha'])
             ->name('password.email');
 
         Route::post('/reset-password', [NewPasswordController::class, 'store'])
-            ->middleware(['guest:' . config('fortify.guard')])
+            ->middleware(['guest:' . config('fortify.guard'), 'slider.captcha'])
             ->name('password.update');
     }
 
@@ -1047,7 +1048,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], static fun
         }
 
         Route::post('/register', [RegisteredUserController::class, 'store'])
-            ->middleware(['guest:' . config('fortify.guard')]);
+            ->middleware(['guest:' . config('fortify.guard'), 'slider.captcha']);
     }
 
     // Email Verification...
