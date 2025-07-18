@@ -742,6 +742,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'verified', '
         ]);
     });
 
+    /* Mass Message Routes */
+    Route::group(['prefix' => 'mass-message'], static function () {
+        Route::get('/', [
+            'as' => 'admin.mass-message.index',
+            'uses' => 'App\Http\Controllers\Admin\MassMessageController@index'
+        ]);
+        
+        Route::post('send', [
+            'as' => 'admin.mass-message.send',
+            'uses' => 'App\Http\Controllers\Admin\MassMessageController@send'
+        ]);
+    });
+
     Route::group(['prefix' => 'service', 'middleware' => 'service'], static function () {
         Route::get('settings', [
             'as' => 'admin.service.settings',
