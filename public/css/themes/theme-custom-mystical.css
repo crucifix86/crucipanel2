@@ -4700,7 +4700,7 @@ body.reset-password-page .floating-particles {
 /* Dragon Ornaments */
 .dragon-ornament {
     position: absolute;
-    font-size: 12rem;
+    font-size: 8rem;
     opacity: 0.08;
     color: #9370db;
     animation: dragonPulse 5s ease-in-out infinite;
@@ -4727,7 +4727,7 @@ body.reset-password-page .floating-particles {
 /* Phoenix Ornaments for Password Pages */
 .phoenix-ornament {
     position: absolute;
-    font-size: 12rem;
+    font-size: 8rem;
     opacity: 0.08;
     color: #dda0dd;
     animation: phoenixRise 8s ease-in-out infinite;
@@ -4765,35 +4765,14 @@ body.reset-password-page .floating-particles {
     backdrop-filter: blur(25px);
     border: 2px solid rgba(147, 112, 219, 0.4);
     border-radius: 25px;
-    padding: 30px 25px;
+    padding: 25px 30px;
     width: 450px;
     max-width: 90vw;
-    max-height: 85vh;
-    overflow-y: auto;
-    overflow-x: hidden;
     box-shadow: 
         0 25px 80px rgba(0, 0, 0, 0.6),
         inset 0 1px 0 rgba(147, 112, 219, 0.3);
     position: relative;
-}
-
-/* Custom scrollbar for all auth containers */
-.auth-container::-webkit-scrollbar {
-    width: 6px;
-}
-
-.auth-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-}
-
-.auth-container::-webkit-scrollbar-thumb {
-    background: rgba(147, 112, 219, 0.6);
-    border-radius: 3px;
-}
-
-.auth-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(147, 112, 219, 0.8);
+    overflow: hidden;
 }
 
 /* Register container is larger */
@@ -4842,15 +4821,15 @@ body.reset-password-page .floating-particles {
 /* Auth Header */
 .auth-header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     position: relative;
     z-index: 1;
 }
 
 .auth-tagline {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: #dda0dd;
-    margin-bottom: 30px;
+    margin-bottom: 0;
     font-style: italic;
     text-shadow: 0 0 15px rgba(221, 160, 221, 0.5);
     font-weight: 600;
@@ -4876,27 +4855,27 @@ body.reset-password-page .floating-particles {
 
 /* Form Groups */
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     position: relative;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: #dda0dd;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-shadow: 0 0 10px rgba(221, 160, 221, 0.6);
 }
 
 .form-group input {
     width: 100%;
-    padding: 15px 20px;
+    padding: 10px 15px;
     background: rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(147, 112, 219, 0.5);
-    border-radius: 15px;
+    border-radius: 12px;
     color: #e6d7ff;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-family: Arial, sans-serif;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
@@ -4977,7 +4956,7 @@ body.reset-password-page .floating-particles {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 12px;
     position: relative;
     z-index: 1;
 }
@@ -5013,10 +4992,10 @@ body.reset-password-page .floating-particles {
     background-size: 300% 300%;
     color: #ffffff;
     border: none;
-    padding: 18px;
-    font-size: 1.2rem;
+    padding: 12px;
+    font-size: 1.1rem;
     font-weight: 600;
-    border-radius: 15px;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.4s ease;
     position: relative;
