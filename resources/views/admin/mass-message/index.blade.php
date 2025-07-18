@@ -1,10 +1,11 @@
-@extends('layouts.admin')
-
-@section('content')
+@section('title', ' - Mass Message')
+<x-hrace009.layouts.admin>
+    <x-slot name="header">
+        <div class="flex items-center justify-between px-4 py-4 border-b lg:py-6 dark:border-primary-darker">
+            <h1 class="text-2xl font-semibold">Mass Message</h1>
+        </div>
+    </x-slot>
 <div class="container mx-auto px-4 py-6">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Mass Message</h1>
-    </div>
 
     @if (session('success'))
         <div class="bg-green-50 dark:bg-green-900/30 border-2 border-green-500 dark:border-green-400 text-green-900 dark:text-green-100 px-4 py-3 rounded-lg relative mb-4 font-semibold" role="alert">
@@ -105,4 +106,4 @@
         }
     });
 </script>
-@endsection
+</x-hrace009.layouts.admin>
