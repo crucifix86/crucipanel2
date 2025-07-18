@@ -371,7 +371,7 @@ body.popup-open {
 /* Messages Widget */
 .messages-widget {
     position: fixed;
-    top: 20px;
+    top: 80px;
     right: 20px;
     z-index: 100;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(147, 112, 219, 0.2));
@@ -1022,7 +1022,7 @@ body.popup-open {
 /* Language Selector Positioning */
 .language-selector {
     position: fixed;
-    top: 80px;
+    top: 20px;
     right: 20px;
     z-index: 100;
 }
