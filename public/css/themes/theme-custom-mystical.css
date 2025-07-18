@@ -5635,28 +5635,16 @@ body.public-profile-page .message-navigation .btn {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    body.public-profile-page .public-profile-container {
-        padding: 30px 20px;
-        border-radius: 20px;
-    }
-    
-    body.public-profile-page .message-nav-buttons {
-        flex-direction: column;
-    }
-    
-    body.public-profile-page .message-navigation .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-}/* Messages Pages Styling */
+/* Messages Pages Styling */
 body.messages-page {
     background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4a 100%);
     min-height: 100vh;
 }
 
 body.messages-page .container {
-    padding: 20px;
+    padding: 80px 20px 20px 20px;
+    position: relative;
+    z-index: 5;
 }
 
 body.messages-page .card {
@@ -5664,6 +5652,7 @@ body.messages-page .card {
     border: 1px solid #6366f1;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
 }
 
 body.messages-page .card-header {
@@ -5838,7 +5827,9 @@ body.messages-page .page-item.disabled .page-link {
     background: rgba(99, 102, 241, 0.1);
     border-color: rgba(99, 102, 241, 0.3);
     color: #666;
-}/* Messages Page Tab Navigation */
+}
+
+/* Messages Page Tab Navigation */
 body.messages-page .nav-tabs {
     border-bottom: 2px solid #6366f1;
     margin-bottom: 0;
@@ -5929,9 +5920,16 @@ body.messages-page .message-details .row {
 
 body.messages-page .message-details .font-weight-bold {
     color: #9370db;
-}/* Bootstrap Override for Messages Page */
+}
+
+/* Bootstrap Override for Messages Page */
 body.messages-page .container {
     max-width: 1200px;
+}
+
+/* Fix language selector overlap on messages page */
+body.messages-page .language-selector {
+    z-index: 2 !important;
 }
 
 body.messages-page .row {

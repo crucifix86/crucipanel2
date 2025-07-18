@@ -5707,7 +5707,9 @@ body.messages-page {
 }
 
 body.messages-page .container {
-    padding: 20px;
+    padding: 80px 20px 20px 20px;
+    position: relative;
+    z-index: 5;
 }
 
 body.messages-page .card {
@@ -5715,6 +5717,7 @@ body.messages-page .card {
     border: 1px solid #6366f1;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
 }
 
 body.messages-page .card-header {
@@ -5987,6 +5990,11 @@ body.messages-page .message-details .font-weight-bold {
 /* Bootstrap Override for Messages Page */
 body.messages-page .container {
     max-width: 1200px;
+}
+
+/* Fix language selector overlap on messages page */
+body.messages-page .language-selector {
+    z-index: 2 !important;
 }
 
 body.messages-page .row {
