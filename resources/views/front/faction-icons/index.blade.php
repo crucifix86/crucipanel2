@@ -251,15 +251,33 @@
                     }
                 });
                 
-                // Handle form submission
-                $('#uploadForm').submit(function(e) {
+                // Debug: Check if form exists
+                console.log('Upload form found:', $('#uploadForm').length);
+                console.log('Upload button found:', $('#uploadBtn').length);
+                
+                // Use event delegation for dynamically loaded modal content
+                $(document).on('click', '#uploadBtn', function(e) {
                     e.preventDefault();
+                    console.log('Upload button clicked via delegation');
+                    $('#uploadForm').submit();
+                });
+                
+                // Handle form submission with delegation
+                $(document).on('submit', '#uploadForm', function(e) {
+                    e.preventDefault();
+                    console.log('Form submit triggered');
                     
                     var $status = $('#uploadStatus');
                     var $btn = $('#uploadBtn');
                     
                     // Show status
                     $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload process...').show();
+                    
+                    // Fallback: Also show in console
+                    console.log('Status div found:', $status.length);
+                    if ($status.length === 0) {
+                        alert('Status div not found! Upload starting...');
+                    }
                     
                     // Check if file is selected
                     var fileInput = $('#iconFile')[0];
