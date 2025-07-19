@@ -146,7 +146,7 @@
             <form id="uploadForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <div id="uploadStatus" class="alert" style="display: none;"></div>
+                    <div id="uploadStatus" class="alert alert-info" style="min-height: 50px;">Waiting for action...</div>
                     <div class="form-group">
                         <label>{{ __('Faction:') }} <span id="factionName"></span></label>
                         <input type="hidden" name="faction_id" id="factionId">
@@ -251,33 +251,35 @@
                     }
                 });
                 
-                // Debug: Check if form exists
-                console.log('Upload form found:', $('#uploadForm').length);
-                console.log('Upload button found:', $('#uploadBtn').length);
+                // Show initialization status
+                var $status = $('#uploadStatus');
+                if ($status.length) {
+                    $status.html('JavaScript loaded. Form elements: ' + $('#uploadForm').length + ', Button: ' + $('#uploadBtn').length);
+                }
                 
-                // Use event delegation for dynamically loaded modal content
-                $(document).on('click', '#uploadBtn', function(e) {
-                    e.preventDefault();
-                    console.log('Upload button clicked via delegation');
-                    $('#uploadForm').submit();
+                // Show when modal opens
+                $('#uploadModal').on('shown.bs.modal', function() {
+                    $('#uploadStatus').html('Modal opened. Ready for upload.');
                 });
                 
-                // Handle form submission with delegation
+                // Track button click
+                $(document).on('click', '#uploadBtn', function(e) {
+                    e.preventDefault();
+                    $('#uploadStatus').removeClass('alert-success alert-danger').addClass('alert-warning').html('Upload button clicked! Submitting form...');
+                    setTimeout(function() {
+                        $('#uploadForm').submit();
+                    }, 100);
+                });
+                
+                // Handle form submission
                 $(document).on('submit', '#uploadForm', function(e) {
                     e.preventDefault();
-                    console.log('Form submit triggered');
                     
                     var $status = $('#uploadStatus');
                     var $btn = $('#uploadBtn');
                     
                     // Show status
-                    $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload process...').show();
-                    
-                    // Fallback: Also show in console
-                    console.log('Status div found:', $status.length);
-                    if ($status.length === 0) {
-                        alert('Status div not found! Upload starting...');
-                    }
+                    $status.removeClass('alert-success alert-danger alert-warning').addClass('alert-info').html('<strong>Form submitted!</strong> Starting upload process...')
                     
                     // Check if file is selected
                     var fileInput = $('#iconFile')[0];
@@ -356,7 +358,7 @@
                 $('#uploadModal').on('hidden.bs.modal', function() {
                     $('#uploadForm')[0].reset();
                     $('#imagePreview').hide();
-                    $('#uploadStatus').hide().removeClass('alert-success alert-danger alert-info');
+                    $('#uploadStatus').removeClass('alert-success alert-danger alert-warning').addClass('alert-info').html('Waiting for action...');
                 });
             }); // end jQuery ready
             } // end if jQuery
