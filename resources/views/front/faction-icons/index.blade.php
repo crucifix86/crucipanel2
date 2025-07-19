@@ -237,17 +237,35 @@ window.onload = function() {
     }
     
     jQuery(document).ready(function($) {
-        $('#uploadStatus').html('jQuery loaded! Ready to upload.');
+        // Check if hidden input exists
+        var hiddenInput = $('#factionId');
+        if (hiddenInput.length === 0) {
+            $('#uploadStatus').html('ERROR: Hidden faction ID input not found!');
+        } else {
+            $('#uploadStatus').html('jQuery loaded! Hidden input found. Ready to upload.');
+        }
         
         // Handle upload button click
         $('.upload-icon-btn').click(function() {
-            var factionId = $(this).data('faction-id');
-            var factionName = $(this).data('faction-name');
+            var $btn = $(this);
+            var factionId = $btn.attr('data-faction-id');
+            var factionName = $btn.attr('data-faction-name');
             
-            $('#uploadStatus').html('Opening modal for faction: ' + factionName + ' (ID: ' + factionId + ')');
+            // Debug what we got
+            $('#uploadStatus').html('Button clicked. Faction: ' + factionName + ' (ID: ' + factionId + ')');
+            
+            if (!factionId) {
+                $('#uploadStatus').html('ERROR: No faction ID on button! Button HTML: ' + $btn[0].outerHTML);
+                return;
+            }
             
             $('#factionId').val(factionId);
             $('#factionName').text(factionName);
+            
+            // Verify it was set
+            var checkId = $('#factionId').val();
+            $('#uploadStatus').html('Set faction ID to: ' + checkId);
+            
             $('#uploadModal').modal('show');
         });
         
