@@ -247,26 +247,28 @@ window.onload = function() {
             $('#uploadStatus').html('jQuery loaded! Hidden input found. Ready to upload.');
         }
         
-        // Handle upload button click
-        $('.upload-icon-btn').click(function() {
+        // Handle upload button click - use event delegation for dynamic content
+        $(document).on('click', '.upload-icon-btn', function(e) {
+            e.preventDefault();
             var $btn = $(this);
-            var factionId = $btn.attr('data-faction-id');
-            var factionName = $btn.attr('data-faction-name');
+            var factionId = String($btn.attr('data-faction-id') || $btn.data('faction-id') || '');
+            var factionName = String($btn.attr('data-faction-name') || $btn.data('faction-name') || '');
             
             // Debug what we got
             $('#uploadStatus').html('Button clicked. Faction: ' + factionName + ' (ID: ' + factionId + ')');
             
-            if (!factionId) {
-                $('#uploadStatus').html('ERROR: No faction ID on button! Button HTML: ' + $btn[0].outerHTML);
+            if (!factionId || factionId === 'undefined' || factionId === '') {
+                $('#uploadStatus').html('ERROR: No faction ID on button! Button HTML: ' + $btn[0].outerHTML.substring(0, 200));
                 return;
             }
             
-            $('#factionId').val(factionId);
+            // Force set the value
+            document.getElementById('factionId').value = factionId;
             $('#factionName').text(factionName);
             
             // Verify it was set
-            var checkId = $('#factionId').val();
-            $('#uploadStatus').html('Set faction ID to: ' + checkId);
+            var checkId = document.getElementById('factionId').value;
+            $('#uploadStatus').html('Set faction ID to: ' + checkId + ' - Opening modal...');
             
             $('#uploadModal').modal('show');
         });
@@ -295,10 +297,14 @@ window.onload = function() {
             
             $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload...');
             
-            // Check faction ID
-            var factionId = $('#factionId').val();
-            if (!factionId) {
-                $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID set!');
+            // Check faction ID - use native JS
+            var factionIdInput = document.getElementById('factionId');
+            var factionId = factionIdInput ? factionIdInput.value : '';
+            
+            $status.html('Checking faction ID: Found input = ' + (factionIdInput ? 'yes' : 'no') + ', Value = ' + factionId);
+            
+            if (!factionId || factionId === '') {
+                $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID set! Input exists: ' + (factionIdInput ? 'yes' : 'no'));
                 $btn.prop('disabled', false).html('Upload');
                 return;
             }
