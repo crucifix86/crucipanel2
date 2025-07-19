@@ -250,27 +250,50 @@ window.onload = function() {
         // Handle upload button click - use event delegation for dynamic content
         $(document).on('click', '.upload-icon-btn', function(e) {
             e.preventDefault();
+            e.stopPropagation();
+            
             var $btn = $(this);
-            var factionId = String($btn.attr('data-faction-id') || $btn.data('faction-id') || '');
-            var factionName = String($btn.attr('data-faction-name') || $btn.data('faction-name') || '');
             
-            // Debug what we got
-            $('#uploadStatus').html('Button clicked. Faction: ' + factionName + ' (ID: ' + factionId + ')');
+            // Try multiple ways to get the faction ID
+            var factionId = $btn.attr('data-faction-id');
+            var factionName = $btn.attr('data-faction-name');
             
-            if (!factionId || factionId === 'undefined' || factionId === '') {
-                $('#uploadStatus').html('ERROR: No faction ID on button! Button HTML: ' + $btn[0].outerHTML.substring(0, 200));
+            // Show full button info
+            $('#uploadStatus').html('Button clicked. Raw attr faction-id: "' + factionId + '" | Raw attr faction-name: "' + factionName + '"');
+            
+            // If still no ID, show the actual button element
+            if (!factionId) {
+                var buttonHTML = $btn[0].outerHTML;
+                $('#uploadStatus').html('ERROR: No faction ID found! Full button: ' + buttonHTML.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+                
+                // Try to find the button's attributes manually
+                var attrs = $btn[0].attributes;
+                var attrList = 'Button attributes: ';
+                for (var i = 0; i < attrs.length; i++) {
+                    attrList += attrs[i].name + '="' + attrs[i].value + '" ';
+                }
+                $('#uploadStatus').append('<br>All attributes: ' + attrList);
                 return;
             }
             
-            // Force set the value
+            // Set the hidden input value multiple ways
+            $('#factionId').val(factionId);
             document.getElementById('factionId').value = factionId;
+            $('#factionId').attr('value', factionId);
+            
             $('#factionName').text(factionName);
             
-            // Verify it was set
-            var checkId = document.getElementById('factionId').value;
-            $('#uploadStatus').html('Set faction ID to: ' + checkId + ' - Opening modal...');
+            // Triple check it was set
+            var checkId1 = $('#factionId').val();
+            var checkId2 = document.getElementById('factionId').value;
+            var checkId3 = $('#factionId').attr('value');
             
-            $('#uploadModal').modal('show');
+            $('#uploadStatus').html('Set faction ID: jQuery val()=' + checkId1 + ', native value=' + checkId2 + ', attr value=' + checkId3);
+            
+            // Open modal after a small delay to ensure values are set
+            setTimeout(function() {
+                $('#uploadModal').modal('show');
+            }, 100);
         });
         
         // Preview image on selection
@@ -357,6 +380,12 @@ window.onload = function() {
                     $btn.prop('disabled', false).html('Upload');
                 }
             });
+        });
+        
+        // Check value when modal opens
+        $('#uploadModal').on('shown.bs.modal', function() {
+            var modalCheckId = document.getElementById('factionId').value;
+            $('#uploadStatus').html('Modal opened. Faction ID in hidden input: "' + modalCheckId + '"');
         });
         
         // Reset form when modal is closed
