@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\API;
+use hrace009\PerfectWorldAPI\API;
 use App\Models\Faction;
 use App\Models\FactionIcon;
 use App\Models\FactionIconSetting;
@@ -60,6 +60,14 @@ class FactionIconController extends Controller
                 ->get();
             \Log::info('Faction Icons Debug - Sample factions from DB: ' . json_encode($sampleFactions));
             
+            // Check what the actual data type and format of master field is
+            $rawQuery = DB::table('pwp_factions')
+                ->select(DB::raw('id, name, master, HEX(master) as master_hex, CAST(master as UNSIGNED) as master_int'))
+                ->where('name', 'LIKE', '%' . substr($characters[0]['name'] ?? 'unknown', 0, 3) . '%')
+                ->limit(5)
+                ->get();
+            \Log::info('Faction Icons Debug - Raw master field analysis: ' . json_encode($rawQuery));
+            
             // Now check for this user's factions
             $factions = DB::table('pwp_factions')
                 ->select('id', 'name', 'master', 'members')
@@ -71,6 +79,19 @@ class FactionIconController extends Controller
                 ->where('master', 1024)
                 ->first();
             \Log::info('Faction Icons Debug - Direct check for master=1024: ' . json_encode($directCheck));
+            
+            // Try different ways to match the master field
+            if ($factions->isEmpty() && !empty($characterIds)) {
+                foreach ($characterIds as $charId) {
+                    $altCheck = DB::table('pwp_factions')
+                        ->whereRaw('CAST(master as UNSIGNED) = ?', [$charId])
+                        ->first();
+                    if ($altCheck) {
+                        \Log::info('Faction Icons Debug - Found faction with CAST for char ' . $charId . ': ' . json_encode($altCheck));
+                        $factions->push($altCheck);
+                    }
+                }
+            }
         }
             
         \Log::info('Faction Icons Debug - Factions found: ' . $factions->count());

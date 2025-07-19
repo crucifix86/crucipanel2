@@ -8,7 +8,8 @@
 
 ## NEXT TASKS:
 - **NEED TO COMPACT** - Remove all debugging code after faction icon issue is resolved
-- Fix faction icon lookup issue - character ID 1024 not finding factions
+- **FACTION ICONS ARE WORKING** - Issue was rankings/data needed to be updated via scheduler
+- Check why automated scheduler isn't updating rankings (should be running automatically)
 
 ## PREVIOUS SAFETY VERSION: v2.1.453
 - **Mobile theme completely removed and original responsive design restored**
