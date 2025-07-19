@@ -53,10 +53,24 @@ class FactionIconController extends Controller
         $factions = collect();
         
         if (!empty($characterIds)) {
+            // First, let's see if there are ANY factions and what the master values look like
+            $sampleFactions = DB::table('pwp_factions')
+                ->select('id', 'name', 'master')
+                ->limit(5)
+                ->get();
+            \Log::info('Faction Icons Debug - Sample factions from DB: ' . json_encode($sampleFactions));
+            
+            // Now check for this user's factions
             $factions = DB::table('pwp_factions')
                 ->select('id', 'name', 'master', 'members')
                 ->whereIn('master', $characterIds)
                 ->get();
+                
+            // Also check if any faction has master = 1024 specifically
+            $directCheck = DB::table('pwp_factions')
+                ->where('master', 1024)
+                ->first();
+            \Log::info('Faction Icons Debug - Direct check for master=1024: ' . json_encode($directCheck));
         }
             
         \Log::info('Faction Icons Debug - Factions found: ' . $factions->count());

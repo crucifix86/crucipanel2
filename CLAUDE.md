@@ -6,6 +6,10 @@
 - **Faction icon system ready but not yet tested**
 - **This is our stable baseline version before faction icon demo**
 
+## NEXT TASKS:
+- **NEED TO COMPACT** - Remove all debugging code after faction icon issue is resolved
+- Fix faction icon lookup issue - character ID 1024 not finding factions
+
 ## PREVIOUS SAFETY VERSION: v2.1.453
 - **Mobile theme completely removed and original responsive design restored**
 - **All non-essential files cleaned up, project directory organized**
