@@ -200,6 +200,9 @@ class FactionIconController extends Controller
             $filename = 'faction_' . $factionId . '_' . time() . '.png';
             $path = 'faction-icons/' . $filename;
             
+            // Ensure directory exists
+            Storage::disk('public')->makeDirectory('faction-icons', 0755, true);
+            
             // Save to storage
             Storage::disk('public')->put($path, $image->encode('png'));
             \Log::info('Image saved', ['path' => $path]);
