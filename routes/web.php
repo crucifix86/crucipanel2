@@ -252,13 +252,6 @@ Route::group(['prefix' => 'messages', 'middleware' => ['auth', 'web', 'check.ema
     ]);
 });
 
-/* Faction Icons */
-Route::group(['prefix' => 'faction-icons', 'middleware' => ['auth', 'web', 'check.email.verification']], function () {
-    Route::get('/', 'App\Http\Controllers\Front\FactionIconController@index')->name('faction-icons.index');
-    Route::post('/upload', 'App\Http\Controllers\Front\FactionIconController@upload')->name('faction-icons.upload');
-    Route::delete('/{id}/cancel', 'App\Http\Controllers\Front\FactionIconController@cancel')->name('faction-icons.cancel');
-});
-
 /* App Page */
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web', 'check.email.verification', 'dashboard.enabled']], static function () {
 
@@ -772,38 +765,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'web', 'check.email.
         Route::put('update', [
             'as' => 'admin.welcome-message.update',
             'uses' => 'App\Http\Controllers\Admin\WelcomeMessageController@update'
-        ]);
-    });
-    
-    Route::group(['prefix' => 'faction-icons'], static function () {
-        Route::get('/', [
-            'as' => 'admin.faction-icons.index',
-            'uses' => 'App\Http\Controllers\Admin\FactionIconController@index'
-        ]);
-        
-        Route::get('/settings', [
-            'as' => 'admin.faction-icons.settings',
-            'uses' => 'App\Http\Controllers\Admin\FactionIconController@settings'
-        ]);
-        
-        Route::put('/settings', [
-            'as' => 'admin.faction-icons.update-settings',
-            'uses' => 'App\Http\Controllers\Admin\FactionIconController@updateSettings'
-        ]);
-        
-        Route::post('/{id}/approve', [
-            'as' => 'admin.faction-icons.approve',
-            'uses' => 'App\Http\Controllers\Admin\FactionIconController@approve'
-        ]);
-        
-        Route::post('/{id}/reject', [
-            'as' => 'admin.faction-icons.reject',
-            'uses' => 'App\Http\Controllers\Admin\FactionIconController@reject'
-        ]);
-        
-        Route::delete('/{id}', [
-            'as' => 'admin.faction-icons.destroy',
-            'uses' => 'App\Http\Controllers\Admin\FactionIconController@destroy'
         ]);
     });
 

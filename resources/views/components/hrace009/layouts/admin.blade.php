@@ -133,7 +133,6 @@
             @endif
             <x-hrace009::admin.manage-link/>
             <x-hrace009::admin.messaging-link/>
-            <x-hrace009::admin.faction-icons-link/>
             <x-hrace009::admin.pages-link/>
             <x-hrace009::admin.live-chat-link/>
         </x-slot>
@@ -196,7 +195,6 @@
                         <x-hrace009::admin.members-link/>
                         <x-hrace009::admin.mass-message-link/>
                         <x-hrace009::admin.welcome-message-link/>
-                        <x-hrace009::admin.faction-icons-link/>
                         @if( config('pw-config.system.apps.news') )
                             <x-hrace009::admin.news-link/>
                         @endif

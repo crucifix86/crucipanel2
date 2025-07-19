@@ -45,31 +45,22 @@
             <div class="ranking-section">
                 <h2 class="section-title">{{ __('site.rankings.top_factions') }}</h2>
                 <div class="ranking-table">
-                    @if($topFactions && count($topFactions) > 0)
-                        @foreach($topFactions as $index => $faction)
-                            <div class="ranking-row">
-                                <div class="rank-number @if($index < 3) rank-{{ $index + 1 }} @endif">
-                                    {{ $index + 1 }}
-                                </div>
-                                <div class="player-info">
-                                    <div class="player-name">
-                                        {{-- Temporarily removed icon code to debug --}}
-                                        {{ $faction->name }}
-                                    </div>
-                                    <div class="player-details">
-                                        {{ __('site.rankings.members') }} {{ $faction->members }}
-                                    </div>
-                                </div>
-                                <div class="player-level">
-                                    {{ __('site.rankings.level') }} {{ $faction->level }}
+                    @foreach($topFactions as $index => $faction)
+                        <div class="ranking-row">
+                            <div class="rank-number @if($index < 3) rank-{{ $index + 1 }} @endif">
+                                {{ $index + 1 }}
+                            </div>
+                            <div class="player-info">
+                                <div class="player-name">{{ $faction->name }}</div>
+                                <div class="player-details">
+                                    {{ __('site.rankings.members') }} {{ $faction->members->count() }}
                                 </div>
                             </div>
-                        @endforeach
-                    @else
-                        <div style="text-align: center; padding: 40px; color: #b19cd9;">
-                            {{ __('site.rankings.no_factions') }}
+                            <div class="player-level">
+                                {{ __('site.rankings.level') }} {{ $faction->level }}
+                            </div>
                         </div>
-                    @endif
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -1,20 +1,16 @@
 # Claude Context for CruciPanel2
 
-## SAFETY VERSION: v2.1.538
+## CURRENT VERSION: v2.1.574
+- **Rolled back from faction icon implementation to v2.1.538**
 - **Email verification system with admin toggle (disabled by default)**
 - **All existing users can login without email verification**
-- **Faction icon system ready but not yet tested**
-- **This is our stable baseline version before faction icon demo**
+- **Faction icon research saved in project_guild_icon folder**
 
-## NEXT TASKS:
-- **URGENT: COMPACT NOW** - Remove all debugging code, we've wasted too much context
-- **FACTION ICON ISSUE**: Faction ID not being passed from button to modal despite faction data existing
-- **DO NOT**: Ask user to view page source - they've said multiple times it's useless
-- **DO NOT**: Add console.log debugging - show everything on screen in the modal
-
-## PREVIOUS SAFETY VERSION: v2.1.453
-- **Mobile theme completely removed and original responsive design restored**
-- **All non-essential files cleaned up, project directory organized**
+## FACTION ICONS - IMPORTANT DISCOVERY
+- **Icons are CLIENT-SIDE only** - Perfect World stores faction icons in sprite sheets that must be distributed with game client
+- **Current Status**: Web panel can upload/display icons but they won't show in-game without client patching
+- **Reference**: See `/project_guild_icon/` folder for JSP implementation and sprite sheet examples
+- **DO NOT DELETE** the project_guild_icon folder - contains important reference material
 
 ## PRIVATE MESSAGING IMPLEMENTATION PLAN
 
