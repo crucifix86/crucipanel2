@@ -32,13 +32,39 @@ class FactionIconController extends Controller
         
         // Get user's characters via API
         $characters = $user->roles();
-        $characterIds = array_column($characters, 'id');
+        
+        // Debug: Log what we're getting
+        \Log::info('Faction Icons Debug - User ID: ' . $user->ID);
+        \Log::info('Faction Icons Debug - Characters: ' . json_encode($characters));
+        
+        // Extract character IDs - check both 'id' and 'roleid' keys
+        $characterIds = [];
+        foreach ($characters as $char) {
+            if (isset($char['id'])) {
+                $characterIds[] = $char['id'];
+            } elseif (isset($char['roleid'])) {
+                $characterIds[] = $char['roleid'];
+            }
+        }
+        
+        \Log::info('Faction Icons Debug - Character IDs: ' . json_encode($characterIds));
         
         // Get all factions where user is a master
-        $factions = DB::table('pwp_factions')
-            ->select('id', 'name', 'master', 'members')
-            ->whereIn('master', $characterIds)
-            ->get();
+        $factions = collect();
+        
+        if (!empty($characterIds)) {
+            $factions = DB::table('pwp_factions')
+                ->select('id', 'name', 'master', 'members')
+                ->whereIn('master', $characterIds)
+                ->get();
+        }
+            
+        \Log::info('Faction Icons Debug - Factions found: ' . $factions->count());
+        
+        // Also log a sample faction to see the master field
+        if ($factions->isNotEmpty()) {
+            \Log::info('Faction Icons Debug - Sample faction: ' . json_encode($factions->first()));
+        }
             
         // Get existing icon submissions
         $iconSubmissions = FactionIcon::whereIn('faction_id', $factions->pluck('id'))
