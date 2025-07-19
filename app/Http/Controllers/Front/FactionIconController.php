@@ -11,6 +11,7 @@ use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -115,39 +116,65 @@ class FactionIconController extends Controller
      */
     public function upload(Request $request)
     {
-        $settings = FactionIconSetting::getSettings();
+        \Log::info('Faction Icon Upload Started', ['user_id' => Auth::id()]);
         
-        if (!$settings->enabled) {
-            return response()->json(['error' => __('Faction icon upload is currently disabled.')], 403);
-        }
-        
-        // Validate the request
-        $request->validate([
-            'faction_id' => 'required|integer',
-            'icon' => [
-                'required',
-                'image',
-                'mimes:' . implode(',', $settings->allowed_formats),
-                'max:' . ($settings->max_file_size / 1024), // Convert to KB for Laravel
-            ],
-        ]);
-        
-        $user = Auth::user();
-        $factionId = $request->faction_id;
-        
-        // Get user's characters via API
-        $characters = $user->roles();
-        $characterIds = array_column($characters, 'id');
-        
-        // Verify user is faction master
-        $isMaster = DB::table('pwp_factions')
-            ->where('id', $factionId)
-            ->whereIn('master', $characterIds)
-            ->exists();
+        try {
+            $settings = FactionIconSetting::getSettings();
+            \Log::info('Settings loaded', ['enabled' => $settings->enabled]);
             
-        if (!$isMaster) {
-            return response()->json(['error' => __('You must be the faction master to upload an icon.')], 403);
-        }
+            if (!$settings->enabled) {
+                return response()->json(['error' => __('Faction icon upload is currently disabled.')], 403);
+            }
+            
+            // Log request data
+            \Log::info('Request data', [
+                'faction_id' => $request->faction_id,
+                'has_file' => $request->hasFile('icon'),
+                'file_info' => $request->hasFile('icon') ? [
+                    'size' => $request->file('icon')->getSize(),
+                    'mime' => $request->file('icon')->getMimeType(),
+                    'extension' => $request->file('icon')->getClientOriginalExtension()
+                ] : null
+            ]);
+            
+            // Validate the request
+            $request->validate([
+                'faction_id' => 'required|integer',
+                'icon' => [
+                    'required',
+                    'image',
+                    'mimes:' . implode(',', $settings->allowed_formats),
+                    'max:' . ($settings->max_file_size / 1024), // Convert to KB for Laravel
+                ],
+            ]);
+            
+            \Log::info('Validation passed');
+            
+            $user = Auth::user();
+            $factionId = $request->faction_id;
+            
+            // Get user's characters via API
+            $characters = $user->roles();
+            $characterIds = array_column($characters, 'id');
+            \Log::info('User characters', ['character_ids' => $characterIds]);
+            
+            // Check faction master
+            $faction = DB::table('pwp_factions')
+                ->where('id', $factionId)
+                ->first();
+            \Log::info('Faction data', ['faction' => $faction]);
+            
+            // Verify user is faction master
+            $isMaster = DB::table('pwp_factions')
+                ->where('id', $factionId)
+                ->whereIn('master', $characterIds)
+                ->exists();
+                
+            \Log::info('Master check', ['is_master' => $isMaster]);
+                
+            if (!$isMaster) {
+                return response()->json(['error' => __('You must be the faction master to upload an icon.')], 403);
+            }
         
         // Check for existing pending submission
         $existingPending = FactionIcon::where('faction_id', $factionId)
@@ -159,45 +186,58 @@ class FactionIconController extends Controller
             return response()->json(['error' => __('You already have a pending icon submission for this faction.')], 400);
         }
         
-        // Process the image
-        $file = $request->file('icon');
-        $image = Image::make($file);
-        
-        // Resize to exact dimensions
-        $image->fit($settings->icon_size, $settings->icon_size);
-        
-        // Generate filename
-        $filename = 'faction_' . $factionId . '_' . time() . '.png';
-        $path = 'faction-icons/' . $filename;
-        
-        // Save to storage
-        Storage::disk('public')->put($path, $image->encode('png'));
-        
-        // Create database record
-        $factionIcon = FactionIcon::create([
-            'faction_id' => $factionId,
-            'server_id' => config('pw-config.server_id', 1),
-            'icon_path' => $path,
-            'original_filename' => $file->getClientOriginalName(),
-            'status' => $settings->require_approval ? 'pending' : 'approved',
-            'uploaded_by' => $user->ID,
-            'cost_virtual' => $settings->cost_virtual,
-            'cost_gold' => $settings->cost_gold,
-            'payment_processed' => false,
-        ]);
-        
-        // If auto-approve is enabled and user has sufficient funds, process payment
-        if (!$settings->require_approval) {
-            $this->processPayment($factionIcon);
+            // Process the image
+            $file = $request->file('icon');
+            \Log::info('Processing image', ['original_name' => $file->getClientOriginalName()]);
+            
+            $image = Image::make($file);
+            
+            // Resize to exact dimensions
+            $image->fit($settings->icon_size, $settings->icon_size);
+            \Log::info('Image resized', ['size' => $settings->icon_size]);
+            
+            // Generate filename
+            $filename = 'faction_' . $factionId . '_' . time() . '.png';
+            $path = 'faction-icons/' . $filename;
+            
+            // Save to storage
+            Storage::disk('public')->put($path, $image->encode('png'));
+            \Log::info('Image saved', ['path' => $path]);
+            
+            // Create database record
+            $factionIcon = FactionIcon::create([
+                'faction_id' => $factionId,
+                'server_id' => config('pw-config.server_id', 1),
+                'icon_path' => $path,
+                'original_filename' => $file->getClientOriginalName(),
+                'status' => $settings->require_approval ? 'pending' : 'approved',
+                'uploaded_by' => $user->ID,
+                'cost_virtual' => $settings->cost_virtual,
+                'cost_gold' => $settings->cost_gold,
+                'payment_processed' => false,
+            ]);
+            
+            \Log::info('Database record created', ['faction_icon_id' => $factionIcon->id, 'status' => $factionIcon->status]);
+            
+            // If auto-approve is enabled and user has sufficient funds, process payment
+            if (!$settings->require_approval) {
+                $this->processPayment($factionIcon);
+            }
+            
+            return response()->json([
+                'success' => true,
+                'message' => $settings->require_approval 
+                    ? __('Your faction icon has been submitted for approval.')
+                    : __('Your faction icon has been uploaded successfully.'),
+                'icon_url' => $factionIcon->getIconUrl(),
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Faction Icon Upload Error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Upload failed: ' . $e->getMessage()], 500);
         }
-        
-        return response()->json([
-            'success' => true,
-            'message' => $settings->require_approval 
-                ? __('Your faction icon has been submitted for approval.')
-                : __('Your faction icon has been uploaded successfully.'),
-            'icon_url' => $factionIcon->getIconUrl(),
-        ]);
     }
     
     /**

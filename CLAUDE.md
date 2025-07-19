@@ -8,8 +8,9 @@
 
 ## NEXT TASKS:
 - **NEED TO COMPACT** - Remove all debugging code after faction icon issue is resolved
-- **FACTION ICONS ARE WORKING** - Issue was rankings/data needed to be updated via scheduler
-- Check why automated scheduler isn't updating rankings (should be running automatically)
+- **FACTION ICONS ISSUE FOUND** - No factions exist in database (pwp_factions table is empty)
+- **CRITICAL**: Automated scheduler isn't updating rankings/factions - running `php artisan pw:update-faction` returns no data
+- Check server API connection and why faction data isn't being pulled
 
 ## PREVIOUS SAFETY VERSION: v2.1.453
 - **Mobile theme completely removed and original responsive design restored**
