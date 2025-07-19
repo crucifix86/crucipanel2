@@ -185,182 +185,144 @@
     </div>
 </div>
 @endsection
-    
+
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-            .faction-icon-preview {
-                width: 24px;
-                height: 24px;
-                display: inline-block;
-                vertical-align: middle;
-                margin-right: 5px;
-            }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<style>
+    .faction-icon-preview {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    
+    .faction-item {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .faction-icon-info {
+        background: rgba(147, 112, 219, 0.1);
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    .faction-icon-info ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    .faction-icon-info li:before {
+        content: "✓ ";
+        color: #9370db;
+        font-weight: bold;
+    }
+</style>
+<script>
+window.onload = function() {
+    // Test if JS is working at all
+    var statusDiv = document.getElementById('uploadStatus');
+    if (statusDiv) {
+        statusDiv.innerHTML = 'JavaScript loaded!';
+    }
+    
+    // Wait for jQuery
+    if (typeof jQuery === 'undefined') {
+        if (statusDiv) {
+            statusDiv.innerHTML = 'ERROR: jQuery not loaded!';
+        }
+        return;
+    }
+    
+    jQuery(document).ready(function($) {
+        $('#uploadStatus').html('jQuery loaded! Ready to upload.');
+        
+        // Handle upload button click
+        $('.upload-icon-btn').click(function() {
+            var factionId = $(this).data('faction-id');
+            var factionName = $(this).data('faction-name');
             
-            .faction-item {
-                background: rgba(255, 255, 255, 0.05);
-            }
-            
-            .faction-icon-info {
-                background: rgba(147, 112, 219, 0.1);
-                padding: 15px;
-                border-radius: 5px;
-                margin-bottom: 20px;
-            }
-            
-            .faction-icon-info ul {
-                list-style: none;
-                padding-left: 0;
-            }
-            
-            .faction-icon-info li:before {
-                content: "✓ ";
-                color: #9370db;
-                font-weight: bold;
-            }
-        </style>
-        <script>
-            // Wait for jQuery to load
-            if (typeof jQuery === 'undefined') {
-                console.error('jQuery is not loaded! Faction icons script cannot run.');
+            $('#factionId').val(factionId);
+            $('#factionName').text(factionName);
+            $('#uploadModal').modal('show');
+        });
+        
+        // Preview image on selection
+        $('#iconFile').change(function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#previewImg').attr('src', e.target.result);
+                    $('#imagePreview').show();
+                };
+                reader.readAsDataURL(file);
             } else {
-                jQuery(document).ready(function($) {
-                // Handle upload button click
-                $('.upload-icon-btn').click(function() {
-                    var factionId = $(this).data('faction-id');
-                    var factionName = $(this).data('faction-name');
-                    
-                    $('#factionId').val(factionId);
-                    $('#factionName').text(factionName);
-                    $('#uploadModal').modal('show');
-                });
-                
-                // Preview image on selection
-                $('#iconFile').change(function() {
-                    var file = this.files[0];
-                    if (file) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            $('#previewImg').attr('src', e.target.result);
-                            $('#imagePreview').show();
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        $('#imagePreview').hide();
-                    }
-                });
-                
-                // Show initialization status
-                var $status = $('#uploadStatus');
-                if ($status.length) {
-                    $status.html('JavaScript loaded. Form elements: ' + $('#uploadForm').length + ', Button: ' + $('#uploadBtn').length);
-                }
-                
-                // Show when modal opens
-                $('#uploadModal').on('shown.bs.modal', function() {
-                    $('#uploadStatus').html('Modal opened. Ready for upload.');
-                });
-                
-                // Track button click
-                $(document).on('click', '#uploadBtn', function(e) {
-                    e.preventDefault();
-                    $('#uploadStatus').removeClass('alert-success alert-danger').addClass('alert-warning').html('Upload button clicked! Submitting form...');
-                    setTimeout(function() {
-                        $('#uploadForm').submit();
-                    }, 100);
-                });
-                
-                // Handle form submission
-                $(document).on('submit', '#uploadForm', function(e) {
-                    e.preventDefault();
-                    
-                    var $status = $('#uploadStatus');
-                    var $btn = $('#uploadBtn');
-                    
-                    // Show status
-                    $status.removeClass('alert-success alert-danger alert-warning').addClass('alert-info').html('<strong>Form submitted!</strong> Starting upload process...')
-                    
-                    // Check if file is selected
-                    var fileInput = $('#iconFile')[0];
-                    if (!fileInput.files || !fileInput.files[0]) {
-                        $status.removeClass('alert-info').addClass('alert-danger').html('Error: No file selected');
-                        return;
-                    }
-                    
-                    // Check faction ID
-                    var factionId = $('#factionId').val();
-                    if (!factionId) {
-                        $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID found');
-                        return;
-                    }
-                    
-                    $status.html('Creating form data...');
-                    var formData = new FormData(this);
-                    
-                    // Log what we're sending
-                    $status.html('Uploading file: ' + fileInput.files[0].name + ' (' + (fileInput.files[0].size / 1024).toFixed(2) + ' KB)');
-                    
-                    $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> {{ __('Uploading...') }}');
-                    
-                    $.ajax({
-                        url: '{{ route('faction-icons.upload') }}',
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        xhr: function() {
-                            var xhr = new window.XMLHttpRequest();
-                            xhr.upload.addEventListener("progress", function(evt) {
-                                if (evt.lengthComputable) {
-                                    var percentComplete = evt.loaded / evt.total * 100;
-                                    $status.html('Uploading: ' + percentComplete.toFixed(0) + '%');
-                                }
-                            }, false);
-                            return xhr;
-                        },
-                        success: function(response) {
-                            $status.removeClass('alert-info').addClass('alert-success');
-                            if (response.success) {
-                                $status.html('Success: ' + response.message);
-                                setTimeout(function() {
-                                    location.reload();
-                                }, 2000);
-                            } else {
-                                $status.removeClass('alert-success').addClass('alert-danger').html('Server returned: ' + JSON.stringify(response));
-                            }
-                        },
-                        error: function(xhr, textStatus, errorThrown) {
-                            $status.removeClass('alert-info').addClass('alert-danger');
-                            var errorMsg = 'Upload failed: ' + textStatus + ' - ' + errorThrown + '<br>';
-                            
-                            if (xhr.status === 0) {
-                                errorMsg += 'Network error - request did not reach server<br>';
-                            } else {
-                                errorMsg += 'HTTP Status: ' + xhr.status + '<br>';
-                            }
-                            
-                            if (xhr.responseJSON && xhr.responseJSON.error) {
-                                errorMsg += 'Server error: ' + xhr.responseJSON.error + '<br>';
-                            } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                                errorMsg += 'Server message: ' + xhr.responseJSON.message + '<br>';
-                            } else if (xhr.responseText) {
-                                errorMsg += 'Response: ' + xhr.responseText.substring(0, 200) + '...<br>';
-                            }
-                            
-                            $status.html(errorMsg);
-                            $btn.prop('disabled', false).html('{{ __('Upload') }}');
+                $('#imagePreview').hide();
+            }
+        });
+        
+        // Handle form submission
+        $('#uploadForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            var $status = $('#uploadStatus');
+            var $btn = $('#uploadBtn');
+            
+            $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload...');
+            
+            var formData = new FormData(this);
+            
+            $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Uploading...');
+            
+            $.ajax({
+                url: '{{ route('faction-icons.upload') }}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total * 100;
+                            $status.html('Uploading: ' + percentComplete.toFixed(0) + '%');
                         }
-                    });
-                });
-                
-                // Reset form when modal is closed
-                $('#uploadModal').on('hidden.bs.modal', function() {
-                    $('#uploadForm')[0].reset();
-                    $('#imagePreview').hide();
-                    $('#uploadStatus').removeClass('alert-success alert-danger alert-warning').addClass('alert-info').html('Waiting for action...');
-                });
-            }); // end jQuery ready
-            } // end if jQuery
-        </script>
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    $status.removeClass('alert-info').addClass('alert-success');
+                    $status.html('Success: ' + response.message);
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);
+                },
+                error: function(xhr) {
+                    $status.removeClass('alert-info').addClass('alert-danger');
+                    var errorMsg = 'Error: ';
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMsg += xhr.responseJSON.error;
+                    } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg += xhr.responseJSON.message;
+                    } else {
+                        errorMsg += 'Upload failed (Status: ' + xhr.status + ')';
+                    }
+                    $status.html(errorMsg);
+                    $btn.prop('disabled', false).html('Upload');
+                }
+            });
+        });
+        
+        // Reset form when modal is closed
+        $('#uploadModal').on('hidden.bs.modal', function() {
+            $('#uploadForm')[0].reset();
+            $('#imagePreview').hide();
+            $('#uploadStatus').removeClass('alert-success alert-danger').addClass('alert-info').html('Waiting for action...');
+        });
+    });
+};
+</script>
 @endsection
