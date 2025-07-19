@@ -89,6 +89,7 @@
                                         <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
                                             {{ __('Upload Icon') }}
                                         </button>
+                                        <small class="text-muted d-block">Debug: ID={{ $faction->id }}, Name={{ $faction->name }}</small>
                                     @endif
                                 </div>
                             </div>
@@ -244,6 +245,14 @@ window.onload = function() {
         } else {
             $('#uploadStatus').html('jQuery loaded! Hidden input found. Ready to upload.');
         }
+        
+        // Debug: Check what buttons exist on page
+        var buttons = $('.upload-icon-btn');
+        console.log('Found ' + buttons.length + ' upload buttons');
+        buttons.each(function(index) {
+            var btn = $(this);
+            console.log('Button ' + index + ': faction-id=' + btn.attr('data-faction-id') + ', faction-name=' + btn.attr('data-faction-name'));
+        });
         
         // Handle upload button click - use event delegation for dynamic content
         $(document).on('click', '.upload-icon-btn', function(e) {
