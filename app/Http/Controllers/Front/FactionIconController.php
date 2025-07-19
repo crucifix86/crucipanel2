@@ -77,9 +77,16 @@ class FactionIconController extends Controller
                 
             // Also check if any faction has master = 1024 specifically
             $directCheck = DB::table('pwp_factions')
+                ->select('id', 'name', 'master', 'members')
                 ->where('master', 1024)
                 ->first();
             \Log::info('Faction Icons Debug - Direct check for master=1024: ' . json_encode($directCheck));
+            
+            // If we found a faction in direct check but not in the main query, add it
+            if ($directCheck && $factions->where('id', $directCheck->id)->isEmpty()) {
+                $factions->push($directCheck);
+                \Log::info('Faction Icons Debug - Added direct check faction to collection');
+            }
             
             // Try different ways to match the master field
             if ($factions->isEmpty() && !empty($characterIds)) {
