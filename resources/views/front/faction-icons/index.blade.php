@@ -73,7 +73,7 @@
                                                 <span class="badge badge-success">{{ __('Active') }}</span>
                                             </div>
                                             <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
-                                                {{ __('Change Icon') }}
+                                                {{ __('Change Icon') }} ({{ $faction->name }})
                                             </button>
                                         @elseif($currentIcon->isRejected())
                                             <div class="mb-2">
@@ -83,13 +83,18 @@
                                                 @endif
                                             </div>
                                             <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
-                                                {{ __('Upload New Icon') }}
+                                                {{ __('Upload New Icon') }} ({{ $faction->name }})
                                             </button>
                                         @endif
                                     @else
-                                        <!-- Debug: Faction ID = {{ $faction->id }} -->
-                                        <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
-                                            {{ __('Upload Icon') }}
+                                        <!-- Debug: Faction ID = {{ $faction->id }} | Type: {{ gettype($faction) }} -->
+                                        @php
+                                            $debugId = isset($faction->id) ? $faction->id : 'NO_ID';
+                                            $debugName = isset($faction->name) ? $faction->name : 'NO_NAME';
+                                        @endphp
+                                        <!-- Debug: PHP vars - ID={{ $debugId }}, Name={{ $debugName }} -->
+                                        <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $debugId }}" data-faction-name="{{ $debugName }}">
+                                            {{ __('Upload Icon') }} ({{ $debugName }})
                                         </button>
                                     @endif
                                 </div>
