@@ -7,10 +7,10 @@
 - **This is our stable baseline version before faction icon demo**
 
 ## NEXT TASKS:
-- **NEED TO COMPACT** - Remove all debugging code after faction icon issue is resolved
-- **FACTION ICONS ISSUE FOUND** - No factions exist in database (pwp_factions table is empty)
-- **CRITICAL**: Automated scheduler isn't updating rankings/factions - running `php artisan pw:update-faction` returns no data
-- Check server API connection and why faction data isn't being pulled
+- **URGENT: COMPACT NOW** - Remove all debugging code, we've wasted too much context
+- **FACTION ICON ISSUE**: Faction ID not being passed from button to modal despite faction data existing
+- **DO NOT**: Ask user to view page source - they've said multiple times it's useless
+- **DO NOT**: Add console.log debugging - show everything on screen in the modal
 
 ## PREVIOUS SAFETY VERSION: v2.1.453
 - **Mobile theme completely removed and original responsive design restored**
