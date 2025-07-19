@@ -244,6 +244,8 @@ window.onload = function() {
             var factionId = $(this).data('faction-id');
             var factionName = $(this).data('faction-name');
             
+            $('#uploadStatus').html('Opening modal for faction: ' + factionName + ' (ID: ' + factionId + ')');
+            
             $('#factionId').val(factionId);
             $('#factionName').text(factionName);
             $('#uploadModal').modal('show');
@@ -273,7 +275,22 @@ window.onload = function() {
             
             $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload...');
             
+            // Check faction ID
+            var factionId = $('#factionId').val();
+            if (!factionId) {
+                $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID set!');
+                $btn.prop('disabled', false).html('Upload');
+                return;
+            }
+            $status.html('Faction ID: ' + factionId + ' - Creating form data...');
+            
             var formData = new FormData(this);
+            
+            // Explicitly add faction_id in case the hidden field isn't working
+            formData.append('faction_id', factionId);
+            
+            // Log what we're sending
+            $status.html('Sending faction ' + factionId + ' with file...');
             
             $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Uploading...');
             
