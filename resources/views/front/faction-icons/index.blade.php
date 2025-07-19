@@ -41,12 +41,6 @@
                 
                 <div class="faction-icon-upload">
                     <h4>{{ __('Your Factions') }}</h4>
-                    <div class="alert alert-info">
-                        Debug: Found {{ $factions->count() }} factions<br>
-                        @foreach($factions as $faction)
-                            Faction: {{ json_encode($faction) }}<br>
-                        @endforeach
-                    </div>
                     
                     @foreach($factions as $faction)
                         <div class="faction-item mb-4 p-3 border rounded">
@@ -77,7 +71,7 @@
                                                 <img src="{{ $currentIcon->getIconUrl() }}" alt="{{ $faction->name }}" class="faction-icon-preview">
                                                 <span class="badge badge-success">{{ __('Active') }}</span>
                                             </div>
-                                            <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="openUploadModal({{ $faction->id }}, '{{ $faction->name }}')">
                                                 {{ __('Change Icon') }}
                                             </button>
                                         @elseif($currentIcon->isRejected())
@@ -87,15 +81,14 @@
                                                     <small class="d-block text-danger">{{ $currentIcon->rejection_reason }}</small>
                                                 @endif
                                             </div>
-                                            <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="openUploadModal({{ $faction->id }}, '{{ $faction->name }}')">
                                                 {{ __('Upload New Icon') }}
                                             </button>
                                         @endif
                                     @else
-                                        <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="openUploadModal({{ $faction->id }}, '{{ $faction->name }}')">
                                             {{ __('Upload Icon') }}
                                         </button>
-                                        <small class="text-muted d-block">Debug: ID={{ $faction->id }}, Name={{ $faction->name }}</small>
                                     @endif
                                 </div>
                             </div>
@@ -228,131 +221,58 @@
     }
 </style>
 <script>
-window.onload = function() {
-    // Test if JS is working at all
-    var statusDiv = document.getElementById('uploadStatus');
-    if (statusDiv) {
-        statusDiv.innerHTML = 'JavaScript loaded!';
-    }
-    
-    // Wait for jQuery
-    if (typeof jQuery === 'undefined') {
-        if (statusDiv) {
-            statusDiv.innerHTML = 'ERROR: jQuery not loaded!';
-        }
-        return;
-    }
-    
-    jQuery(document).ready(function($) {
-        // Check if hidden input exists
-        var hiddenInput = $('#factionId');
-        if (hiddenInput.length === 0) {
-            $('#uploadStatus').html('ERROR: Hidden faction ID input not found!');
+// Simple function to open upload modal with faction data
+function openUploadModal(factionId, factionName) {
+    document.getElementById('factionId').value = factionId;
+    document.getElementById('factionName').textContent = factionName;
+    document.getElementById('uploadStatus').innerHTML = 'Ready to upload for faction: ' + factionName + ' (ID: ' + factionId + ')';
+    $('#uploadModal').modal('show');
+}
+
+$(document).ready(function() {
+    // Preview image on selection
+    $('#iconFile').change(function() {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#previewImg').attr('src', e.target.result);
+                $('#imagePreview').show();
+            };
+            reader.readAsDataURL(file);
         } else {
-            $('#uploadStatus').html('jQuery loaded! Hidden input found. Ready to upload.');
+            $('#imagePreview').hide();
         }
+    });
+    
+    // Handle form submission
+    $('#uploadForm').on('submit', function(e) {
+        e.preventDefault();
         
-        // Show button info in status area
-        var buttons = $('.upload-icon-btn');
-        $('#uploadStatus').append('<br>Found ' + buttons.length + ' upload buttons on page');
+        var $status = $('#uploadStatus');
+        var $btn = $('#uploadBtn');
         
-        // Handle upload button click - use event delegation for dynamic content
-        $(document).on('click', '.upload-icon-btn', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            var $btn = $(this);
-            
-            // Try multiple ways to get the faction ID
-            var factionId = $btn.attr('data-faction-id');
-            var factionName = $btn.attr('data-faction-name');
-            
-            // Show full button info
-            $('#uploadStatus').html('Button clicked. Raw attr faction-id: "' + factionId + '" | Raw attr faction-name: "' + factionName + '"');
-            
-            // If still no ID, show the actual button element
-            if (!factionId) {
-                var buttonHTML = $btn[0].outerHTML;
-                $('#uploadStatus').html('ERROR: No faction ID found! Full button: ' + buttonHTML.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-                
-                // Try to find the button's attributes manually
-                var attrs = $btn[0].attributes;
-                var attrList = 'Button attributes: ';
-                for (var i = 0; i < attrs.length; i++) {
-                    attrList += attrs[i].name + '="' + attrs[i].value + '" ';
-                }
-                $('#uploadStatus').append('<br>All attributes: ' + attrList);
-                return;
-            }
-            
-            // Set the hidden input value multiple ways
-            $('#factionId').val(factionId);
-            document.getElementById('factionId').value = factionId;
-            $('#factionId').attr('value', factionId);
-            
-            $('#factionName').text(factionName);
-            
-            // Triple check it was set
-            var checkId1 = $('#factionId').val();
-            var checkId2 = document.getElementById('factionId').value;
-            var checkId3 = $('#factionId').attr('value');
-            
-            $('#uploadStatus').html('Set faction ID: jQuery val()=' + checkId1 + ', native value=' + checkId2 + ', attr value=' + checkId3);
-            
-            // Open modal after a small delay to ensure values are set
-            setTimeout(function() {
-                $('#uploadModal').modal('show');
-            }, 100);
-        });
+        $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload...');
         
-        // Preview image on selection
-        $('#iconFile').change(function() {
-            var file = this.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#previewImg').attr('src', e.target.result);
-                    $('#imagePreview').show();
-                };
-                reader.readAsDataURL(file);
-            } else {
-                $('#imagePreview').hide();
-            }
-        });
+        // Check faction ID - use native JS
+        var factionIdInput = document.getElementById('factionId');
+        var factionId = factionIdInput ? factionIdInput.value : '';
         
-        // Handle form submission
-        $('#uploadForm').on('submit', function(e) {
-            e.preventDefault();
-            
-            var $status = $('#uploadStatus');
-            var $btn = $('#uploadBtn');
-            
-            $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload...');
-            
-            // Check faction ID - use native JS
-            var factionIdInput = document.getElementById('factionId');
-            var factionId = factionIdInput ? factionIdInput.value : '';
-            
-            $status.html('Checking faction ID: Found input = ' + (factionIdInput ? 'yes' : 'no') + ', Value = ' + factionId);
-            
-            if (!factionId || factionId === '') {
-                $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID set! Input exists: ' + (factionIdInput ? 'yes' : 'no'));
-                $btn.prop('disabled', false).html('Upload');
-                return;
-            }
-            $status.html('Faction ID: ' + factionId + ' - Creating form data...');
-            
-            var formData = new FormData(this);
-            
-            // Explicitly add faction_id in case the hidden field isn't working
-            formData.append('faction_id', factionId);
-            
-            // Log what we're sending
-            $status.html('Sending faction ' + factionId + ' with file...');
-            
-            $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Uploading...');
-            
-            $.ajax({
+        if (!factionId || factionId === '') {
+            $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID set!');
+            $btn.prop('disabled', false).html('Upload');
+            return;
+        }
+        $status.html('Uploading for faction ID: ' + factionId + '...');
+        
+        var formData = new FormData(this);
+        
+        // Explicitly add faction_id in case the hidden field isn't working
+        formData.append('faction_id', factionId);
+        
+        $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Uploading...');
+        
+        $.ajax({
                 url: '{{ route('faction-icons.upload') }}',
                 type: 'POST',
                 data: formData,
@@ -389,21 +309,14 @@ window.onload = function() {
                     $btn.prop('disabled', false).html('Upload');
                 }
             });
-        });
-        
-        // Check value when modal opens
-        $('#uploadModal').on('shown.bs.modal', function() {
-            var modalCheckId = document.getElementById('factionId').value;
-            $('#uploadStatus').html('Modal opened. Faction ID in hidden input: "' + modalCheckId + '"');
-        });
-        
-        // Reset form when modal is closed
-        $('#uploadModal').on('hidden.bs.modal', function() {
-            $('#uploadForm')[0].reset();
-            $('#imagePreview').hide();
-            $('#uploadStatus').removeClass('alert-success alert-danger').addClass('alert-info').html('Waiting for action...');
-        });
     });
-};
+    
+    // Reset form when modal is closed
+    $('#uploadModal').on('hidden.bs.modal', function() {
+        $('#uploadForm')[0].reset();
+        $('#imagePreview').hide();
+        $('#uploadStatus').removeClass('alert-success alert-danger').addClass('alert-info').html('Waiting for action...');
+    });
+});
 </script>
 @endsection
