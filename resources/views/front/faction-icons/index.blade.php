@@ -41,6 +41,12 @@
                 
                 <div class="faction-icon-upload">
                     <h4>{{ __('Your Factions') }}</h4>
+                    <div class="alert alert-info">
+                        Debug: Found {{ $factions->count() }} factions<br>
+                        @foreach($factions as $faction)
+                            Faction: {{ json_encode($faction) }}<br>
+                        @endforeach
+                    </div>
                     
                     @foreach($factions as $faction)
                         <div class="faction-item mb-4 p-3 border rounded">
@@ -246,13 +252,9 @@ window.onload = function() {
             $('#uploadStatus').html('jQuery loaded! Hidden input found. Ready to upload.');
         }
         
-        // Debug: Check what buttons exist on page
+        // Show button info in status area
         var buttons = $('.upload-icon-btn');
-        console.log('Found ' + buttons.length + ' upload buttons');
-        buttons.each(function(index) {
-            var btn = $(this);
-            console.log('Button ' + index + ': faction-id=' + btn.attr('data-faction-id') + ', faction-name=' + btn.attr('data-faction-name'));
-        });
+        $('#uploadStatus').append('<br>Found ' + buttons.length + ' upload buttons on page');
         
         // Handle upload button click - use event delegation for dynamic content
         $(document).on('click', '.upload-icon-btn', function(e) {
