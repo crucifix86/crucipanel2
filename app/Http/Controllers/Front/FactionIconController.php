@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
+// use Intervention\Image\Facades\Image; // Not installed
 
 class FactionIconController extends Controller
 {
@@ -199,25 +199,25 @@ class FactionIconController extends Controller
             return response()->json(['error' => __('You already have a pending icon submission for this faction.')], 400);
         }
         
-            // Process the image
+            // Process the image without Intervention
             $file = $request->file('icon');
             \Log::info('Processing image', ['original_name' => $file->getClientOriginalName()]);
             
-            $image = Image::make($file);
-            
-            // Resize to exact dimensions
-            $image->fit($settings->icon_size, $settings->icon_size);
-            \Log::info('Image resized', ['size' => $settings->icon_size]);
+            // Check image dimensions
+            list($width, $height) = getimagesize($file->getRealPath());
+            if ($width != $settings->icon_size || $height != $settings->icon_size) {
+                return response()->json(['error' => __('Image must be exactly :size x :size pixels.', ['size' => $settings->icon_size])], 400);
+            }
             
             // Generate filename
-            $filename = 'faction_' . $factionId . '_' . time() . '.png';
+            $filename = 'faction_' . $factionId . '_' . time() . '.' . $file->getClientOriginalExtension();
             $path = 'faction-icons/' . $filename;
             
             // Ensure directory exists
             Storage::disk('public')->makeDirectory('faction-icons', 0755, true);
             
             // Save to storage
-            Storage::disk('public')->put($path, $image->encode('png'));
+            Storage::disk('public')->put($path, file_get_contents($file->getRealPath()));
             \Log::info('Image saved', ['path' => $path]);
             
             // Create database record
