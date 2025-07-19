@@ -146,6 +146,7 @@
             <form id="uploadForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
+                    <div id="uploadStatus" class="alert" style="display: none;"></div>
                     <div class="form-group">
                         <label>{{ __('Faction:') }} <span id="factionName"></span></label>
                         <input type="hidden" name="faction_id" id="factionId">
@@ -248,8 +249,31 @@
                 $('#uploadForm').submit(function(e) {
                     e.preventDefault();
                     
-                    var formData = new FormData(this);
+                    var $status = $('#uploadStatus');
                     var $btn = $('#uploadBtn');
+                    
+                    // Show status
+                    $status.removeClass('alert-success alert-danger').addClass('alert-info').html('Starting upload process...').show();
+                    
+                    // Check if file is selected
+                    var fileInput = $('#iconFile')[0];
+                    if (!fileInput.files || !fileInput.files[0]) {
+                        $status.removeClass('alert-info').addClass('alert-danger').html('Error: No file selected');
+                        return;
+                    }
+                    
+                    // Check faction ID
+                    var factionId = $('#factionId').val();
+                    if (!factionId) {
+                        $status.removeClass('alert-info').addClass('alert-danger').html('Error: No faction ID found');
+                        return;
+                    }
+                    
+                    $status.html('Creating form data...');
+                    var formData = new FormData(this);
+                    
+                    // Log what we're sending
+                    $status.html('Uploading file: ' + fileInput.files[0].name + ' (' + (fileInput.files[0].size / 1024).toFixed(2) + ' KB)');
                     
                     $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> {{ __('Uploading...') }}');
                     
@@ -259,15 +283,46 @@
                         data: formData,
                         processData: false,
                         contentType: false,
+                        xhr: function() {
+                            var xhr = new window.XMLHttpRequest();
+                            xhr.upload.addEventListener("progress", function(evt) {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = evt.loaded / evt.total * 100;
+                                    $status.html('Uploading: ' + percentComplete.toFixed(0) + '%');
+                                }
+                            }, false);
+                            return xhr;
+                        },
                         success: function(response) {
+                            $status.removeClass('alert-info').addClass('alert-success');
                             if (response.success) {
-                                alert(response.message);
-                                location.reload();
+                                $status.html('Success: ' + response.message);
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 2000);
+                            } else {
+                                $status.removeClass('alert-success').addClass('alert-danger').html('Server returned: ' + JSON.stringify(response));
                             }
                         },
-                        error: function(xhr) {
-                            var error = xhr.responseJSON ? xhr.responseJSON.error : '{{ __('An error occurred') }}';
-                            alert(error);
+                        error: function(xhr, textStatus, errorThrown) {
+                            $status.removeClass('alert-info').addClass('alert-danger');
+                            var errorMsg = 'Upload failed: ' + textStatus + ' - ' + errorThrown + '<br>';
+                            
+                            if (xhr.status === 0) {
+                                errorMsg += 'Network error - request did not reach server<br>';
+                            } else {
+                                errorMsg += 'HTTP Status: ' + xhr.status + '<br>';
+                            }
+                            
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMsg += 'Server error: ' + xhr.responseJSON.error + '<br>';
+                            } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMsg += 'Server message: ' + xhr.responseJSON.message + '<br>';
+                            } else if (xhr.responseText) {
+                                errorMsg += 'Response: ' + xhr.responseText.substring(0, 200) + '...<br>';
+                            }
+                            
+                            $status.html(errorMsg);
                             $btn.prop('disabled', false).html('{{ __('Upload') }}');
                         }
                     });
@@ -277,6 +332,7 @@
                 $('#uploadModal').on('hidden.bs.modal', function() {
                     $('#uploadForm')[0].reset();
                     $('#imagePreview').hide();
+                    $('#uploadStatus').hide().removeClass('alert-success alert-danger alert-info');
                 });
             });
         </script>
