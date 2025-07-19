@@ -41,6 +41,7 @@
                 
                 <div class="faction-icon-upload">
                     <h4>{{ __('Your Factions') }}</h4>
+                    <!-- Debug: {{ $factions->count() }} factions found -->
                     
                     @foreach($factions as $faction)
                         <div class="faction-item mb-4 p-3 border rounded">
@@ -86,6 +87,7 @@
                                             </button>
                                         @endif
                                     @else
+                                        <!-- Debug: Faction ID = {{ $faction->id }} -->
                                         <button type="button" class="btn btn-sm btn-primary upload-icon-btn" data-faction-id="{{ $faction->id }}" data-faction-name="{{ $faction->name }}">
                                             {{ __('Upload Icon') }}
                                         </button>

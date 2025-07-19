@@ -108,6 +108,12 @@ class FactionIconController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         
+        \Log::info('Faction Icons Debug - Passing to view:', [
+            'factions_count' => $factions->count(),
+            'factions_data' => $factions->toArray(),
+            'icon_submissions_count' => $iconSubmissions->count()
+        ]);
+        
         return view('front.faction-icons.index', compact('settings', 'factions', 'iconSubmissions'));
     }
     
