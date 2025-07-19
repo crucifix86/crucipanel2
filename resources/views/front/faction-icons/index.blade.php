@@ -187,6 +187,8 @@
 @endsection
     
 @section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
             .faction-icon-preview {
                 width: 24px;
@@ -219,7 +221,11 @@
             }
         </style>
         <script>
-            $(document).ready(function() {
+            // Wait for jQuery to load
+            if (typeof jQuery === 'undefined') {
+                console.error('jQuery is not loaded! Faction icons script cannot run.');
+            } else {
+                jQuery(document).ready(function($) {
                 // Handle upload button click
                 $('.upload-icon-btn').click(function() {
                     var factionId = $(this).data('faction-id');
@@ -334,6 +340,7 @@
                     $('#imagePreview').hide();
                     $('#uploadStatus').hide().removeClass('alert-success alert-danger alert-info');
                 });
-            });
+            }); // end jQuery ready
+            } // end if jQuery
         </script>
 @endsection
