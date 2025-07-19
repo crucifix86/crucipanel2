@@ -41,6 +41,21 @@
                 
                 <div class="faction-icon-upload">
                     <h4>{{ __('Your Factions') }}</h4>
+                    <div style="background: yellow; color: black; padding: 10px; margin: 10px 0;">
+                        @php
+                            echo "Factions count: " . $factions->count() . "<br>";
+                            foreach($factions as $idx => $f) {
+                                echo "Faction $idx: ";
+                                if (is_object($f)) {
+                                    echo "ID=" . (property_exists($f, 'id') ? $f->id : 'NO_ID');
+                                    echo ", Name=" . (property_exists($f, 'name') ? $f->name : 'NO_NAME');
+                                } else {
+                                    echo "Not an object: " . gettype($f);
+                                }
+                                echo "<br>";
+                            }
+                        @endphp
+                    </div>
                     
                     @foreach($factions as $faction)
                         <div class="faction-item mb-4 p-3 border rounded">
@@ -86,9 +101,14 @@
                                             </button>
                                         @endif
                                     @else
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="openUploadModal({{ $faction->id }}, '{{ $faction->name }}')">
+                                        @php
+                                            $fid = property_exists($faction, 'id') ? $faction->id : 'NO_ID';
+                                            $fname = property_exists($faction, 'name') ? $faction->name : 'NO_NAME';
+                                        @endphp
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="openUploadModal({{ $fid }}, '{{ $fname }}')">
                                             {{ __('Upload Icon') }}
                                         </button>
+                                        <small class="d-block">Button will use: ID={{ $fid }}, Name={{ $fname }}</small>
                                     @endif
                                 </div>
                             </div>
