@@ -132,57 +132,57 @@
             @endif
     </div>
 </div>
-        
+
 <!-- Upload Modal -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="uploadModalLabel">{{ __('Upload Faction Icon') }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form id="uploadForm" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>{{ __('Faction:') }} <span id="factionName"></span></label>
-                                <input type="hidden" name="faction_id" id="factionId">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="iconFile">{{ __('Select Image') }}</label>
-                                <input type="file" class="form-control-file" id="iconFile" name="icon" accept="image/*" required>
-                                <small class="form-text text-muted">
-                                    {{ __('Size:') }} {{ $settings->icon_size }}x{{ $settings->icon_size }}px, 
-                                    {{ __('Max:') }} {{ $settings->getMaxFileSizeInMb() }}MB
-                                </small>
-                            </div>
-                            
-                            <div class="form-group">
-                                <div id="imagePreview" class="text-center" style="display: none;">
-                                    <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px;">
-                                </div>
-                            </div>
-                            
-                            <div class="alert alert-info">
-                                {{ __('Cost:') }} {{ $settings->getCostDisplay() }}
-                                @if($settings->require_approval)
-                                    <br>{{ __('Note: Payment will be processed after admin approval.') }}
-                                @else
-                                    <br>{{ __('Note: Payment will be processed immediately.') }}
-                                @endif
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Cancel') }}</button>
-                            <button type="submit" class="btn btn-primary" id="uploadBtn">{{ __('Upload') }}</button>
-                        </div>
-                    </form>
-                </div>
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">{{ __('Upload Faction Icon') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form id="uploadForm" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>{{ __('Faction:') }} <span id="factionName"></span></label>
+                        <input type="hidden" name="faction_id" id="factionId">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="iconFile">{{ __('Select Image') }}</label>
+                        <input type="file" class="form-control-file" id="iconFile" name="icon" accept="image/*" required>
+                        <small class="form-text text-muted">
+                            {{ __('Size:') }} {{ $settings->icon_size }}x{{ $settings->icon_size }}px, 
+                            {{ __('Max:') }} {{ $settings->getMaxFileSizeInMb() }}MB
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div id="imagePreview" class="text-center" style="display: none;">
+                            <img id="previewImg" src="" alt="Preview" style="max-width: 200px; max-height: 200px;">
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        {{ __('Cost:') }} {{ $settings->getCostDisplay() }}
+                        @if($settings->require_approval)
+                            <br>{{ __('Note: Payment will be processed after admin approval.') }}
+                        @else
+                            <br>{{ __('Note: Payment will be processed immediately.') }}
+                        @endif
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Cancel') }}</button>
+                    <button type="submit" class="btn btn-primary" id="uploadBtn">{{ __('Upload') }}</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 @endsection
     
 @section('scripts')
